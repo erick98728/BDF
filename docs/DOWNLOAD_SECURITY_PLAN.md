@@ -39,6 +39,8 @@ Permitir distribuição controlada do beta sem expor arquivo real, tokens secret
 
 ## Implementação atual no projeto
 - `ProtectedDownloadCard` lê apenas `NEXT_PUBLIC_BETA_DOWNLOAD_URL`.
-- Sem variável: mostra “Download em preparação”.
-- Com variável: mostra botão para download no Dashboard autenticado.
-- Botão não é exibido em páginas públicas.
+- Usuário não autenticado: mostra mensagem de acesso reservado e direciona para `/login`.
+- Usuário autenticado sem `NEXT_PUBLIC_BETA_DOWNLOAD_URL`: mostra “Download em preparação”.
+- Usuário autenticado com `NEXT_PUBLIC_BETA_DOWNLOAD_URL`: mostra botão para download no Dashboard.
+- Sem Supabase configurado: o Dashboard mostra uma prévia segura do fluxo, sem liberar arquivo real.
+- Nenhum arquivo do jogo é versionado no repositório.

@@ -12,7 +12,8 @@ import { ProtectedDownloadCard } from "@/components/ProtectedDownloadCard";
 import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
 
 const betaSteps = [
-  "Baixe a versão mais recente",
+  "Acesse o painel com sua conta do beta",
+  "Baixe a versão mais recente quando ela for liberada",
   "Jogue do início ao fim",
   "Anote bugs e pontos confusos",
   "Envie feedback"
@@ -65,21 +66,36 @@ export default function DashboardPage() {
         title="Dashboard"
         description={
           isPreparationMode
-            ? "Painel em modo de preparação para o Tester Beta."
+            ? "Prévia do painel do jogador enquanto o acesso por conta é preparado."
             : "Área privada para participantes do Tester Beta."
         }
       />
 
       <SectionContainer>
-        <SectionTitle title="Bem-vindo ao Tester Beta" subtitle="Painel do jogador para acesso, progresso de teste e próximos passos." />
+        <SectionTitle
+          title={isPreparationMode ? "Prévia do painel do jogador" : "Bem-vindo ao Tester Beta"}
+          subtitle="Acompanhe acesso, download, checklist de teste e envio de feedback em um só lugar."
+        />
         <GlowCard>
           {isPreparationMode ? (
-            <div className="space-y-2 text-sm text-slate-300">
-              <p className="font-medium text-amber-200">Painel em modo de preparação.</p>
-              <p>
-                A experiência pública do site está disponível, mas autenticação, sessão de jogador e liberação privada de download
-                dependem das variáveis do Supabase no ambiente de deploy.
-              </p>
+            <div className="space-y-4 text-sm text-slate-300">
+              <div>
+                <p className="font-medium text-amber-200">Modo de preparação ativo</p>
+                <p className="mt-2 leading-6">
+                  Esta página já mostra a experiência esperada para beta testers. O login real, a sessão do jogador e o download da
+                  build serão ativados quando as variáveis do Supabase e o link oficial do beta estiverem configurados no deploy.
+                </p>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+                  <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Conta</p>
+                  <p className="mt-1 font-medium text-slate-100">Prévia sem autenticação</p>
+                </div>
+                <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+                  <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Download</p>
+                  <p className="mt-1 font-medium text-amber-200">Liberação após configuração</p>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="space-y-2 text-sm text-slate-300">
@@ -95,7 +111,14 @@ export default function DashboardPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Download" subtitle="Estrutura preparada para liberar builds oficiais do beta." />
+        <SectionTitle
+          title="Download"
+          subtitle={
+            isPreparationMode
+              ? "Prévia do estado de download antes da autenticação e do link oficial."
+              : "Build oficial do beta para jogadores autenticados."
+          }
+        />
         <ProtectedDownloadCard isAuthenticated={!isPreparationMode && Boolean(email)} preparationMode={isPreparationMode} />
       </SectionContainer>
 
@@ -127,7 +150,7 @@ export default function DashboardPage() {
       <SectionContainer withDivider>
         <div className="flex flex-wrap gap-3">
           <GameButton href="/feedback" variant="secondary">Enviar feedback</GameButton>
-          {!isPreparationMode ? (
+          {!isPreparationMode && email ? (
             <button onClick={handleSignOut} className="rounded-lg border border-purple-200/30 bg-purple-300/10 px-4 py-2 text-sm text-purple-100">Sair</button>
           ) : null}
         </div>

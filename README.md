@@ -64,7 +64,9 @@ Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O s
 - Páginas públicas: início, lore, personagens, studio, devlog, galeria e download.
 - Página `/download` com status do beta e orientação de acesso.
 - Página `/feedback` com validação de formulário no frontend.
-- Dashboard em modo de preparação, explicando que autenticação e liberação privada dependem do Supabase.
+- Página `/login` com campos de e-mail e senha, explicando que a conta será usada para acessar o beta.
+- Dashboard em modo de preparação, com prévia do painel, checklist do jogador, botão de feedback e aviso de que o download real depende da configuração.
+- Card de download em estado de prévia, sem expor arquivo, segredo ou link privado.
 
 ## O que funciona com Supabase
 
@@ -73,6 +75,17 @@ Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O s
 - Preenchimento automático do email no feedback quando o usuário estiver logado.
 - Salvamento real dos feedbacks na tabela `beta_feedback`.
 - Fluxo de download para jogadores autenticados quando `NEXT_PUBLIC_BETA_DOWNLOAD_URL` estiver configurada.
+
+## Fluxo atual de login, dashboard e download
+
+1. Sem Supabase configurado:
+   O site continua navegável. `/login` mostra um aviso amigável de preparação, `/dashboard` abre como prévia do painel e o card de download explica que o acesso real ainda depende da autenticação.
+
+2. Com Supabase configurado, mas sem `NEXT_PUBLIC_BETA_DOWNLOAD_URL`:
+   O usuário pode entrar no `/login`, acessar `/dashboard` e ver o status "Download em preparação".
+
+3. Com Supabase e `NEXT_PUBLIC_BETA_DOWNLOAD_URL` configurados:
+   O usuário autenticado vê o botão "Baixar beta" no dashboard. O arquivo do jogo não fica no repositório; o site apenas lê o link público/controlado do ambiente.
 
 ## Supabase
 
