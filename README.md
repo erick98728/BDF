@@ -1,29 +1,88 @@
-# Tester — Site Oficial
+# Tester - Site Oficial
+
+Site oficial do projeto Tester, feito com Next.js, TypeScript e Tailwind. O projeto já inclui páginas públicas, área de beta, dashboard, login com Supabase e formulário de feedback.
 
 ## Rodando localmente
+
+1. Instale as dependências:
+
 ```bash
 npm install
+```
+
+2. Copie as variáveis de exemplo:
+
+```bash
+cp .env.example .env.local
+```
+
+No Windows PowerShell, use:
+
+```powershell
+Copy-Item .env.example .env.local
+```
+
+3. Preencha as variáveis necessárias em `.env.local`.
+
+4. Rode o servidor local:
+
+```bash
 npm run dev
 ```
 
+5. Acesse `http://localhost:3000`.
+
+Para validar uma build de produção:
+
+```bash
+npm run build
+npm run start
+```
+
 ## Variáveis de ambiente
-Copie `.env.example` para `.env.local` e preencha:
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `NEXT_PUBLIC_BETA_DOWNLOAD_URL` (opcional)
+
+Configure estas variáveis localmente e também na Vercel:
+
+- `NEXT_PUBLIC_SUPABASE_URL`: URL do projeto Supabase.
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: chave pública anon do Supabase.
+- `NEXT_PUBLIC_BETA_DOWNLOAD_URL`: link público/controlado da build beta para Windows. É opcional enquanto a build estiver em preparação.
+
+O arquivo `.env.example` lista todas as chaves esperadas pelo projeto.
+
+## Publicando na Vercel
+
+1. Importe o repositório `erick98728/BDF` na Vercel.
+2. Confirme que o framework detectado é Next.js.
+3. Em Project Settings > Environment Variables, cadastre as variáveis acima.
+4. Faça o deploy da branch `main`.
+5. Depois do deploy, teste `/`, `/download`, `/feedback`, `/login` e `/dashboard`.
+
+Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O site mostra os fluxos em modo de preparação.
+
+## O que funciona sem Supabase
+
+- Páginas públicas: início, lore, personagens, studio, devlog, galeria e download.
+- Página `/download` com status do beta e orientação de acesso.
+- Página `/feedback` com validação de formulário no frontend.
+- Dashboard em modo de preparação, explicando que autenticação e liberação privada dependem do Supabase.
+
+## O que funciona com Supabase
+
+- Login e cadastro em `/login`.
+- Sessão autenticada e acesso privado ao `/dashboard`.
+- Preenchimento automático do email no feedback quando o usuário estiver logado.
+- Salvamento real dos feedbacks na tabela `beta_feedback`.
+- Fluxo de download para jogadores autenticados quando `NEXT_PUBLIC_BETA_DOWNLOAD_URL` estiver configurada.
 
 ## Supabase
+
 - Auth: login/cadastro no `/login`.
-- Dashboard privado em `/dashboard`.
-- Feedback pronto para tabela `beta_feedback`.
+- Feedback: tabela `beta_feedback`.
 - SQL base: `docs/supabase-feedback.md`.
+- Plano de segurança para download: `docs/DOWNLOAD_SECURITY_PLAN.md`.
 
-## Deploy (Vercel)
-1. Conectar repositório na Vercel.
-2. Definir variáveis de ambiente no projeto.
-3. Deploy.
+## Próximos passos técnicos
 
-## Próximos passos
-- URL assinada de download via Supabase Storage privado.
-- Whitelist de beta testers.
-- Página de histórico de feedback para o desenvolvedor.
+- Gerar URL assinada de download via Supabase Storage privado.
+- Criar whitelist de beta testers.
+- Criar página de histórico de feedback para o desenvolvedor.

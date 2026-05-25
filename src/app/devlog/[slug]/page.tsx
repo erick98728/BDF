@@ -14,7 +14,7 @@ export default async function DevlogPostPage({ params }: Props) {
 
   return (
     <AnimatedPageWrapper>
-      <PageHeader title={post.title} description="Post em preparação. Conteúdo completo será publicado em breve." />
+      <PageHeader title={post.title} description="Post em preparação. Conteúdo completo será publicado após revisão." />
       <GlowCard>
         <p className="text-xs uppercase tracking-[0.14em] text-cyan-200/80">{post.category}</p>
         <p className="mt-1 text-sm text-slate-400">{post.date}</p>

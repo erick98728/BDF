@@ -75,14 +75,14 @@ export default function FeedbackPage() {
     setSuccess(null);
 
     if (!isValid) {
-      setError("Preencha os campos obrigatórios para enviar seu feedback.");
+      setError("Revise os campos obrigatórios: nome, email, tempo jogado, ponto de progresso e descrição do bug quando marcado.");
       return;
     }
 
     setLoading(true);
 
     if (!isSupabaseConfigured) {
-      setSuccess("Feedback validado no frontend. Configure Supabase para salvar os envios.");
+      setSuccess("Feedback validado com sucesso neste ambiente. Para registrar envios reais, configure o Supabase no deploy.");
       setLoading(false);
       return;
     }
@@ -102,12 +102,12 @@ export default function FeedbackPage() {
     });
 
     if (insertError) {
-      setError(`Não foi possível salvar no Supabase: ${insertError.message}`);
+      setError(`Não foi possível registrar seu feedback agora. Tente novamente em alguns minutos. Detalhe técnico: ${insertError.message}`);
       setLoading(false);
       return;
     }
 
-    setSuccess("Feedback enviado com sucesso. Obrigado por contribuir com Tester.");
+    setSuccess("Feedback enviado com sucesso. Obrigado por ajudar a melhorar Tester.");
     setLoading(false);
     setFormData((p) => ({ ...initialData, email: p.email }));
   }
@@ -124,6 +124,11 @@ export default function FeedbackPage() {
           subtitle="Não coletamos dados sensíveis. Este formulário é privado para o desenvolvedor."
         />
         <GlowCard>
+          {!isSupabaseConfigured ? (
+            <p className="mb-4 rounded-lg border border-amber-200/20 bg-amber-300/10 px-3 py-2 text-sm text-amber-100">
+              O formulário está em modo de validação local. Ele permite testar o fluxo, mas o salvamento definitivo depende do Supabase.
+            </p>
+          ) : null}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
               <input

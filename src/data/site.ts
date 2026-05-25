@@ -22,7 +22,7 @@ export const characters = [
   { name: "Rubens", role: "Protagonista", bio: "Carrega a marca da Névoa e atravessa o bosque em busca de respostas." },
   { name: "Lucarelli", role: "Aliado Incerto", bio: "Conhece os caminhos ocultos, mas guarda intenções difíceis de ler." },
   { name: "Inimigos do Bosque", role: "Ameaça Constante", bio: "Criaturas hostis moldadas pela corrupção espiritual da região." },
-  { name: "Em breve", role: "Personagens futuros", bio: "Novos rostos e conflitos serão revelados conforme o desenvolvimento avançar." }
+  { name: "Conteúdo planejado", role: "Personagens futuros", bio: "Novos rostos e conflitos serão revelados conforme o desenvolvimento avançar." }
 ];
 
 export const devlogs = [

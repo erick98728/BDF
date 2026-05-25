@@ -61,10 +61,10 @@ const futureCharacters: CharacterEntry[] = [
   },
   {
     name: "Outros personagens",
-    type: "Em breve",
+    type: "Planejado",
     description: "Novos nomes serão liberados conforme o universo de Tester for expandido.",
     abilities: ["Conteúdo bloqueado", "Conteúdo bloqueado", "Conteúdo bloqueado"],
-    status: "Em breve",
+    status: "Em preparação",
     accent: "from-slate-300/20 via-slate-500/10 to-transparent"
   }
 ];

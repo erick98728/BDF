@@ -39,6 +39,6 @@ Permitir distribuição controlada do beta sem expor arquivo real, tokens secret
 
 ## Implementação atual no projeto
 - `ProtectedDownloadCard` lê apenas `NEXT_PUBLIC_BETA_DOWNLOAD_URL`.
-- Sem variável: mostra “Download em breve”.
+- Sem variável: mostra “Download em preparação”.
 - Com variável: mostra botão para download no Dashboard autenticado.
 - Botão não é exibido em páginas públicas.

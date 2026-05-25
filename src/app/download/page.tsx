@@ -10,8 +10,8 @@ const betaStatus = [
   { label: "Versão atual", value: "Beta 0.1" },
   { label: "Plataforma", value: "Windows" },
   { label: "Estado", value: "Em testes fechados" },
-  { label: "Tamanho do arquivo", value: "A definir" },
-  { label: "Última atualização", value: "A definir" }
+  { label: "Arquivo de download", value: "Distribuição controlada" },
+  { label: "Última atualização", value: "Beta 0.1 em validação" }
 ];
 
 const minimumRequirements = [
@@ -57,11 +57,12 @@ export default function DownloadPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Acesso ao beta" subtitle="Login será necessário para validação de acesso nas próximas etapas." />
+        <SectionTitle title="Acesso ao beta" subtitle="A build é distribuída de forma controlada para participantes autorizados." />
         <GlowCard>
           <p className="mb-4 text-sm text-slate-300">
-            O download real ainda não está habilitado nesta versão do site. No momento, use o fluxo de entrada para preparação da área
-            de testes.
+            A área de download já está preparada para o Tester Beta. Quando a build pública de teste for liberada, o link oficial será
+            exibido no Dashboard para contas validadas. Enquanto isso, você pode criar sua conta, acompanhar o status da build e enviar
+            feedback pelo formulário oficial.
           </p>
           <GameButton href="/login">Entrar para baixar</GameButton>
         </GlowCard>
@@ -110,8 +111,8 @@ export default function DownloadPage() {
 
       <SectionContainer withDivider>
         <div className="pb-16 text-center">
-          <SectionTitle title="Feedback" subtitle="Em breve, esta área direcionará para o formulário oficial de feedback do beta." />
-          <GameButton href="#" variant="secondary">Página de feedback (em breve)</GameButton>
+          <SectionTitle title="Feedback" subtitle="Use o formulário oficial para registrar sua experiência com a build beta." />
+          <GameButton href="/feedback" variant="secondary">Abrir página de feedback</GameButton>
         </div>
       </SectionContainer>
     </AnimatedPageWrapper>
