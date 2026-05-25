@@ -9,14 +9,24 @@ export const navLinks = [
   { href: "/login", label: "Login" }
 ];
 
+export const homeFeatures = [
+  { title: "Exploração interconectada", description: "Mapas com caminhos que se conectam, atalhos e segredos que recompensam observação." },
+  { title: "Combate com katana", description: "Confrontos de precisão com leitura de tempo, distância e postura dos inimigos." },
+  { title: "Habilidades desbloqueáveis", description: "Progressão baseada em habilidades que ampliam combate e mobilidade." },
+  { title: "Chefes marcantes", description: "Encontros únicos focados em padrão, adaptação e execução técnica." },
+  { title: "Mundo sombrio", description: "Ambientes densos com atmosfera opressiva e identidade visual própria." },
+  { title: "Lore misteriosa", description: "Narrativa indireta construída por ruínas, símbolos e personagens." }
+];
+
 export const characters = [
-  { name: "Ariun", role: "Guardião da Névoa", bio: "Último sentinela vivo do Bosque da Névoa Perdida." },
-  { name: "Nyx", role: "Lâmina Espiritual", bio: "Assassina marcada por ecos cianos de uma era esquecida." },
-  { name: "Vorren", role: "Portador Corrompido", bio: "Um guerreiro dourado consumido por juramentos antigos." }
+  { name: "Rubens", role: "Protagonista", bio: "Carrega a marca da Névoa e atravessa o bosque em busca de respostas." },
+  { name: "Lucarelli", role: "Aliado Incerto", bio: "Conhece os caminhos ocultos, mas guarda intenções difíceis de ler." },
+  { name: "Inimigos do Bosque", role: "Ameaça Constante", bio: "Criaturas hostis moldadas pela corrupção espiritual da região." },
+  { name: "Em breve", role: "Personagens futuros", bio: "Novos rostos e conflitos serão revelados conforme o desenvolvimento avançar." }
 ];
 
 export const devlogs = [
-  { title: "Sistema de combate refinado", date: "Maio 2026", excerpt: "Ajustamos hitbox, stamina e cancel windows para um duelo mais técnico." },
-  { title: "Novo bioma subterrâneo", date: "Abril 2026", excerpt: "As Raízes Ocas ampliam a exploração vertical no começo da jornada." },
-  { title: "Polimento visual da névoa", date: "Março 2026", excerpt: "Camadas de partículas e brilho suave para reforçar o tom sombrio." }
+  { title: "Estado atual do combate", date: "Maio 2026", excerpt: "Ajustes de ritmo, janela de resposta e feedback visual para tornar cada duelo mais legível." },
+  { title: "Primeira versão do Bosque", date: "Abril 2026", excerpt: "Definição de trilhas, pontos de risco e caminhos ocultos da área inicial." },
+  { title: "Direção de arte da névoa", date: "Março 2026", excerpt: "Estudos de cor e contraste para equilibrar mistério, clareza e performance." }
 ];
