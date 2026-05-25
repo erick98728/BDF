@@ -6,10 +6,11 @@ import { GameButton } from "./GameButton";
 export function HeroSection() {
   return (
     <section className="relative py-20 md:py-28">
+      <div className="absolute inset-x-0 bottom-8 h-px bg-gradient-to-r from-transparent via-cyan-200/18 to-transparent" />
       <motion.div initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-        <p className="text-xs uppercase tracking-[0.2em] text-cyan-300">Site oficial · Em desenvolvimento</p>
-        <h1 className="mt-3 text-5xl font-black text-white md:text-7xl">Tester</h1>
-        <p className="mt-5 max-w-3xl text-lg text-slate-300">
+        <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">Site oficial · Em desenvolvimento</p>
+        <h1 className="mt-4 text-5xl font-black tracking-wide text-white md:text-7xl">Tester</h1>
+        <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-200">
           Um metroidvania sombrio sobre mistério, técnica e sobrevivência.
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
