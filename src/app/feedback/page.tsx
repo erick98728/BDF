@@ -45,8 +45,13 @@ export default function FeedbackPage() {
   useEffect(() => {
     (async () => {
       if (!isSupabaseConfigured) return;
+
       const { data } = await supabase.auth.getUser();
-      if (data.user?.email) setFormData((p) => ({ ...p, email: data.user.email }));
+      const userEmail = data.user?.email;
+
+      if (userEmail) {
+        setFormData((p) => ({ ...p, email: userEmail }));
+      }
     })();
   }, []);
 
