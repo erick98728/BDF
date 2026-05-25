@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+:root {
+  --tester-bg-deep: #070d1d;
+  --tester-bg-purple: #1a1230;
+  --tester-cyan: #63ddff;
+  --tester-gold: #b89249;
+  --tester-forest: #1a3d33;
+  --tester-soft-white: #e9eeff;
+  --tester-muted: #aab5da;
+}
+
+* { box-sizing: border-box; }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  color: var(--tester-soft-white);
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(99, 221, 255, 0.08) 0%, transparent 32%),
+    radial-gradient(circle at 80% 20%, rgba(61, 40, 98, 0.32) 0%, transparent 40%),
+    linear-gradient(165deg, #0a1124 0%, #090d1a 55%, #04060e 100%);
+}
+
+a { color: inherit; text-decoration: none; }
+
+.page-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.surface-glass {
+  background: linear-gradient(150deg, rgba(21, 28, 57, 0.78), rgba(22, 16, 40, 0.58));
+  border: 1px solid rgba(99, 221, 255, 0.22);
+  backdrop-filter: blur(12px);
+}
+
+.rune-border {
+  position: relative;
+  border-radius: 1rem;
+}
+
+.rune-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(99, 221, 255, 0.46), rgba(184, 146, 73, 0.4), rgba(26, 61, 51, 0.42));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.soft-cyan-glow { box-shadow: 0 0 30px rgba(99, 221, 255, 0.16); }
