@@ -64,8 +64,11 @@ Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O s
 - O layout global define `metadataBase` para o domínio de produção da Vercel.
 - As páginas principais usam metadata e Open Graph básicos para melhorar título, descrição e compartilhamento.
 - O favicon fica em `public/favicon.svg` e usa a paleta do projeto.
+- O manifest fica em `public/manifest.webmanifest` e descreve o app/site com tema escuro.
+- O sitemap é gerado por `src/app/sitemap.ts` e inclui as páginas públicas e posts do devlog.
+- O robots é gerado por `src/app/robots.ts`, libera indexação pública e bloqueia `/dashboard`.
 - A página 404 personalizada fica em `src/app/not-found.tsx` com o texto “Você se perdeu na névoa.”.
-- Ao trocar o domínio oficial, atualize `metadataBase` em `src/app/layout.tsx`.
+- Ao trocar o domínio oficial, atualize `metadataBase` em `src/app/layout.tsx`, `siteUrl` em `src/app/sitemap.ts` e `siteUrl` em `src/app/robots.ts`.
 
 ## O que funciona sem Supabase
 
