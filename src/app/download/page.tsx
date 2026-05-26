@@ -31,8 +31,21 @@ const changelogItems = [
   "Área pós-Dash"
 ];
 
-
-export const metadata: Metadata = { title: "Download", description: "Baixe o beta de Tester e acompanhe atualizações.", openGraph: { title: "Download | Tester", description: "Baixe o beta de Tester e acompanhe atualizações." } };
+export const metadata: Metadata = {
+  title: "Download",
+  description: "Acompanhe o status do beta de Tester, requisitos preliminares e acesso controlado ao download para Windows.",
+  alternates: { canonical: "/download" },
+  openGraph: {
+    title: "Download | Tester",
+    description: "Acompanhe o status do beta de Tester, requisitos preliminares e acesso controlado ao download para Windows.",
+    url: "/download"
+  },
+  twitter: {
+    card: "summary",
+    title: "Download | Tester",
+    description: "Acompanhe o status do beta de Tester, requisitos preliminares e acesso controlado ao download para Windows."
+  }
+};
 
 export default function DownloadPage() {
   return (
