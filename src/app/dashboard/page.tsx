@@ -9,7 +9,7 @@ import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
 import { GameButton } from "@/components/GameButton";
 import { ProtectedDownloadCard } from "@/components/ProtectedDownloadCard";
-import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
+import { supabase, isSupabaseConfigured, supabaseSetupMessage } from "@/lib/supabaseClient";
 
 const betaSteps = [
   "Acesse o painel com sua conta do beta",
@@ -24,10 +24,8 @@ const playerChecklist = [
   "Testei o Dash",
   "Enfrentei Lucarelli",
   "Cheguei ao fim da demo",
-  "Encontrei algum bug"
+  "Encontrei algum ponto para relatar"
 ];
-
-
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -82,8 +80,7 @@ export default function DashboardPage() {
               <div>
                 <p className="font-medium text-amber-200">Modo de preparação ativo</p>
                 <p className="mt-2 leading-6">
-                  Esta página já mostra a experiência esperada para beta testers. O login real, a sessão do jogador e o download da
-                  build serão ativados quando as variáveis do Supabase e o link oficial do beta estiverem configurados no deploy.
+                  {supabaseSetupMessage} Para transformar esta prévia em painel privado, configure NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY na Vercel.
                 </p>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
