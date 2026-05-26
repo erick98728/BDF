@@ -4,18 +4,32 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackgroundFog } from "@/components/BackgroundFog";
 
+const siteUrl = "https://bdf-auhi.vercel.app";
+const siteDescription = "Site oficial de Tester, metroidvania 2D sombrio em desenvolvimento, com beta, lore, personagens, devlog e feedback.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://tester-game.vercel.app"),
+  metadataBase: new URL(siteUrl),
+  applicationName: "Tester",
   title: {
     default: "Tester | Site Oficial",
     template: "%s | Tester"
   },
-  description: "Site oficial de Tester, metroidvania 2D sombrio em desenvolvimento.",
+  description: siteDescription,
+  alternates: {
+    canonical: "/"
+  },
   openGraph: {
     title: "Tester | Site Oficial",
-    description: "Acompanhe o desenvolvimento, lore, devlog e acesso ao beta de Tester.",
+    description: siteDescription,
+    url: siteUrl,
+    siteName: "Tester",
     type: "website",
     locale: "pt_BR"
+  },
+  twitter: {
+    card: "summary",
+    title: "Tester | Site Oficial",
+    description: siteDescription
   },
   icons: {
     icon: "/favicon.svg"
