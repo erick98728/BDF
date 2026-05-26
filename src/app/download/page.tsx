@@ -70,7 +70,7 @@ export default function DownloadPage() {
             {betaStatus.map((entry) => (
               <div key={entry.label} className="rounded-xl border border-cyan-200/10 bg-black/15 px-4 py-3">
                 <p className="text-xs uppercase tracking-[0.12em] text-cyan-200/80">{entry.label}</p>
-                <p className="mt-1 text-sm font-medium text-slate-100">{entry.value}</p>
+                <p className="mt-1 text-sm font-medium leading-6 text-slate-100">{entry.value}</p>
               </div>
             ))}
           </div>
@@ -83,13 +83,13 @@ export default function DownloadPage() {
           <div className="space-y-4 text-sm leading-6 text-slate-300">
             <p>
               A distribuição atual foi pensada para um beta fechado. O jogador entra com uma conta, acessa o dashboard e, quando a variável
-              <span className="font-semibold text-cyan-100"> NEXT_PUBLIC_BETA_DOWNLOAD_URL</span> estiver configurada, o botão de download da build aparece automaticamente.
+              <span className="break-words font-semibold text-cyan-100"> NEXT_PUBLIC_BETA_DOWNLOAD_URL</span> estiver configurada, o botão de download da build aparece automaticamente.
             </p>
             <p>
               Enquanto o link não estiver ativo, o site mostra o estado Download em preparação. Isso evita página quebrada e deixa claro que a build ainda não foi liberada.
             </p>
           </div>
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-5 grid gap-3 sm:flex sm:flex-wrap">
             <GameButton href="/login">Entrar para baixar</GameButton>
             <GameButton href="/feedback" variant="secondary">Enviar feedback</GameButton>
           </div>
@@ -99,7 +99,15 @@ export default function DownloadPage() {
       <SectionContainer withDivider>
         <SectionTitle title="Requisitos mínimos" subtitle="Valores ainda preliminares, sujeitos a mudança depois dos primeiros testes em máquinas reais." />
         <GlowCard>
-          <div className="overflow-x-auto">
+          <div className="grid gap-3 text-sm md:hidden">
+            {minimumRequirements.map((req) => (
+              <div key={req.item} className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+                <p className="text-xs uppercase tracking-[0.12em] text-slate-400">{req.item}</p>
+                <p className="mt-1 leading-6 text-slate-300">{req.value}</p>
+              </div>
+            ))}
+          </div>
+          <div className="hidden overflow-x-auto md:block">
             <table className="w-full min-w-[460px] border-collapse text-sm">
               <tbody>
                 {minimumRequirements.map((req) => (
@@ -117,7 +125,7 @@ export default function DownloadPage() {
       <SectionContainer withDivider>
         <SectionTitle title="Aviso de beta" subtitle="A build será usada para encontrar problemas antes de qualquer divulgação maior." />
         <GlowCard>
-          <ul className="list-disc space-y-2 pl-5 text-sm text-slate-300">
+          <ul className="list-disc space-y-2 pl-5 text-sm leading-6 text-slate-300">
             <li>Tester ainda está em desenvolvimento ativo.</li>
             <li>A versão beta pode conter bugs, travamentos, áreas incompletas, ajustes de ritmo e mudanças de balanceamento.</li>
             <li>O feedback dos testers será usado para melhorar gameplay, estabilidade, clareza visual, mapa e dificuldade.</li>
@@ -142,14 +150,14 @@ export default function DownloadPage() {
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {changelogItems.map((item) => (
             <GlowCard key={item}>
-              <p className="text-sm text-slate-200">{item}</p>
+              <p className="text-sm leading-6 text-slate-200">{item}</p>
             </GlowCard>
           ))}
         </div>
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <div className="pb-16 text-center">
+        <div className="pb-10 text-center sm:pb-16">
           <SectionTitle title="Feedback" subtitle="Depois de jogar, registre sua experiência para ajudar a transformar a demo em uma versão mais estável e clara." />
           <GameButton href="/feedback" variant="secondary">Abrir formulário de feedback</GameButton>
         </div>
