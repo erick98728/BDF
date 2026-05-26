@@ -99,8 +99,11 @@ Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O s
 
 - Auth: login/cadastro no `/login`.
 - Feedback: tabela `beta_feedback`.
+- Guia completo de configuração: `docs/SUPABASE_SETUP.md`.
 - SQL base: `docs/supabase-feedback.md`.
 - Plano de segurança para download: `docs/DOWNLOAD_SECURITY_PLAN.md`.
+
+Para ativar login real e feedback salvo no banco, siga primeiro `docs/SUPABASE_SETUP.md`.
 
 ## Próximos passos técnicos
 
