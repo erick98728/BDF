@@ -7,9 +7,7 @@ import { GlowCard } from "@/components/GlowCard";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
-import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
-
-
+import { supabase, isSupabaseConfigured, supabaseSetupMessage } from "@/lib/supabaseClient";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -27,7 +25,7 @@ export default function LoginPage() {
     setMessage(null);
 
     if (!isSupabaseConfigured) {
-      setMessage("O acesso por conta ainda está em preparação neste ambiente. Assim que for ativado, esta conta será usada para entrar no dashboard e acessar o beta.");
+      setMessage("O sistema de contas ainda está em preparação neste ambiente. Quando o Supabase for configurado, este formulário fará login real no dashboard do beta.");
       setLoading(false);
       return;
     }
@@ -42,15 +40,15 @@ export default function LoginPage() {
     if (authError) {
       setError(
         mode === "login"
-          ? "Não foi possível entrar. Confira seu e-mail e senha ou tente novamente em instantes."
-          : "Não foi possível criar a conta agora. Confira os dados e tente novamente."
+          ? "Não foi possível entrar. Confira e-mail, senha e confirmação da conta antes de tentar novamente."
+          : "Não foi possível criar a conta agora. Confira os dados e tente novamente em alguns instantes."
       );
       setLoading(false);
       return;
     }
 
     if (mode === "signup" && !data.session) {
-      setMessage("Conta criada. Verifique seu e-mail para confirmar o cadastro.");
+      setMessage("Conta criada. Verifique seu e-mail para confirmar o cadastro antes de entrar no dashboard.");
       setLoading(false);
       return;
     }
@@ -72,10 +70,14 @@ export default function LoginPage() {
         />
         <GlowCard>
           {!isSupabaseConfigured ? (
-            <div className="mb-5 rounded-lg border border-amber-200/20 bg-amber-300/10 px-4 py-3 text-sm text-amber-100">
-              O sistema de contas está em preparação. Você pode visualizar o fluxo, mas o login real será ativado junto com a autenticação do beta.
+            <div className="mb-5 rounded-lg border border-amber-200/20 bg-amber-300/10 px-4 py-3 text-sm leading-6 text-amber-100">
+              {supabaseSetupMessage} Configure as variáveis NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY na Vercel para ativar contas reais.
             </div>
-          ) : null}
+          ) : (
+            <div className="mb-5 rounded-lg border border-emerald-200/20 bg-emerald-300/10 px-4 py-3 text-sm leading-6 text-emerald-100">
+              Autenticação pronta para uso. Entre ou crie uma conta para acessar o painel do beta.
+            </div>
+          )}
           <p className="mb-5 text-sm leading-6 text-slate-300">
             A conta serve para identificar beta testers, liberar o dashboard privado e organizar o acesso ao download da build quando ela estiver disponível.
           </p>
