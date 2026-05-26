@@ -96,15 +96,15 @@ export default function DashboardPage() {
               <div className="grid gap-3 sm:grid-cols-3">
                 <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
                   <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Versão</p>
-                  <p className="mt-1 font-medium text-slate-100">{betaVersion}</p>
+                  <p className="mt-1 font-medium leading-6 text-slate-100">{betaVersion}</p>
                 </div>
                 <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
                   <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Conta</p>
-                  <p className="mt-1 font-medium text-slate-100">Prévia sem autenticação</p>
+                  <p className="mt-1 font-medium leading-6 text-slate-100">Prévia sem autenticação</p>
                 </div>
                 <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
                   <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Download</p>
-                  <p className="mt-1 font-medium text-amber-200">{downloadStatus}</p>
+                  <p className="mt-1 font-medium leading-6 text-amber-200">{downloadStatus}</p>
                 </div>
               </div>
             </div>
@@ -112,15 +112,15 @@ export default function DashboardPage() {
             <div className="grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
               <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
                 <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Versão</p>
-                <p className="mt-1 font-medium text-white">{betaVersion}</p>
+                <p className="mt-1 font-medium leading-6 text-white">{betaVersion}</p>
               </div>
               <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
                 <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Usuário</p>
-                <p className="mt-1 font-medium text-white">{email}</p>
+                <p className="mt-1 break-words font-medium leading-6 text-white">{email}</p>
               </div>
               <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
                 <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Status</p>
-                <p className="mt-1 font-medium text-emerald-300">Autenticado</p>
+                <p className="mt-1 font-medium leading-6 text-emerald-300">Autenticado</p>
               </div>
             </div>
           )}
@@ -146,7 +146,7 @@ export default function DashboardPage() {
         <div className="grid gap-3 md:grid-cols-2">
           {betaSteps.map((step) => (
             <GlowCard key={step}>
-              <p className="text-sm text-slate-200">{step}</p>
+              <p className="text-sm leading-6 text-slate-200">{step}</p>
             </GlowCard>
           ))}
         </div>
@@ -157,9 +157,9 @@ export default function DashboardPage() {
         <GlowCard>
           <div className="space-y-3">
             {playerChecklist.map((item) => (
-              <label key={item} className="flex items-center gap-3 text-sm text-slate-300">
-                <input type="checkbox" className="h-4 w-4 rounded border-cyan-300/30 bg-black/20" />
-                {item}
+              <label key={item} className="flex items-start gap-3 text-sm leading-6 text-slate-300">
+                <input type="checkbox" className="mt-1 h-4 w-4 shrink-0 rounded border-cyan-300/30 bg-black/20" />
+                <span>{item}</span>
               </label>
             ))}
           </div>
@@ -176,10 +176,10 @@ export default function DashboardPage() {
                 Relate bugs, dificuldade, clareza do mapa, sensação de combate e qualquer ponto que tenha impedido o avanço.
               </p>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="grid gap-3 sm:flex sm:flex-wrap">
               <GameButton href="/feedback" variant="secondary">Enviar feedback</GameButton>
               {!isPreparationMode && email ? (
-                <button onClick={handleSignOut} className="rounded-lg border border-purple-200/30 bg-purple-300/10 px-4 py-2 text-sm text-purple-100">Sair</button>
+                <button onClick={handleSignOut} className="min-h-11 rounded-lg border border-purple-200/30 bg-purple-300/10 px-4 py-2 text-sm text-purple-100">Sair</button>
               ) : null}
             </div>
           </div>
