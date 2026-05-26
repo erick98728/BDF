@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     template: "%s | Tester"
   },
   description: siteDescription,
+  manifest: "/manifest.webmanifest",
   alternates: {
     canonical: "/"
   },
