@@ -23,11 +23,7 @@ const initialData: FeedbackFormData = {
   suggestions: "",
 };
 
-type RatingField =
-  | "movementRating"
-  | "combatRating"
-  | "mapRating"
-  | "difficultyRating";
+type RatingField = "movementRating" | "combatRating" | "mapRating" | "difficultyRating";
 
 const ratingFieldLabels: Array<{ label: string; field: RatingField }> = [
   { label: "Nota para movimento", field: "movementRating" },
@@ -35,6 +31,8 @@ const ratingFieldLabels: Array<{ label: string; field: RatingField }> = [
   { label: "Nota para mapa", field: "mapRating" },
   { label: "Nota para dificuldade", field: "difficultyRating" },
 ];
+
+const fieldClass = "min-h-11 w-full rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-cyan-200/45 focus:bg-black/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200";
 
 export default function FeedbackPage() {
   const [formData, setFormData] = useState<FeedbackFormData>(initialData);
@@ -45,24 +43,15 @@ export default function FeedbackPage() {
   useEffect(() => {
     (async () => {
       if (!isSupabaseConfigured) return;
-
       const { data } = await supabase.auth.getUser();
       const userEmail = data.user?.email;
-
-      if (userEmail) {
-        setFormData((p) => ({ ...p, email: userEmail }));
-      }
+      if (userEmail) setFormData((p) => ({ ...p, email: userEmail }));
     })();
   }, []);
 
   const isValid = useMemo(
-    () =>
-      formData.nickname.trim() &&
-      formData.email.trim() &&
-      formData.playtime &&
-      formData.progressPoint &&
-      (!formData.foundBug || formData.bugDescription.trim()),
-    [formData],
+    () => formData.nickname.trim() && formData.email.trim() && formData.playtime && formData.progressPoint && (!formData.foundBug || formData.bugDescription.trim()),
+    [formData]
   );
 
   function setRating(field: RatingField, value: FeedbackRatings) {
@@ -114,115 +103,71 @@ export default function FeedbackPage() {
 
   return (
     <AnimatedPageWrapper>
-      <PageHeader
-        title="Feedback"
-        description="Envie sua experiência com o beta de Tester. Seu retorno é privado e essencial."
-      />
+      <PageHeader title="Feedback" description="Envie sua experiência com o beta de Tester. Seu retorno é privado e essencial." />
       <SectionContainer>
-        <SectionTitle
-          title="Formulário de feedback"
-          subtitle="Não coletamos dados sensíveis. Este formulário é privado para o desenvolvedor."
-        />
+        <SectionTitle title="Formulário de feedback" subtitle="Não coletamos dados sensíveis. Este formulário é privado para o desenvolvedor." />
         <GlowCard>
           {!isSupabaseConfigured ? (
-            <p className="mb-4 rounded-lg border border-amber-200/20 bg-amber-300/10 px-3 py-2 text-sm leading-6 text-amber-100">
+            <p className="mb-4 rounded-lg border border-amber-200/20 bg-amber-300/10 px-3 py-2 text-sm leading-6 text-amber-100" role="status">
               {supabaseSetupMessage} O formulário pode ser testado, mas o salvamento definitivo depende da tabela beta_feedback no Supabase.
             </p>
           ) : null}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4" aria-describedby="feedback-help">
+            <p id="feedback-help" className="sr-only">Preencha os campos obrigatórios para enviar sua experiência com o beta.</p>
             <div className="grid gap-4 md:grid-cols-2">
-              <input
-                className="rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2 text-sm"
-                placeholder="Nome ou apelido"
-                value={formData.nickname}
-                onChange={(e) => setFormData((p) => ({ ...p, nickname: e.target.value }))}
-                required
-              />
-              <input
-                className="rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2 text-sm"
-                type="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
-                required
-              />
+              <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-nickname">
+                Nome ou apelido
+                <input id="feedback-nickname" className={`${fieldClass} mt-1`} placeholder="Como quer ser identificado" value={formData.nickname} onChange={(e) => setFormData((p) => ({ ...p, nickname: e.target.value }))} required />
+              </label>
+              <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-email">
+                Email
+                <input id="feedback-email" className={`${fieldClass} mt-1`} type="email" placeholder="seu@email.com" value={formData.email} onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))} required />
+              </label>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
-              <select
-                className="rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2 text-sm"
-                value={formData.playtime}
-                onChange={(e) => setFormData((p) => ({ ...p, playtime: e.target.value }))}
-                required
-              >
-                <option value="">Tempo jogado</option>
-                {playtimeOptions.map((o) => (
-                  <option key={o} value={o}>
-                    {o}
-                  </option>
-                ))}
-              </select>
-              <select
-                className="rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2 text-sm"
-                value={formData.progressPoint}
-                onChange={(e) => setFormData((p) => ({ ...p, progressPoint: e.target.value }))}
-                required
-              >
-                <option value="">Onde parou</option>
-                {progressOptions.map((o) => (
-                  <option key={o} value={o}>
-                    {o}
-                  </option>
-                ))}
-              </select>
+              <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-playtime">
+                Tempo jogado
+                <select id="feedback-playtime" className={`${fieldClass} mt-1`} value={formData.playtime} onChange={(e) => setFormData((p) => ({ ...p, playtime: e.target.value }))} required>
+                  <option value="">Selecione o tempo jogado</option>
+                  {playtimeOptions.map((o) => <option key={o} value={o}>{o}</option>)}
+                </select>
+              </label>
+              <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-progress">
+                Onde parou
+                <select id="feedback-progress" className={`${fieldClass} mt-1`} value={formData.progressPoint} onChange={(e) => setFormData((p) => ({ ...p, progressPoint: e.target.value }))} required>
+                  <option value="">Selecione o ponto de progresso</option>
+                  {progressOptions.map((o) => <option key={o} value={o}>{o}</option>)}
+                </select>
+              </label>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               {ratingFieldLabels.map(({ label, field }) => (
-                <label key={field} className="text-sm text-slate-300">
+                <label key={field} className="text-sm leading-6 text-slate-300">
                   {label}
-                  <select
-                    className="mt-1 w-full rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2"
-                    value={formData[field]}
-                    onChange={(e) => setRating(field, Number(e.target.value) as FeedbackRatings)}
-                  >
-                    {ratingOptions.map((n) => (
-                      <option key={n} value={n}>
-                        {n}
-                      </option>
-                    ))}
+                  <select className={`${fieldClass} mt-1`} value={formData[field]} onChange={(e) => setRating(field, Number(e.target.value) as FeedbackRatings)}>
+                    {ratingOptions.map((n) => <option key={n} value={n}>{n}</option>)}
                   </select>
                 </label>
               ))}
             </div>
-            <label className="flex items-center gap-3 text-sm text-slate-300">
-              <input
-                type="checkbox"
-                checked={formData.foundBug}
-                onChange={(e) => setFormData((p) => ({ ...p, foundBug: e.target.checked }))}
-              />
-              Encontrou algum problema?
+            <label className="flex min-h-11 items-start gap-3 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-3 text-sm leading-6 text-slate-300">
+              <input type="checkbox" checked={formData.foundBug} onChange={(e) => setFormData((p) => ({ ...p, foundBug: e.target.checked }))} className="mt-1 h-4 w-4 shrink-0" />
+              <span>Encontrou algum problema?</span>
             </label>
-            <textarea
-              className="min-h-24 w-full rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2 text-sm"
-              placeholder="Descrição do problema"
-              value={formData.bugDescription}
-              onChange={(e) => setFormData((p) => ({ ...p, bugDescription: e.target.value }))}
-              disabled={!formData.foundBug}
-            />
-            <textarea
-              className="min-h-24 w-full rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2 text-sm"
-              placeholder="Sugestões gerais"
-              value={formData.suggestions}
-              onChange={(e) => setFormData((p) => ({ ...p, suggestions: e.target.value }))}
-            />
-            <button
-              disabled={loading || !Boolean(isValid)}
-              className="rounded-lg border border-cyan-300/40 bg-cyan-300/15 px-4 py-2 text-sm font-medium text-cyan-100 disabled:opacity-60"
-            >
+            <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-bug">
+              Descrição do problema
+              <textarea id="feedback-bug" className={`${fieldClass} mt-1 min-h-28 resize-y`} placeholder="Descreva o problema encontrado" value={formData.bugDescription} onChange={(e) => setFormData((p) => ({ ...p, bugDescription: e.target.value }))} disabled={!formData.foundBug} />
+            </label>
+            <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-suggestions">
+              Sugestões gerais
+              <textarea id="feedback-suggestions" className={`${fieldClass} mt-1 min-h-28 resize-y`} placeholder="O que pode melhorar?" value={formData.suggestions} onChange={(e) => setFormData((p) => ({ ...p, suggestions: e.target.value }))} />
+            </label>
+            <button disabled={loading || !Boolean(isValid)} className="min-h-11 w-full rounded-lg border border-cyan-300/40 bg-cyan-300/15 px-4 py-2 text-sm font-medium text-cyan-100 transition disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 sm:w-auto">
               {loading ? "Enviando..." : "Enviar feedback"}
             </button>
           </form>
-          {error ? <p className="mt-4 text-sm text-red-300">{error}</p> : null}
-          {success ? <p className="mt-4 text-sm text-emerald-300">{success}</p> : null}
+          {error ? <p className="mt-4 text-sm leading-6 text-red-300" role="alert">{error}</p> : null}
+          {success ? <p className="mt-4 text-sm leading-6 text-emerald-300" role="status">{success}</p> : null}
         </GlowCard>
       </SectionContainer>
     </AnimatedPageWrapper>
