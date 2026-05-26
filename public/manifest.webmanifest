@@ -1,12 +1,15 @@
 {
   "name": "Tester",
   "short_name": "Tester",
-  "description": "Site oficial de Tester, metroidvania 2D sombrio em desenvolvimento.",
+  "description": "Site oficial de Tester, metroidvania 2D sombrio em desenvolvimento, com beta, lore e feedback.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
+  "lang": "pt-BR",
   "background_color": "#050914",
   "theme_color": "#050914",
+  "categories": ["games", "entertainment"],
   "icons": [
     {
       "src": "/favicon.svg",
