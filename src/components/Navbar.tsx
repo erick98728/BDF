@@ -13,11 +13,16 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    if (!isSupabaseConfigured) {
+      setLogged(false);
+      return;
+    }
+
     async function getSession() {
-      if (!isSupabaseConfigured) return;
       const { data } = await supabase.auth.getSession();
       setLogged(Boolean(data.session));
     }
+
     getSession();
     const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => setLogged(Boolean(session)));
     return () => subscription.subscription.unsubscribe();
@@ -26,6 +31,7 @@ export function Navbar() {
   const baseLinks = useMemo(() => navLinks.filter((l) => l.href !== "/login"), []);
 
   async function handleSignOut() {
+    if (!isSupabaseConfigured) return;
     await supabase.auth.signOut();
     setOpen(false);
     router.push("/login");
@@ -62,7 +68,7 @@ export function Navbar() {
             })}
             {logged ? (
               <>
-                <Link href="/dashboard" className="rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/5 hover:text-cyan-50">Dashboard</Link>
+                <Link href="/dashboard" className={`rounded-lg px-3 py-2 text-sm font-medium transition ${pathname === "/dashboard" ? "border border-cyan-200/25 bg-cyan-300/12 text-cyan-50" : "text-slate-300 hover:bg-white/5 hover:text-cyan-50"}`}>Dashboard</Link>
                 <button onClick={handleSignOut} className="rounded-lg border border-purple-200/20 bg-purple-300/8 px-3 py-2 text-sm font-medium text-purple-100 transition hover:bg-purple-300/14 hover:text-white">Sair</button>
               </>
             ) : (
@@ -99,7 +105,7 @@ export function Navbar() {
             })}
             {logged ? (
               <>
-                <Link href="/dashboard" onClick={() => setOpen(false)} className="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-200 hover:bg-white/5 hover:text-cyan-50">Dashboard</Link>
+                <Link href="/dashboard" onClick={() => setOpen(false)} className={`rounded-lg px-3 py-2.5 text-sm font-medium transition ${pathname === "/dashboard" ? "bg-cyan-300/12 text-cyan-50" : "text-slate-200 hover:bg-white/5 hover:text-cyan-50"}`}>Dashboard</Link>
                 <button onClick={handleSignOut} className="rounded-lg px-3 py-2.5 text-left text-sm font-medium text-purple-100 hover:bg-purple-300/10 hover:text-white">Sair</button>
               </>
             ) : (
