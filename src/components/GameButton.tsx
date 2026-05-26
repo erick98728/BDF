@@ -11,7 +11,7 @@ export function GameButton({ href, children, variant = "primary" }: GameButtonPr
   return (
     <Link
       href={href}
-      className={`inline-flex min-h-11 items-center justify-center rounded-lg border px-5 py-2.5 text-sm font-semibold tracking-wide transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 ${style}`}
+      className={`inline-flex min-h-11 w-full items-center justify-center rounded-lg border px-5 py-2.5 text-center text-sm font-semibold tracking-wide transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 sm:w-auto ${style}`}
     >
       {children}
     </Link>
