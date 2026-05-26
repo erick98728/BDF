@@ -9,8 +9,21 @@ import { SectionContainer } from "@/components/SectionContainer";
 import { AnimatedPageWrapper } from "@/components/AnimatedPageWrapper";
 import { characters, devlogs, homeFeatures } from "@/data/site";
 
-
-export const metadata: Metadata = { title: "Início", description: "Portal oficial do metroidvania Tester.", openGraph: { title: "Início | Tester", description: "Portal oficial do metroidvania Tester." } };
+export const metadata: Metadata = {
+  title: "Início",
+  description: "Portal oficial de Tester, metroidvania 2D sombrio com beta, lore, personagens e devlog de desenvolvimento.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Início | Tester",
+    description: "Portal oficial de Tester, metroidvania 2D sombrio com beta, lore, personagens e devlog de desenvolvimento.",
+    url: "/"
+  },
+  twitter: {
+    card: "summary",
+    title: "Tester | Site Oficial",
+    description: "Portal oficial de Tester, metroidvania 2D sombrio com beta, lore, personagens e devlog de desenvolvimento."
+  }
+};
 
 export default function HomePage() {
   return (
