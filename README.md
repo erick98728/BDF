@@ -55,9 +55,17 @@ O arquivo `.env.example` lista todas as chaves esperadas pelo projeto.
 2. Confirme que o framework detectado é Next.js.
 3. Em Project Settings > Environment Variables, cadastre as variáveis acima.
 4. Faça o deploy da branch `main`.
-5. Depois do deploy, teste `/`, `/download`, `/feedback`, `/login` e `/dashboard`.
+5. Depois do deploy, teste `/`, `/download`, `/feedback`, `/login`, `/dashboard` e uma rota inexistente para validar a página 404.
 
 Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O site mostra os fluxos em modo de preparação.
+
+## SEO e identidade pública
+
+- O layout global define `metadataBase` para o domínio de produção da Vercel.
+- As páginas principais usam metadata e Open Graph básicos para melhorar título, descrição e compartilhamento.
+- O favicon fica em `public/favicon.svg` e usa a paleta do projeto.
+- A página 404 personalizada fica em `src/app/not-found.tsx` com o texto “Você se perdeu na névoa.”.
+- Ao trocar o domínio oficial, atualize `metadataBase` em `src/app/layout.tsx`.
 
 ## O que funciona sem Supabase
 
