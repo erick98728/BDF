@@ -86,7 +86,7 @@ export default function DownloadPage() {
               <span className="font-semibold text-cyan-100"> NEXT_PUBLIC_BETA_DOWNLOAD_URL</span> estiver configurada, o botão de download da build aparece automaticamente.
             </p>
             <p>
-              Enquanto o link não estiver ativo, o site mostra o estado "Download em preparação". Isso evita página quebrada e deixa claro que a build ainda não foi liberada.
+              Enquanto o link não estiver ativo, o site mostra o estado Download em preparação. Isso evita página quebrada e deixa claro que a build ainda não foi liberada.
             </p>
           </div>
           <div className="mt-5 flex flex-wrap gap-3">
