@@ -81,14 +81,14 @@ export default function HomePage() {
             subtitle="Tester está em desenvolvimento. Seu feedback ajuda a equilibrar combate, progressão e leitura do mundo."
           />
           <div className="flex flex-wrap justify-center gap-4">
-            <GameButton href="/download">Entrar no beta</GameButton>
-            <GameButton href="/download" variant="secondary">Baixar beta</GameButton>
+            <GameButton href="/download">Ver status do beta</GameButton>
+            <GameButton href="/feedback" variant="secondary">Enviar feedback</GameButton>
           </div>
         </div>
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Devlog" subtitle="Atualizações recentes do desenvolvimento (conteúdo fictício inicial)." />
+        <SectionTitle title="Devlog" subtitle="Atualizações recentes do desenvolvimento." />
         <div className="grid gap-4 md:grid-cols-3">{devlogs.map((d) => <DevlogCard key={d.title} {...d} />)}</div>
       </SectionContainer>
     </AnimatedPageWrapper>
