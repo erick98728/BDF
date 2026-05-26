@@ -1,15 +1,26 @@
-import Link from "next/link";
+import { AnimatedPageWrapper } from "@/components/AnimatedPageWrapper";
+import { GameButton } from "@/components/GameButton";
 import { GlowCard } from "@/components/GlowCard";
+import { SectionContainer } from "@/components/SectionContainer";
 
-export default function NotFound() {
+export default function NotFoundPage() {
   return (
-    <div className="py-24">
-      <GlowCard>
-        <p className="text-xs uppercase tracking-[0.2em] text-cyan-300">Névoa instável</p>
-        <h1 className="mt-2 text-4xl font-bold text-white">404 — Trilha não encontrada</h1>
-        <p className="mt-3 text-slate-300">Esta rota se perdeu no Bosque da Névoa Perdida.</p>
-        <Link href="/" className="mt-5 inline-flex rounded-lg border border-cyan-200/30 px-4 py-2 text-sm text-cyan-100">Voltar ao início</Link>
-      </GlowCard>
-    </div>
+    <AnimatedPageWrapper>
+      <SectionContainer>
+        <div className="flex min-h-[58vh] items-center justify-center py-16 text-center">
+          <GlowCard>
+            <p className="text-xs uppercase tracking-[0.22em] text-cyan-200/80">Erro 404</p>
+            <h1 className="mt-4 text-4xl font-black tracking-wide text-white md:text-6xl">Você se perdeu na névoa.</h1>
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-6 text-slate-300 md:text-base">
+              A rota que você tentou acessar não foi encontrada. Volte para o início ou siga para a área de download do Tester Beta.
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <GameButton href="/">Voltar ao início</GameButton>
+              <GameButton href="/download" variant="secondary">Ir para download</GameButton>
+            </div>
+          </GlowCard>
+        </div>
+      </SectionContainer>
+    </AnimatedPageWrapper>
   );
 }
