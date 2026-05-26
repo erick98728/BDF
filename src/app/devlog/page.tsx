@@ -7,8 +7,21 @@ import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
 import { devlogPosts } from "@/data/devlog";
 
-
-export const metadata: Metadata = { title: "Devlog", description: "Atualizações de desenvolvimento de Tester.", openGraph: { title: "Devlog | Tester", description: "Atualizações de desenvolvimento de Tester." } };
+export const metadata: Metadata = {
+  title: "Devlog",
+  description: "Acompanhe atualizações de desenvolvimento e progresso do projeto Tester.",
+  alternates: { canonical: "/devlog" },
+  openGraph: {
+    title: "Devlog | Tester",
+    description: "Acompanhe atualizações de desenvolvimento e progresso do projeto Tester.",
+    url: "/devlog"
+  },
+  twitter: {
+    card: "summary",
+    title: "Devlog | Tester",
+    description: "Acompanhe atualizações de desenvolvimento e progresso do projeto Tester."
+  }
+};
 
 export default function DevlogPage() {
   return (
