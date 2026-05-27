@@ -32,7 +32,7 @@ const ratingFieldLabels: Array<{ label: string; field: RatingField }> = [
   { label: "Nota para dificuldade", field: "difficultyRating" },
 ];
 
-const fieldClass = "min-h-11 w-full rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-cyan-200/45 focus:bg-black/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200";
+const fieldClass = "min-h-11 w-full rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 hover:border-cyan-200/30 hover:bg-black/25 focus:border-cyan-200/45 focus:bg-black/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 disabled:cursor-not-allowed disabled:opacity-55";
 
 export default function FeedbackPage() {
   const [formData, setFormData] = useState<FeedbackFormData>(initialData);
@@ -108,7 +108,7 @@ export default function FeedbackPage() {
         <SectionTitle title="Formulário de feedback" subtitle="Não coletamos dados sensíveis. Este formulário é privado para o desenvolvedor." />
         <GlowCard>
           {!isSupabaseConfigured ? (
-            <p className="mb-4 rounded-lg border border-amber-200/20 bg-amber-300/10 px-3 py-2 text-sm leading-6 text-amber-100" role="status">
+            <p className="status-chip mb-4 rounded-lg border border-amber-200/20 bg-amber-300/10 px-3 py-2 text-sm leading-6 text-amber-100" role="status">
               {supabaseSetupMessage} O formulário pode ser testado, mas o salvamento definitivo depende da tabela beta_feedback no Supabase.
             </p>
           ) : null}
@@ -150,8 +150,8 @@ export default function FeedbackPage() {
                 </label>
               ))}
             </div>
-            <label className="flex min-h-11 items-start gap-3 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-3 text-sm leading-6 text-slate-300">
-              <input type="checkbox" checked={formData.foundBug} onChange={(e) => setFormData((p) => ({ ...p, foundBug: e.target.checked }))} className="mt-1 h-4 w-4 shrink-0" />
+            <label className="mini-status-card flex min-h-11 items-start gap-3 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-3 text-sm leading-6 text-slate-300">
+              <input type="checkbox" checked={formData.foundBug} onChange={(e) => setFormData((p) => ({ ...p, foundBug: e.target.checked }))} className="mt-1 h-4 w-4 shrink-0 accent-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200" />
               <span>Encontrou algum problema?</span>
             </label>
             <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-bug">
@@ -162,12 +162,12 @@ export default function FeedbackPage() {
               Sugestões gerais
               <textarea id="feedback-suggestions" className={`${fieldClass} mt-1 min-h-28 resize-y`} placeholder="O que pode melhorar?" value={formData.suggestions} onChange={(e) => setFormData((p) => ({ ...p, suggestions: e.target.value }))} />
             </label>
-            <button disabled={loading || !Boolean(isValid)} className="min-h-11 w-full rounded-lg border border-cyan-300/40 bg-cyan-300/15 px-4 py-2 text-sm font-medium text-cyan-100 transition disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 sm:w-auto">
+            <button disabled={loading || !Boolean(isValid)} className="tester-button min-h-11 w-full rounded-lg border border-cyan-300/40 bg-cyan-300/15 px-4 py-2 text-sm font-medium text-cyan-100 hover:border-cyan-200/60 hover:bg-cyan-300/20 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 sm:w-auto">
               {loading ? "Enviando..." : "Enviar feedback"}
             </button>
           </form>
-          {error ? <p className="mt-4 text-sm leading-6 text-red-300" role="alert">{error}</p> : null}
-          {success ? <p className="mt-4 text-sm leading-6 text-emerald-300" role="status">{success}</p> : null}
+          {error ? <p className="status-chip mt-4 rounded-lg border border-red-300/20 bg-red-400/10 px-3 py-2 text-sm leading-6 text-red-300" role="alert">{error}</p> : null}
+          {success ? <p className="status-chip mt-4 rounded-lg border border-emerald-300/20 bg-emerald-400/10 px-3 py-2 text-sm leading-6 text-emerald-300" role="status">{success}</p> : null}
         </GlowCard>
       </SectionContainer>
     </AnimatedPageWrapper>
