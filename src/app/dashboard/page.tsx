@@ -98,17 +98,17 @@ export default function DashboardPage() {
                 </div>
               </div>
               <div className="grid gap-3 sm:grid-cols-3">
-                <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+                <div className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
                   <GameGlyph name="build" variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
                   <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Versão</p>
                   <p className="mt-1 font-medium leading-6 text-slate-100">{betaVersion}</p>
                 </div>
-                <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+                <div className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
                   <GameGlyph name="user" variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
                   <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Conta</p>
                   <p className="mt-1 font-medium leading-6 text-slate-100">Prévia sem autenticação</p>
                 </div>
-                <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+                <div className="mini-status-card rounded-lg border border-amber-200/15 bg-amber-300/[0.04] px-3 py-3">
                   <GameGlyph name="download" variant="plain" className="mb-2 h-5 w-5 text-amber-200" />
                   <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Download</p>
                   <p className="mt-1 font-medium leading-6 text-amber-200">{downloadStatus}</p>
@@ -117,17 +117,17 @@ export default function DashboardPage() {
             </div>
           ) : (
             <div className="grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
-              <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+              <div className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
                 <GameGlyph name="build" variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
                 <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Versão</p>
                 <p className="mt-1 font-medium leading-6 text-white">{betaVersion}</p>
               </div>
-              <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+              <div className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
                 <GameGlyph name="user" variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
                 <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Usuário</p>
                 <p className="mt-1 break-words font-medium leading-6 text-white">{email}</p>
               </div>
-              <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+              <div className="mini-status-card rounded-lg border border-emerald-200/15 bg-emerald-300/[0.04] px-3 py-3">
                 <GameGlyph name="status" variant="plain" className="mb-2 h-5 w-5 text-emerald-200" />
                 <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Status</p>
                 <p className="mt-1 font-medium leading-6 text-emerald-300">Autenticado</p>
@@ -168,8 +168,8 @@ export default function DashboardPage() {
         <GlowCard>
           <div className="space-y-3">
             {playerChecklist.map((item) => (
-              <label key={item} className="flex items-start gap-3 rounded-lg border border-cyan-200/10 bg-black/15 px-3 py-2 text-sm leading-6 text-slate-300">
-                <input type="checkbox" className="mt-1 h-4 w-4 shrink-0 rounded border-cyan-300/30 bg-black/20" />
+              <label key={item} className="mini-status-card flex items-start gap-3 rounded-lg border border-cyan-200/10 bg-black/15 px-3 py-2 text-sm leading-6 text-slate-300">
+                <input type="checkbox" className="mt-1 h-4 w-4 shrink-0 rounded border-cyan-300/30 bg-black/20 accent-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200" />
                 <span>{item}</span>
               </label>
             ))}
@@ -193,7 +193,7 @@ export default function DashboardPage() {
             <div className="grid gap-3 sm:flex sm:flex-wrap">
               <GameButton href="/feedback" variant="secondary">Enviar feedback</GameButton>
               {!isPreparationMode && email ? (
-                <button onClick={handleSignOut} className="min-h-11 rounded-lg border border-purple-200/30 bg-purple-300/10 px-4 py-2 text-sm text-purple-100">Sair</button>
+                <button onClick={handleSignOut} className="tester-button min-h-11 rounded-lg border border-purple-200/30 bg-purple-300/10 px-4 py-2 text-sm text-purple-100 hover:bg-purple-300/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200">Sair</button>
               ) : null}
             </div>
           </div>
