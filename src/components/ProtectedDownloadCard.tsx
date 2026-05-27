@@ -22,6 +22,12 @@ export function ProtectedDownloadCard({ isAuthenticated, preparationMode = false
         : "Login necessário";
 
   const statusClass = canDownload
+    ? "border-emerald-200/25 bg-emerald-300/10 text-emerald-200"
+    : isWaitingForLink
+      ? "border-amber-200/25 bg-amber-300/10 text-amber-200"
+      : "border-cyan-200/25 bg-cyan-300/10 text-cyan-200";
+
+  const textStatusClass = canDownload
     ? "text-emerald-200"
     : isWaitingForLink
       ? "text-amber-200"
@@ -51,30 +57,30 @@ export function ProtectedDownloadCard({ isAuthenticated, preparationMode = false
           <h3 className="mt-1 text-xl font-semibold text-white">{title}</h3>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">{description}</p>
         </div>
-        <span className={`rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold ${statusClass}`}>
+        <span className={`status-chip w-fit rounded-full border px-3 py-1 text-xs font-semibold ${statusClass}`}>
           {status}
         </span>
       </div>
 
       <div className="mt-5 grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
-        <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+        <div className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
           <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Build</p>
           <p className="mt-1 font-medium text-white">Tester Beta 0.1</p>
         </div>
-        <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+        <div className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
           <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Plataforma</p>
           <p className="mt-1 font-medium text-white">Windows</p>
         </div>
-        <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+        <div className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
           <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Arquivo</p>
-          <p className={`mt-1 font-medium ${statusClass}`}>{hasDownloadUrl ? "Link configurado" : "Sem link público"}</p>
+          <p className={`mt-1 font-medium ${textStatusClass}`}>{hasDownloadUrl ? "Link configurado" : "Sem link público"}</p>
         </div>
       </div>
 
       {canDownload ? (
         <a
           href={betaDownloadUrl}
-          className="mt-5 inline-flex rounded-lg border border-cyan-200/30 bg-cyan-300/12 px-4 py-2 text-sm font-medium text-cyan-100 transition hover:bg-cyan-300/20"
+          className="tester-button mt-5 inline-flex rounded-lg border border-cyan-200/30 bg-cyan-300/12 px-4 py-2 text-sm font-medium text-cyan-100 hover:bg-cyan-300/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
           rel="noreferrer"
         >
           Baixar Tester Beta 0.1
