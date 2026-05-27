@@ -6,14 +6,15 @@ import { GlowCard } from "@/components/GlowCard";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
+import { BetaBadge, StatusBadge, VisualPanel } from "@/components/TesterVisualSystem";
 
-const betaStatus: { label: string; value: string; icon: GameGlyphName }[] = [
-  { label: "Versão atual", value: "Tester Beta 0.1", icon: "build" },
-  { label: "Plataforma", value: "Windows", icon: "platform" },
-  { label: "Estado", value: "Preparação para beta fechado", icon: "status" },
-  { label: "Arquivo", value: "Não versionado no GitHub", icon: "download" },
-  { label: "Download", value: "Liberado somente quando houver link oficial", icon: "download" },
-  { label: "Feedback", value: "Obrigatório para orientar melhorias", icon: "feedback" }
+const betaStatus: { label: string; value: string; icon: GameGlyphName; status?: "beta" | "locked" | "warning" | "live" }[] = [
+  { label: "Versão atual", value: "Tester Beta 0.1", icon: "build", status: "beta" },
+  { label: "Plataforma", value: "Windows", icon: "platform", status: "live" },
+  { label: "Estado", value: "Preparação para beta fechado", icon: "status", status: "warning" },
+  { label: "Arquivo", value: "Não versionado no GitHub", icon: "download", status: "locked" },
+  { label: "Download", value: "Liberado somente quando houver link oficial", icon: "download", status: "locked" },
+  { label: "Feedback", value: "Obrigatório para orientar melhorias", icon: "feedback", status: "live" }
 ];
 
 const minimumRequirements: { item: string; value: string; icon: GameGlyphName }[] = [
@@ -61,16 +62,41 @@ export default function DownloadPage() {
     <AnimatedPageWrapper>
       <PageHeader
         title="Baixar Tester Beta"
-        description="A página de download já está preparada para a Beta 0.1. A liberação real será feita de forma controlada para Windows, com feedback obrigatório dos jogadores de teste."
+        description="Painel oficial da build de teste para Windows. O beta está em desenvolvimento e o download só será liberado quando houver link oficial configurado."
       />
 
       <SectionContainer>
+        <GlowCard variant="status" contentClassName="relative overflow-hidden p-5 sm:p-7">
+          <div className="absolute inset-0 opacity-35 tester-panel-grid" aria-hidden="true" />
+          <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <div className="flex flex-wrap items-center gap-2">
+                <BetaBadge />
+                <StatusBadge status="warning">Build em preparação</StatusBadge>
+              </div>
+              <h2 className="mt-3 text-2xl font-bold text-white sm:text-3xl">Central oficial da Beta 0.1</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
+                Esta página informa o estado da build, requisitos preliminares e próximos passos. Ela não promete download imediato e não armazena o arquivo do jogo no repositório.
+              </p>
+            </div>
+            <div className="grid gap-2 sm:grid-cols-2 lg:min-w-72 lg:grid-cols-1">
+              <StatusBadge status="locked">Download depende de link oficial</StatusBadge>
+              <StatusBadge status="live">Feedback ativo</StatusBadge>
+            </div>
+          </div>
+        </GlowCard>
+      </SectionContainer>
+
+      <SectionContainer withDivider>
         <SectionTitle title="Status do beta" subtitle="Informações atuais da build planejada para testes fechados." />
-        <GlowCard>
+        <GlowCard variant="status">
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {betaStatus.map((entry) => (
               <div key={entry.label} className="mini-status-card rounded-xl border border-cyan-200/10 bg-black/15 px-4 py-3">
-                <GameGlyph name={entry.icon} variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
+                <div className="mb-3 flex items-start justify-between gap-3">
+                  <GameGlyph name={entry.icon} variant="plain" className="h-5 w-5 text-cyan-200" />
+                  {entry.status ? <StatusBadge status={entry.status}>{entry.status === "locked" ? "Controlado" : entry.status === "warning" ? "Em preparação" : entry.status === "beta" ? "Beta" : "Ativo"}</StatusBadge> : null}
+                </div>
                 <p className="text-xs uppercase tracking-[0.12em] text-cyan-200/80">{entry.label}</p>
                 <p className="mt-1 text-sm font-medium leading-6 text-slate-100">{entry.value}</p>
               </div>
@@ -81,29 +107,26 @@ export default function DownloadPage() {
 
       <SectionContainer withDivider>
         <SectionTitle title="Como o download será liberado" subtitle="O arquivo do jogo não fica no repositório e só aparece no dashboard quando houver link oficial." />
-        <GlowCard>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-            <GameGlyph name="download" className="border-amber-200/25 bg-amber-300/10 text-amber-100" />
-            <div className="space-y-4 text-sm leading-6 text-slate-300">
-              <p>
-                A distribuição atual foi pensada para um beta fechado. O jogador entra com uma conta, acessa o dashboard e, quando a variável
-                <span className="break-words font-semibold text-cyan-100"> NEXT_PUBLIC_BETA_DOWNLOAD_URL</span> estiver configurada, o botão de download da build aparece automaticamente.
-              </p>
-              <p>
-                Enquanto o link não estiver ativo, o site mostra o estado Download em preparação. Isso evita página quebrada e deixa claro que a build ainda não foi liberada.
-              </p>
-            </div>
-          </div>
+        <VisualPanel
+          title="Liberação controlada pelo dashboard"
+          eyebrow="Acesso oficial"
+          icon="download"
+          tone="gold"
+          description="A distribuição atual foi pensada para um beta fechado. O jogador entra com uma conta, acessa o dashboard e, quando a variável NEXT_PUBLIC_BETA_DOWNLOAD_URL estiver configurada, o botão de download da build aparece automaticamente."
+        >
+          <p className="text-sm leading-6 text-slate-300">
+            Enquanto o link não estiver ativo, o site mostra o estado Download em preparação. Isso evita página quebrada e deixa claro que a build ainda não foi liberada.
+          </p>
           <div className="mt-5 grid gap-3 sm:flex sm:flex-wrap">
             <GameButton href="/login">Entrar para baixar</GameButton>
             <GameButton href="/feedback" variant="secondary">Enviar feedback</GameButton>
           </div>
-        </GlowCard>
+        </VisualPanel>
       </SectionContainer>
 
       <SectionContainer withDivider>
         <SectionTitle title="Requisitos mínimos" subtitle="Valores ainda preliminares, sujeitos a mudança depois dos primeiros testes em máquinas reais." />
-        <GlowCard>
+        <GlowCard variant="functional">
           <div className="grid gap-3 text-sm md:hidden">
             {minimumRequirements.map((req) => (
               <div key={req.item} className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
@@ -135,24 +158,21 @@ export default function DownloadPage() {
 
       <SectionContainer withDivider>
         <SectionTitle title="Aviso de beta" subtitle="A build será usada para encontrar problemas antes de qualquer divulgação maior." />
-        <GlowCard>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-            <GameGlyph name="beta" className="border-amber-200/25 bg-amber-300/10 text-amber-100" />
-            <ul className="list-disc space-y-2 pl-5 text-sm leading-6 text-slate-300">
-              <li>Tester ainda está em desenvolvimento ativo.</li>
-              <li>A versão beta pode conter bugs, travamentos, áreas incompletas, ajustes de ritmo e mudanças de balanceamento.</li>
-              <li>O feedback dos testers será usado para melhorar gameplay, estabilidade, clareza visual, mapa e dificuldade.</li>
-              <li>A Beta 0.1 não representa o produto final.</li>
-            </ul>
-          </div>
-        </GlowCard>
+        <VisualPanel title="Versão em desenvolvimento" eyebrow="Aviso oficial" icon="beta" tone="gold">
+          <ul className="list-disc space-y-2 pl-5 text-sm leading-6 text-slate-300">
+            <li>Tester ainda está em desenvolvimento ativo.</li>
+            <li>A versão beta pode conter bugs, travamentos, áreas incompletas, ajustes de ritmo e mudanças de balanceamento.</li>
+            <li>O feedback dos testers será usado para melhorar gameplay, estabilidade, clareza visual, mapa e dificuldade.</li>
+            <li>A Beta 0.1 não representa o produto final.</li>
+          </ul>
+        </VisualPanel>
       </SectionContainer>
 
       <SectionContainer withDivider>
         <SectionTitle title="Como testar" subtitle="Guia rápido para quem receber acesso à build." />
         <div className="grid gap-3 md:grid-cols-2">
           {betaGuidelines.map((item) => (
-            <GlowCard key={item.text} contentClassName="flex min-h-[112px] items-start gap-4">
+            <GlowCard key={item.text} variant="functional" contentClassName="flex min-h-[112px] items-start gap-4">
               <GameGlyph name={item.icon} />
               <p className="text-sm leading-6 text-slate-200">{item.text}</p>
             </GlowCard>
@@ -164,7 +184,7 @@ export default function DownloadPage() {
         <SectionTitle title="Conteúdo previsto na Beta 0.1" subtitle="Resumo das entregas que devem ser avaliadas pelos testers." />
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {changelogItems.map((item) => (
-            <GlowCard key={item.text} contentClassName="flex min-h-[112px] items-start gap-4">
+            <GlowCard key={item.text} variant="status" contentClassName="flex min-h-[112px] items-start gap-4">
               <GameGlyph name={item.icon} />
               <p className="text-sm leading-6 text-slate-200">{item.text}</p>
             </GlowCard>
