@@ -32,6 +32,14 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+a,
+button,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -85,6 +93,12 @@ a {
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent);
   border: 1px solid rgba(116, 225, 255, 0.2);
   backdrop-filter: blur(14px) saturate(120%);
+  transform: translateZ(0);
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    background-color 220ms ease;
 }
 
 .surface-glass::before {
@@ -96,6 +110,7 @@ a {
     radial-gradient(circle at 16% 0%, rgba(99, 221, 255, 0.12), transparent 24%),
     linear-gradient(135deg, rgba(255,255,255,0.04), transparent 34%);
   opacity: 0.8;
+  transition: opacity 220ms ease;
 }
 
 .surface-glass > * {
@@ -119,6 +134,8 @@ a {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
+  opacity: 0.82;
+  transition: opacity 220ms ease, filter 220ms ease;
 }
 
 .rune-border::after {
@@ -131,6 +148,7 @@ a {
     linear-gradient(90deg, transparent, rgba(99,221,255,0.16), transparent) top left / 100% 1px no-repeat,
     linear-gradient(90deg, transparent, rgba(209,168,93,0.13), transparent) bottom left / 100% 1px no-repeat;
   opacity: 0.75;
+  transition: opacity 220ms ease;
 }
 
 .soft-cyan-glow {
@@ -140,11 +158,156 @@ a {
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
+.tester-card {
+  transform: translateZ(0);
+}
+
+.tester-button {
+  transform: translateZ(0);
+  transition:
+    transform 160ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.tester-button:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+.nav-link-fx {
+  transform: translateZ(0);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.mini-status-card {
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.status-chip {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
 .fog-orb {
   position: absolute;
   border-radius: 9999px;
   background: radial-gradient(circle, rgba(99, 221, 255, 0.16), transparent 62%);
   filter: blur(18px);
+}
+
+.fog-drift-slow,
+.fog-drift-medium,
+.fog-drift-soft {
+  will-change: transform, opacity;
+}
+
+@keyframes tester-fog-drift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.92;
+  }
+  50% {
+    transform: translate3d(14px, -10px, 0) scale(1.035);
+    opacity: 0.72;
+  }
+}
+
+@keyframes tester-haze-slide {
+  0%, 100% {
+    transform: translate3d(-1%, 0, 0) rotate(var(--haze-rotate, 0deg));
+    opacity: 0.72;
+  }
+  50% {
+    transform: translate3d(1%, -4px, 0) rotate(var(--haze-rotate, 0deg));
+    opacity: 0.48;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tester-card:hover .surface-glass {
+    transform: translateY(-3px);
+    border-color: rgba(99, 221, 255, 0.34);
+    box-shadow:
+      0 22px 56px rgba(0, 0, 0, 0.38),
+      0 0 36px rgba(99, 221, 255, 0.16),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .tester-card:hover .surface-glass::before {
+    opacity: 1;
+  }
+
+  .tester-card:hover::before {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(99, 221, 255, 0.16));
+  }
+
+  .tester-card:hover::after {
+    opacity: 0.95;
+  }
+
+  .tester-button:hover,
+  .nav-link-fx:hover,
+  .mini-status-card:hover {
+    transform: translateY(-1px);
+  }
+
+  .mini-status-card:hover {
+    border-color: rgba(99, 221, 255, 0.24);
+    background-color: rgba(255, 255, 255, 0.055);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .page-shell::after {
+    animation: tester-fog-drift 26s ease-in-out infinite;
+  }
+
+  .fog-drift-slow {
+    animation: tester-fog-drift 22s ease-in-out infinite;
+  }
+
+  .fog-drift-medium {
+    animation: tester-fog-drift 18s ease-in-out infinite reverse;
+  }
+
+  .fog-drift-soft {
+    animation: tester-fog-drift 28s ease-in-out infinite;
+  }
+
+  .haze-drift {
+    animation: tester-haze-slide 20s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .surface-glass,
+  .tester-button,
+  .nav-link-fx,
+  .mini-status-card {
+    transform: none !important;
+  }
 }
 
 @media (max-width: 640px) {
