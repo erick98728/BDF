@@ -10,6 +10,7 @@ import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
 import { GameButton } from "@/components/GameButton";
 import { ProtectedDownloadCard } from "@/components/ProtectedDownloadCard";
+import { BetaBadge, StatusBadge, VisualPanel } from "@/components/TesterVisualSystem";
 import { supabase, isSupabaseConfigured, supabaseSetupMessage } from "@/lib/supabaseClient";
 
 const betaVersion = "Tester Beta 0.1";
@@ -81,22 +82,39 @@ export default function DashboardPage() {
       />
 
       <SectionContainer>
-        <SectionTitle
-          title={isPreparationMode ? "Prévia do painel do jogador" : "Bem-vindo ao Tester Beta"}
-          subtitle="Acompanhe versão, download, checklist de teste e envio de feedback em um só lugar."
-        />
-        <GlowCard>
+        <GlowCard variant="status" contentClassName="relative overflow-hidden p-5 sm:p-7">
+          <div className="absolute inset-0 opacity-35 tester-panel-grid" aria-hidden="true" />
+          <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <div className="flex flex-wrap items-center gap-2">
+                <BetaBadge>Painel privado</BetaBadge>
+                <StatusBadge status={isPreparationMode ? "beta" : "ready"}>{isPreparationMode ? "Modo de preparação" : "Sessão autenticada"}</StatusBadge>
+              </div>
+              <h2 className="mt-3 text-2xl font-bold text-white sm:text-3xl">
+                {isPreparationMode ? "Prévia do painel do jogador" : "Bem-vindo ao Tester Beta"}
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
+                Acompanhe versão, download, checklist de teste e envio de feedback em um painel organizado para participantes do beta.
+              </p>
+            </div>
+            <div className="grid gap-2 sm:grid-cols-2 lg:min-w-72 lg:grid-cols-1">
+              <StatusBadge status={hasDownloadUrl && !isPreparationMode ? "ready" : "warning"}>{downloadStatus}</StatusBadge>
+              <StatusBadge status={isPreparationMode ? "planned" : "live"}>{isPreparationMode ? "Supabase pendente" : "Conta ativa"}</StatusBadge>
+            </div>
+          </div>
+        </GlowCard>
+      </SectionContainer>
+
+      <SectionContainer withDivider>
+        <SectionTitle title="Estado da conta" subtitle="Resumo rápido do acesso, versão e disponibilidade do beta." />
+        <GlowCard variant="functional">
           {isPreparationMode ? (
             <div className="space-y-4 text-sm text-slate-300">
-              <div className="flex gap-4">
-                <GameGlyph name="beta" className="border-amber-200/25 bg-amber-300/10 text-amber-100" />
-                <div>
-                  <p className="font-medium text-amber-200">Modo de preparação ativo</p>
-                  <p className="mt-2 leading-6">
-                    {supabaseSetupMessage} Para transformar esta prévia em painel privado, configure NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY na Vercel.
-                  </p>
-                </div>
-              </div>
+              <VisualPanel title="Modo de preparação ativo" eyebrow="Configuração" icon="beta" tone="gold">
+                <p className="text-sm leading-6 text-slate-300">
+                  {supabaseSetupMessage} Para transformar esta prévia em painel privado, configure NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY na Vercel.
+                </p>
+              </VisualPanel>
               <div className="grid gap-3 sm:grid-cols-3">
                 <div className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
                   <GameGlyph name="build" variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
@@ -155,7 +173,7 @@ export default function DashboardPage() {
         <SectionTitle title="Instruções do beta" subtitle="Siga estes passos quando a build for liberada." />
         <div className="grid gap-3 md:grid-cols-2">
           {betaSteps.map((step) => (
-            <GlowCard key={step.text} contentClassName="flex min-h-[112px] items-start gap-4">
+            <GlowCard key={step.text} variant="functional" contentClassName="flex min-h-[112px] items-start gap-4">
               <GameGlyph name={step.icon} />
               <p className="text-sm leading-6 text-slate-200">{step.text}</p>
             </GlowCard>
@@ -165,7 +183,7 @@ export default function DashboardPage() {
 
       <SectionContainer withDivider>
         <SectionTitle title="Checklist do jogador" subtitle="Use este checklist como guia durante os testes da demo." />
-        <GlowCard>
+        <GlowCard variant="functional">
           <div className="space-y-3">
             {playerChecklist.map((item) => (
               <label key={item} className="mini-status-card flex items-start gap-3 rounded-lg border border-cyan-200/10 bg-black/15 px-3 py-2 text-sm leading-6 text-slate-300">
@@ -178,26 +196,20 @@ export default function DashboardPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <GlowCard>
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="flex gap-4">
-              <GameGlyph name="feedback" className="border-purple-200/25 bg-purple-300/10 text-purple-100" />
-              <div>
-                <p className="text-xs uppercase tracking-[0.14em] text-cyan-200/80">Após jogar</p>
-                <h3 className="mt-1 text-lg font-semibold text-white">Envie seu feedback</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-300">
-                  Relate bugs, dificuldade, clareza do mapa, sensação de combate e qualquer ponto que tenha impedido o avanço.
-                </p>
-              </div>
-            </div>
-            <div className="grid gap-3 sm:flex sm:flex-wrap">
-              <GameButton href="/feedback" variant="secondary">Enviar feedback</GameButton>
-              {!isPreparationMode && email ? (
-                <button onClick={handleSignOut} className="tester-button min-h-11 rounded-lg border border-purple-200/30 bg-purple-300/10 px-4 py-2 text-sm text-purple-100 hover:bg-purple-300/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200">Sair</button>
-              ) : null}
-            </div>
+        <VisualPanel
+          title="Envie seu feedback"
+          eyebrow="Após jogar"
+          icon="feedback"
+          tone="purple"
+          description="Relate bugs, dificuldade, clareza do mapa, sensação de combate e qualquer ponto que tenha impedido o avanço."
+        >
+          <div className="grid gap-3 sm:flex sm:flex-wrap">
+            <GameButton href="/feedback" variant="secondary">Enviar feedback</GameButton>
+            {!isPreparationMode && email ? (
+              <button onClick={handleSignOut} className="tester-button min-h-11 rounded-lg border border-purple-200/30 bg-purple-300/10 px-4 py-2 text-sm text-purple-100 hover:bg-purple-300/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200">Sair</button>
+            ) : null}
           </div>
-        </GlowCard>
+        </VisualPanel>
       </SectionContainer>
     </AnimatedPageWrapper>
   );
