@@ -6,7 +6,8 @@ import { BackgroundFog } from "@/components/BackgroundFog";
 
 const siteUrl = "https://bdf-auhi.vercel.app";
 const siteDescription = "Site oficial de Tester, metroidvania 2D sombrio em desenvolvimento, com beta fechado, lore, personagens, devlog, galeria e feedback.";
-const previewImage = "/og-tester.svg";
+const openGraphImage = "/opengraph-image";
+const twitterImage = "/twitter-image";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -62,7 +63,7 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     images: [
       {
-        url: previewImage,
+        url: openGraphImage,
         width: 1200,
         height: 630,
         alt: "Preview oficial abstrato de Tester com névoa, runas e símbolo do jogo."
@@ -73,7 +74,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Tester | Site Oficial do Jogo Indie",
     description: siteDescription,
-    images: [previewImage]
+    images: [twitterImage]
   },
   icons: {
     icon: "/favicon.svg",
