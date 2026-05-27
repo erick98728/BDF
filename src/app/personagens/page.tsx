@@ -90,10 +90,17 @@ const futureCharacters: CharacterShowcase[] = [
 
 export const metadata: Metadata = {
   title: "Personagens",
-  description: "Conheça Rubens, Lucarelli, inimigos do Bosque e personagens futuros planejados para Tester.",
+  description: "Conheça Rubens, Lucarelli, inimigos do Bosque, Kin, Shico e personagens planejados para o universo de Tester.",
+  alternates: { canonical: "/personagens" },
   openGraph: {
     title: "Personagens | Tester",
-    description: "Conheça Rubens, Lucarelli, inimigos do Bosque e personagens futuros planejados para Tester."
+    description: "Conheça Rubens, Lucarelli, inimigos do Bosque, Kin, Shico e personagens planejados para o universo de Tester.",
+    url: "/personagens"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Personagens | Tester",
+    description: "Conheça Rubens, Lucarelli, inimigos do Bosque, Kin, Shico e personagens planejados para o universo de Tester."
   }
 };
 
