@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatedPageWrapper } from "@/components/AnimatedPageWrapper";
+import { GameGlyph } from "@/components/GameGlyph";
 import { GlowCard } from "@/components/GlowCard";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
@@ -15,11 +16,11 @@ const betaVersion = "Tester Beta 0.1";
 const hasDownloadUrl = Boolean(process.env.NEXT_PUBLIC_BETA_DOWNLOAD_URL?.trim());
 
 const betaSteps = [
-  "Acesse o painel com sua conta do beta",
-  "Baixe a versão mais recente quando ela for liberada",
-  "Jogue a demo do início ao fim",
-  "Anote bugs, pontos confusos e problemas de leitura",
-  "Envie feedback pelo formulário oficial"
+  { text: "Acesse o painel com sua conta do beta", icon: "user" as const },
+  { text: "Baixe a versão mais recente quando ela for liberada", icon: "download" as const },
+  { text: "Jogue a demo do início ao fim", icon: "map" as const },
+  { text: "Anote bugs, pontos confusos e problemas de leitura", icon: "checklist" as const },
+  { text: "Envie feedback pelo formulário oficial", icon: "feedback" as const }
 ];
 
 const playerChecklist = [
@@ -87,22 +88,28 @@ export default function DashboardPage() {
         <GlowCard>
           {isPreparationMode ? (
             <div className="space-y-4 text-sm text-slate-300">
-              <div>
-                <p className="font-medium text-amber-200">Modo de preparação ativo</p>
-                <p className="mt-2 leading-6">
-                  {supabaseSetupMessage} Para transformar esta prévia em painel privado, configure NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY na Vercel.
-                </p>
+              <div className="flex gap-4">
+                <GameGlyph name="beta" className="border-amber-200/25 bg-amber-300/10 text-amber-100" />
+                <div>
+                  <p className="font-medium text-amber-200">Modo de preparação ativo</p>
+                  <p className="mt-2 leading-6">
+                    {supabaseSetupMessage} Para transformar esta prévia em painel privado, configure NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY na Vercel.
+                  </p>
+                </div>
               </div>
               <div className="grid gap-3 sm:grid-cols-3">
                 <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+                  <GameGlyph name="build" variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
                   <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Versão</p>
                   <p className="mt-1 font-medium leading-6 text-slate-100">{betaVersion}</p>
                 </div>
                 <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+                  <GameGlyph name="user" variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
                   <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Conta</p>
                   <p className="mt-1 font-medium leading-6 text-slate-100">Prévia sem autenticação</p>
                 </div>
                 <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+                  <GameGlyph name="download" variant="plain" className="mb-2 h-5 w-5 text-amber-200" />
                   <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Download</p>
                   <p className="mt-1 font-medium leading-6 text-amber-200">{downloadStatus}</p>
                 </div>
@@ -111,14 +118,17 @@ export default function DashboardPage() {
           ) : (
             <div className="grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
               <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+                <GameGlyph name="build" variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
                 <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Versão</p>
                 <p className="mt-1 font-medium leading-6 text-white">{betaVersion}</p>
               </div>
               <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+                <GameGlyph name="user" variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
                 <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Usuário</p>
                 <p className="mt-1 break-words font-medium leading-6 text-white">{email}</p>
               </div>
               <div className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+                <GameGlyph name="status" variant="plain" className="mb-2 h-5 w-5 text-emerald-200" />
                 <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Status</p>
                 <p className="mt-1 font-medium leading-6 text-emerald-300">Autenticado</p>
               </div>
@@ -145,8 +155,9 @@ export default function DashboardPage() {
         <SectionTitle title="Instruções do beta" subtitle="Siga estes passos quando a build for liberada." />
         <div className="grid gap-3 md:grid-cols-2">
           {betaSteps.map((step) => (
-            <GlowCard key={step}>
-              <p className="text-sm leading-6 text-slate-200">{step}</p>
+            <GlowCard key={step.text} contentClassName="flex min-h-[112px] items-start gap-4">
+              <GameGlyph name={step.icon} />
+              <p className="text-sm leading-6 text-slate-200">{step.text}</p>
             </GlowCard>
           ))}
         </div>
@@ -157,7 +168,7 @@ export default function DashboardPage() {
         <GlowCard>
           <div className="space-y-3">
             {playerChecklist.map((item) => (
-              <label key={item} className="flex items-start gap-3 text-sm leading-6 text-slate-300">
+              <label key={item} className="flex items-start gap-3 rounded-lg border border-cyan-200/10 bg-black/15 px-3 py-2 text-sm leading-6 text-slate-300">
                 <input type="checkbox" className="mt-1 h-4 w-4 shrink-0 rounded border-cyan-300/30 bg-black/20" />
                 <span>{item}</span>
               </label>
@@ -169,12 +180,15 @@ export default function DashboardPage() {
       <SectionContainer withDivider>
         <GlowCard>
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-[0.14em] text-cyan-200/80">Após jogar</p>
-              <h3 className="mt-1 text-lg font-semibold text-white">Envie seu feedback</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-300">
-                Relate bugs, dificuldade, clareza do mapa, sensação de combate e qualquer ponto que tenha impedido o avanço.
-              </p>
+            <div className="flex gap-4">
+              <GameGlyph name="feedback" className="border-purple-200/25 bg-purple-300/10 text-purple-100" />
+              <div>
+                <p className="text-xs uppercase tracking-[0.14em] text-cyan-200/80">Após jogar</p>
+                <h3 className="mt-1 text-lg font-semibold text-white">Envie seu feedback</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-300">
+                  Relate bugs, dificuldade, clareza do mapa, sensação de combate e qualquer ponto que tenha impedido o avanço.
+                </p>
+              </div>
             </div>
             <div className="grid gap-3 sm:flex sm:flex-wrap">
               <GameButton href="/feedback" variant="secondary">Enviar feedback</GameButton>
