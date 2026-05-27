@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { navLinks } from "@/data/site";
 import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
+import { BetaBadge, TesterMark } from "./TesterVisualSystem";
 
 const focusClass = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200";
 const navLinkBase = `nav-link-fx rounded-lg px-3 py-2 text-sm font-medium ${focusClass}`;
@@ -46,9 +47,10 @@ export function Navbar() {
       <nav className="mx-auto max-w-6xl px-5 py-3 sm:px-6 lg:px-8" aria-label="Navegação principal">
         <div className="flex items-center justify-between">
           <Link href="/" className={`group nav-link-fx inline-flex items-center gap-3 rounded-lg ${focusClass}`}>
+            <TesterMark compact />
             <span className="text-lg font-black tracking-[0.2em] text-cyan-50 transition group-hover:text-white">TESTER</span>
-            <span className="hidden rounded border border-amber-200/30 bg-amber-300/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-amber-100 transition group-hover:border-amber-100/50 group-hover:bg-amber-300/15 sm:inline-flex">
-              Beta
+            <span className="hidden sm:inline-flex">
+              <BetaBadge>Beta</BetaBadge>
             </span>
           </Link>
 
