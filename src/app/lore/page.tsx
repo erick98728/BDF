@@ -2,70 +2,84 @@ import type { Metadata } from "next";
 import { AnimatedPageWrapper } from "@/components/AnimatedPageWrapper";
 import { GameGlyph, type GameGlyphName } from "@/components/GameGlyph";
 import { GlowCard } from "@/components/GlowCard";
+import { LoreMapPanel } from "@/components/LoreMapPanel";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
 
-const worldPillars: { title: string; text: string; icon: GameGlyphName }[] = [
+const worldPillars: { title: string; eyebrow: string; text: string; icon: GameGlyphName }[] = [
   {
-    title: "Exploração por vestígios",
+    title: "Vestígios",
+    eyebrow: "Exploração",
     icon: "ruin",
-    text: "A história não é entregue de uma vez. O jogador entende o mundo por marcas no cenário, rotas bloqueadas, encontros e pequenas pistas deixadas no Bosque."
+    text: "Marcas, rotas quebradas e símbolos incompletos sugerem uma história anterior sem explicar tudo de imediato."
   },
   {
-    title: "Técnica como linguagem",
+    title: "Técnica",
+    eyebrow: "Progressão",
     icon: "katana",
-    text: "As habilidades não servem apenas para vencer combates. Elas também revelam domínio, disciplina e novas formas de atravessar regiões antes inacessíveis."
+    text: "As habilidades mostram domínio, abrem novas leituras do mapa e mudam a forma de enfrentar o Bosque."
   },
   {
-    title: "Mistério controlado",
+    title: "Névoa",
+    eyebrow: "Atmosfera",
     icon: "fog",
-    text: "A lore preserva perguntas importantes para versões futuras, mantendo o beta focado em atmosfera, leitura de mundo e progressão inicial."
+    text: "O mistério permanece controlado, preservando perguntas importantes para versões futuras."
   }
 ];
 
-const bosqueDetails = [
-  "Névoa constante que muda a percepção de profundidade, risco e distância.",
-  "Trilhas conectadas por atalhos, retornos estratégicos e passagens que dependem de habilidade.",
-  "Criaturas hostis posicionadas para testar movimentação, tempo de ataque e leitura de arena.",
-  "Ruínas discretas, marcas antigas e símbolos incompletos que sugerem uma história anterior à chegada de Rubens.",
-  "Presença de Lucarelli como ponto de pressão narrativa e mecânica dentro da progressão do Bosque."
+const bosqueFragments: { title: string; text: string; icon: GameGlyphName }[] = [
+  { title: "Névoa constante", icon: "fog", text: "A percepção de profundidade, risco e distância nunca parece totalmente confiável." },
+  { title: "Trilhas conectadas", icon: "map", text: "Atalhos, retornos e passagens dependem de atenção e uso de habilidades." },
+  { title: "Ruínas discretas", icon: "ruin", text: "Marcas antigas indicam que o Bosque já tinha um propósito antes da chegada de Rubens." },
+  { title: "Presenças hostis", icon: "enemy", text: "Criaturas e bloqueios ensinam ritmo, leitura de arena e cuidado com avanço apressado." }
 ];
 
-const techniques: { title: string; tag: string; text: string; icon: GameGlyphName }[] = [
+const techniques: { title: string; tag: string; text: string; icon: GameGlyphName; accent: string }[] = [
   {
     title: "Katana",
     tag: "Combate",
     icon: "katana",
-    text: "A base do confronto direto. Representa precisão, controle de espaço e decisão rápida contra inimigos do Bosque."
+    accent: "border-cyan-200/20 bg-cyan-300/10 text-cyan-100",
+    text: "Base do confronto direto. Foca precisão, controle de espaço e decisão rápida contra ameaças do Bosque."
   },
   {
     title: "Dash",
     tag: "Mobilidade",
     icon: "dash",
-    text: "Uma técnica de avanço curto que transforma a leitura do mapa, permite novas rotas e muda a forma de lidar com perigos."
+    accent: "border-purple-200/20 bg-purple-300/10 text-purple-100",
+    text: "Avanço curto que muda a leitura do mapa, permite novas rotas e altera a forma de atravessar perigos."
+  },
+  {
+    title: "Leitura de rotas",
+    tag: "Exploração",
+    icon: "map",
+    accent: "border-amber-200/20 bg-amber-300/10 text-amber-100",
+    text: "A progressão depende de observar bloqueios, retornar a pontos antigos e entender o caminho além da névoa."
   },
   {
     title: "Técnicas futuras",
     tag: "Bloqueado",
     icon: "future",
-    text: "Habilidades ainda em desenvolvimento, planejadas para ampliar exploração, combate e segredos sem antecipar spoilers da jornada."
+    accent: "border-slate-200/15 bg-white/5 text-slate-100",
+    text: "Habilidades ainda em desenvolvimento, reservadas para ampliar combate e segredos sem antecipar spoilers."
   }
 ];
 
-const timeline = [
-  { title: "Antes da Névoa", icon: "lore" as const, text: "Registros antigos citam um bosque vivo, usado como espaço de travessia, treino e observação silenciosa." },
-  { title: "O avanço da corrupção", icon: "fog" as const, text: "A névoa se adensa, criaturas surgem em rotas críticas e as marcas do ambiente começam a perder sentido claro." },
-  { title: "A chegada de Rubens", icon: "katana" as const, text: "Rubens entra na região sem todas as respostas, guiado por técnica, instinto e necessidade de avançar." },
-  { title: "O bloqueio de Lucarelli", icon: "boss" as const, text: "Lucarelli ocupa um ponto decisivo do Bosque, funcionando como obstáculo, teste e sinal de que há algo maior além da primeira área." },
-  { title: "O caminho além do Dash", icon: "dash" as const, text: "Com a nova mobilidade, rotas antes fechadas passam a fazer sentido, mas nem toda passagem revela imediatamente o que procura esconder." }
+const timeline: { title: string; label: string; icon: GameGlyphName; text: string }[] = [
+  { title: "Antes da Névoa", label: "Registro 01", icon: "lore", text: "Fragmentos antigos mencionam um bosque usado como passagem, treino e observação silenciosa." },
+  { title: "Sinais quebrados", label: "Registro 02", icon: "ruin", text: "Marcas no ambiente começam a perder sentido claro, como se parte da memória do lugar tivesse sido apagada." },
+  { title: "Névoa em avanço", label: "Registro 03", icon: "fog", text: "A região fica mais densa, hostil e incerta. Caminhos simples passam a exigir leitura e retorno." },
+  { title: "A chegada de Rubens", label: "Registro 04", icon: "katana", text: "Rubens entra sem todas as respostas, guiado por técnica, instinto e necessidade de avançar." },
+  { title: "O bloqueio de Lucarelli", label: "Registro 05", icon: "boss", text: "Uma presença impede a passagem e transforma a progressão em teste de domínio, não apenas força." },
+  { title: "Depois do Dash", label: "Registro 06", icon: "dash", text: "Rotas antes fechadas passam a fazer sentido, mas nem toda passagem revela o que realmente esconde." }
 ];
 
 const mysteries = [
   "Quem ou o que mantém a névoa ativa?",
-  "Por que Lucarelli protege uma passagem ligada ao Dash?",
-  "O Bosque foi abandonado ou está sendo guardado?",
-  "Até onde as técnicas de Rubens podem evoluir?"
+  "Por que algumas rotas parecem ter sido apagadas?",
+  "Lucarelli protege uma passagem ou impede algo de sair?",
+  "O Bosque foi abandonado, guardado ou esquecido?"
 ];
 
 export const metadata: Metadata = {
@@ -87,92 +101,104 @@ export default function LorePage() {
 
       <SectionContainer>
         <SectionTitle title="Mundo" subtitle="Um universo em desenvolvimento, construído por fragmentos, silêncio e descoberta." />
-        <GlowCard>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-            <GameGlyph name="lore" />
-            <div className="space-y-4 text-slate-300">
-              <p>
-                Tester acontece em um cenário marcado por ruínas, disciplina de combate e uma força ambiental que altera caminhos,
-                criaturas e memórias. A narrativa é fragmentada de propósito: em vez de explicar tudo diretamente, o jogo convida o
-                jogador a observar o cenário e montar suas próprias conexões.
-              </p>
-              <p>
-                A primeira fase da história acompanha Rubens entrando em uma região tomada por névoa, onde cada nova técnica abre uma
-                possibilidade de avanço, mas também revela que o Bosque guarda regras antigas e perigos ainda pouco compreendidos.
-              </p>
-            </div>
-          </div>
-        </GlowCard>
-      </SectionContainer>
-
-      <SectionContainer withDivider>
-        <SectionTitle title="Pilares narrativos" subtitle="Como o mundo de Tester deve ser sentido durante a exploração." />
-        <div className="grid gap-4 md:grid-cols-3">
-          {worldPillars.map((pillar) => (
-            <GlowCard key={pillar.title} contentClassName="flex min-h-[190px] flex-col">
-              <div className="mb-4 flex items-start justify-between gap-3">
-                <h3 className="text-lg font-semibold text-white">{pillar.title}</h3>
-                <GameGlyph name={pillar.icon} />
+        <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch">
+          <GlowCard contentClassName="flex h-full flex-col justify-between">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+              <GameGlyph name="lore" className="h-12 w-12" />
+              <div>
+                <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">Arquivo da névoa</p>
+                <h2 className="mt-2 text-2xl font-bold text-white">Uma história contada por sinais.</h2>
+                <p className="mt-3 text-sm leading-6 text-slate-300 sm:text-base sm:leading-7">
+                  Tester acontece em um cenário marcado por ruínas, disciplina de combate e uma força ambiental que altera caminhos, criaturas e memórias.
+                </p>
               </div>
-              <p className="mt-auto text-sm leading-6 text-slate-300">{pillar.text}</p>
-            </GlowCard>
-          ))}
+            </div>
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              {worldPillars.map((pillar) => (
+                <div key={pillar.title} className="rounded-xl border border-cyan-200/10 bg-black/20 px-4 py-3">
+                  <div className="mb-3 flex items-center justify-between gap-3">
+                    <p className="text-[10px] uppercase tracking-[0.16em] text-cyan-200/70">{pillar.eyebrow}</p>
+                    <GameGlyph name={pillar.icon} variant="plain" className="h-5 w-5 text-cyan-100" />
+                  </div>
+                  <h3 className="text-base font-semibold text-white">{pillar.title}</h3>
+                  <p className="mt-2 text-xs leading-5 text-slate-400">{pillar.text}</p>
+                </div>
+              ))}
+            </div>
+          </GlowCard>
+
+          <GlowCard contentClassName="flex h-full flex-col justify-center">
+            <p className="text-xs uppercase tracking-[0.18em] text-amber-200/80">Tom narrativo</p>
+            <h3 className="mt-2 text-xl font-semibold text-white">Nada é explicado cedo demais.</h3>
+            <p className="mt-3 text-sm leading-6 text-slate-300">
+              A lore preserva perguntas importantes para versões futuras. A fase beta foca em atmosfera, leitura do mundo e progressão inicial dentro do Bosque.
+            </p>
+            <div className="mt-5 rounded-xl border border-amber-200/10 bg-amber-300/5 px-4 py-3 text-sm leading-6 text-amber-50/90">
+              O objetivo é sugerir, não revelar tudo.
+            </div>
+          </GlowCard>
         </div>
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Bosque da Névoa Perdida" subtitle="Primeira região explorável, densa, conectada e perigosa." />
-        <GlowCard>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-            <GameGlyph name="fog" className="border-cyan-200/25 bg-cyan-300/10 text-cyan-100" />
-            <div>
-              <p className="mb-4 text-sm leading-6 text-slate-300">
-                O Bosque da Névoa Perdida é a porta de entrada do jogador no universo de Tester. Ele precisa parecer antigo, hostil e
-                legível ao mesmo tempo, com rotas que ensinam movimentação, combate, retorno e uso de habilidades desbloqueáveis.
-              </p>
-              <ul className="grid gap-2 text-sm text-slate-300">
-                {bosqueDetails.map((detail) => (
-                  <li key={detail} className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2">{detail}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </GlowCard>
+        <SectionTitle title="Bosque da Névoa Perdida" subtitle="Mapa simbólico da primeira região, feito para ambientação e leitura visual, não como mapa real completo." />
+        <LoreMapPanel />
+      </SectionContainer>
+
+      <SectionContainer withDivider>
+        <SectionTitle title="Fragmentos do Bosque" subtitle="Elementos de ambientação que sustentam o mistério da região inicial." />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {bosqueFragments.map((fragment) => (
+            <GlowCard key={fragment.title} contentClassName="flex min-h-[172px] flex-col">
+              <div className="mb-4 flex items-start justify-between gap-3">
+                <h3 className="text-base font-semibold text-white">{fragment.title}</h3>
+                <GameGlyph name={fragment.icon} />
+              </div>
+              <p className="mt-auto text-sm leading-6 text-slate-300">{fragment.text}</p>
+            </GlowCard>
+          ))}
+        </div>
       </SectionContainer>
 
       <SectionContainer withDivider>
         <SectionTitle title="Técnicas" subtitle="Poder, mobilidade e progressão apresentados sem revelar toda a jornada." />
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {techniques.map((technique) => (
-            <GlowCard key={technique.title} contentClassName="flex min-h-[174px] flex-col">
-              <div className="mb-4 flex items-center justify-between gap-3">
-                <p className="text-xs uppercase tracking-[0.14em] text-cyan-200/80">{technique.tag}</p>
-                <GameGlyph name={technique.icon} />
+            <GlowCard key={technique.title} contentClassName="flex min-h-[210px] flex-col">
+              <div className="mb-4 flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.14em] text-cyan-200/80">{technique.tag}</p>
+                  <h3 className="mt-2 text-lg font-semibold text-white">{technique.title}</h3>
+                </div>
+                <GameGlyph name={technique.icon} className={technique.accent} />
               </div>
-              <h3 className="text-lg font-semibold text-white">{technique.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-300">{technique.text}</p>
+              <p className="mt-auto text-sm leading-6 text-slate-300">{technique.text}</p>
             </GlowCard>
           ))}
         </div>
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Linha do tempo" subtitle="Eventos vagos para preservar o mistério do enredo." />
-        <div className="space-y-4">
-          {timeline.map((item, index) => (
-            <GlowCard key={item.title}>
-              <div className="flex gap-4">
-                <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-cyan-200/30 bg-cyan-300/10 text-xs text-cyan-200">
-                  {index + 1}
+        <SectionTitle title="Linha do tempo" subtitle="Eventos vagos e atmosféricos, preservando mistério e evitando spoilers grandes." />
+        <div className="relative">
+          <div className="absolute bottom-0 left-4 top-0 hidden w-px bg-gradient-to-b from-transparent via-cyan-200/18 to-transparent md:block" />
+          <div className="grid gap-4">
+            {timeline.map((item, index) => (
+              <GlowCard key={item.title}>
+                <div className="flex gap-4 md:items-start">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-cyan-200/20 bg-cyan-300/10 text-xs font-semibold text-cyan-100">
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+                  <GameGlyph name={item.icon} className="hidden h-10 w-10 sm:inline-flex" />
+                  <div className="min-w-0">
+                    <p className="text-xs uppercase tracking-[0.16em] text-cyan-200/70">{item.label}</p>
+                    <h3 className="mt-1 text-lg font-semibold text-white">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-300">{item.text}</p>
+                  </div>
                 </div>
-                <GameGlyph name={item.icon} className="hidden h-9 w-9 sm:inline-flex" />
-                <div>
-                  <h3 className="text-base font-semibold text-white">{item.title}</h3>
-                  <p className="mt-1 text-sm leading-6 text-slate-300">{item.text}</p>
-                </div>
-              </div>
-            </GlowCard>
-          ))}
+              </GlowCard>
+            ))}
+          </div>
         </div>
       </SectionContainer>
 
