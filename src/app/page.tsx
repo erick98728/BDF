@@ -12,17 +12,17 @@ import { characters, devlogs, homeFeatures, homePillars } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Início",
-  description: "Portal oficial de Tester, metroidvania 2D sombrio com beta, lore, personagens e devlog de desenvolvimento.",
+  description: "Portal oficial de Tester, metroidvania 2D sombrio em desenvolvimento com beta fechado, lore, personagens, galeria, devlog e feedback.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Início | Tester",
-    description: "Portal oficial de Tester, metroidvania 2D sombrio com beta, lore, personagens e devlog de desenvolvimento.",
+    title: "Tester | Site Oficial do Jogo Indie",
+    description: "Portal oficial de Tester, metroidvania 2D sombrio em desenvolvimento com beta fechado, lore, personagens, galeria, devlog e feedback.",
     url: "/"
   },
   twitter: {
-    card: "summary",
-    title: "Tester | Site Oficial",
-    description: "Portal oficial de Tester, metroidvania 2D sombrio com beta, lore, personagens e devlog de desenvolvimento."
+    card: "summary_large_image",
+    title: "Tester | Site Oficial do Jogo Indie",
+    description: "Portal oficial de Tester, metroidvania 2D sombrio em desenvolvimento com beta fechado, lore, personagens, galeria, devlog e feedback."
   }
 };
 
