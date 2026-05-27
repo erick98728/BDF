@@ -1,5 +1,7 @@
+import { GameGlyph } from "./GameGlyph";
 import { GlowCard } from "./GlowCard";
 import { GameButton } from "./GameButton";
+import { BetaBadge, StatusBadge, type TesterStatus } from "./TesterVisualSystem";
 
 type ProtectedDownloadCardProps = {
   isAuthenticated: boolean;
@@ -21,17 +23,8 @@ export function ProtectedDownloadCard({ isAuthenticated, preparationMode = false
         ? "Prévia do download"
         : "Login necessário";
 
-  const statusClass = canDownload
-    ? "border-emerald-200/25 bg-emerald-300/10 text-emerald-200"
-    : isWaitingForLink
-      ? "border-amber-200/25 bg-amber-300/10 text-amber-200"
-      : "border-cyan-200/25 bg-cyan-300/10 text-cyan-200";
-
-  const textStatusClass = canDownload
-    ? "text-emerald-200"
-    : isWaitingForLink
-      ? "text-amber-200"
-      : "text-cyan-200";
+  const statusType: TesterStatus = canDownload ? "ready" : isWaitingForLink ? "warning" : preparationMode ? "beta" : "locked";
+  const textStatusClass = canDownload ? "text-emerald-200" : isWaitingForLink ? "text-amber-200" : "text-cyan-200";
 
   const title = canDownload
     ? "Tester Beta 0.1 disponível"
@@ -50,28 +43,34 @@ export function ProtectedDownloadCard({ isAuthenticated, preparationMode = false
         : "Entre com sua conta de beta tester para visualizar o status da build e acessar o download quando ele estiver liberado.";
 
   return (
-    <GlowCard>
-      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-        <div>
-          <p className="text-xs uppercase tracking-[0.14em] text-cyan-200/80">Tester Beta</p>
-          <h3 className="mt-1 text-xl font-semibold text-white">{title}</h3>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">{description}</p>
+    <GlowCard variant="status">
+      <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
+        <div className="flex gap-4">
+          <GameGlyph name="download" className={canDownload ? "border-emerald-200/25 bg-emerald-300/10 text-emerald-100" : "border-amber-200/25 bg-amber-300/10 text-amber-100"} />
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <BetaBadge>Build oficial</BetaBadge>
+              <StatusBadge status={statusType}>{status}</StatusBadge>
+            </div>
+            <h3 className="mt-3 text-xl font-semibold text-white">{title}</h3>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">{description}</p>
+          </div>
         </div>
-        <span className={`status-chip w-fit rounded-full border px-3 py-1 text-xs font-semibold ${statusClass}`}>
-          {status}
-        </span>
       </div>
 
       <div className="mt-5 grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
         <div className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+          <GameGlyph name="build" variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
           <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Build</p>
           <p className="mt-1 font-medium text-white">Tester Beta 0.1</p>
         </div>
         <div className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+          <GameGlyph name="platform" variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
           <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Plataforma</p>
           <p className="mt-1 font-medium text-white">Windows</p>
         </div>
         <div className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+          <GameGlyph name="status" variant="plain" className={`mb-2 h-5 w-5 ${textStatusClass}`} />
           <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Arquivo</p>
           <p className={`mt-1 font-medium ${textStatusClass}`}>{hasDownloadUrl ? "Link configurado" : "Sem link público"}</p>
         </div>
@@ -95,7 +94,7 @@ export function ProtectedDownloadCard({ isAuthenticated, preparationMode = false
         </div>
       )}
 
-      <p className="mt-3 text-xs leading-5 text-slate-400">
+      <p className="mt-4 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs leading-5 text-slate-400">
         O executável do jogo não fica no GitHub. O site apenas lê o link configurado em NEXT_PUBLIC_BETA_DOWNLOAD_URL ou, futuramente, uma URL assinada de storage privado.
       </p>
     </GlowCard>
