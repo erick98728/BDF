@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BetaBadge, TesterMark } from "./TesterVisualSystem";
 
 const footerLinks = [
   ["Home", "/"],
@@ -18,11 +19,19 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-7 md:grid-cols-[1.2fr_1.8fr] md:items-start">
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.2em] text-cyan-50">Tester Studio</p>
-            <p className="mt-2 text-xs uppercase tracking-[0.16em] text-cyan-200/80">Toda névoa guarda uma verdade</p>
+            <div className="flex items-center gap-3">
+              <TesterMark compact />
+              <div>
+                <p className="text-sm font-black uppercase tracking-[0.2em] text-cyan-50">Tester Studio</p>
+                <p className="mt-1 text-xs uppercase tracking-[0.16em] text-cyan-200/80">Toda névoa guarda uma verdade</p>
+              </div>
+            </div>
             <p className="mt-4 max-w-sm text-sm leading-6 text-slate-300">
               Site oficial do metroidvania 2D Tester, reunindo beta, lore, devlog e feedback da comunidade.
             </p>
+            <div className="mt-4">
+              <BetaBadge />
+            </div>
           </div>
 
           <div className="md:text-right">
