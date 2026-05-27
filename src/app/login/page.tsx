@@ -9,7 +9,7 @@ import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
 import { supabase, isSupabaseConfigured, supabaseSetupMessage } from "@/lib/supabaseClient";
 
-const fieldClass = "min-h-11 w-full rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-cyan-200/45 focus:bg-black/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200";
+const fieldClass = "min-h-11 w-full rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 hover:border-cyan-200/30 hover:bg-black/25 focus:border-cyan-200/45 focus:bg-black/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -72,11 +72,11 @@ export default function LoginPage() {
         />
         <GlowCard>
           {!isSupabaseConfigured ? (
-            <div className="mb-5 rounded-lg border border-amber-200/20 bg-amber-300/10 px-4 py-3 text-sm leading-6 text-amber-100" role="status">
+            <div className="status-chip mb-5 rounded-lg border border-amber-200/20 bg-amber-300/10 px-4 py-3 text-sm leading-6 text-amber-100" role="status">
               {supabaseSetupMessage} Configure as variáveis NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY na Vercel para ativar contas reais.
             </div>
           ) : (
-            <div className="mb-5 rounded-lg border border-emerald-200/20 bg-emerald-300/10 px-4 py-3 text-sm leading-6 text-emerald-100" role="status">
+            <div className="status-chip mb-5 rounded-lg border border-emerald-200/20 bg-emerald-300/10 px-4 py-3 text-sm leading-6 text-emerald-100" role="status">
               Autenticação pronta para uso. Entre ou crie uma conta para acessar o painel do beta.
             </div>
           )}
@@ -84,8 +84,8 @@ export default function LoginPage() {
             A conta serve para identificar beta testers, liberar o dashboard privado e organizar o acesso ao download da build quando ela estiver disponível.
           </p>
           <div className="mb-5 grid grid-cols-2 gap-2 sm:inline-grid" role="tablist" aria-label="Modo do formulário de conta">
-            <button type="button" onClick={() => setMode("login")} aria-pressed={mode === "login"} className={`min-h-11 rounded-lg px-3 py-2 text-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 ${mode === "login" ? "bg-cyan-300/15 text-cyan-100" : "text-slate-300 hover:bg-white/5"}`}>Entrar</button>
-            <button type="button" onClick={() => setMode("signup")} aria-pressed={mode === "signup"} className={`min-h-11 rounded-lg px-3 py-2 text-sm transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 ${mode === "signup" ? "bg-cyan-300/15 text-cyan-100" : "text-slate-300 hover:bg-white/5"}`}>Criar conta</button>
+            <button type="button" onClick={() => setMode("login")} aria-pressed={mode === "login"} className={`tester-button min-h-11 rounded-lg border px-3 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 ${mode === "login" ? "border-cyan-200/30 bg-cyan-300/15 text-cyan-100" : "border-white/10 text-slate-300 hover:bg-white/5"}`}>Entrar</button>
+            <button type="button" onClick={() => setMode("signup")} aria-pressed={mode === "signup"} className={`tester-button min-h-11 rounded-lg border px-3 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 ${mode === "signup" ? "border-cyan-200/30 bg-cyan-300/15 text-cyan-100" : "border-white/10 text-slate-300 hover:bg-white/5"}`}>Criar conta</button>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4" aria-describedby="login-help">
             <p id="login-help" className="sr-only">Informe e-mail e senha para entrar ou criar uma conta do beta.</p>
@@ -97,12 +97,12 @@ export default function LoginPage() {
               Senha
               <input id="login-password" value={password} onChange={(e) => setPassword(e.target.value)} type="password" autoComplete={mode === "login" ? "current-password" : "new-password"} required placeholder="Digite sua senha" className={`${fieldClass} mt-1`} />
             </label>
-            <button disabled={loading} className="min-h-11 w-full rounded-lg border border-cyan-300/40 bg-cyan-300/15 px-4 py-2 text-sm font-medium text-cyan-100 transition disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 sm:w-auto">
+            <button disabled={loading} className="tester-button min-h-11 w-full rounded-lg border border-cyan-300/40 bg-cyan-300/15 px-4 py-2 text-sm font-medium text-cyan-100 hover:border-cyan-200/60 hover:bg-cyan-300/20 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 sm:w-auto">
               {loading ? "Processando..." : mode === "login" ? "Entrar no beta" : "Criar conta do beta"}
             </button>
           </form>
-          {error ? <p className="mt-4 text-sm leading-6 text-red-300" role="alert">{error}</p> : null}
-          {message ? <p className="mt-4 text-sm leading-6 text-emerald-300" role="status">{message}</p> : null}
+          {error ? <p className="status-chip mt-4 rounded-lg border border-red-300/20 bg-red-400/10 px-3 py-2 text-sm leading-6 text-red-300" role="alert">{error}</p> : null}
+          {message ? <p className="status-chip mt-4 rounded-lg border border-emerald-300/20 bg-emerald-400/10 px-3 py-2 text-sm leading-6 text-emerald-300" role="status">{message}</p> : null}
         </GlowCard>
       </SectionContainer>
     </AnimatedPageWrapper>
