@@ -43,17 +43,17 @@ const changelogItems: { text: string; icon: GameGlyphName }[] = [
 
 export const metadata: Metadata = {
   title: "Download",
-  description: "Acompanhe o status do beta de Tester, requisitos preliminares e acesso controlado ao download para Windows.",
+  description: "Painel oficial de download do beta de Tester para Windows, com status da build, requisitos preliminares e acesso controlado por link oficial.",
   alternates: { canonical: "/download" },
   openGraph: {
     title: "Download | Tester",
-    description: "Acompanhe o status do beta de Tester, requisitos preliminares e acesso controlado ao download para Windows.",
+    description: "Painel oficial de download do beta de Tester para Windows, com status da build, requisitos preliminares e acesso controlado por link oficial.",
     url: "/download"
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Download | Tester",
-    description: "Acompanhe o status do beta de Tester, requisitos preliminares e acesso controlado ao download para Windows."
+    description: "Painel oficial de download do beta de Tester para Windows, com status da build, requisitos preliminares e acesso controlado por link oficial."
   }
 };
 
