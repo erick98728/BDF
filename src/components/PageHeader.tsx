@@ -7,7 +7,7 @@ export function PageHeader({ title, description }: { title: string; description:
       <div className="absolute right-0 top-8 hidden opacity-55 sm:block">
         <TesterMark />
       </div>
-      <div className="absolute left-0 top-8 h-28 w-28 rounded-full bg-cyan-300/8 blur-2xl" />
+      <div className="absolute left-0 top-8 h-28 w-28 rounded-full bg-cyan-300/[0.08] blur-2xl" />
       <div className="relative z-10 max-w-3xl">
         <p className="tester-kicker">Arquivo da Névoa</p>
         <h1 className="mt-4 text-4xl font-black tracking-wide text-white drop-shadow-[0_0_22px_rgba(99,221,255,0.12)] sm:text-5xl md:text-6xl">{title}</h1>
