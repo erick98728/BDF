@@ -11,6 +11,12 @@ export const navLinks = [
   { href: "/login", label: "Login" }
 ];
 
+export const homePillars: { title: string; eyebrow: string; description: string; icon: GameGlyphName }[] = [
+  { title: "Explorar", eyebrow: "Mapa", icon: "map", description: "Rotas conectadas, atalhos e retornos que fazem o Bosque parecer vivo." },
+  { title: "Dominar", eyebrow: "Técnica", icon: "katana", description: "Combate de precisão com katana, leitura de distância e uso consciente do Dash." },
+  { title: "Investigar", eyebrow: "Mistério", icon: "ruin", description: "Ruínas, símbolos e névoa contam a história sem explicar tudo de imediato." }
+];
+
 export const homeFeatures: { title: string; description: string; icon: GameGlyphName }[] = [
   { title: "Exploração interconectada", icon: "map", description: "Mapas com caminhos que se conectam, atalhos e segredos que recompensam observação." },
   { title: "Combate com katana", icon: "katana", description: "Confrontos de precisão com leitura de tempo, distância e postura dos inimigos." },
