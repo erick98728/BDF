@@ -1,42 +1,43 @@
 import type { Metadata } from "next";
 import { AnimatedPageWrapper } from "@/components/AnimatedPageWrapper";
 import { GameButton } from "@/components/GameButton";
+import { GameGlyph, type GameGlyphName } from "@/components/GameGlyph";
 import { GlowCard } from "@/components/GlowCard";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
 
-const betaStatus = [
-  { label: "Versão atual", value: "Tester Beta 0.1" },
-  { label: "Plataforma", value: "Windows" },
-  { label: "Estado", value: "Preparação para beta fechado" },
-  { label: "Arquivo", value: "Não versionado no GitHub" },
-  { label: "Download", value: "Liberado somente quando houver link oficial" },
-  { label: "Feedback", value: "Obrigatório para orientar melhorias" }
+const betaStatus: { label: string; value: string; icon: GameGlyphName }[] = [
+  { label: "Versão atual", value: "Tester Beta 0.1", icon: "build" },
+  { label: "Plataforma", value: "Windows", icon: "platform" },
+  { label: "Estado", value: "Preparação para beta fechado", icon: "status" },
+  { label: "Arquivo", value: "Não versionado no GitHub", icon: "download" },
+  { label: "Download", value: "Liberado somente quando houver link oficial", icon: "download" },
+  { label: "Feedback", value: "Obrigatório para orientar melhorias", icon: "feedback" }
 ];
 
-const minimumRequirements = [
-  { item: "Sistema", value: "Windows 10 ou superior" },
-  { item: "Processador", value: "Preliminar, será definido após testes em PCs reais" },
-  { item: "Memória", value: "Preliminar, será ajustada conforme desempenho da build" },
-  { item: "Placa de vídeo", value: "Preliminar, depende dos testes de iluminação e efeitos" },
-  { item: "Armazenamento", value: "Será informado junto com o arquivo oficial da build" }
+const minimumRequirements: { item: string; value: string; icon: GameGlyphName }[] = [
+  { item: "Sistema", value: "Windows 10 ou superior", icon: "platform" },
+  { item: "Processador", value: "Preliminar, será definido após testes em PCs reais", icon: "requirement" },
+  { item: "Memória", value: "Preliminar, será ajustada conforme desempenho da build", icon: "requirement" },
+  { item: "Placa de vídeo", value: "Preliminar, depende dos testes de iluminação e efeitos", icon: "fog" },
+  { item: "Armazenamento", value: "Será informado junto com o arquivo oficial da build", icon: "download" }
 ];
 
-const betaGuidelines = [
-  "Jogue a demo do início ao fim, sem pular áreas importantes.",
-  "Anote problemas de movimentação, combate, câmera, iluminação e leitura do mapa.",
-  "Informe onde parou, quanto tempo jogou e se encontrou algum bloqueio de progressão.",
-  "Envie feedback mesmo que não encontre bugs, porque ritmo e clareza também precisam ser avaliados."
+const betaGuidelines: { text: string; icon: GameGlyphName }[] = [
+  { text: "Jogue a demo do início ao fim, sem pular áreas importantes.", icon: "map" },
+  { text: "Anote problemas de movimentação, combate, câmera, iluminação e leitura do mapa.", icon: "checklist" },
+  { text: "Informe onde parou, quanto tempo jogou e se encontrou algum bloqueio de progressão.", icon: "status" },
+  { text: "Envie feedback mesmo que não encontre bugs, porque ritmo e clareza também precisam ser avaliados.", icon: "feedback" }
 ];
 
-const changelogItems = [
-  "Mapa expandido do Bosque da Névoa Perdida",
-  "Sistema de Dash e rotas pós-Dash",
-  "Confronto com Lucarelli",
-  "Checkpoints e respawn básico",
-  "HUD inicial de vida e progresso",
-  "Área de validação para fim da demo"
+const changelogItems: { text: string; icon: GameGlyphName }[] = [
+  { text: "Mapa expandido do Bosque da Névoa Perdida", icon: "map" },
+  { text: "Sistema de Dash e rotas pós-Dash", icon: "dash" },
+  { text: "Confronto com Lucarelli", icon: "boss" },
+  { text: "Checkpoints e respawn básico", icon: "status" },
+  { text: "HUD inicial de vida e progresso", icon: "beta" },
+  { text: "Área de validação para fim da demo", icon: "content" }
 ];
 
 export const metadata: Metadata = {
@@ -69,6 +70,7 @@ export default function DownloadPage() {
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {betaStatus.map((entry) => (
               <div key={entry.label} className="rounded-xl border border-cyan-200/10 bg-black/15 px-4 py-3">
+                <GameGlyph name={entry.icon} variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
                 <p className="text-xs uppercase tracking-[0.12em] text-cyan-200/80">{entry.label}</p>
                 <p className="mt-1 text-sm font-medium leading-6 text-slate-100">{entry.value}</p>
               </div>
@@ -80,14 +82,17 @@ export default function DownloadPage() {
       <SectionContainer withDivider>
         <SectionTitle title="Como o download será liberado" subtitle="O arquivo do jogo não fica no repositório e só aparece no dashboard quando houver link oficial." />
         <GlowCard>
-          <div className="space-y-4 text-sm leading-6 text-slate-300">
-            <p>
-              A distribuição atual foi pensada para um beta fechado. O jogador entra com uma conta, acessa o dashboard e, quando a variável
-              <span className="break-words font-semibold text-cyan-100"> NEXT_PUBLIC_BETA_DOWNLOAD_URL</span> estiver configurada, o botão de download da build aparece automaticamente.
-            </p>
-            <p>
-              Enquanto o link não estiver ativo, o site mostra o estado Download em preparação. Isso evita página quebrada e deixa claro que a build ainda não foi liberada.
-            </p>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+            <GameGlyph name="download" className="border-amber-200/25 bg-amber-300/10 text-amber-100" />
+            <div className="space-y-4 text-sm leading-6 text-slate-300">
+              <p>
+                A distribuição atual foi pensada para um beta fechado. O jogador entra com uma conta, acessa o dashboard e, quando a variável
+                <span className="break-words font-semibold text-cyan-100"> NEXT_PUBLIC_BETA_DOWNLOAD_URL</span> estiver configurada, o botão de download da build aparece automaticamente.
+              </p>
+              <p>
+                Enquanto o link não estiver ativo, o site mostra o estado Download em preparação. Isso evita página quebrada e deixa claro que a build ainda não foi liberada.
+              </p>
+            </div>
           </div>
           <div className="mt-5 grid gap-3 sm:flex sm:flex-wrap">
             <GameButton href="/login">Entrar para baixar</GameButton>
@@ -102,6 +107,7 @@ export default function DownloadPage() {
           <div className="grid gap-3 text-sm md:hidden">
             {minimumRequirements.map((req) => (
               <div key={req.item} className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+                <GameGlyph name={req.icon} variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
                 <p className="text-xs uppercase tracking-[0.12em] text-slate-400">{req.item}</p>
                 <p className="mt-1 leading-6 text-slate-300">{req.value}</p>
               </div>
@@ -112,7 +118,12 @@ export default function DownloadPage() {
               <tbody>
                 {minimumRequirements.map((req) => (
                   <tr key={req.item} className="border-b border-cyan-200/10 last:border-none">
-                    <th className="w-1/3 px-3 py-3 text-left font-semibold text-slate-200">{req.item}</th>
+                    <th className="w-1/3 px-3 py-3 text-left font-semibold text-slate-200">
+                      <span className="inline-flex items-center gap-2">
+                        <GameGlyph name={req.icon} variant="plain" className="h-4 w-4 text-cyan-200" />
+                        {req.item}
+                      </span>
+                    </th>
                     <td className="px-3 py-3 text-slate-300">{req.value}</td>
                   </tr>
                 ))}
@@ -125,12 +136,15 @@ export default function DownloadPage() {
       <SectionContainer withDivider>
         <SectionTitle title="Aviso de beta" subtitle="A build será usada para encontrar problemas antes de qualquer divulgação maior." />
         <GlowCard>
-          <ul className="list-disc space-y-2 pl-5 text-sm leading-6 text-slate-300">
-            <li>Tester ainda está em desenvolvimento ativo.</li>
-            <li>A versão beta pode conter bugs, travamentos, áreas incompletas, ajustes de ritmo e mudanças de balanceamento.</li>
-            <li>O feedback dos testers será usado para melhorar gameplay, estabilidade, clareza visual, mapa e dificuldade.</li>
-            <li>A Beta 0.1 não representa o produto final.</li>
-          </ul>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+            <GameGlyph name="beta" className="border-amber-200/25 bg-amber-300/10 text-amber-100" />
+            <ul className="list-disc space-y-2 pl-5 text-sm leading-6 text-slate-300">
+              <li>Tester ainda está em desenvolvimento ativo.</li>
+              <li>A versão beta pode conter bugs, travamentos, áreas incompletas, ajustes de ritmo e mudanças de balanceamento.</li>
+              <li>O feedback dos testers será usado para melhorar gameplay, estabilidade, clareza visual, mapa e dificuldade.</li>
+              <li>A Beta 0.1 não representa o produto final.</li>
+            </ul>
+          </div>
         </GlowCard>
       </SectionContainer>
 
@@ -138,8 +152,9 @@ export default function DownloadPage() {
         <SectionTitle title="Como testar" subtitle="Guia rápido para quem receber acesso à build." />
         <div className="grid gap-3 md:grid-cols-2">
           {betaGuidelines.map((item) => (
-            <GlowCard key={item}>
-              <p className="text-sm leading-6 text-slate-200">{item}</p>
+            <GlowCard key={item.text} contentClassName="flex min-h-[112px] items-start gap-4">
+              <GameGlyph name={item.icon} />
+              <p className="text-sm leading-6 text-slate-200">{item.text}</p>
             </GlowCard>
           ))}
         </div>
@@ -149,8 +164,9 @@ export default function DownloadPage() {
         <SectionTitle title="Conteúdo previsto na Beta 0.1" subtitle="Resumo das entregas que devem ser avaliadas pelos testers." />
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {changelogItems.map((item) => (
-            <GlowCard key={item}>
-              <p className="text-sm leading-6 text-slate-200">{item}</p>
+            <GlowCard key={item.text} contentClassName="flex min-h-[112px] items-start gap-4">
+              <GameGlyph name={item.icon} />
+              <p className="text-sm leading-6 text-slate-200">{item.text}</p>
             </GlowCard>
           ))}
         </div>
