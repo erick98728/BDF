@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Feedback",
-  description: "Envie sua experiência com o beta de Tester, incluindo progresso, notas e sugestões de melhoria.",
+  description: "Canal oficial para enviar feedback do beta de Tester, incluindo progresso, notas, bugs e sugestões de melhoria.",
   alternates: { canonical: "/feedback" },
   openGraph: {
     title: "Feedback | Tester",
-    description: "Envie sua experiência com o beta de Tester, incluindo progresso, notas e sugestões de melhoria.",
+    description: "Canal oficial para enviar feedback do beta de Tester, incluindo progresso, notas, bugs e sugestões de melhoria.",
     url: "/feedback"
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Feedback | Tester",
-    description: "Envie sua experiência com o beta de Tester, incluindo progresso, notas e sugestões de melhoria."
+    description: "Canal oficial para enviar feedback do beta de Tester, incluindo progresso, notas, bugs e sugestões de melhoria."
   }
 };
 
