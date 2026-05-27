@@ -19,34 +19,34 @@ type VisualStyle = {
 
 const visualStyles: Record<GalleryVisualKind, VisualStyle> = {
   screenshot: {
-    frame: "border-cyan-200/18 bg-cyan-300/10",
+    frame: "border-cyan-200/[0.18] bg-cyan-300/10",
     glyph: "text-cyan-100",
     badge: "border-cyan-200/25 bg-cyan-300/10 text-cyan-100",
-    glow: "bg-cyan-300/16"
+    glow: "bg-cyan-300/[0.16]"
   },
   concept: {
-    frame: "border-purple-200/18 bg-purple-300/10",
+    frame: "border-purple-200/[0.18] bg-purple-300/10",
     glyph: "text-purple-100",
     badge: "border-purple-200/25 bg-purple-300/10 text-purple-100",
-    glow: "bg-purple-300/16"
+    glow: "bg-purple-300/[0.16]"
   },
   character: {
-    frame: "border-amber-200/18 bg-amber-300/10",
+    frame: "border-amber-200/[0.18] bg-amber-300/10",
     glyph: "text-amber-100",
     badge: "border-amber-200/25 bg-amber-300/10 text-amber-100",
-    glow: "bg-amber-300/16"
+    glow: "bg-amber-300/[0.16]"
   },
   scene: {
-    frame: "border-emerald-200/18 bg-emerald-300/10",
+    frame: "border-emerald-200/[0.18] bg-emerald-300/10",
     glyph: "text-emerald-100",
     badge: "border-emerald-200/25 bg-emerald-300/10 text-emerald-100",
-    glow: "bg-emerald-300/16"
+    glow: "bg-emerald-300/[0.16]"
   },
   video: {
-    frame: "border-fuchsia-200/18 bg-fuchsia-300/10",
+    frame: "border-fuchsia-200/[0.18] bg-fuchsia-300/10",
     glyph: "text-fuchsia-100",
     badge: "border-fuchsia-200/25 bg-fuchsia-300/10 text-fuchsia-100",
-    glow: "bg-fuchsia-300/16"
+    glow: "bg-fuchsia-300/[0.16]"
   }
 };
 
@@ -112,9 +112,9 @@ export function GalleryVisualFrame({ kind, icon, label, status, size = "card" }:
 
   return (
     <div className={`relative overflow-hidden rounded-2xl border ${heightClass} ${style.frame}`}>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_18%,rgba(255,255,255,0.16),transparent_30%),radial-gradient(circle_at_78%_78%,rgba(255,255,255,0.08),transparent_34%),linear-gradient(145deg,transparent,rgba(0,0,0,0.38))]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_18%,rgba(255,255,255,0.14),transparent_30%),radial-gradient(circle_at_78%_78%,rgba(255,255,255,0.07),transparent_34%),linear-gradient(145deg,transparent,rgba(0,0,0,0.38))]" />
       <div className={`absolute left-1/2 top-1/2 h-36 w-36 -translate-x-1/2 -translate-y-1/2 rounded-full ${style.glow} blur-2xl`} />
-      <div className="absolute inset-0 opacity-25 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:34px_34px]" />
+      <div className="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:34px_34px]" />
       <svg viewBox="0 0 390 220" className={`absolute inset-0 h-full w-full ${style.glyph}`} fill="none" aria-hidden="true">
         {renderAbstractPreview(kind)}
       </svg>
