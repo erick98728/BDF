@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Login",
-  description: "Entre ou crie sua conta para acessar o dashboard do beta de Tester quando a autenticação estiver ativa.",
+  description: "Acesse ou crie sua conta oficial de beta tester para acompanhar dashboard, download e feedback de Tester.",
   alternates: { canonical: "/login" },
   openGraph: {
     title: "Login | Tester",
-    description: "Entre ou crie sua conta para acessar o dashboard do beta de Tester quando a autenticação estiver ativa.",
+    description: "Acesse ou crie sua conta oficial de beta tester para acompanhar dashboard, download e feedback de Tester.",
     url: "/login"
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Login | Tester",
-    description: "Entre ou crie sua conta para acessar o dashboard do beta de Tester quando a autenticação estiver ativa."
+    description: "Acesse ou crie sua conta oficial de beta tester para acompanhar dashboard, download e feedback de Tester."
   }
 };
 
