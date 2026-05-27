@@ -17,17 +17,17 @@ const categoryGlyphs: Record<string, GameGlyphName> = {
 
 export const metadata: Metadata = {
   title: "Devlog",
-  description: "Acompanhe atualizações de desenvolvimento e progresso do projeto Tester.",
+  description: "Acompanhe atualizações oficiais de desenvolvimento, progresso técnico, gameplay e decisões de produção do jogo indie Tester.",
   alternates: { canonical: "/devlog" },
   openGraph: {
     title: "Devlog | Tester",
-    description: "Acompanhe atualizações de desenvolvimento e progresso do projeto Tester.",
+    description: "Acompanhe atualizações oficiais de desenvolvimento, progresso técnico, gameplay e decisões de produção do jogo indie Tester.",
     url: "/devlog"
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Devlog | Tester",
-    description: "Acompanhe atualizações de desenvolvimento e progresso do projeto Tester."
+    description: "Acompanhe atualizações oficiais de desenvolvimento, progresso técnico, gameplay e decisões de produção do jogo indie Tester."
   }
 };
 
@@ -56,7 +56,7 @@ export default function DevlogPage() {
                 <p className="mt-3 text-sm leading-6 text-slate-300">{post.summary}</p>
                 <Link
                   href={`/devlog/${post.slug}`}
-                  className="mt-auto inline-flex w-fit rounded-lg border border-purple-300/30 bg-purple-300/10 px-4 py-2 text-sm font-medium text-purple-100 transition hover:bg-purple-300/20"
+                  className="tester-button mt-auto inline-flex w-fit rounded-lg border border-purple-300/30 bg-purple-300/10 px-4 py-2 text-sm font-medium text-purple-100 transition hover:bg-purple-300/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
                 >
                   Ler mais
                 </Link>
