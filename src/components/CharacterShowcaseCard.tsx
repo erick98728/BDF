@@ -28,28 +28,28 @@ const visualStyles: Record<CharacterVisualKind, VisualStyle> = {
     frame: "border-cyan-200/20 bg-cyan-300/10",
     glyph: "text-cyan-100",
     badge: "border-cyan-200/25 bg-cyan-300/10 text-cyan-100",
-    aura: "bg-cyan-300/18",
+    aura: "bg-cyan-300/[0.18]",
     marker: "bg-cyan-200"
   },
   lucarelli: {
     frame: "border-amber-200/25 bg-amber-300/10",
     glyph: "text-amber-100",
     badge: "border-amber-200/30 bg-amber-300/10 text-amber-100",
-    aura: "bg-amber-300/18",
+    aura: "bg-amber-300/[0.18]",
     marker: "bg-amber-200"
   },
   enemy: {
     frame: "border-emerald-200/20 bg-emerald-300/10",
     glyph: "text-emerald-100",
     badge: "border-emerald-200/25 bg-emerald-300/10 text-emerald-100",
-    aura: "bg-emerald-300/16",
+    aura: "bg-emerald-300/[0.16]",
     marker: "bg-emerald-200"
   },
   future: {
     frame: "border-purple-200/20 bg-purple-300/10",
     glyph: "text-purple-100",
     badge: "border-purple-200/25 bg-purple-300/10 text-purple-100",
-    aura: "bg-purple-300/16",
+    aura: "bg-purple-300/[0.16]",
     marker: "bg-purple-200"
   },
   planned: {
@@ -66,47 +66,47 @@ function AbstractSilhouette({ kind, icon }: { kind: CharacterVisualKind; icon: G
 
   return (
     <div className={`relative h-48 overflow-hidden rounded-2xl border ${style.frame}`} aria-hidden="true">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(255,255,255,0.14),transparent_30%),linear-gradient(145deg,transparent,rgba(0,0,0,0.34))]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(255,255,255,0.12),transparent_30%),linear-gradient(145deg,transparent,rgba(0,0,0,0.34))]" />
       <div className={`absolute left-1/2 top-1/2 h-36 w-36 -translate-x-1/2 -translate-y-1/2 rounded-full ${style.aura} blur-2xl`} />
       <svg viewBox="0 0 260 190" className={`absolute inset-0 h-full w-full ${style.glyph}`} fill="none">
         {kind === "rubens" ? (
           <>
-            <path d="M130 32 153 70 143 132 130 158 117 132 107 70 130 32Z" fill="currentColor" opacity="0.13" />
-            <path d="M130 40v106" stroke="currentColor" strokeWidth="2" opacity="0.56" />
-            <path d="M94 134 166 62" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" opacity="0.72" />
-            <path d="M84 146 103 127" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.46" />
-            <path d="M104 146h52" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" opacity="0.35" />
+            <path d="M130 32 153 70 143 132 130 158 117 132 107 70 130 32Z" fill="currentColor" opacity="0.12" />
+            <path d="M130 40v106" stroke="currentColor" strokeWidth="2" opacity="0.52" />
+            <path d="M94 134 166 62" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" opacity="0.68" />
+            <path d="M84 146 103 127" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.42" />
+            <path d="M104 146h52" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" opacity="0.32" />
           </>
         ) : kind === "lucarelli" ? (
           <>
             <path d="M130 22 201 88 130 168 59 88 130 22Z" fill="currentColor" opacity="0.10" />
-            <path d="M130 30 193 88 130 160 67 88 130 30Z" stroke="currentColor" strokeWidth="2" opacity="0.58" />
-            <path d="M94 88h72" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" opacity="0.55" />
-            <path d="M103 112c16-14 38-14 54 0" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" opacity="0.46" />
-            <path d="M83 58 56 46M177 58l27-12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.42" />
+            <path d="M130 30 193 88 130 160 67 88 130 30Z" stroke="currentColor" strokeWidth="2" opacity="0.54" />
+            <path d="M94 88h72" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" opacity="0.52" />
+            <path d="M103 112c16-14 38-14 54 0" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" opacity="0.42" />
+            <path d="M83 58 56 46M177 58l27-12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.38" />
           </>
         ) : kind === "enemy" ? (
           <>
             <path d="M79 126C86 70 174 70 181 126C166 150 94 150 79 126Z" fill="currentColor" opacity="0.12" />
-            <path d="M88 124c16-45 68-45 84 0" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" opacity="0.58" />
-            <path d="M95 140c22 16 48 16 70 0" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.4" />
-            <path d="M101 86 78 56M159 86l23-30" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.42" />
-            <circle cx="112" cy="119" r="3" fill="currentColor" opacity="0.7" />
-            <circle cx="148" cy="119" r="3" fill="currentColor" opacity="0.7" />
+            <path d="M88 124c16-45 68-45 84 0" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" opacity="0.54" />
+            <path d="M95 140c22 16 48 16 70 0" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.38" />
+            <path d="M101 86 78 56M159 86l23-30" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.38" />
+            <circle cx="112" cy="119" r="3" fill="currentColor" opacity="0.66" />
+            <circle cx="148" cy="119" r="3" fill="currentColor" opacity="0.66" />
           </>
         ) : kind === "future" ? (
           <>
-            <path d="M130 32 168 70 154 132 130 160 106 132 92 70 130 32Z" stroke="currentColor" strokeWidth="1.8" opacity="0.44" />
-            <path d="M100 86h60M112 112h36" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.32" />
-            <path d="M130 52v24M130 122v24M98 99h24M138 99h24" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" opacity="0.5" />
-            <path d="M82 154h96" stroke="currentColor" strokeWidth="1.2" strokeDasharray="6 8" opacity="0.36" />
+            <path d="M130 32 168 70 154 132 130 160 106 132 92 70 130 32Z" stroke="currentColor" strokeWidth="1.8" opacity="0.42" />
+            <path d="M100 86h60M112 112h36" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.30" />
+            <path d="M130 52v24M130 122v24M98 99h24M138 99h24" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" opacity="0.46" />
+            <path d="M82 154h96" stroke="currentColor" strokeWidth="1.2" strokeDasharray="6 8" opacity="0.34" />
           </>
         ) : (
           <>
-            <path d="M82 52h96v98H82V52Z" stroke="currentColor" strokeWidth="1.8" opacity="0.36" />
-            <path d="M104 76h52M104 101h52M104 126h32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.42" />
-            <path d="M70 150h120" stroke="currentColor" strokeWidth="1.2" strokeDasharray="7 9" opacity="0.3" />
-            <path d="M130 34v24M130 144v22M98 100h-24M186 100h-24" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" opacity="0.38" />
+            <path d="M82 52h96v98H82V52Z" stroke="currentColor" strokeWidth="1.8" opacity="0.34" />
+            <path d="M104 76h52M104 101h52M104 126h32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.40" />
+            <path d="M70 150h120" stroke="currentColor" strokeWidth="1.2" strokeDasharray="7 9" opacity="0.30" />
+            <path d="M130 34v24M130 144v22M98 100h-24M186 100h-24" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" opacity="0.36" />
           </>
         )}
       </svg>
