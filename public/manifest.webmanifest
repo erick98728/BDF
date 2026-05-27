@@ -1,21 +1,42 @@
 {
-  "name": "Tester",
+  "name": "Tester - Site Oficial",
   "short_name": "Tester",
-  "description": "Site oficial de Tester, metroidvania 2D sombrio em desenvolvimento, com beta, lore e feedback.",
+  "description": "Site oficial de Tester, metroidvania 2D sombrio em desenvolvimento, com beta fechado, lore, personagens, devlog, galeria e feedback.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "lang": "pt-BR",
+  "dir": "ltr",
   "background_color": "#050914",
   "theme_color": "#050914",
-  "categories": ["games", "entertainment"],
+  "categories": ["games", "entertainment", "productivity"],
   "icons": [
     {
       "src": "/favicon.svg",
-      "sizes": "64x64",
+      "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Download Beta",
+      "short_name": "Download",
+      "description": "Ver status oficial do download do beta.",
+      "url": "/download"
+    },
+    {
+      "name": "Enviar Feedback",
+      "short_name": "Feedback",
+      "description": "Abrir o formulário oficial de feedback do beta.",
+      "url": "/feedback"
+    },
+    {
+      "name": "Devlog",
+      "short_name": "Devlog",
+      "description": "Acompanhar atualizações do desenvolvimento.",
+      "url": "/devlog"
     }
   ]
 }
