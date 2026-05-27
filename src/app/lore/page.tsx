@@ -84,10 +84,17 @@ const mysteries = [
 
 export const metadata: Metadata = {
   title: "Lore",
-  description: "Conheça o mundo, os mistérios e a primeira região de Tester sem revelar spoilers da jornada.",
+  description: "Conheça o Bosque da Névoa Perdida, os mistérios e a lore atmosférica de Tester sem revelar spoilers grandes da jornada.",
+  alternates: { canonical: "/lore" },
   openGraph: {
     title: "Lore | Tester",
-    description: "Conheça o mundo, os mistérios e a primeira região de Tester sem revelar spoilers da jornada."
+    description: "Conheça o Bosque da Névoa Perdida, os mistérios e a lore atmosférica de Tester sem revelar spoilers grandes da jornada.",
+    url: "/lore"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Lore | Tester",
+    description: "Conheça o Bosque da Névoa Perdida, os mistérios e a lore atmosférica de Tester sem revelar spoilers grandes da jornada."
   }
 };
 
