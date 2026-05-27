@@ -29,7 +29,11 @@ export function Footer() {
             <p className="text-xs uppercase tracking-[0.16em] text-slate-400">Navegação</p>
             <div className="mt-3 grid grid-cols-2 gap-2 min-[420px]:grid-cols-3 md:flex md:flex-wrap md:justify-end">
               {footerLinks.map(([label, href]) => (
-                <Link key={href} href={href} className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-center text-xs font-medium text-slate-300 transition hover:border-cyan-200/20 hover:bg-cyan-300/8 hover:text-cyan-50">
+                <Link
+                  key={href}
+                  href={href}
+                  className="nav-link-fx inline-flex min-h-10 items-center justify-center rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-center text-xs font-medium text-slate-300 hover:border-cyan-200/20 hover:bg-cyan-300/8 hover:text-cyan-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                >
                   {label}
                 </Link>
               ))}
