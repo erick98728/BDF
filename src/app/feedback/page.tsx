@@ -1,10 +1,12 @@
 "use client";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { AnimatedPageWrapper } from "@/components/AnimatedPageWrapper";
+import { GameGlyph } from "@/components/GameGlyph";
 import { GlowCard } from "@/components/GlowCard";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
+import { BetaBadge, StatusBadge } from "@/components/TesterVisualSystem";
 import { playtimeOptions, progressOptions, ratingOptions } from "@/data/feedbackQuestions";
 import type { FeedbackFormData, FeedbackRatings } from "@/types/feedback";
 import { isSupabaseConfigured, supabase, supabaseSetupMessage } from "@/lib/supabaseClient";
@@ -103,71 +105,99 @@ export default function FeedbackPage() {
 
   return (
     <AnimatedPageWrapper>
-      <PageHeader title="Feedback" description="Envie sua experiência com o beta de Tester. Seu retorno é privado e essencial." />
+      <PageHeader title="Feedback" description="Canal oficial para registrar sua experiência com o beta de Tester. Seu retorno é privado e essencial." />
       <SectionContainer>
-        <SectionTitle title="Formulário de feedback" subtitle="Não coletamos dados sensíveis. Este formulário é privado para o desenvolvedor." />
-        <GlowCard>
-          {!isSupabaseConfigured ? (
-            <p className="status-chip mb-4 rounded-lg border border-amber-200/20 bg-amber-300/10 px-3 py-2 text-sm leading-6 text-amber-100" role="status">
-              {supabaseSetupMessage} O formulário pode ser testado, mas o salvamento definitivo depende da tabela beta_feedback no Supabase.
-            </p>
-          ) : null}
-          <form onSubmit={handleSubmit} className="space-y-4" aria-describedby="feedback-help">
-            <p id="feedback-help" className="sr-only">Preencha os campos obrigatórios para enviar sua experiência com o beta.</p>
-            <div className="grid gap-4 md:grid-cols-2">
-              <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-nickname">
-                Nome ou apelido
-                <input id="feedback-nickname" className={`${fieldClass} mt-1`} placeholder="Como quer ser identificado" value={formData.nickname} onChange={(e) => setFormData((p) => ({ ...p, nickname: e.target.value }))} required />
-              </label>
-              <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-email">
-                Email
-                <input id="feedback-email" className={`${fieldClass} mt-1`} type="email" placeholder="seu@email.com" value={formData.email} onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))} required />
-              </label>
+        <GlowCard variant="functional" contentClassName="relative overflow-hidden p-5 sm:p-7">
+          <div className="absolute inset-0 opacity-35 tester-panel-grid" aria-hidden="true" />
+          <div className="relative z-10 grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+            <div>
+              <div className="flex flex-wrap items-center gap-2">
+                <BetaBadge>Canal do beta</BetaBadge>
+                <StatusBadge status={isSupabaseConfigured ? "live" : "warning"}>{isSupabaseConfigured ? "Envio ativo" : "Modo de teste"}</StatusBadge>
+              </div>
+              <h2 className="mt-4 text-2xl font-bold text-white sm:text-3xl">Feedback que orienta a build.</h2>
+              <p className="mt-3 text-sm leading-6 text-slate-300">
+                Use este formulário para registrar tempo jogado, ponto de progresso, percepção de combate, movimentação, mapa e dificuldade. O objetivo é transformar teste em melhoria concreta.
+              </p>
+              <div className="mt-5 grid gap-3 text-sm">
+                <div className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+                  <GameGlyph name="checklist" variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
+                  <p className="text-xs uppercase tracking-[0.12em] text-slate-400">O que avaliar</p>
+                  <p className="mt-1 text-slate-200">Movimento, combate, mapa, dificuldade e bugs.</p>
+                </div>
+                <div className="mini-status-card rounded-lg border border-purple-200/10 bg-purple-300/[0.04] px-3 py-3">
+                  <GameGlyph name="feedback" variant="plain" className="mb-2 h-5 w-5 text-purple-200" />
+                  <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Privacidade</p>
+                  <p className="mt-1 text-slate-200">Retorno privado para desenvolvimento do beta.</p>
+                </div>
+              </div>
             </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-playtime">
-                Tempo jogado
-                <select id="feedback-playtime" className={`${fieldClass} mt-1`} value={formData.playtime} onChange={(e) => setFormData((p) => ({ ...p, playtime: e.target.value }))} required>
-                  <option value="">Selecione o tempo jogado</option>
-                  {playtimeOptions.map((o) => <option key={o} value={o}>{o}</option>)}
-                </select>
-              </label>
-              <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-progress">
-                Onde parou
-                <select id="feedback-progress" className={`${fieldClass} mt-1`} value={formData.progressPoint} onChange={(e) => setFormData((p) => ({ ...p, progressPoint: e.target.value }))} required>
-                  <option value="">Selecione o ponto de progresso</option>
-                  {progressOptions.map((o) => <option key={o} value={o}>{o}</option>)}
-                </select>
-              </label>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              {ratingFieldLabels.map(({ label, field }) => (
-                <label key={field} className="text-sm leading-6 text-slate-300">
-                  {label}
-                  <select className={`${fieldClass} mt-1`} value={formData[field]} onChange={(e) => setRating(field, Number(e.target.value) as FeedbackRatings)}>
-                    {ratingOptions.map((n) => <option key={n} value={n}>{n}</option>)}
-                  </select>
+
+            <div>
+              <SectionTitle title="Formulário de feedback" subtitle="Não coletamos dados sensíveis. Este formulário é privado para o desenvolvedor." />
+              {!isSupabaseConfigured ? (
+                <p className="status-chip mb-4 rounded-lg border border-amber-200/20 bg-amber-300/10 px-3 py-2 text-sm leading-6 text-amber-100" role="status">
+                  {supabaseSetupMessage} O formulário pode ser testado, mas o salvamento definitivo depende da tabela beta_feedback no Supabase.
+                </p>
+              ) : null}
+              <form onSubmit={handleSubmit} className="space-y-4" aria-describedby="feedback-help">
+                <p id="feedback-help" className="sr-only">Preencha os campos obrigatórios para enviar sua experiência com o beta.</p>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-nickname">
+                    Nome ou apelido
+                    <input id="feedback-nickname" className={`${fieldClass} mt-1`} placeholder="Como quer ser identificado" value={formData.nickname} onChange={(e) => setFormData((p) => ({ ...p, nickname: e.target.value }))} required />
+                  </label>
+                  <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-email">
+                    Email
+                    <input id="feedback-email" className={`${fieldClass} mt-1`} type="email" placeholder="seu@email.com" value={formData.email} onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))} required />
+                  </label>
+                </div>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-playtime">
+                    Tempo jogado
+                    <select id="feedback-playtime" className={`${fieldClass} mt-1`} value={formData.playtime} onChange={(e) => setFormData((p) => ({ ...p, playtime: e.target.value }))} required>
+                      <option value="">Selecione o tempo jogado</option>
+                      {playtimeOptions.map((o) => <option key={o} value={o}>{o}</option>)}
+                    </select>
+                  </label>
+                  <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-progress">
+                    Onde parou
+                    <select id="feedback-progress" className={`${fieldClass} mt-1`} value={formData.progressPoint} onChange={(e) => setFormData((p) => ({ ...p, progressPoint: e.target.value }))} required>
+                      <option value="">Selecione o ponto de progresso</option>
+                      {progressOptions.map((o) => <option key={o} value={o}>{o}</option>)}
+                    </select>
+                  </label>
+                </div>
+                <div className="grid gap-4 md:grid-cols-2">
+                  {ratingFieldLabels.map(({ label, field }) => (
+                    <label key={field} className="text-sm leading-6 text-slate-300">
+                      {label}
+                      <select className={`${fieldClass} mt-1`} value={formData[field]} onChange={(e) => setRating(field, Number(e.target.value) as FeedbackRatings)}>
+                        {ratingOptions.map((n) => <option key={n} value={n}>{n}</option>)}
+                      </select>
+                    </label>
+                  ))}
+                </div>
+                <label className="mini-status-card flex min-h-11 items-start gap-3 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-3 text-sm leading-6 text-slate-300">
+                  <input type="checkbox" checked={formData.foundBug} onChange={(e) => setFormData((p) => ({ ...p, foundBug: e.target.checked }))} className="mt-1 h-4 w-4 shrink-0 accent-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200" />
+                  <span>Encontrou algum problema?</span>
                 </label>
-              ))}
+                <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-bug">
+                  Descrição do problema
+                  <textarea id="feedback-bug" className={`${fieldClass} mt-1 min-h-28 resize-y`} placeholder="Descreva o problema encontrado" value={formData.bugDescription} onChange={(e) => setFormData((p) => ({ ...p, bugDescription: e.target.value }))} disabled={!formData.foundBug} />
+                </label>
+                <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-suggestions">
+                  Sugestões gerais
+                  <textarea id="feedback-suggestions" className={`${fieldClass} mt-1 min-h-28 resize-y`} placeholder="O que pode melhorar?" value={formData.suggestions} onChange={(e) => setFormData((p) => ({ ...p, suggestions: e.target.value }))} />
+                </label>
+                <button disabled={loading || !Boolean(isValid)} className="tester-button min-h-11 w-full rounded-lg border border-cyan-300/40 bg-cyan-300/15 px-4 py-2 text-sm font-medium text-cyan-100 hover:border-cyan-200/60 hover:bg-cyan-300/20 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 sm:w-auto">
+                  {loading ? "Enviando..." : "Enviar feedback"}
+                </button>
+              </form>
+              {error ? <p className="status-chip mt-4 rounded-lg border border-red-300/20 bg-red-400/10 px-3 py-2 text-sm leading-6 text-red-300" role="alert">{error}</p> : null}
+              {success ? <p className="status-chip mt-4 rounded-lg border border-emerald-300/20 bg-emerald-400/10 px-3 py-2 text-sm leading-6 text-emerald-300" role="status">{success}</p> : null}
             </div>
-            <label className="mini-status-card flex min-h-11 items-start gap-3 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-3 text-sm leading-6 text-slate-300">
-              <input type="checkbox" checked={formData.foundBug} onChange={(e) => setFormData((p) => ({ ...p, foundBug: e.target.checked }))} className="mt-1 h-4 w-4 shrink-0 accent-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200" />
-              <span>Encontrou algum problema?</span>
-            </label>
-            <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-bug">
-              Descrição do problema
-              <textarea id="feedback-bug" className={`${fieldClass} mt-1 min-h-28 resize-y`} placeholder="Descreva o problema encontrado" value={formData.bugDescription} onChange={(e) => setFormData((p) => ({ ...p, bugDescription: e.target.value }))} disabled={!formData.foundBug} />
-            </label>
-            <label className="block text-sm leading-6 text-slate-300" htmlFor="feedback-suggestions">
-              Sugestões gerais
-              <textarea id="feedback-suggestions" className={`${fieldClass} mt-1 min-h-28 resize-y`} placeholder="O que pode melhorar?" value={formData.suggestions} onChange={(e) => setFormData((p) => ({ ...p, suggestions: e.target.value }))} />
-            </label>
-            <button disabled={loading || !Boolean(isValid)} className="tester-button min-h-11 w-full rounded-lg border border-cyan-300/40 bg-cyan-300/15 px-4 py-2 text-sm font-medium text-cyan-100 hover:border-cyan-200/60 hover:bg-cyan-300/20 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 sm:w-auto">
-              {loading ? "Enviando..." : "Enviar feedback"}
-            </button>
-          </form>
-          {error ? <p className="status-chip mt-4 rounded-lg border border-red-300/20 bg-red-400/10 px-3 py-2 text-sm leading-6 text-red-300" role="alert">{error}</p> : null}
-          {success ? <p className="status-chip mt-4 rounded-lg border border-emerald-300/20 bg-emerald-400/10 px-3 py-2 text-sm leading-6 text-emerald-300" role="status">{success}</p> : null}
+          </div>
         </GlowCard>
       </SectionContainer>
     </AnimatedPageWrapper>
