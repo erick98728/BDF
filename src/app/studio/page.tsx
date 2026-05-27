@@ -44,10 +44,17 @@ const tools: { name: string; description: string; icon: GameGlyphName }[] = [
 
 export const metadata: Metadata = {
   title: "Studio",
-  description: "Conheça a visão independente por trás de Tester, um metroidvania 2D em desenvolvimento.",
+  description: "Conheça a visão independente por trás de Tester, um jogo indie brasileiro em desenvolvimento com foco em beta, feedback e evolução real.",
+  alternates: { canonical: "/studio" },
   openGraph: {
     title: "Studio | Tester",
-    description: "Conheça a visão independente por trás de Tester, um metroidvania 2D em desenvolvimento."
+    description: "Conheça a visão independente por trás de Tester, um jogo indie brasileiro em desenvolvimento com foco em beta, feedback e evolução real.",
+    url: "/studio"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Studio | Tester",
+    description: "Conheça a visão independente por trás de Tester, um jogo indie brasileiro em desenvolvimento com foco em beta, feedback e evolução real."
   }
 };
 
