@@ -18,24 +18,24 @@ export function LoreMapPanel() {
   return (
     <div className="relative overflow-hidden rounded-2xl border border-cyan-200/15 bg-black/25 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_0_40px_rgba(99,221,255,0.08)] sm:p-5">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_20%,rgba(99,221,255,0.14),transparent_30%),radial-gradient(circle_at_72%_72%,rgba(209,168,93,0.10),transparent_32%),radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.08),transparent_38%)]" />
-      <div className="absolute left-[-10%] right-[-10%] top-12 h-16 rotate-[-6deg] bg-gradient-to-r from-transparent via-cyan-200/12 to-transparent blur-2xl" />
+      <div className="absolute left-[-10%] right-[-10%] top-12 h-16 rotate-[-6deg] bg-gradient-to-r from-transparent via-cyan-200/[0.12] to-transparent blur-2xl" />
       <div className="absolute left-[-8%] right-[-8%] bottom-16 h-20 rotate-[5deg] bg-gradient-to-r from-transparent via-purple-300/10 to-transparent blur-2xl" />
 
       <div className="relative grid gap-4 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch">
         <div className="relative min-h-[280px] overflow-hidden rounded-xl border border-white/10 bg-[#050914]/45 p-3 sm:min-h-[330px]">
-          <div className="absolute inset-0 opacity-30 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:34px_34px]" />
+          <div className="absolute inset-0 opacity-25 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:34px_34px]" />
           <svg viewBox="0 0 440 320" className="relative h-full min-h-[260px] w-full text-cyan-100" fill="none" aria-hidden="true">
-            <path d="M44 248C78 180 142 220 174 154C202 96 266 100 294 148C326 204 364 156 398 82" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="8 11" opacity="0.68" />
-            <path d="M82 254C116 230 144 236 169 264" stroke="#d1a85d" strokeWidth="1.4" strokeLinecap="round" opacity="0.46" />
-            <path d="M182 151C212 168 236 168 265 146" stroke="#a78bfa" strokeWidth="1.5" strokeLinecap="round" opacity="0.44" />
-            <path d="M274 150C304 138 324 120 338 92" stroke="#63ddff" strokeWidth="1.2" strokeLinecap="round" opacity="0.36" />
-            <path d="M116 88h78M130 105h44M278 232h84M294 248h42" stroke="#63ddff" strokeWidth="1" strokeLinecap="round" opacity="0.24" />
-            <path d="M58 72 92 48 126 72 92 98 58 72Z" stroke="#d1a85d" strokeWidth="1" opacity="0.24" />
-            <path d="M314 58 350 30 386 58 350 86 314 58Z" stroke="#63ddff" strokeWidth="1" opacity="0.26" />
-            <circle cx="44" cy="248" r="8" fill="#63ddff" opacity="0.86" />
-            <circle cx="174" cy="154" r="7" fill="#d1a85d" opacity="0.8" />
-            <circle cx="294" cy="148" r="7" fill="#a78bfa" opacity="0.78" />
-            <circle cx="398" cy="82" r="8" fill="#6ee7b7" opacity="0.7" />
+            <path d="M44 248C78 180 142 220 174 154C202 96 266 100 294 148C326 204 364 156 398 82" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="8 11" opacity="0.62" />
+            <path d="M82 254C116 230 144 236 169 264" stroke="#d1a85d" strokeWidth="1.4" strokeLinecap="round" opacity="0.42" />
+            <path d="M182 151C212 168 236 168 265 146" stroke="#a78bfa" strokeWidth="1.5" strokeLinecap="round" opacity="0.40" />
+            <path d="M274 150C304 138 324 120 338 92" stroke="#63ddff" strokeWidth="1.2" strokeLinecap="round" opacity="0.34" />
+            <path d="M116 88h78M130 105h44M278 232h84M294 248h42" stroke="#63ddff" strokeWidth="1" strokeLinecap="round" opacity="0.22" />
+            <path d="M58 72 92 48 126 72 92 98 58 72Z" stroke="#d1a85d" strokeWidth="1" opacity="0.22" />
+            <path d="M314 58 350 30 386 58 350 86 314 58Z" stroke="#63ddff" strokeWidth="1" opacity="0.24" />
+            <circle cx="44" cy="248" r="8" fill="#63ddff" opacity="0.78" />
+            <circle cx="174" cy="154" r="7" fill="#d1a85d" opacity="0.72" />
+            <circle cx="294" cy="148" r="7" fill="#a78bfa" opacity="0.72" />
+            <circle cx="398" cy="82" r="8" fill="#6ee7b7" opacity="0.66" />
           </svg>
 
           <div className="absolute left-[9%] top-[72%] h-9 w-9 rounded-xl border border-cyan-200/15 bg-[#050914]/80 p-2 backdrop-blur-md">
