@@ -1,146 +1,92 @@
 import type { Metadata } from "next";
 import { AnimatedPageWrapper } from "@/components/AnimatedPageWrapper";
-import { GameGlyph, type GameGlyphName } from "@/components/GameGlyph";
+import { CharacterShowcaseCard, type CharacterShowcase } from "@/components/CharacterShowcaseCard";
+import { GameGlyph } from "@/components/GameGlyph";
 import { GlowCard } from "@/components/GlowCard";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
 
-type CharacterEntry = {
-  name: string;
-  type: string;
-  description: string;
-  role: string;
-  abilities: string[];
-  status: string;
-  accent: string;
-  icon: GameGlyphName;
-  identity: string;
-};
-
-const mainCharacters: CharacterEntry[] = [
+const currentCharacters: CharacterShowcase[] = [
   {
     name: "Rubens",
-    type: "Protagonista",
-    description:
-      "Rubens é o personagem jogável da fase beta. Ele entra no Bosque da Névoa Perdida ainda em processo de evolução, usando técnica, coragem e adaptação para atravessar uma região que não explica suas regras de forma direta.",
-    role: "Conduzir o jogador pela primeira leitura de movimentação, exploração e progressão por habilidade.",
-    abilities: ["Katana", "Pulo", "Dash desbloqueável", "Leitura de rotas"],
-    status: "Jogável no beta",
-    accent: "from-cyan-300/30 via-cyan-500/10 to-transparent",
+    functionLabel: "Protagonista",
+    projectState: "Confirmado no beta",
+    badge: "Jogável",
     icon: "katana",
-    identity: "Silhueta técnica, foco em corte limpo e mobilidade."
+    visualKind: "rubens",
+    description:
+      "Personagem jogável da fase beta. Rubens entra no Bosque da Névoa Perdida ainda em evolução, guiado por técnica, coragem e adaptação.",
+    betaRole: "Conduzir o jogador pela primeira leitura de movimentação, combate, exploração e progressão por habilidade.",
+    abilities: ["Katana", "Dash", "Exploração", "Leitura de rotas"]
   },
   {
     name: "Lucarelli",
-    type: "Chefe",
-    description:
-      "Lucarelli é uma presença ligada ao controle de passagem dentro do Bosque. Mais do que um desafio forte, ele funciona como teste de domínio: o jogador precisa entender movimentação, tempo e espaço antes de avançar.",
-    role: "Bloquear a progressão inicial e marcar o primeiro encontro importante da demo.",
-    abilities: ["Ataque próximo", "Investida", "Controle de arena", "Pressão territorial"],
-    status: "Presente no beta",
-    accent: "from-amber-300/30 via-amber-500/10 to-transparent",
+    functionLabel: "Chefe",
+    projectState: "Confirmado no beta",
+    badge: "Chefe do beta",
     icon: "boss",
-    identity: "Símbolo angular de chefe, pesado, sem representar arte final."
-  },
-  {
-    name: "Inimigos do Bosque",
-    type: "Criaturas do ambiente",
+    visualKind: "lucarelli",
     description:
-      "Os inimigos do Bosque são ameaças simples, mas importantes para ensinar ritmo, distância e cuidado. Eles aparecem em rotas de travessia, pontos de encontro e áreas que preparam o jogador para desafios maiores.",
-    role: "Ensinar combate básico, cuidado com avanço apressado e controle de posição.",
-    abilities: ["Pressão em grupo", "Ataque direto", "Patrulha de rota", "Interrupção de exploração"],
-    status: "Presentes no beta",
-    accent: "from-emerald-300/30 via-emerald-500/10 to-transparent",
-    icon: "enemy",
-    identity: "Máscara abstrata de ameaça comum, ligada ao ritmo do Bosque."
+      "Presença hostil ligada ao controle de passagem dentro do Bosque. Ele funciona como teste de domínio, tempo e leitura de arena.",
+    betaRole: "Marcar o primeiro confronto importante da demo e validar se o jogador entendeu movimentação, ataque e posicionamento.",
+    abilities: ["Pressão", "Investida", "Arena", "Bloqueio"]
   }
 ];
 
-const futureCharacters: CharacterEntry[] = [
+const enemyCharacters: CharacterShowcase[] = [
+  {
+    name: "Inimigos do Bosque",
+    functionLabel: "Ameaças comuns",
+    projectState: "Presentes no beta",
+    badge: "Inimigo",
+    icon: "enemy",
+    visualKind: "enemy",
+    description:
+      "Criaturas e presenças hostis usadas para ensinar ritmo, distância e cuidado durante a travessia das rotas iniciais.",
+    betaRole: "Preparar o jogador para encontros maiores sem depender de explicações longas ou tutoriais excessivos.",
+    abilities: ["Patrulha", "Pressão", "Interrupção", "Ritmo"]
+  }
+];
+
+const futureCharacters: CharacterShowcase[] = [
   {
     name: "Kin",
-    type: "Personagem futuro",
-    description:
-      "Kin está reservado para uma etapa posterior do universo de Tester. Sua função narrativa ainda não será detalhada para evitar antecipar conflitos, alianças ou mudanças de rota planejadas.",
-    role: "Expandir o elenco e abrir novas possibilidades de história em versões futuras.",
-    abilities: ["A definir", "A definir", "A definir"],
-    status: "Em desenvolvimento",
-    accent: "from-violet-300/25 via-violet-500/10 to-transparent",
+    functionLabel: "Personagem futuro",
+    projectState: "Em desenvolvimento",
+    badge: "Planejado",
     icon: "future",
-    identity: "Forma bloqueada, sugerindo conteúdo futuro sem revelar design."
+    visualKind: "future",
+    description:
+      "Reservado para uma etapa posterior do universo de Tester. A função narrativa permanece protegida para evitar antecipar conflitos ou alianças.",
+    betaRole: "Não participa do beta inicial como personagem central. Serve como sinal de expansão futura do elenco.",
+    abilities: ["Bloqueado", "Futuro", "Narrativa", "Mistério"]
   },
   {
     name: "Shico",
-    type: "Personagem futuro",
-    description:
-      "Shico também faz parte do planejamento futuro do projeto. Por enquanto, o perfil permanece controlado para manter o mistério e evitar promessas antes de a função no jogo estar definida.",
-    role: "Aparecer em uma etapa posterior, conforme a lore e o mapa forem expandidos.",
-    abilities: ["A definir", "A definir", "A definir"],
-    status: "Em desenvolvimento",
-    accent: "from-fuchsia-300/25 via-fuchsia-500/10 to-transparent",
+    functionLabel: "Personagem futuro",
+    projectState: "Em desenvolvimento",
+    badge: "Planejado",
     icon: "fog",
-    identity: "Névoa e memória como leitura visual, sem arte final revelada."
+    visualKind: "future",
+    description:
+      "Outro nome planejado para o futuro do projeto. Por enquanto, sua presença é tratada como mistério e não como arte final revelada.",
+    betaRole: "Aparecer apenas como planejamento de universo, sem prometer participação ativa na build atual.",
+    abilities: ["Bloqueado", "Futuro", "Névoa", "Segredo"]
   },
   {
-    name: "Outros personagens",
-    type: "Planejado",
-    description:
-      "Novos nomes serão liberados conforme o universo de Tester ganhar regiões, conflitos e objetivos mais claros. A prioridade atual é consolidar a primeira demo jogável.",
-    role: "Ampliar o mundo sem comprometer o foco do beta inicial.",
-    abilities: ["Conteúdo bloqueado", "Conteúdo bloqueado", "Conteúdo bloqueado"],
-    status: "Em preparação",
-    accent: "from-slate-300/20 via-slate-500/10 to-transparent",
+    name: "Conteúdo planejado",
+    functionLabel: "Arquivo reservado",
+    projectState: "Em preparação",
+    badge: "Planejado",
     icon: "lore",
-    identity: "Marcador de arquivo, usado apenas para indicar espaço reservado."
+    visualKind: "planned",
+    description:
+      "Espaço para novos personagens, ameaças e encontros que serão definidos conforme o mapa, a lore e o beta evoluírem.",
+    betaRole: "Manter a página preparada para expansão sem inventar artes finais, funções definitivas ou promessas grandes demais.",
+    abilities: ["Reservado", "Expansão", "Sem arte final", "A definir"]
   }
 ];
-
-function DetailedCharacterCard({ character }: { character: CharacterEntry }) {
-  return (
-    <GlowCard contentClassName="flex h-full flex-col">
-      <div className={`relative mb-4 h-28 overflow-hidden rounded-lg border border-white/10 bg-gradient-to-br ${character.accent}`}>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_18%,rgba(255,255,255,0.16),transparent_32%),linear-gradient(135deg,transparent,rgba(0,0,0,0.24))]" />
-        <GameGlyph name={character.icon} variant="plain" className="absolute right-4 top-4 h-14 w-14 text-white/75 drop-shadow-[0_0_18px_rgba(255,255,255,0.12)]" />
-        <div className="absolute bottom-3 left-3 h-8 w-20 rounded-full border border-white/10 bg-black/20 blur-[1px]" />
-      </div>
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-xs uppercase tracking-[0.14em] text-cyan-200/80">{character.type}</p>
-          <h3 className="mt-1 text-xl font-semibold text-white">{character.name}</h3>
-        </div>
-        <GameGlyph name={character.icon} className="h-10 w-10" />
-      </div>
-      <p className="mt-3 text-sm leading-6 text-slate-300">{character.description}</p>
-
-      <div className="mt-4 rounded-lg border border-cyan-200/15 bg-black/20 px-3 py-3">
-        <p className="text-xs uppercase tracking-[0.14em] text-slate-400">Identidade visual</p>
-        <p className="mt-1 text-sm leading-6 text-slate-300">{character.identity}</p>
-      </div>
-
-      <div className="mt-4 rounded-lg border border-cyan-200/15 bg-black/20 px-3 py-3">
-        <p className="text-xs uppercase tracking-[0.14em] text-slate-400">Função no jogo</p>
-        <p className="mt-1 text-sm leading-6 text-slate-300">{character.role}</p>
-      </div>
-
-      <div className="mt-4">
-        <p className="text-xs uppercase tracking-[0.14em] text-slate-400">Habilidades e leitura</p>
-        <ul className="mt-2 grid gap-2 text-sm text-slate-300">
-          {character.abilities.map((ability) => (
-            <li key={ability} className="rounded-md border border-white/10 bg-white/[0.03] px-3 py-1.5">{ability}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="mt-auto pt-4">
-        <div className="rounded-lg border border-amber-200/15 bg-black/20 px-3 py-2">
-          <p className="text-xs uppercase tracking-[0.14em] text-slate-400">Status</p>
-          <p className="mt-1 text-sm font-medium text-slate-100">{character.status}</p>
-        </div>
-      </div>
-    </GlowCard>
-  );
-}
 
 export const metadata: Metadata = {
   title: "Personagens",
@@ -160,19 +106,72 @@ export default function CharactersPage() {
       />
 
       <SectionContainer>
-        <SectionTitle title="Elenco atual" subtitle="Perfis jogáveis, ameaças e encontros presentes no beta inicial." />
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {mainCharacters.map((character) => (
-            <DetailedCharacterCard key={character.name} character={character} />
+        <GlowCard contentClassName="relative overflow-hidden p-5 sm:p-7">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_10%,rgba(99,221,255,0.14),transparent_30%),radial-gradient(circle_at_82%_70%,rgba(209,168,93,0.10),transparent_34%)]" />
+          <div className="relative z-10 grid gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+            <div>
+              <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">Arquivo de elenco</p>
+              <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">Perfis visuais sem arte final.</h2>
+              <p className="mt-3 text-sm leading-6 text-slate-300">
+                Os cards usam símbolos, silhuetas e marcas abstratas para apresentar função, estado do projeto e papel no beta sem fingir que as artes finais já existem.
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="rounded-xl border border-cyan-200/10 bg-black/20 px-4 py-3">
+                <GameGlyph name="katana" variant="plain" className="mb-2 h-5 w-5 text-cyan-100" />
+                <p className="text-xs uppercase tracking-[0.14em] text-slate-400">Jogável</p>
+                <p className="mt-1 text-sm font-medium text-white">Rubens</p>
+              </div>
+              <div className="rounded-xl border border-amber-200/10 bg-black/20 px-4 py-3">
+                <GameGlyph name="boss" variant="plain" className="mb-2 h-5 w-5 text-amber-100" />
+                <p className="text-xs uppercase tracking-[0.14em] text-slate-400">Chefe</p>
+                <p className="mt-1 text-sm font-medium text-white">Lucarelli</p>
+              </div>
+              <div className="rounded-xl border border-purple-200/10 bg-black/20 px-4 py-3">
+                <GameGlyph name="future" variant="plain" className="mb-2 h-5 w-5 text-purple-100" />
+                <p className="text-xs uppercase tracking-[0.14em] text-slate-400">Futuros</p>
+                <p className="mt-1 text-sm font-medium text-white">Kin e Shico</p>
+              </div>
+            </div>
+          </div>
+        </GlowCard>
+      </SectionContainer>
+
+      <SectionContainer withDivider>
+        <SectionTitle title="Elenco atual" subtitle="Personagens e encontros confirmados para a experiência inicial do beta." />
+        <div className="grid gap-4 lg:grid-cols-2">
+          {currentCharacters.map((character) => (
+            <CharacterShowcaseCard key={character.name} character={character} />
           ))}
         </div>
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Personagens futuros" subtitle="Conteúdo planejado com detalhes preservados para manter mistério e evitar spoilers." />
+        <SectionTitle title="Ameaças do Bosque" subtitle="Inimigos e presenças usadas para ensinar ritmo, risco e leitura de espaço." />
+        <div className="grid gap-4 lg:grid-cols-[0.85fr_1.15fr] lg:items-stretch">
+          {enemyCharacters.map((character) => (
+            <CharacterShowcaseCard key={character.name} character={character} />
+          ))}
+          <GlowCard contentClassName="flex h-full flex-col justify-center">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+              <GameGlyph name="fog" className="h-12 w-12 border-emerald-200/20 bg-emerald-300/10 text-emerald-100" />
+              <div>
+                <p className="text-xs uppercase tracking-[0.18em] text-emerald-200/80">Função de design</p>
+                <h3 className="mt-2 text-xl font-semibold text-white">Ameaças simples, leitura importante.</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-300">
+                  Os inimigos comuns não precisam revelar lore demais. Eles existem para criar pressão, ensinar distância e preparar o jogador para Lucarelli.
+                </p>
+              </div>
+            </div>
+          </GlowCard>
+        </div>
+      </SectionContainer>
+
+      <SectionContainer withDivider>
+        <SectionTitle title="Personagens futuros" subtitle="Conteúdo planejado com detalhes preservados para manter mistério e evitar promessas prematuras." />
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {futureCharacters.map((character) => (
-            <DetailedCharacterCard key={character.name} character={character} />
+            <CharacterShowcaseCard key={character.name} character={character} />
           ))}
         </div>
       </SectionContainer>
