@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AnimatedPageWrapper } from "@/components/AnimatedPageWrapper";
 import { GlowCard } from "@/components/GlowCard";
@@ -5,6 +6,39 @@ import { PageHeader } from "@/components/PageHeader";
 import { devlogPosts } from "@/data/devlog";
 
 type Props = { params: Promise<{ slug: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const post = devlogPosts.find((item) => item.slug === slug);
+
+  if (!post) {
+    return {
+      title: "Devlog",
+      description: "Atualizações de desenvolvimento de Tester."
+    };
+  }
+
+  return {
+    title: post.title,
+    description: post.summary,
+    alternates: { canonical: `/devlog/${post.slug}` },
+    openGraph: {
+      title: `${post.title} | Tester`,
+      description: post.summary,
+      url: `/devlog/${post.slug}`,
+      type: "article"
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${post.title} | Tester`,
+      description: post.summary
+    }
+  };
+}
+
+export function generateStaticParams() {
+  return devlogPosts.map((post) => ({ slug: post.slug }));
+}
 
 export default async function DevlogPostPage({ params }: Props) {
   const { slug } = await params;
