@@ -69,7 +69,7 @@ export default function DownloadPage() {
         <GlowCard>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {betaStatus.map((entry) => (
-              <div key={entry.label} className="rounded-xl border border-cyan-200/10 bg-black/15 px-4 py-3">
+              <div key={entry.label} className="mini-status-card rounded-xl border border-cyan-200/10 bg-black/15 px-4 py-3">
                 <GameGlyph name={entry.icon} variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
                 <p className="text-xs uppercase tracking-[0.12em] text-cyan-200/80">{entry.label}</p>
                 <p className="mt-1 text-sm font-medium leading-6 text-slate-100">{entry.value}</p>
@@ -106,7 +106,7 @@ export default function DownloadPage() {
         <GlowCard>
           <div className="grid gap-3 text-sm md:hidden">
             {minimumRequirements.map((req) => (
-              <div key={req.item} className="rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
+              <div key={req.item} className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
                 <GameGlyph name={req.icon} variant="plain" className="mb-2 h-5 w-5 text-cyan-200" />
                 <p className="text-xs uppercase tracking-[0.12em] text-slate-400">{req.item}</p>
                 <p className="mt-1 leading-6 text-slate-300">{req.value}</p>
