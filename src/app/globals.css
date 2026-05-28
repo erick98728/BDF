@@ -351,6 +351,17 @@ button:disabled {
   background-size: 220% 100%;
 }
 
+.section-rhythm > * + * {
+  margin-top: var(--tester-space-section-y);
+}
+
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+  background-size: 220% 100%;
+}
+
 .status-chip {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
   transition: border-color var(--tester-t-base) var(--tester-ease), background-color var(--tester-t-base) var(--tester-ease), box-shadow var(--tester-t-base) var(--tester-ease);
