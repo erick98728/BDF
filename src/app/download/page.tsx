@@ -12,8 +12,8 @@ const betaStatus: { label: string; value: string; icon: GameGlyphName; status?: 
   { label: "Versão atual", value: "Tester Beta 0.1", icon: "build", status: "beta" },
   { label: "Plataforma", value: "Windows", icon: "platform", status: "live" },
   { label: "Estado", value: "Preparação para beta fechado", icon: "status", status: "warning" },
-  { label: "Arquivo", value: "Não versionado no GitHub", icon: "download", status: "locked" },
-  { label: "Download", value: "Liberado somente quando houver link oficial", icon: "download", status: "locked" },
+  { label: "Distribuição", value: "Canal oficial do site", icon: "download", status: "locked" },
+  { label: "Download", value: "Liberado somente quando houver acesso oficial", icon: "download", status: "locked" },
   { label: "Feedback", value: "Obrigatório para orientar melhorias", icon: "feedback", status: "live" }
 ];
 
@@ -22,7 +22,7 @@ const minimumRequirements: { item: string; value: string; icon: GameGlyphName }[
   { item: "Processador", value: "Preliminar, será definido após testes em PCs reais", icon: "requirement" },
   { item: "Memória", value: "Preliminar, será ajustada conforme desempenho da build", icon: "requirement" },
   { item: "Placa de vídeo", value: "Preliminar, depende dos testes de iluminação e efeitos", icon: "fog" },
-  { item: "Armazenamento", value: "Será informado junto com o arquivo oficial da build", icon: "download" }
+  { item: "Armazenamento", value: "Será informado junto com a liberação oficial da build", icon: "download" }
 ];
 
 const betaGuidelines: { text: string; icon: GameGlyphName }[] = [
@@ -62,7 +62,7 @@ export default function DownloadPage() {
     <AnimatedPageWrapper>
       <PageHeader
         title="Baixar Tester Beta"
-        description="Painel oficial da build de teste para Windows. O beta está em desenvolvimento e o download só será liberado quando houver link oficial configurado."
+        description="Painel oficial da build de teste para Windows. O beta está em desenvolvimento e o download só será liberado quando houver acesso oficial."
       />
 
       <SectionContainer>
@@ -76,11 +76,11 @@ export default function DownloadPage() {
               </div>
               <h2 className="mt-3 text-2xl font-bold text-white sm:text-3xl">Central oficial da Beta 0.1</h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
-                Esta página informa o estado da build, requisitos preliminares e próximos passos. Ela não promete download imediato e não armazena o arquivo do jogo no repositório.
+                Esta página informa o estado da build, requisitos preliminares e próximos passos. Ela não promete download imediato e apresenta apenas o acesso oficial do beta.
               </p>
             </div>
             <div className="grid gap-2 sm:grid-cols-2 lg:min-w-72 lg:grid-cols-1">
-              <StatusBadge status="locked">Download depende de link oficial</StatusBadge>
+              <StatusBadge status="locked">Download depende de liberação</StatusBadge>
               <StatusBadge status="live">Feedback ativo</StatusBadge>
             </div>
           </div>
@@ -106,16 +106,16 @@ export default function DownloadPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Como o download será liberado" subtitle="O arquivo do jogo não fica no repositório e só aparece no dashboard quando houver link oficial." />
+        <SectionTitle title="Como o download será liberado" subtitle="A build do beta será disponibilizada apenas por acesso oficial, quando estiver pronta para testes." />
         <VisualPanel
           title="Liberação controlada pelo dashboard"
           eyebrow="Acesso oficial"
           icon="download"
           tone="gold"
-          description="A distribuição atual foi pensada para um beta fechado. O jogador entra com uma conta, acessa o dashboard e, quando a variável NEXT_PUBLIC_BETA_DOWNLOAD_URL estiver configurada, o botão de download da build aparece automaticamente."
+          description="A distribuição atual foi pensada para um beta fechado. O jogador entra com uma conta, acessa o dashboard e, quando a build estiver liberada oficialmente, o botão de download aparece automaticamente."
         >
           <p className="text-sm leading-6 text-slate-300">
-            Enquanto o link não estiver ativo, o site mostra o estado Download em preparação. Isso evita página quebrada e deixa claro que a build ainda não foi liberada.
+            Enquanto o acesso não estiver ativo, o site mostra o estado Download em preparação. Isso evita confusão e deixa claro que a build ainda não foi liberada.
           </p>
           <div className="mt-5 grid gap-3 sm:flex sm:flex-wrap">
             <GameButton href="/login">Entrar para baixar</GameButton>
