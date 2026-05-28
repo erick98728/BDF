@@ -35,11 +35,11 @@ export function ProtectedDownloadCard({ isAuthenticated, preparationMode = false
         : "Acesso reservado ao beta";
 
   const description = canDownload
-    ? "Sua conta está autenticada e o link oficial configurado no ambiente já pode ser usado para baixar a build de teste."
+    ? "Sua conta está autorizada e a build de teste já está disponível para download pelo canal oficial."
     : isWaitingForLink
-      ? "Sua conta está pronta, mas o link oficial da build ainda não foi configurado. Quando NEXT_PUBLIC_BETA_DOWNLOAD_URL estiver ativo, o botão será liberado automaticamente."
+      ? "Sua conta está pronta, mas a build ainda não foi liberada oficialmente. Quando o acesso estiver disponível, o botão de download aparecerá automaticamente."
       : preparationMode
-        ? "Este painel mostra como será a experiência do beta. O login real e o download serão ativados depois da configuração do Supabase e do link oficial da build."
+        ? "Este painel mostra como será a experiência do beta. O login real e o download serão ativados quando a área oficial de testes estiver pronta."
         : "Entre com sua conta de beta tester para visualizar o status da build e acessar o download quando ele estiver liberado.";
 
   return (
@@ -71,8 +71,8 @@ export function ProtectedDownloadCard({ isAuthenticated, preparationMode = false
         </div>
         <div className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
           <GameGlyph name="status" variant="plain" className={`mb-2 h-5 w-5 ${textStatusClass}`} />
-          <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Arquivo</p>
-          <p className={`mt-1 font-medium ${textStatusClass}`}>{hasDownloadUrl ? "Link configurado" : "Sem link público"}</p>
+          <p className="text-xs uppercase tracking-[0.12em] text-slate-400">Acesso</p>
+          <p className={`mt-1 font-medium ${textStatusClass}`}>{hasDownloadUrl ? "Liberado oficialmente" : "Aguardando liberação"}</p>
         </div>
       </div>
 
@@ -95,7 +95,7 @@ export function ProtectedDownloadCard({ isAuthenticated, preparationMode = false
       )}
 
       <p className="mt-4 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-xs leading-5 text-slate-400">
-        O executável do jogo não fica no GitHub. O site apenas lê o link configurado em NEXT_PUBLIC_BETA_DOWNLOAD_URL ou, futuramente, uma URL assinada de storage privado.
+        O download do beta será liberado apenas pelos canais oficiais do site. Quando a build estiver disponível, jogadores autorizados verão o botão de acesso nesta área.
       </p>
     </GlowCard>
   );
