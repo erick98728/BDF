@@ -110,7 +110,7 @@ export function Navbar() {
                     href={link.href}
                     aria-current={active ? "page" : undefined}
                     onClick={() => setOpen(false)}
-                    className={`nav-link-fx rounded-lg px-3 py-3 text-sm font-medium ${focusClass} ${active ? "border border-cyan-200/20 bg-cyan-300/14 text-cyan-50" : "text-slate-200 hover:bg-white/5 hover:text-cyan-50"}`}
+                  className={`nav-link-fx rounded-lg px-3 py-3 text-sm font-medium ${focusClass} ${active ? "border border-cyan-200/25 bg-cyan-300/14 text-cyan-50" : "text-slate-200 hover:bg-white/5 hover:text-cyan-50"}`}
                   >
                     {link.label}
                   </Link>
