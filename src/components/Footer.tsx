@@ -15,7 +15,7 @@ const footerLinks = [
 
 export function Footer() {
   return (
-    <footer className="mt-14 border-t border-cyan-200/12 bg-[#050914]/70 py-8 shadow-[0_-18px_45px_rgba(0,0,0,0.22)] sm:mt-20 sm:py-10">
+    <footer className="mt-14 border-t border-cyan-200/12 bg-[#050914]/78 py-8 shadow-[0_-18px_45px_rgba(0,0,0,0.22)] sm:mt-20 sm:py-10">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-7 md:grid-cols-[1.2fr_1.8fr] md:items-start">
           <div>
@@ -35,7 +35,7 @@ export function Footer() {
           </div>
 
           <div className="md:text-right">
-            <p className="text-xs uppercase tracking-[0.16em] text-slate-400">Navegação</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-slate-400">Navegação rápida</p>
             <div className="mt-3 grid grid-cols-2 gap-2 min-[420px]:grid-cols-3 md:flex md:flex-wrap md:justify-end">
               {footerLinks.map(([label, href]) => (
                 <Link

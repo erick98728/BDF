@@ -97,13 +97,13 @@ export function VisualPanel({
   className?: string;
 }) {
   return (
-    <div className={`relative overflow-hidden rounded-2xl border border-cyan-200/14 bg-black/20 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ${className}`.trim()}>
+    <div className={`relative overflow-hidden rounded-2xl border border-cyan-200/14 bg-black/22 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ${className}`.trim()}>
       <RunePattern className="opacity-70" />
       <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-start">
         <GameGlyph name={icon} className={toneStyles[tone]} />
         <div className="min-w-0">
-          {eyebrow ? <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/75">{eyebrow}</p> : null}
-          <h3 className="mt-1 text-xl font-semibold text-white">{title}</h3>
+          {eyebrow ? <p className="text-[11px] uppercase tracking-[0.13em] text-cyan-200/80 sm:text-xs">{eyebrow}</p> : null}
+          <h3 className="mt-1 text-xl font-semibold text-white sm:text-[1.35rem]">{title}</h3>
           {description ? <p className="mt-2 text-sm leading-6 text-slate-300">{description}</p> : null}
           {children ? <div className="mt-4">{children}</div> : null}
         </div>

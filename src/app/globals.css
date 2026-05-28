@@ -23,6 +23,20 @@
   --tester-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --tester-radius-card: 1rem;
   --tester-shadow-panel: 0 18px 50px rgba(0, 0, 0, 0.34), 0 0 30px rgba(99, 221, 255, 0.1);
+  --tester-space-section-y: clamp(2.75rem, 2rem + 2vw, 5rem);
+  --tester-space-card: clamp(1rem, 0.75rem + 0.7vw, 1.5rem);
+  --tester-focus: 0 0 0 2px rgba(3, 7, 17, 0.95), 0 0 0 4px rgba(153, 236, 255, 0.62);
+  --tester-opacity-bg: 0.82;
+  --tester-opacity-fog: 0.74;
+  --tester-opacity-grid: 0.5;
+  --tester-opacity-card: 0.8;
+  --tester-opacity-border: 0.18;
+  --tester-opacity-hover: 0.24;
+  --tester-opacity-active: 0.32;
+  --tester-opacity-disabled: 0.55;
+  --tester-t-fast: 160ms;
+  --tester-t-base: 220ms;
+  --tester-t-slow: 280ms;
 }
 
 * {
@@ -66,6 +80,15 @@ a {
   text-decoration: none;
 }
 
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: var(--tester-focus);
+}
+
 button {
   cursor: pointer;
 }
@@ -97,7 +120,7 @@ button:disabled {
     linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px),
     linear-gradient(rgba(255,255,255,0.014) 1px, transparent 1px);
   background-size: auto, 72px 72px, 72px 72px;
-  opacity: 0.82;
+  opacity: var(--tester-opacity-bg);
 }
 
 .page-shell::after {
@@ -111,7 +134,7 @@ button:disabled {
     radial-gradient(circle at 82% 52%, rgba(209, 168, 93, 0.055), transparent 18%),
     radial-gradient(circle at 54% 82%, rgba(168, 85, 247, 0.1), transparent 26%);
   filter: blur(8px);
-  opacity: 0.76;
+  opacity: var(--tester-opacity-fog);
 }
 
 .cursor-aura {
@@ -143,18 +166,18 @@ button:disabled {
     height: 0.42rem;
     border-radius: 9999px;
     background: var(--tester-cyan-soft);
-    box-shadow: 0 0 16px rgba(99, 221, 255, 0.55);
-    transition: opacity 160ms var(--tester-ease), width 180ms var(--tester-ease), height 180ms var(--tester-ease), background-color 180ms var(--tester-ease);
+    box-shadow: 0 0 12px rgba(99, 221, 255, 0.38);
+    transition: opacity var(--tester-t-fast) var(--tester-ease), width var(--tester-t-base) var(--tester-ease), height var(--tester-t-base) var(--tester-ease), background-color var(--tester-t-base) var(--tester-ease);
   }
 
   .cursor-aura__ring {
     width: 2.2rem;
     height: 2.2rem;
     border-radius: 9999px;
-    border: 1px solid rgba(99, 221, 255, 0.28);
-    background: radial-gradient(circle, rgba(99, 221, 255, 0.12), transparent 62%);
-    box-shadow: 0 0 30px rgba(99, 221, 255, 0.16);
-    transition: opacity 180ms var(--tester-ease), width 220ms var(--tester-ease), height 220ms var(--tester-ease), border-color 220ms var(--tester-ease), background-color 220ms var(--tester-ease);
+    border: 1px solid rgba(99, 221, 255, 0.24);
+    background: radial-gradient(circle, rgba(99, 221, 255, 0.09), transparent 62%);
+    box-shadow: 0 0 24px rgba(99, 221, 255, 0.12);
+    transition: opacity var(--tester-t-base) var(--tester-ease), width var(--tester-t-slow) var(--tester-ease), height var(--tester-t-slow) var(--tester-ease), border-color var(--tester-t-base) var(--tester-ease), background-color var(--tester-t-base) var(--tester-ease);
   }
 
   .cursor-aura__dot[data-visible="true"],
@@ -171,8 +194,8 @@ button:disabled {
   .cursor-aura__ring[data-hovering="true"] {
     width: 3.2rem;
     height: 3.2rem;
-    border-color: rgba(209, 168, 93, 0.36);
-    background: radial-gradient(circle, rgba(209, 168, 93, 0.12), transparent 64%);
+    border-color: rgba(209, 168, 93, 0.28);
+    background: radial-gradient(circle, rgba(209, 168, 93, 0.09), transparent 64%);
   }
 }
 
@@ -182,14 +205,14 @@ button:disabled {
   background:
     linear-gradient(145deg, rgba(14, 24, 48, 0.88), rgba(16, 13, 32, 0.72)),
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent);
-  border: 1px solid rgba(116, 225, 255, 0.2);
+  border: 1px solid rgba(116, 225, 255, var(--tester-opacity-border));
   backdrop-filter: blur(14px) saturate(120%);
   transform: translateZ(0);
   transition:
-    transform 240ms var(--tester-ease),
-    border-color 240ms var(--tester-ease),
-    box-shadow 240ms var(--tester-ease),
-    background-color 240ms var(--tester-ease);
+    transform var(--tester-t-slow) var(--tester-ease),
+    border-color var(--tester-t-base) var(--tester-ease),
+    box-shadow var(--tester-t-base) var(--tester-ease),
+    background-color var(--tester-t-base) var(--tester-ease);
 }
 
 .surface-glass::before {
@@ -200,8 +223,8 @@ button:disabled {
   background:
     radial-gradient(circle at 16% 0%, rgba(99, 221, 255, 0.12), transparent 24%),
     linear-gradient(135deg, rgba(255,255,255,0.04), transparent 34%);
-  opacity: 0.78;
-  transition: opacity 240ms var(--tester-ease);
+  opacity: var(--tester-opacity-card);
+  transition: opacity var(--tester-t-base) var(--tester-ease);
 }
 
 .surface-glass::after {
@@ -237,7 +260,7 @@ button:disabled {
   mask-composite: exclude;
   pointer-events: none;
   opacity: 0.82;
-  transition: opacity 240ms var(--tester-ease), filter 240ms var(--tester-ease);
+  transition: opacity var(--tester-t-base) var(--tester-ease), filter var(--tester-t-base) var(--tester-ease);
 }
 
 .rune-border::after {
@@ -250,7 +273,7 @@ button:disabled {
     linear-gradient(90deg, transparent, rgba(99,221,255,0.16), transparent) top left / 100% 1px no-repeat,
     linear-gradient(90deg, transparent, rgba(209,168,93,0.13), transparent) bottom left / 100% 1px no-repeat;
   opacity: 0.74;
-  transition: opacity 240ms var(--tester-ease);
+  transition: opacity var(--tester-t-base) var(--tester-ease);
 }
 
 .soft-cyan-glow {
@@ -264,11 +287,13 @@ button:disabled {
 .tester-button {
   transform: translateZ(0);
   transition:
-    transform 180ms var(--tester-ease),
-    border-color 200ms var(--tester-ease),
-    background-color 200ms var(--tester-ease),
-    color 200ms var(--tester-ease),
-    box-shadow 200ms var(--tester-ease);
+    transform var(--tester-t-fast) var(--tester-ease),
+    border-color var(--tester-t-base) var(--tester-ease),
+    background-color var(--tester-t-base) var(--tester-ease),
+    color var(--tester-t-base) var(--tester-ease),
+    box-shadow var(--tester-t-base) var(--tester-ease),
+    opacity var(--tester-t-fast) var(--tester-ease);
+  will-change: transform;
 }
 
 .tester-button:active {
@@ -279,11 +304,12 @@ button:disabled {
   position: relative;
   transform: translateZ(0);
   transition:
-    transform 220ms var(--tester-ease),
-    border-color 220ms var(--tester-ease),
-    background-color 220ms var(--tester-ease),
-    color 220ms var(--tester-ease),
-    box-shadow 220ms var(--tester-ease);
+    transform var(--tester-t-base) var(--tester-ease),
+    border-color var(--tester-t-base) var(--tester-ease),
+    background-color var(--tester-t-base) var(--tester-ease),
+    color var(--tester-t-base) var(--tester-ease),
+    box-shadow var(--tester-t-base) var(--tester-ease),
+    opacity var(--tester-t-base) var(--tester-ease);
 }
 
 .nav-link-fx::after {
@@ -297,7 +323,7 @@ button:disabled {
   opacity: 0;
   transform: scaleX(0.55);
   transform-origin: center;
-  transition: opacity 220ms var(--tester-ease), transform 220ms var(--tester-ease);
+  transition: opacity var(--tester-t-base) var(--tester-ease), transform var(--tester-t-base) var(--tester-ease);
 }
 
 .nav-link-fx:hover::after,
@@ -308,15 +334,26 @@ button:disabled {
 
 .mini-status-card {
   transition:
-    transform 200ms var(--tester-ease),
-    border-color 200ms var(--tester-ease),
-    background-color 200ms var(--tester-ease),
-    box-shadow 200ms var(--tester-ease);
+    transform var(--tester-t-base) var(--tester-ease),
+    border-color var(--tester-t-base) var(--tester-ease),
+    background-color var(--tester-t-base) var(--tester-ease),
+    box-shadow var(--tester-t-base) var(--tester-ease);
+}
+
+.section-rhythm > * + * {
+  margin-top: var(--tester-space-section-y);
+}
+
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+  background-size: 220% 100%;
 }
 
 .status-chip {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transition: border-color 200ms var(--tester-ease), background-color 200ms var(--tester-ease), box-shadow 200ms var(--tester-ease);
+  transition: border-color var(--tester-t-base) var(--tester-ease), background-color var(--tester-t-base) var(--tester-ease), box-shadow var(--tester-t-base) var(--tester-ease);
 }
 
 .tester-kicker {
@@ -418,7 +455,11 @@ button:disabled {
   .tester-button:hover,
   .nav-link-fx:hover,
   .mini-status-card:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+  }
+
+  .tester-button:active {
+    transform: translateY(0.5px) scale(0.985);
   }
 
   .nav-link-fx:hover {
@@ -451,6 +492,10 @@ button:disabled {
 
   .haze-drift {
     animation: tester-haze-slide 20s ease-in-out infinite;
+  }
+
+  .skeleton-shimmer {
+    animation: tester-haze-slide 2.8s linear infinite;
   }
 }
 
@@ -492,5 +537,14 @@ button:disabled {
   .tester-kicker {
     max-width: 100%;
     letter-spacing: 0.14em;
+  }
+
+  .surface-glass {
+    border-color: rgba(116, 225, 255, 0.16);
+  }
+
+  .nav-link-fx::after {
+    left: 0.55rem;
+    right: 0.55rem;
   }
 }

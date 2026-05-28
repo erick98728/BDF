@@ -9,11 +9,11 @@ type GlowCardProps = {
 
 const variantClass: Record<NonNullable<GlowCardProps["variant"]>, string> = {
   default: "surface-glass soft-cyan-glow",
-  narrative: "surface-glass soft-cyan-glow bg-[radial-gradient(circle_at_10%_0%,rgba(99,221,255,0.08),transparent_30%)]",
-  functional: "surface-glass soft-cyan-glow border-cyan-200/18",
-  status: "surface-glass soft-cyan-glow border-amber-200/18",
-  character: "surface-glass soft-cyan-glow border-purple-200/16",
-  gallery: "surface-glass soft-cyan-glow border-cyan-200/16"
+  narrative: "surface-glass soft-cyan-glow bg-[radial-gradient(circle_at_10%_0%,rgba(99,221,255,0.06),transparent_30%)]",
+  functional: "surface-glass soft-cyan-glow border-cyan-200/16",
+  status: "surface-glass soft-cyan-glow border-amber-200/16",
+  character: "surface-glass soft-cyan-glow border-purple-200/14",
+  gallery: "surface-glass soft-cyan-glow border-cyan-200/14"
 };
 
 export function GlowCard({ children, className = "", contentClassName = "", variant = "default" }: GlowCardProps) {
