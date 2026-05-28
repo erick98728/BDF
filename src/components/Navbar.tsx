@@ -43,12 +43,12 @@ export function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-cyan-200/15 bg-[#050914]/82 shadow-[0_14px_40px_rgba(0,0,0,0.32)] backdrop-blur-xl">
-      <nav className="mx-auto max-w-6xl px-5 py-3 sm:px-6 lg:px-8" aria-label="Navegação principal">
+    <header className="sticky top-0 z-50 border-b border-cyan-200/15 bg-[#050914]/88 shadow-[0_14px_40px_rgba(0,0,0,0.32)] backdrop-blur-xl">
+      <nav className="mx-auto max-w-6xl px-4 py-3 sm:px-6 lg:px-8" aria-label="Navegação principal">
         <div className="flex items-center justify-between">
           <Link href="/" className={`group nav-link-fx inline-flex items-center gap-3 rounded-lg ${focusClass}`}>
             <TesterMark compact />
-            <span className="text-lg font-black tracking-[0.2em] text-cyan-50 transition group-hover:text-white">TESTER</span>
+            <span className="text-base font-black tracking-[0.2em] text-cyan-50 transition group-hover:text-white sm:text-lg">TESTER</span>
             <span className="hidden sm:inline-flex">
               <BetaBadge>Beta</BetaBadge>
             </span>
@@ -88,7 +88,7 @@ export function Navbar() {
             aria-expanded={open}
             aria-controls="menu-mobile"
             onClick={() => setOpen((v) => !v)}
-            className={`tester-button inline-flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-lg border border-cyan-200/20 bg-white/5 text-slate-100 hover:border-cyan-100/40 hover:bg-cyan-300/10 md:hidden ${focusClass}`}
+            className={`tester-button inline-flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-xl border border-cyan-200/20 bg-white/5 text-slate-100 hover:border-cyan-100/40 hover:bg-cyan-300/10 md:hidden ${focusClass}`}
           >
             <span className={`h-px w-4 bg-current transition-transform ${open ? "translate-y-1.5 rotate-45" : ""}`} />
             <span className={`h-px w-4 bg-current transition-opacity ${open ? "opacity-0" : ""}`} />
@@ -100,7 +100,7 @@ export function Navbar() {
           id="menu-mobile"
           className={`grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-200 md:hidden ${open ? "mt-3 grid-rows-[1fr] opacity-100" : "mt-0 grid-rows-[0fr] opacity-0"}`}
         >
-          <div className="min-h-0 overflow-hidden rounded-lg border border-cyan-200/12 bg-black/30 p-2 shadow-2xl">
+          <div className="min-h-0 overflow-hidden rounded-xl border border-cyan-200/12 bg-black/45 p-2 shadow-2xl backdrop-blur-md">
             <div className="flex w-full flex-col gap-1">
               {baseLinks.map((link) => {
                 const active = pathname === link.href;
