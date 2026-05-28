@@ -53,10 +53,11 @@ export default function HomePage() {
     <AnimatedPageWrapper>
       <HeroSection />
 
+      <div className="section-rhythm">
       <SectionContainer>
         <SectionTitle
           title="O que é Tester?"
-          subtitle="Um metroidvania 2D sombrio em desenvolvimento, construído em torno de exploração, técnica e atmosfera."
+          subtitle="Um metroidvania 2D sombrio em desenvolvimento, com foco em exploração, combate e atmosfera."
         />
         <div className="grid gap-4 lg:grid-cols-[1.25fr_0.75fr] lg:items-stretch">
           <GlowCard contentClassName="flex h-full flex-col justify-between p-5 sm:p-7">
@@ -64,7 +65,7 @@ export default function HomePage() {
               <GameGlyph name="fog" className="h-14 w-14" />
               <div>
                 <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">Arquivo principal</p>
-                <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">Mistério, katana e caminhos ocultos.</h2>
+                <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">Mistério, combate e caminhos ocultos.</h2>
                 <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-300 sm:text-base sm:leading-7">
                   Tester acompanha Rubens atravessando o Bosque da Névoa Perdida, uma primeira área pensada para testar movimentação, combate e leitura de mapa sem entregar todas as respostas de uma vez.
                 </p>
@@ -78,7 +79,7 @@ export default function HomePage() {
                     <GameGlyph name={pillar.icon} variant="plain" className="h-5 w-5 text-cyan-100" />
                   </div>
                   <h3 className="text-base font-semibold text-white">{pillar.title}</h3>
-                  <p className="mt-2 text-xs leading-5 text-slate-400">{pillar.description}</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-300">{pillar.description}</p>
                 </div>
               ))}
             </div>
@@ -89,7 +90,7 @@ export default function HomePage() {
               <p className="text-xs uppercase tracking-[0.18em] text-amber-200/80">Estado atual</p>
               <h3 className="mt-2 text-xl font-semibold text-white">Beta 0.1 em preparação</h3>
               <p className="mt-3 text-sm leading-6 text-slate-300">
-                A Home apresenta o projeto como site oficial, mas mantém claro que o jogo ainda está em desenvolvimento e depende de testes para evoluir.
+                Este é o portal oficial do projeto. O beta segue em desenvolvimento e os testes guiam os próximos ajustes.
               </p>
             </div>
             <div className="mt-6 grid gap-3">
@@ -178,6 +179,7 @@ export default function HomePage() {
         <SectionTitle title="Devlog" subtitle="Atualizações recentes do desenvolvimento." />
         <div className="grid gap-4 md:grid-cols-3">{devlogs.map((d) => <DevlogCard key={d.title} {...d} />)}</div>
       </SectionContainer>
+      </div>
     </AnimatedPageWrapper>
   );
 }
