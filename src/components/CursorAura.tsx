@@ -14,9 +14,9 @@ export function CursorAura() {
 
     if (!supportsFinePointer || prefersReducedMotion) return;
 
-    const dot = dotRef.current;
-    const ring = ringRef.current;
-    if (!dot || !ring) return;
+    const dotElement = dotRef.current;
+    const ringElement = ringRef.current;
+    if (!dotElement || !ringElement) return;
 
     let targetX = window.innerWidth / 2;
     let targetY = window.innerHeight / 2;
@@ -27,13 +27,13 @@ export function CursorAura() {
 
     function setVisible(next: boolean) {
       visible = next;
-      dot.dataset.visible = String(next);
-      ring.dataset.visible = String(next);
+      dotElement.dataset.visible = String(next);
+      ringElement.dataset.visible = String(next);
     }
 
     function setHovering(next: boolean) {
-      ring.dataset.hovering = String(next);
-      dot.dataset.hovering = String(next);
+      ringElement.dataset.hovering = String(next);
+      dotElement.dataset.hovering = String(next);
     }
 
     function move(event: PointerEvent) {
@@ -42,14 +42,14 @@ export function CursorAura() {
 
       if (!visible) setVisible(true);
 
-      dot.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) translate(-50%, -50%)`;
+      dotElement.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) translate(-50%, -50%)`;
       setHovering(Boolean((event.target as Element | null)?.closest?.(interactiveSelector)));
     }
 
     function animate() {
       ringX += (targetX - ringX) * 0.18;
       ringY += (targetY - ringY) * 0.18;
-      ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+      ringElement.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
       animationFrame = window.requestAnimationFrame(animate);
     }
 
