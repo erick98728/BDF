@@ -13,10 +13,10 @@ export function CursorAura() {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (!supportsFinePointer || prefersReducedMotion) return;
+    if (dotRef.current === null || ringRef.current === null) return;
 
-    const dotElement = dotRef.current;
-    const ringElement = ringRef.current;
-    if (!dotElement || !ringElement) return;
+    const dotElement: HTMLDivElement = dotRef.current;
+    const ringElement: HTMLDivElement = ringRef.current;
 
     let targetX = window.innerWidth / 2;
     let targetY = window.innerHeight / 2;
