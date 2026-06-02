@@ -102,11 +102,11 @@ Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O s
 
 - Auth: login/cadastro no `/login`.
 - Feedback: tabela `beta_feedback`.
-- Guia completo de configuração: `docs/SUPABASE_SETUP.md`.
-- SQL base: `docs/supabase-feedback.md`.
+- Guia principal e fonte oficial de configuração: `docs/SUPABASE_SETUP.md`.
+- Guia auxiliar rápido da tabela `beta_feedback`: `docs/supabase-feedback.md` (deve espelhar a estrutura oficial do guia principal).
 - Plano de segurança para download: `docs/DOWNLOAD_SECURITY_PLAN.md`.
 
-Para ativar login real e feedback salvo no banco, siga primeiro `docs/SUPABASE_SETUP.md`.
+Para ativar login real e feedback salvo no banco, siga primeiro `docs/SUPABASE_SETUP.md`. A tabela `beta_feedback` deve usar `id uuid primary key default gen_random_uuid()` e RLS com apenas `insert` para usuários autenticados, sem leitura pública dos feedbacks.
 
 ## Próximos passos técnicos
 

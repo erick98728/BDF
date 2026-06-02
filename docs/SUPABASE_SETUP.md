@@ -1,6 +1,6 @@
 # Configuração do Supabase para o site Tester
 
-Este guia explica como ativar login, dashboard autenticado e salvamento real do formulário de feedback no site Tester.
+Este é o guia principal de configuração do Supabase para o site Tester. Ele explica como ativar login, dashboard autenticado e salvamento real do formulário de feedback. O arquivo `docs/supabase-feedback.md` é apenas um guia auxiliar rápido e deve permanecer sincronizado com esta estrutura oficial.
 
 ## 1. Criar o projeto no Supabase
 
@@ -65,7 +65,7 @@ Para o deploy atual, use o domínio da Vercel do projeto. Se trocar de domínio 
 
 ## 5. Criar a tabela `beta_feedback`
 
-No Supabase, vá em **SQL Editor** e rode:
+No Supabase, vá em **SQL Editor** e rode a estrutura oficial abaixo. A chave primária deve usar `uuid` e não deve ser substituída por outro padrão:
 
 ```sql
 create table if not exists public.beta_feedback (
@@ -105,7 +105,7 @@ to authenticated
 with check (true);
 ```
 
-Essa policy permite apenas inserir feedback. Ela não libera leitura pública dos registros.
+Essa policy permite apenas inserir feedback para usuários autenticados. Ela não libera leitura pública dos registros; não crie policy de `select` pública para `beta_feedback`.
 
 ## 8. Testar login
 
