@@ -148,3 +148,143 @@ Antes de considerar o Supabase pronto, confirme:
 - A policy de insert foi criada.
 - Login funciona.
 - Feedback autenticado salva no banco.
+
+## Administração, usuários e conteúdo público
+
+O painel em `/admin` usa Supabase Auth, a tabela `profiles` para cargos/permissões e a tabela `site_content` para salvar textos, galeria e personagens em JSON. Execute este SQL no Supabase SQL Editor antes de liberar o painel em produção.
+
+```sql
+create table if not exists public.profiles (
+  id uuid primary key references auth.users(id) on delete cascade,
+  email text,
+  display_name text,
+  role text not null default 'user' check (role in ('user', 'admin', 'super_admin')),
+  permissions text[] not null default '{}',
+  active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.site_content (
+  id text primary key,
+  content jsonb not null,
+  updated_by uuid references auth.users(id) on delete set null,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.profiles enable row level security;
+alter table public.site_content enable row level security;
+
+create or replace function public.is_admin(uid uuid)
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.profiles
+    where id = uid
+      and active = true
+      and (
+        role in ('admin', 'super_admin')
+        or 'view_admin' = any(permissions)
+        or 'manage_content' = any(permissions)
+      )
+  );
+$$;
+
+create or replace function public.can_manage_content(uid uuid)
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.profiles
+    where id = uid
+      and active = true
+      and (role in ('admin', 'super_admin') or 'manage_content' = any(permissions))
+  );
+$$;
+
+create or replace function public.can_manage_users(uid uuid)
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.profiles
+    where id = uid
+      and active = true
+      and (role = 'super_admin' or 'manage_users' = any(permissions))
+  );
+$$;
+
+create policy "profiles_select_own_or_admin"
+on public.profiles for select
+to authenticated
+using (id = auth.uid() or public.can_manage_users(auth.uid()));
+
+create policy "profiles_update_super_admin"
+on public.profiles for update
+to authenticated
+using (public.can_manage_users(auth.uid()))
+with check (public.can_manage_users(auth.uid()));
+
+create policy "site_content_public_read"
+on public.site_content for select
+to anon, authenticated
+using (true);
+
+create policy "site_content_admin_write"
+on public.site_content for insert
+to authenticated
+with check (public.can_manage_content(auth.uid()));
+
+create policy "site_content_admin_update"
+on public.site_content for update
+to authenticated
+using (public.can_manage_content(auth.uid()))
+with check (public.can_manage_content(auth.uid()));
+
+create or replace function public.handle_new_user_profile()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  insert into public.profiles (id, email, display_name)
+  values (new.id, new.email, coalesce(new.raw_user_meta_data->>'name', split_part(new.email, '@', 1)))
+  on conflict (id) do nothing;
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created_profile on auth.users;
+create trigger on_auth_user_created_profile
+after insert on auth.users
+for each row execute function public.handle_new_user_profile();
+```
+
+### Criar o primeiro super administrador
+
+Depois de criar sua conta pelo `/login`, execute uma única vez trocando o e-mail pelo seu:
+
+```sql
+update public.profiles
+set role = 'super_admin', permissions = array['view_admin', 'manage_content', 'manage_users'], active = true
+where email = 'seu-email@exemplo.com';
+```
+
+Permissões disponíveis:
+
+- `view_admin`: visualiza o painel.
+- `manage_content`: edita textos, galeria e personagens.
+- `manage_users`: altera cargos, permissões e bloqueios de usuários.
+
+Usuários com `role = 'user'` e sem permissões não veem o link de administração e são redirecionados caso tentem abrir `/admin` diretamente.
