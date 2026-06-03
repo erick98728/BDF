@@ -73,8 +73,9 @@ Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O s
 
 ## O que funciona sem Supabase
 
-- Páginas públicas: início, lore, personagens, studio, devlog, galeria e download.
+- Páginas públicas: início, lore, personagens, studio, devlog, roadmap, galeria e download.
 - Página `/download` com status do beta e orientação de acesso.
+- Página `/roadmap` com separação entre o que já funciona, o que está em teste, próximas melhorias e futuro sem data definida.
 - Página `/feedback` com validação de formulário no frontend.
 - Página `/login` com campos de e-mail e senha, explicando que a conta será usada para acessar o beta.
 - Dashboard em modo de preparação, com prévia do painel, checklist do jogador, botão de feedback e aviso de que o download real depende da configuração.
@@ -98,6 +99,12 @@ Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O s
 
 3. Com Supabase, whitelist e build ativa configurados:
    O usuário autenticado vê o botão "Gerar download seguro" no dashboard. O site chama `POST /api/beta/download`, recebe uma URL assinada temporária do bucket privado e abre o link sem expor o caminho do Storage.
+
+## Devlog e Roadmap
+
+O Devlog agora usa posts completos em `src/data/devlog.ts`, com seções de conteúdo, progresso registrado e próximos passos. A página `/devlog/[slug]` não exibe mais placeholder de “post em preparação”; cada registro deve explicar decisões reais do desenvolvimento sem inventar datas.
+
+A página `/roadmap` mostra o estado honesto do projeto em quatro grupos: já implementado/funcional, em desenvolvimento/em teste, próximas melhorias e futuro planejado. Itens futuros não têm data definida e não devem ser tratados como promessa de versão final.
 
 ## Supabase
 

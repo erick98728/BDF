@@ -54,6 +54,10 @@ export default function DevlogPage() {
                 </div>
                 <h2 className="text-xl font-semibold text-white">{post.title}</h2>
                 <p className="mt-3 text-sm leading-6 text-slate-300">{post.summary}</p>
+                <div className="mt-4 grid gap-2 text-xs text-slate-400 sm:grid-cols-2">
+                  <span>{post.content.length} seções completas</span>
+                  <span>{post.progress.length} avanços registrados</span>
+                </div>
                 <Link
                   href={`/devlog/${post.slug}`}
                   className="tester-button mt-auto inline-flex w-fit rounded-lg border border-purple-300/30 bg-purple-300/10 px-4 py-2 text-sm font-medium text-purple-100 transition hover:bg-purple-300/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
