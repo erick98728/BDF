@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { navLinks } from "@/data/site";
+import { canAccessAdmin } from "@/lib/adminTypes";
+import { getCurrentProfile } from "@/lib/adminApi";
 import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
 import { BetaBadge, TesterMark } from "./TesterVisualSystem";
 
