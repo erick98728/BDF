@@ -1,8 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getAuthenticatedUser } from "@/lib/serverAuth";
+import { getAuthenticatedUser, setAuthSessionCookies } from "@/lib/serverAuth";
 
 export async function GET(request: NextRequest) {
-  const { user } = await getAuthenticatedUser(request);
+  const { user, refreshed, session } = await getAuthenticatedUser(request);
 
   if (!user) {
     return NextResponse.json({
@@ -11,8 +11,14 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  return NextResponse.json({
+  const response = NextResponse.json({
     authenticated: true,
     user
   });
+
+  if (refreshed && session) {
+    setAuthSessionCookies(response, session);
+  }
+
+  return response;
 }

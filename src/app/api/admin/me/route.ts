@@ -1,9 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { canAccessAdmin, canManageContent, canManageUsers } from "@/lib/adminTypes";
-import { getAuthenticatedUser, getServerProfile } from "@/lib/serverAuth";
+import { getAuthenticatedUser, getServerProfile, setAuthSessionCookies } from "@/lib/serverAuth";
 
 export async function GET(request: NextRequest) {
-  const { user, token } = await getAuthenticatedUser(request);
+  const { user, token, refreshed, session } = await getAuthenticatedUser(request);
 
   if (!user || !token) {
     return NextResponse.json({ authenticated: false, allowed: false, profile: null }, { status: 401 });
@@ -17,10 +17,14 @@ export async function GET(request: NextRequest) {
   };
 
   if (!capabilities.canAccessAdmin || !profile) {
-    return NextResponse.json({ authenticated: true, allowed: false, profile: null, capabilities }, { status: 403 });
+    const response = NextResponse.json({ authenticated: true, allowed: false, profile: null, capabilities }, { status: 403 });
+    if (refreshed && session) {
+      setAuthSessionCookies(response, session);
+    }
+    return response;
   }
 
-  return NextResponse.json({
+  const response = NextResponse.json({
     authenticated: true,
     allowed: true,
     profile: {
@@ -33,4 +37,10 @@ export async function GET(request: NextRequest) {
     },
     capabilities
   });
+
+  if (refreshed && session) {
+    setAuthSessionCookies(response, session);
+  }
+
+  return response;
 }
