@@ -6,6 +6,7 @@ import { GlowCard } from "@/components/GlowCard";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
+import { loadSiteContent } from "@/lib/adminApi";
 
 const currentCharacters: CharacterShowcase[] = [
   {
@@ -104,12 +105,18 @@ export const metadata: Metadata = {
   }
 };
 
-export default function CharactersPage() {
+export default async function CharactersPage() {
+  const siteContent = await loadSiteContent();
+  const editableCharacters = siteContent.characters;
+  const editableCurrentCharacters = (editableCharacters.current.length ? editableCharacters.current : currentCharacters) as CharacterShowcase[];
+  const editableEnemyCharacters = (editableCharacters.enemies.length ? editableCharacters.enemies : enemyCharacters) as CharacterShowcase[];
+  const editableFutureCharacters = (editableCharacters.future.length ? editableCharacters.future : futureCharacters) as CharacterShowcase[];
+
   return (
     <AnimatedPageWrapper>
       <PageHeader
         title="Personagens"
-        description="Catálogo oficial de personagens, inimigos e chefes de Tester, com foco no conteúdo confirmado para a fase beta."
+        description={editableCharacters.intro.description}
       />
 
       <SectionContainer>
@@ -117,11 +124,9 @@ export default function CharactersPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_10%,rgba(99,221,255,0.14),transparent_30%),radial-gradient(circle_at_82%_70%,rgba(209,168,93,0.10),transparent_34%)]" />
           <div className="relative z-10 grid gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
             <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">Arquivo de elenco</p>
-              <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">Perfis visuais sem arte final.</h2>
-              <p className="mt-3 text-sm leading-6 text-slate-300">
-                Os cards usam símbolos, silhuetas e marcas abstratas para apresentar função, estado do projeto e papel no beta sem fingir que as artes finais já existem.
-              </p>
+              <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">{editableCharacters.intro.eyebrow}</p>
+              <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">{editableCharacters.intro.title}</h2>
+              <p className="mt-3 text-sm leading-6 text-slate-300">{editableCharacters.intro.description}</p>
             </div>
             <div className="grid gap-3 sm:grid-cols-3">
               <div className="rounded-xl border border-cyan-200/10 bg-black/20 px-4 py-3">
@@ -147,7 +152,7 @@ export default function CharactersPage() {
       <SectionContainer withDivider>
         <SectionTitle title="Elenco atual" subtitle="Personagens e encontros confirmados para a experiência inicial do beta." />
         <div className="grid gap-4 lg:grid-cols-2">
-          {currentCharacters.map((character) => (
+          {editableCurrentCharacters.map((character) => (
             <CharacterShowcaseCard key={character.name} character={character} />
           ))}
         </div>
@@ -156,7 +161,7 @@ export default function CharactersPage() {
       <SectionContainer withDivider>
         <SectionTitle title="Ameaças do Bosque" subtitle="Inimigos e presenças usadas para ensinar ritmo, risco e leitura de espaço." />
         <div className="grid gap-4 lg:grid-cols-[0.85fr_1.15fr] lg:items-stretch">
-          {enemyCharacters.map((character) => (
+          {editableEnemyCharacters.map((character) => (
             <CharacterShowcaseCard key={character.name} character={character} />
           ))}
           <GlowCard contentClassName="flex h-full flex-col justify-center">
@@ -177,7 +182,7 @@ export default function CharactersPage() {
       <SectionContainer withDivider>
         <SectionTitle title="Personagens futuros" subtitle="Conteúdo planejado com detalhes preservados para manter mistério e evitar promessas prematuras." />
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {futureCharacters.map((character) => (
+          {editableFutureCharacters.map((character) => (
             <CharacterShowcaseCard key={character.name} character={character} />
           ))}
         </div>

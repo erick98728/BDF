@@ -9,13 +9,11 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
 import { GameButton } from "@/components/GameButton";
-import { ProtectedDownloadCard } from "@/components/ProtectedDownloadCard";
+import { ProtectedDownloadCard, type SecureDownloadState } from "@/components/ProtectedDownloadCard";
 import { BetaBadge, StatusBadge, VisualPanel } from "@/components/TesterVisualSystem";
 import { supabase, isSupabaseConfigured, supabaseSetupMessage } from "@/lib/supabaseClient";
 
 const betaVersion = "Tester Beta 0.1";
-const hasDownloadUrl = Boolean(process.env.NEXT_PUBLIC_BETA_DOWNLOAD_URL?.trim());
-
 const betaSteps = [
   { text: "Acesse o painel com sua conta do beta", icon: "user" as const },
   { text: "Baixe a versão mais recente quando ela for liberada", icon: "download" as const },
@@ -37,6 +35,7 @@ export default function DashboardPage() {
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [checking, setChecking] = useState(true);
+  const [downloadState, setDownloadState] = useState<SecureDownloadState>("ready");
   const isPreparationMode = !isSupabaseConfigured;
 
   useEffect(() => {
@@ -45,6 +44,13 @@ export default function DashboardPage() {
         setChecking(false);
         return;
       }
+      const serverSession = await getServerSession();
+      if (serverSession?.user) {
+        setEmail(serverSession.user.email ?? "Jogador");
+        setChecking(false);
+        return;
+      }
+
       const { data } = await supabase.auth.getUser();
       if (!data.user) {
         router.push("/login");
@@ -57,6 +63,7 @@ export default function DashboardPage() {
   }, [router]);
 
   async function handleSignOut() {
+    await fetch("/api/auth/logout", { method: "POST" });
     await supabase.auth.signOut();
     router.push("/login");
     router.refresh();
@@ -64,11 +71,8 @@ export default function DashboardPage() {
 
   if (checking) return <div className="py-16 text-center text-slate-300">Verificando sessão...</div>;
 
-  const downloadStatus = isPreparationMode
-    ? "Prévia sem autenticação"
-    : hasDownloadUrl
-      ? "Download liberado"
-      : "Download em preparação";
+  const downloadStatus = getDownloadStatusLabel(isPreparationMode ? "preparation" : downloadState);
+  const downloadStatusType = getDownloadStatusType(isPreparationMode ? "preparation" : downloadState);
 
   return (
     <AnimatedPageWrapper>
@@ -98,7 +102,7 @@ export default function DashboardPage() {
               </p>
             </div>
             <div className="grid gap-2 sm:grid-cols-2 lg:min-w-72 lg:grid-cols-1">
-              <StatusBadge status={hasDownloadUrl && !isPreparationMode ? "ready" : "warning"}>{downloadStatus}</StatusBadge>
+              <StatusBadge status={downloadStatusType}>{downloadStatus}</StatusBadge>
               <StatusBadge status={isPreparationMode ? "planned" : "live"}>{isPreparationMode ? "Supabase pendente" : "Conta ativa"}</StatusBadge>
             </div>
           </div>
@@ -160,13 +164,11 @@ export default function DashboardPage() {
           title="Download"
           subtitle={
             isPreparationMode
-              ? "Prévia do estado de download antes da autenticação e do link oficial."
-              : hasDownloadUrl
-                ? "Build oficial disponível para jogadores autenticados."
-                : "Sua conta está pronta, mas o link oficial da build ainda não foi configurado."
+              ? "Prévia do estado de download antes da autenticação oficial."
+              : "Gere um link temporário e seguro pela rota privada do site. O link expira rapidamente e só funciona para contas liberadas."
           }
         />
-        <ProtectedDownloadCard isAuthenticated={!isPreparationMode && Boolean(email)} preparationMode={isPreparationMode} />
+        <ProtectedDownloadCard isAuthenticated={!isPreparationMode && Boolean(email)} preparationMode={isPreparationMode} onStateChange={setDownloadState} />
       </SectionContainer>
 
       <SectionContainer withDivider>
@@ -213,4 +215,60 @@ export default function DashboardPage() {
       </SectionContainer>
     </AnimatedPageWrapper>
   );
+}
+
+
+function getDownloadStatusLabel(state: SecureDownloadState) {
+  switch (state) {
+    case "preparation":
+      return "Prévia sem autenticação";
+    case "blocked":
+      return "Acesso ao beta não liberado";
+    case "no-build":
+      return "Build em preparação";
+    case "loading":
+      return "Gerando link seguro";
+    case "generated":
+      return "Link temporário gerado";
+    case "error":
+      return "Erro no download";
+    case "login":
+      return "Login necessário";
+    case "ready":
+    default:
+      return "Download seguro disponível";
+  }
+}
+
+function getDownloadStatusType(state: SecureDownloadState) {
+  switch (state) {
+    case "ready":
+    case "generated":
+      return "ready" as const;
+    case "preparation":
+      return "beta" as const;
+    case "login":
+      return "locked" as const;
+    case "blocked":
+    case "no-build":
+    case "loading":
+    case "error":
+    default:
+      return "warning" as const;
+  }
+}
+
+
+type ServerSession = {
+  user: { id: string; email: string | null } | null;
+};
+
+async function getServerSession(): Promise<ServerSession | null> {
+  try {
+    const response = await fetch("/api/auth/me", { headers: { Accept: "application/json" } });
+    if (!response.ok) return null;
+    return (await response.json()) as ServerSession;
+  } catch {
+    return null;
+  }
 }
