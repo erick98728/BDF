@@ -26,30 +26,14 @@ export function Navbar() {
     }
 
     async function syncSession() {
-      const { data } = await supabase.auth.getSession();
-      if (data.session) {
-        setLogged(true);
-        const profile = await getCurrentProfile();
-        setAdminAllowed(canAccessAdmin(profile));
-        return;
-      }
-
-      const serverSession = await getServerSession();
-      setLogged(Boolean(serverSession?.user));
-      setAdminAllowed(canAccessAdmin(serverSession?.profile));
+      const [session, adminSession] = await Promise.all([getServerSession(), getAdminSession()]);
+      setLogged(session.authenticated);
+      setAdminAllowed(adminSession.allowed);
     }
 
     syncSession();
-    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
-      setLogged(Boolean(session));
-      if (session) {
-        getCurrentProfile().then((profile) => setAdminAllowed(canAccessAdmin(profile)));
-      } else {
-        getServerSession().then((serverSession) => {
-          setLogged(Boolean(serverSession?.user));
-          setAdminAllowed(canAccessAdmin(serverSession?.profile));
-        });
-      }
+    const { data: subscription } = supabase.auth.onAuthStateChange(() => {
+      syncSession();
     });
     return () => subscription.subscription.unsubscribe();
   }, []);
@@ -165,16 +149,31 @@ export function Navbar() {
 
 
 type ServerSession = {
+  authenticated: boolean;
   user: { id: string; email: string | null } | null;
-  profile: { role: "user" | "admin" | "super_admin"; permissions: ("view_admin" | "manage_content" | "manage_users")[]; active: boolean } | null;
 };
 
-async function getServerSession(): Promise<ServerSession | null> {
+type AdminSession = {
+  authenticated: boolean;
+  allowed: boolean;
+};
+
+async function getServerSession(): Promise<ServerSession> {
   try {
     const response = await fetch("/api/auth/me", { headers: { Accept: "application/json" } });
-    if (!response.ok) return null;
+    if (!response.ok) return { authenticated: false, user: null };
     return (await response.json()) as ServerSession;
   } catch {
-    return null;
+    return { authenticated: false, user: null };
+  }
+}
+
+async function getAdminSession(): Promise<AdminSession> {
+  try {
+    const response = await fetch("/api/admin/me", { headers: { Accept: "application/json" } });
+    if (!response.ok) return { authenticated: false, allowed: false };
+    return (await response.json()) as AdminSession;
+  } catch {
+    return { authenticated: false, allowed: false };
   }
 }

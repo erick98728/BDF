@@ -45,18 +45,12 @@ export default function DashboardPage() {
         return;
       }
       const serverSession = await getServerSession();
-      if (serverSession?.user) {
-        setEmail(serverSession.user.email ?? "Jogador");
-        setChecking(false);
-        return;
-      }
-
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) {
+      if (!serverSession.authenticated || !serverSession.user) {
         router.push("/login");
         return;
       }
-      setEmail(data.user.email ?? "Jogador");
+
+      setEmail(serverSession.user.email ?? "Jogador");
       setChecking(false);
     }
     checkSession();
@@ -260,15 +254,16 @@ function getDownloadStatusType(state: SecureDownloadState) {
 
 
 type ServerSession = {
+  authenticated: boolean;
   user: { id: string; email: string | null } | null;
 };
 
-async function getServerSession(): Promise<ServerSession | null> {
+async function getServerSession(): Promise<ServerSession> {
   try {
     const response = await fetch("/api/auth/me", { headers: { Accept: "application/json" } });
-    if (!response.ok) return null;
+    if (!response.ok) return { authenticated: false, user: null };
     return (await response.json()) as ServerSession;
   } catch {
-    return null;
+    return { authenticated: false, user: null };
   }
 }

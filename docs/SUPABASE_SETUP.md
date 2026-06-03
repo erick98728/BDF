@@ -91,6 +91,23 @@ Regras importantes:
 - cadastro (`signUp`) ainda permanece no frontend temporariamente e será refinado em uma fase posterior;
 - a validação client-side de sessão/perfil ainda existe como compatibilidade temporária até a Fase 3 migrar Dashboard/Admin para endpoints server-side dedicados.
 
+### Fase 3: endpoints server-side de sessão e admin
+
+A sessão do Dashboard, Navbar e Admin agora deve ser consultada por endpoints server-side, reduzindo a dependência de `supabase.auth.getUser()` no navegador.
+
+Endpoints disponíveis:
+
+- `GET /api/auth/me`: lê o cookie `tester-sb-access-token`, valida o usuário no servidor e retorna apenas `{ authenticated, user }`. Não retorna access token, refresh token ou perfil administrativo.
+- `GET /api/admin/me`: lê o cookie `tester-sb-access-token`, valida o usuário no servidor, busca `profiles` e retorna somente dados mínimos do perfil, `allowed` e capacidades (`canAccessAdmin`, `canManageContent`, `canManageUsers`).
+
+Regras da Fase 3:
+
+- o frontend deve usar `/api/auth/me` para estado comum de sessão;
+- o frontend deve usar `/api/admin/me` para estado de menu/admin;
+- tokens nunca devem ser retornados no JSON;
+- `SUPABASE_SERVICE_ROLE_KEY` continua proibida para autenticação comum;
+- operações administrativas de escrita ainda serão migradas em fase posterior; por enquanto `adminApi.ts` permanece no projeto para evitar quebra ampla.
+
 ## 5. Criar a tabela `beta_feedback`
 
 No Supabase, vá em **SQL Editor** e rode a estrutura oficial abaixo. A chave primária deve usar `uuid` e não deve ser substituída por outro padrão:

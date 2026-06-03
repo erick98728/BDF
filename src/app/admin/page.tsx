@@ -10,7 +10,7 @@ import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
 import { StatusBadge } from "@/components/TesterVisualSystem";
 import { adminPermissions, adminRoles, canAccessAdmin, canManageContent, canManageUsers, type AdminPermission, type AdminProfile, type AdminRole, type EditableCharacter, type EditableGalleryItem, type SiteContent } from "@/lib/adminTypes";
-import { getCurrentProfile, listProfiles, loadSiteContent, saveSiteContent, updateProfilePermissions } from "@/lib/adminApi";
+import { listProfiles, loadSiteContent, saveSiteContent, updateProfilePermissions } from "@/lib/adminApi";
 import { defaultSiteContent, mergeSiteContent } from "@/lib/defaultSiteContent";
 import { isSupabaseConfigured } from "@/lib/supabaseClient";
 
@@ -38,7 +38,7 @@ export default function AdminPage() {
         setLoading(false);
         return;
       }
-      const current = (await getServerProfile()) ?? (await getCurrentProfile());
+      const current = await getServerProfile();
       if (!canAccessAdmin(current)) {
         router.replace("/admin/acesso-negado");
         return;
@@ -216,16 +216,18 @@ function newCharacter(): EditableCharacter {
 }
 
 
-type ServerProfileResponse = {
+type AdminProfileResponse = {
+  authenticated: boolean;
+  allowed: boolean;
   profile: AdminProfile | null;
 };
 
 async function getServerProfile(): Promise<AdminProfile | null> {
   try {
-    const response = await fetch("/api/auth/me", { headers: { Accept: "application/json" } });
+    const response = await fetch("/api/admin/me", { headers: { Accept: "application/json" } });
     if (!response.ok) return null;
-    const data = (await response.json()) as ServerProfileResponse;
-    return data.profile;
+    const data = (await response.json()) as AdminProfileResponse;
+    return data.allowed ? data.profile : null;
   } catch {
     return null;
   }
