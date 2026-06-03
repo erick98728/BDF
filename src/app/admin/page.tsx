@@ -9,7 +9,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
 import { StatusBadge } from "@/components/TesterVisualSystem";
-import { adminPermissions, adminRoles, canAccessAdmin, canManageContent, canManageUsers, type AdminPermission, type AdminProfile, type AdminRole, type EditableCharacter, type EditableGalleryItem, type SiteContent } from "@/lib/adminTypes";
+import { adminPermissions, adminRoles, type AdminPermission, type AdminProfile, type AdminRole, type EditableCharacter, type EditableGalleryItem, type SiteContent } from "@/lib/adminTypes";
 import { listProfiles, loadSiteContent, saveSiteContent, updateProfilePermissions } from "@/lib/adminApi";
 import { defaultSiteContent, mergeSiteContent } from "@/lib/defaultSiteContent";
 import { isSupabaseConfigured } from "@/lib/supabaseClient";
@@ -23,7 +23,7 @@ const galleryCategories = ["Screenshots", "Conceitos", "Personagens", "Cenários
 
 export default function AdminPage() {
   const router = useRouter();
-  const [profile, setProfile] = useState<AdminProfile | null>(null);
+  const [capabilities, setCapabilities] = useState<AdminCapabilities>(defaultAdminCapabilities);
   const [profiles, setProfiles] = useState<AdminProfile[]>([]);
   const [content, setContent] = useState<SiteContent>(defaultSiteContent);
   const [loading, setLoading] = useState(true);
@@ -38,13 +38,18 @@ export default function AdminPage() {
         setLoading(false);
         return;
       }
-      const current = await getServerProfile();
-      if (!canAccessAdmin(current)) {
+      const session = await getAdminSession();
+      if (!session.authenticated) {
+        router.replace("/login?redirect=/admin");
+        return;
+      }
+      if (!session.allowed || !session.profile) {
         router.replace("/admin/acesso-negado");
         return;
       }
-      setProfile(current);
-      const [loadedContent, loadedProfiles] = await Promise.all([loadSiteContent(), canManageUsers(current) ? listProfiles() : Promise.resolve([])]);
+
+      setCapabilities(session.capabilities);
+      const [loadedContent, loadedProfiles] = await Promise.all([loadSiteContent(), session.capabilities.canManageUsers ? listProfiles() : Promise.resolve([])]);
       setContent(loadedContent);
       setProfiles(loadedProfiles);
       setLoading(false);
@@ -60,7 +65,7 @@ export default function AdminPage() {
 
   async function handleSave(event: FormEvent) {
     event.preventDefault();
-    if (!canManageContent(profile)) return setError("Sua conta pode visualizar o painel, mas não pode salvar conteúdo.");
+    if (!capabilities.canManageContent) return setError("Sua conta pode visualizar o painel, mas não pode salvar conteúdo.");
     setSaving(true);
     setError(null);
     setMessage(null);
@@ -76,7 +81,7 @@ export default function AdminPage() {
   }
 
   async function handleUserSave(user: AdminProfile, role: AdminRole, permissions: AdminPermission[], active: boolean) {
-    if (!canManageUsers(profile)) return;
+    if (!capabilities.canManageUsers) return;
     setSaving(true);
     setError(null);
     try {
@@ -103,8 +108,8 @@ export default function AdminPage() {
             <div className="relative z-10">
               <div className="flex flex-wrap gap-2">
                 <StatusBadge status="ready">Painel privado</StatusBadge>
-                <StatusBadge status={canManageContent(profile) ? "ready" : "warning"}>{canManageContent(profile) ? "Pode editar" : "Somente leitura"}</StatusBadge>
-                <StatusBadge status={canManageUsers(profile) ? "ready" : "warning"}>{canManageUsers(profile) ? "Super admin" : "Usuários restritos"}</StatusBadge>
+                <StatusBadge status={capabilities.canManageContent ? "ready" : "warning"}>{capabilities.canManageContent ? "Pode editar" : "Somente leitura"}</StatusBadge>
+                <StatusBadge status={capabilities.canManageUsers ? "ready" : "warning"}>{capabilities.canManageUsers ? "Super admin" : "Usuários restritos"}</StatusBadge>
               </div>
               <h2 className="mt-4 text-2xl font-bold text-white sm:text-3xl">Administração profissional do site</h2>
               <p className="mt-3 text-sm leading-6 text-slate-300">Gerencie textos, galeria, personagens, imagens externas e permissões sem editar o código. Rotas e menus administrativos são bloqueados para usuários sem autorização.</p>
@@ -150,12 +155,12 @@ export default function AdminPage() {
               <h3 className="mt-2 text-xl font-semibold text-white">Salvar alterações públicas</h3>
               <p className="mt-2 text-sm leading-6 text-slate-300">As alterações usam autenticação Supabase, perfil autorizado e políticas RLS recomendadas na documentação.</p>
             </div>
-            <button disabled={saving || !canManageContent(profile)} className="tester-button rounded-xl border border-cyan-200/30 bg-cyan-300/12 px-5 py-3 text-sm font-bold text-cyan-50 hover:bg-cyan-300/18 disabled:cursor-not-allowed disabled:opacity-50">{saving ? "Salvando..." : "Salvar conteúdo"}</button>
+            <button disabled={saving || !capabilities.canManageContent} className="tester-button rounded-xl border border-cyan-200/30 bg-cyan-300/12 px-5 py-3 text-sm font-bold text-cyan-50 hover:bg-cyan-300/18 disabled:cursor-not-allowed disabled:opacity-50">{saving ? "Salvando..." : "Salvar conteúdo"}</button>
           </GlowCard>
         </SectionContainer>
       </form>
 
-      {canManageUsers(profile) ? <UserPermissionsPanel profiles={profiles} onSave={handleUserSave} /> : null}
+      {capabilities.canManageUsers ? <UserPermissionsPanel profiles={profiles} onSave={handleUserSave} /> : null}
     </AdminShell>
   );
 }
@@ -216,19 +221,48 @@ function newCharacter(): EditableCharacter {
 }
 
 
-type AdminProfileResponse = {
+type AdminCapabilities = {
+  canAccessAdmin: boolean;
+  canManageContent: boolean;
+  canManageUsers: boolean;
+};
+
+const defaultAdminCapabilities: AdminCapabilities = {
+  canAccessAdmin: false,
+  canManageContent: false,
+  canManageUsers: false
+};
+
+type AdminSessionResponse = {
   authenticated: boolean;
   allowed: boolean;
   profile: AdminProfile | null;
+  capabilities?: AdminCapabilities;
 };
 
-async function getServerProfile(): Promise<AdminProfile | null> {
+type AdminSession = Omit<AdminSessionResponse, "capabilities"> & {
+  capabilities: AdminCapabilities;
+};
+
+async function getAdminSession(): Promise<AdminSession> {
   try {
-    const response = await fetch("/api/admin/me", { headers: { Accept: "application/json" } });
-    if (!response.ok) return null;
-    const data = (await response.json()) as AdminProfileResponse;
-    return data.allowed ? data.profile : null;
+    const response = await fetch("/api/admin/me", { cache: "no-store", headers: { Accept: "application/json" } });
+    const data = (await response.json().catch(() => null)) as AdminSessionResponse | null;
+
+    if (!response.ok || !data) {
+      return {
+        authenticated: response.status !== 401 && Boolean(data?.authenticated),
+        allowed: false,
+        profile: null,
+        capabilities: data?.capabilities ?? defaultAdminCapabilities
+      };
+    }
+
+    return {
+      ...data,
+      capabilities: data.capabilities ?? defaultAdminCapabilities
+    };
   } catch {
-    return null;
+    return { authenticated: false, allowed: false, profile: null, capabilities: defaultAdminCapabilities };
   }
 }

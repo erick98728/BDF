@@ -4,9 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { navLinks } from "@/data/site";
-import { canAccessAdmin } from "@/lib/adminTypes";
-import { getCurrentProfile } from "@/lib/adminApi";
-import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
+import { isSupabaseConfigured } from "@/lib/supabaseClient";
 import { BetaBadge, TesterMark } from "./TesterVisualSystem";
 
 const focusClass = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200";
@@ -20,30 +18,35 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    let active = true;
+
     if (!isSupabaseConfigured) {
       setLogged(false);
-      return;
+      setAdminAllowed(false);
+      return () => {
+        active = false;
+      };
     }
 
     async function syncSession() {
       const [session, adminSession] = await Promise.all([getServerSession(), getAdminSession()]);
+      if (!active) return;
+
       setLogged(session.authenticated);
-      setAdminAllowed(adminSession.allowed);
+      setAdminAllowed(session.authenticated && adminSession.allowed);
     }
 
     syncSession();
-    const { data: subscription } = supabase.auth.onAuthStateChange(() => {
-      syncSession();
-    });
-    return () => subscription.subscription.unsubscribe();
-  }, []);
+    return () => {
+      active = false;
+    };
+  }, [pathname]);
 
   const baseLinks = useMemo(() => navLinks.filter((l) => l.href !== "/login"), []);
 
   async function handleSignOut() {
     if (!isSupabaseConfigured) return;
     await fetch("/api/auth/logout", { method: "POST" });
-    await supabase.auth.signOut();
     setLogged(false);
     setAdminAllowed(false);
     setOpen(false);
@@ -160,7 +163,7 @@ type AdminSession = {
 
 async function getServerSession(): Promise<ServerSession> {
   try {
-    const response = await fetch("/api/auth/me", { headers: { Accept: "application/json" } });
+    const response = await fetch("/api/auth/me", { cache: "no-store", headers: { Accept: "application/json" } });
     if (!response.ok) return { authenticated: false, user: null };
     return (await response.json()) as ServerSession;
   } catch {
@@ -170,7 +173,7 @@ async function getServerSession(): Promise<ServerSession> {
 
 async function getAdminSession(): Promise<AdminSession> {
   try {
-    const response = await fetch("/api/admin/me", { headers: { Accept: "application/json" } });
+    const response = await fetch("/api/admin/me", { cache: "no-store", headers: { Accept: "application/json" } });
     if (!response.ok) return { authenticated: false, allowed: false };
     return (await response.json()) as AdminSession;
   } catch {

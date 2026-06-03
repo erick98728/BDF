@@ -11,7 +11,7 @@ import { SectionTitle } from "@/components/SectionTitle";
 import { GameButton } from "@/components/GameButton";
 import { ProtectedDownloadCard, type SecureDownloadState } from "@/components/ProtectedDownloadCard";
 import { BetaBadge, StatusBadge, VisualPanel } from "@/components/TesterVisualSystem";
-import { supabase, isSupabaseConfigured, supabaseSetupMessage } from "@/lib/supabaseClient";
+import { isSupabaseConfigured, supabaseSetupMessage } from "@/lib/supabaseClient";
 
 const betaVersion = "Tester Beta 0.1";
 const betaSteps = [
@@ -58,7 +58,6 @@ export default function DashboardPage() {
 
   async function handleSignOut() {
     await fetch("/api/auth/logout", { method: "POST" });
-    await supabase.auth.signOut();
     router.push("/login");
     router.refresh();
   }
@@ -260,7 +259,7 @@ type ServerSession = {
 
 async function getServerSession(): Promise<ServerSession> {
   try {
-    const response = await fetch("/api/auth/me", { headers: { Accept: "application/json" } });
+    const response = await fetch("/api/auth/me", { cache: "no-store", headers: { Accept: "application/json" } });
     if (!response.ok) return { authenticated: false, user: null };
     return (await response.json()) as ServerSession;
   } catch {

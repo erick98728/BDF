@@ -4,6 +4,13 @@ import { defaultSiteContent, mergeSiteContent } from "./defaultSiteContent";
 
 export const SITE_CONTENT_ID = "public-site";
 
+// Client-compatible read helpers below still rely on Supabase RLS and the browser session.
+// Initial admin authentication/authorization must use `/api/admin/me`, not this file.
+
+/**
+ * @deprecated Use `/api/admin/me` for profile and permission validation.
+ * Kept temporarily only for legacy callers during the auth migration.
+ */
 export async function getCurrentProfile(): Promise<AdminProfile | null> {
   if (!isSupabaseConfigured) return null;
   const { data: userData } = await supabase.auth.getUser();
@@ -20,6 +27,7 @@ export async function getCurrentProfile(): Promise<AdminProfile | null> {
   return normalizeProfile(data as AdminProfile);
 }
 
+// TODO(auth-migration): move user listing to a server-side admin endpoint.
 export async function listProfiles(): Promise<AdminProfile[]> {
   if (!isSupabaseConfigured) return [];
   const { data, error } = await supabase
@@ -30,6 +38,7 @@ export async function listProfiles(): Promise<AdminProfile[]> {
   return data.map((profile) => normalizeProfile(profile as AdminProfile));
 }
 
+// TODO(auth-migration): move permission updates to a server-side admin endpoint.
 export async function updateProfilePermissions(id: string, role: AdminRole, permissions: AdminPermission[], active: boolean) {
   const { error } = await supabase
     .from("profiles")
@@ -38,6 +47,7 @@ export async function updateProfilePermissions(id: string, role: AdminRole, perm
   if (error) throw error;
 }
 
+// Public-content reads can remain client-compatible because RLS controls visibility.
 export async function loadSiteContent(): Promise<SiteContent> {
   if (!isSupabaseConfigured) return defaultSiteContent;
   const { data, error } = await supabase.from("site_content").select("content").eq("id", SITE_CONTENT_ID).maybeSingle();
@@ -45,6 +55,7 @@ export async function loadSiteContent(): Promise<SiteContent> {
   return mergeSiteContent(data.content as Partial<SiteContent>);
 }
 
+// TODO(auth-migration): move content writes to a server-side admin endpoint.
 export async function saveSiteContent(content: SiteContent) {
   const { data: userData } = await supabase.auth.getUser();
   const user = userData.user;
