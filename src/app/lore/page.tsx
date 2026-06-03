@@ -6,6 +6,7 @@ import { LoreMapPanel } from "@/components/LoreMapPanel";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
+import { loadSiteContent } from "@/lib/adminApi";
 
 const worldPillars: { title: string; eyebrow: string; text: string; icon: GameGlyphName }[] = [
   {
@@ -98,7 +99,9 @@ export const metadata: Metadata = {
   }
 };
 
-export default function LorePage() {
+export default async function LorePage() {
+  const siteContent = await loadSiteContent();
+
   return (
     <AnimatedPageWrapper>
       <PageHeader
@@ -113,11 +116,9 @@ export default function LorePage() {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
               <GameGlyph name="lore" className="h-12 w-12" />
               <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">Arquivo da névoa</p>
-                <h2 className="mt-2 text-2xl font-bold text-white">Uma história contada por sinais.</h2>
-                <p className="mt-3 text-sm leading-6 text-slate-300 sm:text-base sm:leading-7">
-                  Tester acontece em um cenário marcado por ruínas, disciplina de combate e uma força ambiental que altera caminhos, criaturas e memórias.
-                </p>
+                <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">{siteContent.lore.eyebrow}</p>
+                <h2 className="mt-2 text-2xl font-bold text-white">{siteContent.lore.title}</h2>
+                <p className="mt-3 text-sm leading-6 text-slate-300 sm:text-base sm:leading-7">{siteContent.lore.description}</p>
               </div>
             </div>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
