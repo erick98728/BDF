@@ -45,8 +45,8 @@ export default function FeedbackPage() {
   useEffect(() => {
     (async () => {
       if (!isSupabaseConfigured) return;
-      const { data } = await supabase.auth.getUser();
-      const userEmail = data.user?.email;
+      const session = await getServerSession();
+      const userEmail = session.user?.email;
       if (userEmail) setFormData((p) => ({ ...p, email: userEmail }));
     })();
   }, []);
@@ -202,4 +202,20 @@ export default function FeedbackPage() {
       </SectionContainer>
     </AnimatedPageWrapper>
   );
+}
+
+
+type ServerSession = {
+  authenticated: boolean;
+  user: { id: string; email: string | null } | null;
+};
+
+async function getServerSession(): Promise<ServerSession> {
+  try {
+    const response = await fetch("/api/auth/me", { cache: "no-store", headers: { Accept: "application/json" } });
+    if (!response.ok) return { authenticated: false, user: null };
+    return (await response.json()) as ServerSession;
+  } catch {
+    return { authenticated: false, user: null };
+  }
 }
