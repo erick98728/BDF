@@ -45,7 +45,8 @@ Configure estas variáveis localmente e também na Vercel:
 
 - `NEXT_PUBLIC_SUPABASE_URL`: URL do projeto Supabase.
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: chave pública anon do Supabase.
-- `NEXT_PUBLIC_BETA_DOWNLOAD_URL`: link público/controlado legado da build beta para Windows. É opcional e deve ser usado apenas como fallback temporário enquanto a rota segura com Supabase Storage privado não for implementada.
+- `SUPABASE_SERVICE_ROLE_KEY`: chave privada de servidor usada pela rota segura `POST /api/beta/download`. Nunca use prefixo `NEXT_PUBLIC_`, nunca exponha no frontend e configure apenas como variável privada na Vercel.
+- `NEXT_PUBLIC_BETA_DOWNLOAD_URL`: link público/controlado legado da build beta para Windows. É opcional e deve ser usado apenas como fallback temporário; a rota segura de download não usa essa variável.
 
 O arquivo `.env.example` lista todas as chaves esperadas pelo projeto.
 
@@ -104,12 +105,12 @@ Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O s
 - Feedback: tabela `beta_feedback`.
 - Guia principal e fonte oficial de configuração: `docs/SUPABASE_SETUP.md`.
 - Guia auxiliar rápido da tabela `beta_feedback`: `docs/supabase-feedback.md` (deve espelhar a estrutura oficial do guia principal).
-- Plano de segurança para download privado: `docs/DOWNLOAD_SECURITY_PLAN.md` (bucket `tester-beta-builds`, tabelas `beta_builds`, `beta_access`, `beta_download_logs` e futura rota server-side para URL assinada).
+- Plano de segurança para download privado: `docs/DOWNLOAD_SECURITY_PLAN.md` (bucket `tester-beta-builds`, tabelas `beta_builds`, `beta_access`, `beta_download_logs` e rota server-side `POST /api/beta/download` para URL assinada).
 
 Para ativar login real e feedback salvo no banco, siga primeiro `docs/SUPABASE_SETUP.md`. A tabela `beta_feedback` deve usar `id uuid primary key default gen_random_uuid()` e RLS com apenas `insert` para usuários autenticados, sem leitura pública dos feedbacks.
 
 ## Próximos passos técnicos
 
-- Implementar a rota segura `/api/beta/download` para validar whitelist, gerar URL assinada do bucket privado `tester-beta-builds` e registrar downloads.
+- Conectar o componente visual de download à rota segura `POST /api/beta/download`.
 - Criar interface administrativa para gerenciar `beta_builds` e `beta_access`.
 - Criar página de histórico de feedback para o desenvolvedor.

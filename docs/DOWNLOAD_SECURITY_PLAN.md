@@ -13,7 +13,7 @@ A base recomendada para download privado passa a ser:
 3. Tabela `beta_builds` para registrar versões e caminhos dos arquivos.
 4. Tabela `beta_access` para whitelist de beta testers.
 5. Tabela `beta_download_logs` para auditoria de downloads.
-6. Rota segura do Next.js para gerar URL assinada de curta duração.
+6. Rota segura `POST /api/beta/download` do Next.js para gerar URL assinada de curta duração.
 
 `NEXT_PUBLIC_BETA_DOWNLOAD_URL` ainda existe no projeto como fallback temporário e não deve ser removida nesta etapa, mas não é o modelo recomendado para uma distribuição privada real.
 
@@ -75,7 +75,7 @@ create table if not exists public.beta_access (
 
 ### `beta_download_logs`
 
-Registra downloads emitidos pela futura rota segura.
+Registra downloads emitidos pela rota segura de download.
 
 ```sql
 create table if not exists public.beta_download_logs (
@@ -170,20 +170,35 @@ Essas regras reduzem exposição porque:
 - usuários comuns não listam logs de outros usuários;
 - admins/super admins gerenciam builds, acessos e logs usando as permissões já existentes do projeto.
 
-## Fluxo seguro recomendado
+## Fluxo seguro implementado
 
-A geração da URL assinada deve ser feita por uma rota segura do Next.js, não diretamente pelo frontend.
+A geração da URL assinada é feita pela rota segura `POST /api/beta/download` do Next.js, não diretamente pelo frontend. A rota usa `SUPABASE_SERVICE_ROLE_KEY` no servidor para validar dados e gerar a URL assinada.
 
-A futura rota, por exemplo `/api/beta/download`, deve:
+A rota:
 
 1. validar a sessão do usuário;
 2. verificar em `beta_access` se `allowed = true` para `auth.uid()`;
 3. buscar a build ativa em `beta_builds`;
 4. gerar uma URL assinada de curta duração para `storage_path` no bucket `tester-beta-builds`;
 5. registrar o evento em `beta_download_logs`;
-6. retornar apenas a URL assinada temporária.
+6. retornar apenas a URL assinada temporária e dados básicos da build (`downloadUrl`, `version`, `platform`, `expiresIn`).
 
-Essa rota ainda não deve ser implementada nesta etapa.
+
+## Variável privada obrigatória no servidor
+
+Configure esta variável apenas no ambiente de servidor da Vercel:
+
+```env
+SUPABASE_SERVICE_ROLE_KEY=
+```
+
+Regras obrigatórias:
+
+- nunca coloque `SUPABASE_SERVICE_ROLE_KEY` no frontend;
+- nunca use prefixo `NEXT_PUBLIC_` nessa variável;
+- nunca versionar valor real no GitHub;
+- use a chave apenas em API routes, server actions ou outros contextos server-side;
+- mantenha `NEXT_PUBLIC_BETA_DOWNLOAD_URL` apenas como fallback legado, sem uso pela rota segura.
 
 ## Modelo temporário legado: `NEXT_PUBLIC_BETA_DOWNLOAD_URL`
 
@@ -200,9 +215,9 @@ Esse modelo é aceitável apenas para validação pequena e controlada. Como a v
 
 - Não versionar build do jogo no Git.
 - Não colocar executável no repositório.
-- Não expor `service_role` ou qualquer segredo no frontend.
+- Não expor `service_role`, `SUPABASE_SERVICE_ROLE_KEY` ou qualquer segredo no frontend.
 - Não fixar link privado no código-fonte.
 - Manter `NEXT_PUBLIC_BETA_DOWNLOAD_URL` apenas como fallback temporário.
 - Usar Supabase Storage privado para fases maiores do beta.
-- Gerar URL assinada somente por rota segura server-side.
+- Gerar URL assinada somente por rota segura server-side (`POST /api/beta/download`).
 - Registrar downloads em `beta_download_logs`.

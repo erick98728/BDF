@@ -29,7 +29,7 @@ NEXT_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=sua-chave-anon-publica
 ```
 
-Não use `service_role` no frontend. A chave `service_role` é privada e não deve ser colocada no repositório, no navegador ou em variáveis com prefixo `NEXT_PUBLIC_`.
+Não use `service_role` no frontend. A chave `service_role` é privada e não deve ser colocada no repositório, no navegador ou em variáveis com prefixo `NEXT_PUBLIC_`. Para a rota segura de download, configure `SUPABASE_SERVICE_ROLE_KEY` apenas na Vercel como variável privada de servidor.
 
 ## 3. Colocar as variáveis na Vercel
 
@@ -41,6 +41,7 @@ Não use `service_role` no frontend. A chave `service_role` é privada e não de
 ```env
 NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY
 ```
 
 5. Salve as variáveis.
@@ -291,7 +292,7 @@ Usuários com `role = 'user'` e sem permissões não veem o link de administraç
 
 ## Download privado do beta com Supabase Storage
 
-`NEXT_PUBLIC_BETA_DOWNLOAD_URL` continua existindo apenas como fallback temporário. Para o beta fechado seguro, use Supabase Storage privado, whitelist em banco e geração de URL assinada por rota segura do Next.js. O frontend não deve gerar URL assinada diretamente nem conhecer chaves privadas.
+`NEXT_PUBLIC_BETA_DOWNLOAD_URL` continua existindo apenas como fallback temporário. Para o beta fechado seguro, use Supabase Storage privado, whitelist em banco e geração de URL assinada pela rota segura `POST /api/beta/download`. O frontend não deve gerar URL assinada diretamente nem conhecer chaves privadas. A rota usa `SUPABASE_SERVICE_ROLE_KEY`, que nunca pode ter prefixo `NEXT_PUBLIC_` e deve existir somente como variável privada de servidor na Vercel.
 
 ### 1. Criar bucket privado
 
@@ -411,18 +412,18 @@ Com esse desenho:
 - usuários autenticados consultam apenas o próprio registro em `beta_access`;
 - usuários comuns não alteram whitelist, não inserem builds e não listam logs de outros usuários;
 - administradores/super administradores gerenciam builds, acessos e logs conforme permissões do projeto;
-- a futura rota segura do Next.js poderá validar sessão, whitelist e build ativa, gerar uma URL assinada do Storage e registrar o download em `beta_download_logs` usando credenciais server-side.
+- a rota segura `POST /api/beta/download` valida sessão, whitelist e build ativa, gera uma URL assinada do Storage e registra o download em `beta_download_logs` usando credenciais server-side.
 
-### 5. Fluxo esperado da futura rota segura
+### 5. Fluxo da rota segura de download
 
-A rota segura do Next.js, por exemplo `/api/beta/download`, será implementada em etapa futura. Ela deverá:
+A rota segura do Next.js `POST /api/beta/download` foi criada para:
 
 1. validar a sessão Supabase do usuário;
 2. consultar `beta_access` e exigir `allowed = true` para o usuário atual;
 3. escolher a build ativa em `beta_builds`;
 4. gerar URL assinada curta para o arquivo em `tester-beta-builds`;
 5. inserir um registro em `beta_download_logs`;
-6. devolver a URL assinada para o usuário autenticado.
+6. devolver a URL assinada para o usuário autenticado no formato `{ downloadUrl, version, platform, expiresIn }`.
 
-Não implemente geração de URL assinada diretamente no frontend.
+Não implemente geração de URL assinada diretamente no frontend e não use `NEXT_PUBLIC_BETA_DOWNLOAD_URL` nessa rota.
 
