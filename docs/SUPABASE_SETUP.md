@@ -1,6 +1,6 @@
 # Configuração do Supabase para o site Tester
 
-Este guia explica como ativar login, dashboard autenticado e salvamento real do formulário de feedback no site Tester.
+Este é o guia principal de configuração do Supabase para o site Tester. Ele explica como ativar login, dashboard autenticado e salvamento real do formulário de feedback. O arquivo `docs/supabase-feedback.md` é apenas um guia auxiliar rápido e deve permanecer sincronizado com esta estrutura oficial.
 
 ## 1. Criar o projeto no Supabase
 
@@ -29,7 +29,7 @@ NEXT_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=sua-chave-anon-publica
 ```
 
-Não use `service_role` no frontend. A chave `service_role` é privada e não deve ser colocada no repositório, no navegador ou em variáveis com prefixo `NEXT_PUBLIC_`.
+Não use `service_role` no frontend. A chave `service_role` é privada e não deve ser colocada no repositório, no navegador ou em variáveis com prefixo `NEXT_PUBLIC_`. Para a rota segura de download, configure `SUPABASE_SERVICE_ROLE_KEY` apenas na Vercel como variável privada de servidor.
 
 ## 3. Colocar as variáveis na Vercel
 
@@ -41,6 +41,7 @@ Não use `service_role` no frontend. A chave `service_role` é privada e não de
 ```env
 NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY
 ```
 
 5. Salve as variáveis.
@@ -65,7 +66,7 @@ Para o deploy atual, use o domínio da Vercel do projeto. Se trocar de domínio 
 
 ## 5. Criar a tabela `beta_feedback`
 
-No Supabase, vá em **SQL Editor** e rode:
+No Supabase, vá em **SQL Editor** e rode a estrutura oficial abaixo. A chave primária deve usar `uuid` e não deve ser substituída por outro padrão:
 
 ```sql
 create table if not exists public.beta_feedback (
@@ -105,7 +106,7 @@ to authenticated
 with check (true);
 ```
 
-Essa policy permite apenas inserir feedback. Ela não libera leitura pública dos registros.
+Essa policy permite apenas inserir feedback para usuários autenticados. Ela não libera leitura pública dos registros; não crie policy de `select` pública para `beta_feedback`.
 
 ## 8. Testar login
 
@@ -148,3 +149,281 @@ Antes de considerar o Supabase pronto, confirme:
 - A policy de insert foi criada.
 - Login funciona.
 - Feedback autenticado salva no banco.
+
+## Administração, usuários e conteúdo público
+
+O painel em `/admin` usa Supabase Auth, a tabela `profiles` para cargos/permissões e a tabela `site_content` para salvar textos, galeria e personagens em JSON. Execute este SQL no Supabase SQL Editor antes de liberar o painel em produção.
+
+```sql
+create table if not exists public.profiles (
+  id uuid primary key references auth.users(id) on delete cascade,
+  email text,
+  display_name text,
+  role text not null default 'user' check (role in ('user', 'admin', 'super_admin')),
+  permissions text[] not null default '{}',
+  active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.site_content (
+  id text primary key,
+  content jsonb not null,
+  updated_by uuid references auth.users(id) on delete set null,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.profiles enable row level security;
+alter table public.site_content enable row level security;
+
+create or replace function public.is_admin(uid uuid)
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.profiles
+    where id = uid
+      and active = true
+      and (
+        role in ('admin', 'super_admin')
+        or 'view_admin' = any(permissions)
+        or 'manage_content' = any(permissions)
+      )
+  );
+$$;
+
+create or replace function public.can_manage_content(uid uuid)
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.profiles
+    where id = uid
+      and active = true
+      and (role in ('admin', 'super_admin') or 'manage_content' = any(permissions))
+  );
+$$;
+
+create or replace function public.can_manage_users(uid uuid)
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.profiles
+    where id = uid
+      and active = true
+      and (role = 'super_admin' or 'manage_users' = any(permissions))
+  );
+$$;
+
+create policy "profiles_select_own_or_admin"
+on public.profiles for select
+to authenticated
+using (id = auth.uid() or public.can_manage_users(auth.uid()));
+
+create policy "profiles_update_super_admin"
+on public.profiles for update
+to authenticated
+using (public.can_manage_users(auth.uid()))
+with check (public.can_manage_users(auth.uid()));
+
+create policy "site_content_public_read"
+on public.site_content for select
+to anon, authenticated
+using (true);
+
+create policy "site_content_admin_write"
+on public.site_content for insert
+to authenticated
+with check (public.can_manage_content(auth.uid()));
+
+create policy "site_content_admin_update"
+on public.site_content for update
+to authenticated
+using (public.can_manage_content(auth.uid()))
+with check (public.can_manage_content(auth.uid()));
+
+create or replace function public.handle_new_user_profile()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  insert into public.profiles (id, email, display_name)
+  values (new.id, new.email, coalesce(new.raw_user_meta_data->>'name', split_part(new.email, '@', 1)))
+  on conflict (id) do nothing;
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created_profile on auth.users;
+create trigger on_auth_user_created_profile
+after insert on auth.users
+for each row execute function public.handle_new_user_profile();
+```
+
+### Criar o primeiro super administrador
+
+Depois de criar sua conta pelo `/login`, execute uma única vez trocando o e-mail pelo seu:
+
+```sql
+update public.profiles
+set role = 'super_admin', permissions = array['view_admin', 'manage_content', 'manage_users'], active = true
+where email = 'seu-email@exemplo.com';
+```
+
+Permissões disponíveis:
+
+- `view_admin`: visualiza o painel.
+- `manage_content`: edita textos, galeria e personagens.
+- `manage_users`: altera cargos, permissões e bloqueios de usuários.
+
+Usuários com `role = 'user'` e sem permissões não veem o link de administração e são redirecionados caso tentem abrir `/admin` diretamente.
+
+## Download privado do beta com Supabase Storage
+
+`NEXT_PUBLIC_BETA_DOWNLOAD_URL` continua existindo apenas como fallback temporário legado. O Dashboard usa Supabase Storage privado, whitelist em banco e geração de URL assinada pela rota segura `POST /api/beta/download`. O frontend não deve gerar URL assinada diretamente nem conhecer chaves privadas. A rota usa `SUPABASE_SERVICE_ROLE_KEY`, que nunca pode ter prefixo `NEXT_PUBLIC_` e deve existir somente como variável privada de servidor na Vercel.
+
+### 1. Criar bucket privado
+
+Crie um bucket privado no Supabase Storage chamado `tester-beta-builds`. Pelo SQL Editor, você pode garantir o bucket com:
+
+```sql
+insert into storage.buckets (id, name, public)
+values ('tester-beta-builds', 'tester-beta-builds', false)
+on conflict (id) do update set public = false;
+```
+
+O arquivo do jogo não deve ficar no GitHub. Envie builds somente para esse bucket privado, por exemplo em caminhos como `windows/tester-beta-0.1.0.zip`.
+
+Não crie policy pública de leitura em `storage.objects` para esse bucket. O acesso ao arquivo deve acontecer por URL assinada de curta duração gerada no servidor.
+
+### 2. Criar tabelas de builds, whitelist e logs
+
+```sql
+create table if not exists public.beta_builds (
+  id uuid primary key default gen_random_uuid(),
+  version text not null,
+  storage_path text not null,
+  platform text not null default 'Windows',
+  active boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.beta_access (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  allowed boolean not null default false,
+  notes text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.beta_download_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete set null,
+  build_id uuid references public.beta_builds(id) on delete set null,
+  created_at timestamptz not null default now()
+);
+```
+
+### 3. Habilitar RLS
+
+```sql
+alter table public.beta_builds enable row level security;
+alter table public.beta_access enable row level security;
+alter table public.beta_download_logs enable row level security;
+```
+
+### 4. Criar policies seguras
+
+Estas policies usam as funções administrativas já documentadas neste guia: `public.can_manage_content(auth.uid())` e `public.can_manage_users(auth.uid())`.
+
+```sql
+create policy "Admins can read beta builds"
+on public.beta_builds for select
+to authenticated
+using (public.can_manage_content(auth.uid()));
+
+create policy "Admins can insert beta builds"
+on public.beta_builds for insert
+to authenticated
+with check (public.can_manage_content(auth.uid()));
+
+create policy "Admins can update beta builds"
+on public.beta_builds for update
+to authenticated
+using (public.can_manage_content(auth.uid()))
+with check (public.can_manage_content(auth.uid()));
+
+create policy "Admins can delete beta builds"
+on public.beta_builds for delete
+to authenticated
+using (public.can_manage_content(auth.uid()));
+
+create policy "Users can read own beta access"
+on public.beta_access for select
+to authenticated
+using (user_id = auth.uid() or public.can_manage_users(auth.uid()));
+
+create policy "Admins can insert beta access"
+on public.beta_access for insert
+to authenticated
+with check (public.can_manage_users(auth.uid()));
+
+create policy "Admins can update beta access"
+on public.beta_access for update
+to authenticated
+using (public.can_manage_users(auth.uid()))
+with check (public.can_manage_users(auth.uid()));
+
+create policy "Admins can delete beta access"
+on public.beta_access for delete
+to authenticated
+using (public.can_manage_users(auth.uid()));
+
+create policy "Users can read own beta download logs"
+on public.beta_download_logs for select
+to authenticated
+using (user_id = auth.uid() or public.can_manage_users(auth.uid()));
+
+create policy "Admins can insert beta download logs"
+on public.beta_download_logs for insert
+to authenticated
+with check (public.can_manage_users(auth.uid()) or public.can_manage_content(auth.uid()));
+
+create policy "Admins can delete beta download logs"
+on public.beta_download_logs for delete
+to authenticated
+using (public.can_manage_users(auth.uid()));
+```
+
+Com esse desenho:
+
+- usuários autenticados consultam apenas o próprio registro em `beta_access`;
+- usuários comuns não alteram whitelist, não inserem builds e não listam logs de outros usuários;
+- administradores/super administradores gerenciam builds, acessos e logs conforme permissões do projeto;
+- a rota segura `POST /api/beta/download` valida sessão, whitelist e build ativa, gera uma URL assinada do Storage e registra o download em `beta_download_logs` usando credenciais server-side.
+
+### 5. Fluxo da rota segura de download
+
+A rota segura do Next.js `POST /api/beta/download` foi criada para:
+
+1. validar a sessão Supabase do usuário;
+2. consultar `beta_access` e exigir `allowed = true` para o usuário atual;
+3. escolher a build ativa em `beta_builds`;
+4. gerar URL assinada curta para o arquivo em `tester-beta-builds`;
+5. inserir um registro em `beta_download_logs`;
+6. devolver a URL assinada para o usuário autenticado no formato `{ downloadUrl, version, platform, expiresIn }`.
+
+Não implemente geração de URL assinada diretamente no frontend e não use `NEXT_PUBLIC_BETA_DOWNLOAD_URL` nessa rota.
+
