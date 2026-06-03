@@ -292,7 +292,7 @@ Usuários com `role = 'user'` e sem permissões não veem o link de administraç
 
 ## Download privado do beta com Supabase Storage
 
-`NEXT_PUBLIC_BETA_DOWNLOAD_URL` continua existindo apenas como fallback temporário. Para o beta fechado seguro, use Supabase Storage privado, whitelist em banco e geração de URL assinada pela rota segura `POST /api/beta/download`. O frontend não deve gerar URL assinada diretamente nem conhecer chaves privadas. A rota usa `SUPABASE_SERVICE_ROLE_KEY`, que nunca pode ter prefixo `NEXT_PUBLIC_` e deve existir somente como variável privada de servidor na Vercel.
+`NEXT_PUBLIC_BETA_DOWNLOAD_URL` continua existindo apenas como fallback temporário legado. O Dashboard usa Supabase Storage privado, whitelist em banco e geração de URL assinada pela rota segura `POST /api/beta/download`. O frontend não deve gerar URL assinada diretamente nem conhecer chaves privadas. A rota usa `SUPABASE_SERVICE_ROLE_KEY`, que nunca pode ter prefixo `NEXT_PUBLIC_` e deve existir somente como variável privada de servidor na Vercel.
 
 ### 1. Criar bucket privado
 

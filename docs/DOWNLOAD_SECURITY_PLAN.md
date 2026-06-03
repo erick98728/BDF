@@ -202,14 +202,9 @@ Regras obrigatórias:
 
 ## Modelo temporário legado: `NEXT_PUBLIC_BETA_DOWNLOAD_URL`
 
-O projeto ainda possui o fluxo temporário baseado em `NEXT_PUBLIC_BETA_DOWNLOAD_URL`:
+O projeto mantém `NEXT_PUBLIC_BETA_DOWNLOAD_URL` apenas como fallback legado documentado, mas o card principal do Dashboard agora usa `POST /api/beta/download` para gerar o download seguro.
 
-- `ProtectedDownloadCard` lê `NEXT_PUBLIC_BETA_DOWNLOAD_URL`;
-- usuário autenticado com a variável configurada vê o botão de download;
-- usuário autenticado sem a variável vê **Download em preparação**;
-- sem Supabase configurado, o Dashboard continua como prévia segura.
-
-Esse modelo é aceitável apenas para validação pequena e controlada. Como a variável é pública no frontend, o link pode ser visto por inspeção do site, compartilhado e usado sem auditoria individual.
+Não use `NEXT_PUBLIC_BETA_DOWNLOAD_URL` para o fluxo privado. Como variáveis públicas podem ser vistas no frontend, qualquer link ali configurado pode ser inspecionado, compartilhado e usado sem auditoria individual.
 
 ## Regras de segurança adotadas
 

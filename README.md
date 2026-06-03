@@ -93,11 +93,11 @@ Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O s
 1. Sem Supabase configurado:
    O site continua navegável. `/login` mostra um aviso amigável de preparação, `/dashboard` abre como prévia do painel e o card de download explica que o acesso real ainda depende da autenticação.
 
-2. Com Supabase configurado, mas sem `NEXT_PUBLIC_BETA_DOWNLOAD_URL`:
-   O usuário pode entrar no `/login`, acessar `/dashboard` e ver o status "Download em preparação".
+2. Com Supabase configurado, mas sem whitelist ou build ativa:
+   O usuário pode entrar no `/login`, acessar `/dashboard` e solicitar o download seguro. A API retorna "Acesso ao beta não liberado" quando a conta não está em `beta_access` ou "Build em preparação" quando não há build ativa.
 
-3. Com Supabase e `NEXT_PUBLIC_BETA_DOWNLOAD_URL` configurados:
-   O usuário autenticado vê o botão "Baixar beta" no dashboard. O arquivo do jogo não fica no repositório; o site apenas lê o link público/controlado do ambiente.
+3. Com Supabase, whitelist e build ativa configurados:
+   O usuário autenticado vê o botão "Gerar download seguro" no dashboard. O site chama `POST /api/beta/download`, recebe uma URL assinada temporária do bucket privado e abre o link sem expor o caminho do Storage.
 
 ## Supabase
 
@@ -111,6 +111,6 @@ Para ativar login real e feedback salvo no banco, siga primeiro `docs/SUPABASE_S
 
 ## Próximos passos técnicos
 
-- Conectar o componente visual de download à rota segura `POST /api/beta/download`.
 - Criar interface administrativa para gerenciar `beta_builds` e `beta_access`.
+- Validar o fluxo completo de download seguro em um projeto Supabase real com bucket privado, whitelist e build ativa.
 - Criar página de histórico de feedback para o desenvolvedor.
