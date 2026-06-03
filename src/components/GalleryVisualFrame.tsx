@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { GameGlyph, type GameGlyphName } from "./GameGlyph";
 
 export type GalleryVisualKind = "screenshot" | "concept" | "character" | "scene" | "video";
@@ -8,6 +11,8 @@ type GalleryVisualFrameProps = {
   label: string;
   status: "Prévia visual" | "Em desenvolvimento";
   size?: "card" | "modal";
+  imageUrl?: string;
+  altText?: string;
 };
 
 type VisualStyle = {
@@ -105,28 +110,49 @@ function renderAbstractPreview(kind: GalleryVisualKind) {
   );
 }
 
-export function GalleryVisualFrame({ kind, icon, label, status, size = "card" }: GalleryVisualFrameProps) {
+export function GalleryVisualFrame({ kind, icon, label, status, size = "card", imageUrl, altText }: GalleryVisualFrameProps) {
   const style = visualStyles[kind];
   const heightClass = size === "modal" ? "h-56 sm:h-72" : "h-44";
   const iconClass = size === "modal" ? "h-20 w-20" : "h-14 w-14";
+  const normalizedImageUrl = imageUrl?.trim();
+  const safeAltText = altText?.trim() || label;
+  const [imageFailed, setImageFailed] = useState(false);
+  const showImage = Boolean(normalizedImageUrl) && !imageFailed;
+
+  useEffect(() => {
+    setImageFailed(false);
+  }, [normalizedImageUrl]);
 
   return (
     <div className={`relative overflow-hidden rounded-2xl border ${heightClass} ${style.frame}`}>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_18%,rgba(255,255,255,0.14),transparent_30%),radial-gradient(circle_at_78%_78%,rgba(255,255,255,0.07),transparent_34%),linear-gradient(145deg,transparent,rgba(0,0,0,0.38))]" />
-      <div className={`absolute left-1/2 top-1/2 h-36 w-36 -translate-x-1/2 -translate-y-1/2 rounded-full ${style.glow} blur-2xl`} />
+      {showImage ? (
+        // eslint-disable-next-line @next/next/no-img-element -- URLs da galeria são administráveis; `next/image` será avaliado após configurar domínios externos.
+        <img
+          src={normalizedImageUrl}
+          alt={safeAltText}
+          loading="lazy"
+          decoding="async"
+          onError={() => setImageFailed(true)}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      ) : null}
+      <div className={`absolute inset-0 ${showImage ? "bg-[linear-gradient(145deg,rgba(0,0,0,0.18),rgba(0,0,0,0.56))]" : "bg-[radial-gradient(circle_at_25%_18%,rgba(255,255,255,0.14),transparent_30%),radial-gradient(circle_at_78%_78%,rgba(255,255,255,0.07),transparent_34%),linear-gradient(145deg,transparent,rgba(0,0,0,0.38))]"}`} />
+      {!showImage ? <div className={`absolute left-1/2 top-1/2 h-36 w-36 -translate-x-1/2 -translate-y-1/2 rounded-full ${style.glow} blur-2xl`} /> : null}
       <div className="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:34px_34px]" />
-      <svg viewBox="0 0 390 220" className={`absolute inset-0 h-full w-full ${style.glyph}`} fill="none" aria-hidden="true">
-        {renderAbstractPreview(kind)}
-      </svg>
+      {!showImage ? (
+        <svg viewBox="0 0 390 220" className={`absolute inset-0 h-full w-full ${style.glyph}`} fill="none" aria-hidden="true">
+          {renderAbstractPreview(kind)}
+        </svg>
+      ) : null}
 
       <div className="absolute right-4 top-4 rounded-2xl border border-white/10 bg-[#050914]/70 p-3 backdrop-blur-md">
         <GameGlyph name={icon} variant="plain" className={`${iconClass} ${style.glyph}`} />
       </div>
-      <div className="absolute left-4 top-4 rounded-full border border-white/10 bg-[#050914]/70 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-slate-200 backdrop-blur-md">
+      <div className="absolute left-4 top-4 max-w-[calc(100%-2rem)] rounded-full border border-white/10 bg-[#050914]/80 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-slate-100 shadow-[0_8px_24px_rgba(0,0,0,0.28)] backdrop-blur-md">
         {label}
       </div>
-      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-[#050914]/75 px-3 py-2 backdrop-blur-md">
-        <span className="text-[10px] uppercase tracking-[0.16em] text-slate-300">preview abstrato</span>
+      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-[#050914]/80 px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.30)] backdrop-blur-md">
+        <span className="text-[10px] uppercase tracking-[0.16em] text-slate-300">{showImage ? "imagem real" : "preview abstrato"}</span>
         <span className={`rounded-full border px-2 py-1 text-[10px] uppercase tracking-[0.12em] ${style.badge}`}>{status}</span>
       </div>
     </div>

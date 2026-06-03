@@ -7,6 +7,7 @@ export const navLinks = [
   { href: "/personagens", label: "Personagens" },
   { href: "/studio", label: "Studio" },
   { href: "/devlog", label: "Devlog" },
+  { href: "/roadmap", label: "Roadmap" },
   { href: "/galeria", label: "Galeria" },
   { href: "/login", label: "Login" }
 ];

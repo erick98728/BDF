@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AnimatedPageWrapper } from "@/components/AnimatedPageWrapper";
+import { GameButton } from "@/components/GameButton";
 import { GameGlyph, type GameGlyphName } from "@/components/GameGlyph";
 import { GlowCard } from "@/components/GlowCard";
 import { PageHeader } from "@/components/PageHeader";
@@ -135,7 +136,7 @@ export default function StudioPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Como o projeto evolui" subtitle="A construção de Tester é dividida em etapas claras e testáveis." />
+        <SectionTitle title="Como o projeto evolui" subtitle="A construção de Tester é dividida em etapas claras e testáveis. O roadmap público separa o que já funciona, o que está em teste e o que fica para depois." />
         <div className="grid gap-4 md:grid-cols-3">
           <GlowCard contentClassName="flex min-h-[170px] flex-col">
             <div className="mb-4 flex items-center justify-between gap-3">
@@ -161,6 +162,9 @@ export default function StudioPage() {
             <h3 className="text-lg font-semibold text-white">Expansão</h3>
             <p className="mt-2 text-sm leading-6 text-slate-300">Melhorar visual, lore, personagens, novas rotas e sistemas antes de pensar em uma divulgação maior.</p>
           </GlowCard>
+        </div>
+        <div className="mt-5">
+          <GameButton href="/roadmap" variant="secondary">Ver roadmap completo</GameButton>
         </div>
       </SectionContainer>
 
