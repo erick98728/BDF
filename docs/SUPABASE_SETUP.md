@@ -146,6 +146,24 @@ create table if not exists public.beta_feedback (
 );
 ```
 
+### Migration administrativa para feedback no Admin
+
+Para preparar feedbacks para visualização, triagem e auditoria no painel administrativo, aplique esta migration depois da criação da tabela. Ela é segura para rodar em projetos já existentes porque usa `add column if not exists`:
+
+```sql
+alter table public.beta_feedback
+add column if not exists user_id uuid references auth.users(id) on delete set null,
+add column if not exists beta_version text default 'Tester Beta 0.1',
+add column if not exists status text not null default 'new' check (status in ('new', 'reviewing', 'resolved', 'ignored')),
+add column if not exists admin_notes text,
+add column if not exists reviewed_by uuid references auth.users(id) on delete set null,
+add column if not exists reviewed_at timestamptz;
+```
+
+- `user_id` permite vincular feedbacks ao usuário autenticado quando o envio for migrado para endpoint server-side.
+- `beta_version` registra a versão avaliada, começando em `Tester Beta 0.1`.
+- `status`, `admin_notes`, `reviewed_by` e `reviewed_at` criam a base para triagem administrativa sem expor feedbacks a usuários comuns.
+
 ## 6. Habilitar RLS
 
 Ainda no SQL Editor, rode:
@@ -338,7 +356,7 @@ Depois de criar sua conta pelo `/login`, execute uma única vez trocando o e-mai
 
 ```sql
 update public.profiles
-set role = 'super_admin', permissions = array['view_admin', 'manage_content', 'manage_users'], active = true
+set role = 'super_admin', permissions = array['view_admin', 'manage_content', 'manage_users', 'manage_feedback'], active = true
 where email = 'seu-email@exemplo.com';
 ```
 
@@ -347,8 +365,11 @@ Permissões disponíveis:
 - `view_admin`: visualiza o painel.
 - `manage_content`: edita textos, galeria e personagens.
 - `manage_users`: altera cargos, permissões e bloqueios de usuários.
+- `manage_feedback`: visualiza feedbacks privados do beta e atualiza status/notas administrativas.
 
-Usuários com `role = 'user'` e sem permissões não veem o link de administração e são redirecionados caso tentem abrir `/admin` diretamente.
+Usuários com `role = 'user'` e sem permissões não veem o link de administração e são redirecionados caso tentem abrir `/admin` diretamente. Contas com `manage_feedback` também podem acessar o shell administrativo, mas só devem ver/alterar feedbacks quando os endpoints futuros validarem `canManageFeedback`.
+
+A permissão `manage_feedback` deve ser concedida apenas a administradores responsáveis por triagem do beta. Por padrão, `super_admin` também pode gerenciar feedbacks. Feedbacks não devem ter leitura pública: a futura listagem/atualização no Admin deve acontecer por endpoints server-side que validem `canManageFeedback` antes de retornar dados privados ou alterar `status`, `admin_notes`, `reviewed_by` e `reviewed_at`.
 
 ### Imagens públicas em `site_content`
 

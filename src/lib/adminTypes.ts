@@ -4,7 +4,12 @@ import type { GalleryVisualKind } from "@/components/GalleryVisualFrame";
 export const adminRoles = ["user", "admin", "super_admin"] as const;
 export type AdminRole = (typeof adminRoles)[number];
 
-export const adminPermissions = ["view_admin", "manage_content", "manage_users"] as const;
+export const adminPermissions = [
+  "view_admin",
+  "manage_content",
+  "manage_users",
+  "manage_feedback"
+] as const;
 export type AdminPermission = (typeof adminPermissions)[number];
 
 export type AdminProfile = {
@@ -71,7 +76,13 @@ export type SiteContent = {
 
 export function canAccessAdmin(profile: Pick<AdminProfile, "role" | "permissions" | "active"> | null | undefined) {
   if (!profile?.active) return false;
-  return profile.role === "admin" || profile.role === "super_admin" || profile.permissions.includes("view_admin") || profile.permissions.includes("manage_content");
+  return (
+    profile.role === "admin" ||
+    profile.role === "super_admin" ||
+    profile.permissions.includes("view_admin") ||
+    profile.permissions.includes("manage_content") ||
+    profile.permissions.includes("manage_feedback")
+  );
 }
 
 export function canManageUsers(profile: Pick<AdminProfile, "role" | "permissions" | "active"> | null | undefined) {
@@ -82,4 +93,11 @@ export function canManageUsers(profile: Pick<AdminProfile, "role" | "permissions
 export function canManageContent(profile: Pick<AdminProfile, "role" | "permissions" | "active"> | null | undefined) {
   if (!profile?.active) return false;
   return profile.role === "admin" || profile.role === "super_admin" || profile.permissions.includes("manage_content");
+}
+
+export function canManageFeedback(
+  profile: Pick<AdminProfile, "role" | "permissions" | "active"> | null | undefined
+) {
+  if (!profile?.active) return false;
+  return profile.role === "super_admin" || profile.permissions.includes("manage_feedback");
 }

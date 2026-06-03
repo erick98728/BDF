@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { canAccessAdmin, canManageContent, canManageUsers } from "@/lib/adminTypes";
+import { canAccessAdmin, canManageContent, canManageFeedback, canManageUsers } from "@/lib/adminTypes";
 import { getAuthenticatedUser, getServerProfile, setAuthSessionCookies } from "@/lib/serverAuth";
 
 export async function GET(request: NextRequest) {
@@ -13,7 +13,8 @@ export async function GET(request: NextRequest) {
   const capabilities = {
     canAccessAdmin: canAccessAdmin(profile),
     canManageContent: canManageContent(profile),
-    canManageUsers: canManageUsers(profile)
+    canManageUsers: canManageUsers(profile),
+    canManageFeedback: canManageFeedback(profile)
   };
 
   if (!capabilities.canAccessAdmin || !profile) {

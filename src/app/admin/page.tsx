@@ -225,12 +225,14 @@ type AdminCapabilities = {
   canAccessAdmin: boolean;
   canManageContent: boolean;
   canManageUsers: boolean;
+  canManageFeedback: boolean;
 };
 
 const defaultAdminCapabilities: AdminCapabilities = {
   canAccessAdmin: false,
   canManageContent: false,
-  canManageUsers: false
+  canManageUsers: false,
+  canManageFeedback: false
 };
 
 type AdminSessionResponse = {
