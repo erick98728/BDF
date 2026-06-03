@@ -64,49 +64,65 @@ No Supabase:
 
 Para o deploy atual, use o domínio da Vercel do projeto. Se trocar de domínio no futuro, atualize essa configuração.
 
-## Migração de autenticação: login/logout server-side
+## Migração de autenticação: cookies HttpOnly e endpoints server-side
 
-O fluxo antigo de autenticação fazia login diretamente no frontend com `supabase.auth.signInWithPassword` e copiava tokens para cookies usando `document.cookie`. Esse modelo foi mantido apenas como legado temporário em `src/lib/authCookie.ts`, mas não deve ser usado por novos fluxos.
+O fluxo atual de autenticação deve centralizar login, logout, sessão e permissões em rotas internas do Next.js. O modelo legado que copiava tokens pelo JavaScript do navegador foi removido: mantenha apenas `src/lib/authCookieNames.ts` como fonte dos nomes dos cookies.
 
-O login comum agora deve passar pela rota server-side `POST /api/auth/login`:
+### Login server-side
 
-1. o formulário envia `email` e `password` para a API interna;
+O login comum deve passar pela rota `POST /api/auth/login`:
+
+1. o formulário envia apenas `email` e `password` para a API interna;
 2. a rota autentica com Supabase usando a anon key pública do projeto;
 3. a rota define `tester-sb-access-token` e `tester-sb-refresh-token` via `Set-Cookie`;
 4. os cookies são `HttpOnly`, `SameSite=Lax`, `Path=/` e `Secure` em produção;
 5. a resposta JSON retorna apenas sucesso ou erro, nunca access token ou refresh token.
 
-O logout comum agora deve passar pela rota server-side `POST /api/auth/logout`:
+### Logout server-side
+
+O logout comum deve passar pela rota `POST /api/auth/logout`:
 
 1. a rota tenta encerrar a sessão no Supabase quando recebe um access token válido;
 2. a rota limpa os cookies `tester-sb-access-token` e `tester-sb-refresh-token` via `Set-Cookie`;
 3. Navbar e Dashboard redirecionam o usuário para `/login` após a chamada.
 
-Regras importantes:
+### Endpoints de sessão e permissões
 
-- o frontend não deve receber tokens no JSON;
-- os cookies principais de autenticação devem ser definidos pelo servidor;
-- `SUPABASE_SERVICE_ROLE_KEY` não deve ser usada para login comum;
-- login comum deve usar a anon key do Supabase;
-- cadastro (`signUp`) ainda permanece no frontend temporariamente e será refinado em uma fase posterior;
-- a validação client-side de sessão/perfil ainda existe como compatibilidade temporária até a Fase 3 migrar Dashboard/Admin para endpoints server-side dedicados.
-
-### Fase 3: endpoints server-side de sessão e admin
-
-A sessão do Dashboard, Navbar e Admin agora deve ser consultada por endpoints server-side, reduzindo a dependência de `supabase.auth.getUser()` no navegador.
-
-Endpoints disponíveis:
+Use estes endpoints como fonte de verdade para estado de autenticação no frontend:
 
 - `GET /api/auth/me`: lê o cookie `tester-sb-access-token`, valida o usuário no servidor e retorna apenas `{ authenticated, user }`. Não retorna access token, refresh token ou perfil administrativo.
 - `GET /api/admin/me`: lê o cookie `tester-sb-access-token`, valida o usuário no servidor, busca `profiles` e retorna somente dados mínimos do perfil, `allowed` e capacidades (`canAccessAdmin`, `canManageContent`, `canManageUsers`).
 
-Regras da Fase 3:
+Regras obrigatórias:
 
-- o frontend deve usar `/api/auth/me` para estado comum de sessão;
-- o frontend deve usar `/api/admin/me` para estado de menu/admin;
-- tokens nunca devem ser retornados no JSON;
-- `SUPABASE_SERVICE_ROLE_KEY` continua proibida para autenticação comum;
+- o frontend não deve receber tokens no JSON;
+- os cookies principais de autenticação devem ser definidos pelo servidor;
+- nenhum fluxo novo deve escrever tokens pelo JavaScript do navegador;
+- `SUPABASE_SERVICE_ROLE_KEY` não deve ser usada para login comum;
+- login comum deve usar a anon key do Supabase;
+- cadastro (`signUp`) ainda permanece no frontend temporariamente e deve orientar o usuário a entrar novamente pelo login server-side;
 - operações administrativas de escrita ainda serão migradas em fase posterior; por enquanto `adminApi.ts` permanece no projeto para evitar quebra ampla.
+
+### Refresh server-side da sessão
+
+A renovação de sessão é feita no servidor pelo helper `refreshServerSession()` em `src/lib/serverAuth.ts`, sem expor tokens ao frontend:
+
+1. `getAuthenticatedUser()` tenta validar primeiro o cookie `tester-sb-access-token`;
+2. quando o access token estiver ausente, expirado ou inválido, o helper lê `tester-sb-refresh-token` apenas no servidor;
+3. o servidor usa a anon key do Supabase para renovar a sessão com o refresh token;
+4. se a renovação funcionar, a resposta atualiza `tester-sb-access-token` e `tester-sb-refresh-token` via `Set-Cookie`;
+5. os cookies renovados continuam `HttpOnly`, `SameSite=Lax`, `Path=/` e `Secure` em produção;
+6. a resposta JSON continua retornando somente dados seguros, como `{ authenticated, user }`, `allowed`, `profile` mínimo e `capabilities`;
+7. access token e refresh token nunca devem ser enviados em JSON, salvos em estado React, gravados em localStorage ou expostos a scripts do navegador.
+
+Endpoints com refresh automático:
+
+- `GET /api/auth/me`: tenta refresh antes de retornar `authenticated: false`. Se o refresh falhar, retorna `{ authenticated: false, user: null }` e o usuário deve fazer login novamente.
+- `GET /api/admin/me`: tenta refresh antes de retornar acesso negado por falta de sessão. Se o refresh funcionar, usa o novo access token para buscar `profiles`; se falhar, retorna `401` e o usuário deve entrar novamente.
+
+O `middleware.ts` continua apenas validando o access token para proteger `/admin`. O refresh não foi colocado no middleware nesta fase para evitar risco de incompatibilidade no ambiente Edge e loops de redirecionamento. Na prática, Dashboard/Navbar chamam `/api/auth/me` e `/api/admin/me`, renovando os cookies antes da navegação quando possível.
+
+`SUPABASE_SERVICE_ROLE_KEY` não deve ser usada para login ou refresh de usuário comum; ela continua restrita a fluxos server-side privilegiados, como geração de URL assinada do beta.
 
 ## 5. Criar a tabela `beta_feedback`
 

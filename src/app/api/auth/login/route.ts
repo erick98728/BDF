@@ -1,8 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { authAccessCookie, authRefreshCookie } from "@/lib/authCookieNames";
-
-const refreshCookieMaxAge = 60 * 60 * 24 * 30;
+import { setAuthSessionCookies } from "@/lib/serverAuth";
 
 export async function POST(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
@@ -37,23 +35,7 @@ export async function POST(request: NextRequest) {
   }
 
   const response = NextResponse.json({ ok: true });
-  const secure = process.env.NODE_ENV === "production";
-
-  response.cookies.set(authAccessCookie, data.session.access_token, {
-    httpOnly: true,
-    secure,
-    sameSite: "lax",
-    path: "/",
-    maxAge: data.session.expires_in ?? 3600
-  });
-
-  response.cookies.set(authRefreshCookie, data.session.refresh_token, {
-    httpOnly: true,
-    secure,
-    sameSite: "lax",
-    path: "/",
-    maxAge: refreshCookieMaxAge
-  });
+  setAuthSessionCookies(response, data.session);
 
   return response;
 }
