@@ -9,7 +9,7 @@ import { SectionTitle } from "@/components/SectionTitle";
 import { BetaBadge, StatusBadge } from "@/components/TesterVisualSystem";
 import { playtimeOptions, progressOptions, ratingOptions } from "@/data/feedbackQuestions";
 import type { FeedbackFormData, FeedbackRatings } from "@/types/feedback";
-import { isSupabaseConfigured, supabase, supabaseSetupMessage } from "@/lib/supabaseClient";
+import { isSupabaseConfigured, supabaseSetupMessage } from "@/lib/supabaseClient";
 
 const initialData: FeedbackFormData = {
   nickname: "",
@@ -78,22 +78,21 @@ export default function FeedbackPage() {
       return;
     }
 
-    const { error: insertError } = await supabase.from("beta_feedback").insert({
-      nickname: formData.nickname,
-      email: formData.email,
-      playtime: formData.playtime,
-      progress_point: formData.progressPoint,
-      movement_rating: formData.movementRating,
-      combat_rating: formData.combatRating,
-      map_rating: formData.mapRating,
-      difficulty_rating: formData.difficultyRating,
-      found_bug: formData.foundBug,
-      bug_description: formData.bugDescription,
-      suggestions: formData.suggestions,
-    });
+    try {
+      const response = await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(formData)
+      });
+      const data = (await response.json().catch(() => ({}))) as { error?: string };
 
-    if (insertError) {
-      setError("Não foi possível registrar seu feedback agora. Confira a configuração da tabela beta_feedback no Supabase e tente novamente.");
+      if (!response.ok) {
+        setError(data.error ?? "Não foi possível registrar seu feedback agora. Faça login e tente novamente.");
+        setLoading(false);
+        return;
+      }
+    } catch {
+      setError("Não foi possível conectar ao servidor de feedback agora. Tente novamente em instantes.");
       setLoading(false);
       return;
     }
