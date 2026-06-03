@@ -9,6 +9,7 @@ import { GameGlyph } from "@/components/GameGlyph";
 import { SectionContainer } from "@/components/SectionContainer";
 import { AnimatedPageWrapper } from "@/components/AnimatedPageWrapper";
 import { characters, devlogs, homeFeatures, homePillars } from "@/data/site";
+import { loadSiteContent } from "@/lib/adminApi";
 
 export const metadata: Metadata = {
   title: "Início",
@@ -48,7 +49,9 @@ function AbstractMapPanel() {
   );
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const siteContent = await loadSiteContent();
+
   return (
     <AnimatedPageWrapper>
       <HeroSection />
@@ -64,11 +67,9 @@ export default function HomePage() {
             <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
               <GameGlyph name="fog" className="h-14 w-14" />
               <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">Arquivo principal</p>
-                <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">Mistério, combate e caminhos ocultos.</h2>
-                <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-300 sm:text-base sm:leading-7">
-                  Tester acompanha Rubens atravessando o Bosque da Névoa Perdida, uma primeira área pensada para testar movimentação, combate e leitura de mapa sem entregar todas as respostas de uma vez.
-                </p>
+                <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">{siteContent.home.eyebrow}</p>
+                <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">{siteContent.home.title}</h2>
+                <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-300 sm:text-base sm:leading-7">{siteContent.home.description}</p>
               </div>
             </div>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">

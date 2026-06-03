@@ -4,85 +4,197 @@
 
 Permitir a distribuição controlada do Tester Beta sem colocar executáveis no GitHub, sem expor chaves privadas e sem transformar o frontend em fonte de segredos.
 
-## Estado atual do projeto
+## Status da Etapa 2
 
-O site está preparado para a Beta 0.1 com um fluxo simples:
+A base recomendada para download privado passa a ser:
 
-1. O usuário entra ou cria conta no site.
-2. O Dashboard verifica a autenticação quando Supabase está configurado.
-3. O componente `ProtectedDownloadCard` lê `NEXT_PUBLIC_BETA_DOWNLOAD_URL`.
-4. Se o usuário estiver autenticado e a variável existir, o botão **Baixar Tester Beta 0.1** aparece.
-5. Se a variável não existir, o estado exibido é **Download em preparação**.
-6. Sem Supabase, o Dashboard continua acessível apenas como prévia segura, sem liberar arquivo real.
+1. Supabase Auth para identificar o usuário.
+2. Supabase Storage privado com bucket `tester-beta-builds`.
+3. Tabela `beta_builds` para registrar versões e caminhos dos arquivos.
+4. Tabela `beta_access` para whitelist de beta testers.
+5. Tabela `beta_download_logs` para auditoria de downloads.
+6. Rota segura do Next.js para gerar URL assinada de curta duração.
 
-Nenhum arquivo do jogo deve ser enviado para o repositório.
+`NEXT_PUBLIC_BETA_DOWNLOAD_URL` ainda existe no projeto como fallback temporário e não deve ser removida nesta etapa, mas não é o modelo recomendado para uma distribuição privada real.
 
-## Opção atual: NEXT_PUBLIC_BETA_DOWNLOAD_URL
+## Regra principal sobre arquivos da build
 
-Esta é a opção de curto prazo.
+Nenhum arquivo do jogo deve ser enviado para o GitHub ou versionado no repositório.
 
-### Como funciona
+A build deve ser enviada apenas para o bucket privado `tester-beta-builds` no Supabase Storage. Exemplos de caminhos internos no bucket:
 
-- A build do jogo é hospedada fora do GitHub.
-- A URL é cadastrada na Vercel como `NEXT_PUBLIC_BETA_DOWNLOAD_URL`.
-- O Dashboard mostra o botão de download apenas quando o usuário está autenticado e a variável está configurada.
+- `windows/tester-beta-0.1.0.zip`
+- `windows/tester-beta-0.1.1.zip`
 
-### Vantagens
+O bucket deve permanecer privado. Não crie policy pública de leitura para os objetos da build.
 
-- Simples de configurar.
-- Não exige backend novo.
-- Funciona bem para testes pequenos com amigos ou poucos participantes.
-- Permite ativar e remover o botão de download sem mudar o código.
+## Bucket privado no Supabase Storage
 
-### Limites e riscos
+Crie um bucket privado chamado `tester-beta-builds`.
 
-- Como a variável é pública no frontend, o link pode ser visto por quem inspecionar o site.
-- Um tester pode compartilhar o link com outra pessoa.
-- Não há expiração automática do link.
-- Não há rastreio individual de quem baixou.
-
-### Quando usar
-
-Use esta opção apenas para beta fechado pequeno, com pessoas confiáveis, enquanto o projeto ainda está em validação inicial.
-
-## Opção futura recomendada: Supabase Storage privado
-
-Esta é a opção mais indicada para um beta fechado mais sério.
-
-### Como funcionaria
-
-1. A build fica em um bucket privado no Supabase Storage.
-2. O usuário faz login.
-3. O site solicita uma URL assinada de curta duração.
-4. O usuário baixa o arquivo antes da URL expirar.
-5. O link deixa de funcionar automaticamente depois do prazo.
-
-### Vantagens
-
-- O arquivo não fica público.
-- O link pode expirar.
-- O acesso pode ser ligado ao usuário autenticado.
-- Permite controle melhor para beta fechado.
-
-### Limites
-
-- Exige uma função ou rota segura para gerar a URL assinada.
-- Exige mais configuração no Supabase.
-- Ainda não impede que alguém compartilhe o arquivo depois de baixar.
-
-## Whitelist futura
-
-Para controlar quem pode baixar, pode ser criada uma tabela como:
+Pelo SQL Editor, você pode garantir que ele exista e permaneça privado com:
 
 ```sql
-create table public.beta_access (
-  user_id uuid primary key references auth.users(id) on delete cascade,
-  allowed boolean not null default false,
+insert into storage.buckets (id, name, public)
+values ('tester-beta-builds', 'tester-beta-builds', false)
+on conflict (id) do update set public = false;
+```
+
+Também é possível criar pelo painel do Supabase em **Storage > New bucket**, usando exatamente o nome `tester-beta-builds` e mantendo a opção pública desativada.
+
+## Tabelas necessárias
+
+### `beta_builds`
+
+Armazena as builds disponíveis, versão, plataforma e caminho do arquivo no Storage.
+
+```sql
+create table if not exists public.beta_builds (
+  id uuid primary key default gen_random_uuid(),
+  version text not null,
+  storage_path text not null,
+  platform text not null default 'Windows',
+  active boolean not null default false,
   created_at timestamptz not null default now()
 );
 ```
 
-Com isso, apenas contas aprovadas poderiam receber link de download.
+### `beta_access`
+
+Controla quais usuários autenticados podem baixar o beta.
+
+```sql
+create table if not exists public.beta_access (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  allowed boolean not null default false,
+  notes text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+```
+
+### `beta_download_logs`
+
+Registra downloads emitidos pela futura rota segura.
+
+```sql
+create table if not exists public.beta_download_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete set null,
+  build_id uuid references public.beta_builds(id) on delete set null,
+  created_at timestamptz not null default now()
+);
+```
+
+## Row Level Security
+
+Habilite RLS nas três tabelas:
+
+```sql
+alter table public.beta_builds enable row level security;
+alter table public.beta_access enable row level security;
+alter table public.beta_download_logs enable row level security;
+```
+
+## Policies recomendadas
+
+As policies abaixo dependem das funções administrativas já documentadas em `docs/SUPABASE_SETUP.md`:
+
+- `public.can_manage_content(auth.uid())`
+- `public.can_manage_users(auth.uid())`
+
+```sql
+create policy "Admins can read beta builds"
+on public.beta_builds for select
+to authenticated
+using (public.can_manage_content(auth.uid()));
+
+create policy "Admins can insert beta builds"
+on public.beta_builds for insert
+to authenticated
+with check (public.can_manage_content(auth.uid()));
+
+create policy "Admins can update beta builds"
+on public.beta_builds for update
+to authenticated
+using (public.can_manage_content(auth.uid()))
+with check (public.can_manage_content(auth.uid()));
+
+create policy "Admins can delete beta builds"
+on public.beta_builds for delete
+to authenticated
+using (public.can_manage_content(auth.uid()));
+
+create policy "Users can read own beta access"
+on public.beta_access for select
+to authenticated
+using (user_id = auth.uid() or public.can_manage_users(auth.uid()));
+
+create policy "Admins can insert beta access"
+on public.beta_access for insert
+to authenticated
+with check (public.can_manage_users(auth.uid()));
+
+create policy "Admins can update beta access"
+on public.beta_access for update
+to authenticated
+using (public.can_manage_users(auth.uid()))
+with check (public.can_manage_users(auth.uid()));
+
+create policy "Admins can delete beta access"
+on public.beta_access for delete
+to authenticated
+using (public.can_manage_users(auth.uid()));
+
+create policy "Users can read own beta download logs"
+on public.beta_download_logs for select
+to authenticated
+using (user_id = auth.uid() or public.can_manage_users(auth.uid()));
+
+create policy "Admins can insert beta download logs"
+on public.beta_download_logs for insert
+to authenticated
+with check (public.can_manage_users(auth.uid()) or public.can_manage_content(auth.uid()));
+
+create policy "Admins can delete beta download logs"
+on public.beta_download_logs for delete
+to authenticated
+using (public.can_manage_users(auth.uid()));
+```
+
+Essas regras reduzem exposição porque:
+
+- usuários autenticados consultam apenas o próprio registro em `beta_access`;
+- usuários comuns não alteram `beta_access`;
+- usuários comuns não inserem builds;
+- usuários comuns não listam logs de outros usuários;
+- admins/super admins gerenciam builds, acessos e logs usando as permissões já existentes do projeto.
+
+## Fluxo seguro recomendado
+
+A geração da URL assinada deve ser feita por uma rota segura do Next.js, não diretamente pelo frontend.
+
+A futura rota, por exemplo `/api/beta/download`, deve:
+
+1. validar a sessão do usuário;
+2. verificar em `beta_access` se `allowed = true` para `auth.uid()`;
+3. buscar a build ativa em `beta_builds`;
+4. gerar uma URL assinada de curta duração para `storage_path` no bucket `tester-beta-builds`;
+5. registrar o evento em `beta_download_logs`;
+6. retornar apenas a URL assinada temporária.
+
+Essa rota ainda não deve ser implementada nesta etapa.
+
+## Modelo temporário legado: `NEXT_PUBLIC_BETA_DOWNLOAD_URL`
+
+O projeto ainda possui o fluxo temporário baseado em `NEXT_PUBLIC_BETA_DOWNLOAD_URL`:
+
+- `ProtectedDownloadCard` lê `NEXT_PUBLIC_BETA_DOWNLOAD_URL`;
+- usuário autenticado com a variável configurada vê o botão de download;
+- usuário autenticado sem a variável vê **Download em preparação**;
+- sem Supabase configurado, o Dashboard continua como prévia segura.
+
+Esse modelo é aceitável apenas para validação pequena e controlada. Como a variável é pública no frontend, o link pode ser visto por inspeção do site, compartilhado e usado sem auditoria individual.
 
 ## Regras de segurança adotadas
 
@@ -90,26 +202,7 @@ Com isso, apenas contas aprovadas poderiam receber link de download.
 - Não colocar executável no repositório.
 - Não expor `service_role` ou qualquer segredo no frontend.
 - Não fixar link privado no código-fonte.
-- Usar `NEXT_PUBLIC_BETA_DOWNLOAD_URL` apenas como solução temporária.
-- Preferir Supabase Storage privado para fases maiores do beta.
-
-## Implementação atual no projeto
-
-- `ProtectedDownloadCard` lê apenas `NEXT_PUBLIC_BETA_DOWNLOAD_URL`.
-- Usuário não autenticado: mostra mensagem de acesso reservado e direciona para `/login`.
-- Usuário autenticado sem `NEXT_PUBLIC_BETA_DOWNLOAD_URL`: mostra **Download em preparação**.
-- Usuário autenticado com `NEXT_PUBLIC_BETA_DOWNLOAD_URL`: mostra **Baixar Tester Beta 0.1**.
-- Sem Supabase configurado: o Dashboard mostra uma prévia segura do fluxo, sem liberar arquivo real.
-- Nenhum arquivo do jogo é versionado no repositório.
-
-## Recomendação para beta fechado
-
-Para poucos amigos testarem agora, `NEXT_PUBLIC_BETA_DOWNLOAD_URL` é suficiente, desde que o link seja hospedado fora do GitHub e possa ser trocado caso seja compartilhado.
-
-Para uma fase maior, a recomendação é migrar para:
-
-1. Supabase Auth.
-2. Tabela de whitelist `beta_access`.
-3. Supabase Storage privado.
-4. URL assinada com expiração curta.
-5. Registro de feedback obrigatório em `beta_feedback`.
+- Manter `NEXT_PUBLIC_BETA_DOWNLOAD_URL` apenas como fallback temporário.
+- Usar Supabase Storage privado para fases maiores do beta.
+- Gerar URL assinada somente por rota segura server-side.
+- Registrar downloads em `beta_download_logs`.
