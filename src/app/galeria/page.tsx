@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatedPageWrapper } from "@/components/AnimatedPageWrapper";
 import { GalleryVisualFrame, type GalleryVisualKind } from "@/components/GalleryVisualFrame";
 import { GameGlyph, type GameGlyphName } from "@/components/GameGlyph";
@@ -8,6 +8,8 @@ import { GlowCard } from "@/components/GlowCard";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
+import { loadSiteContent } from "@/lib/adminApi";
+import { defaultSiteContent } from "@/lib/defaultSiteContent";
 
 type GalleryCategory = "Todos" | "Screenshots" | "Conceitos" | "Personagens" | "Cenários" | "Vídeos";
 
@@ -20,6 +22,8 @@ type GalleryItem = {
   icon: GameGlyphName;
   visualKind: GalleryVisualKind;
   detail: string;
+  imageUrl?: string;
+  altText?: string;
 };
 
 type FilterConfig = {
@@ -107,18 +111,36 @@ const statusStyles: Record<GalleryItem["status"], string> = {
 
 export default function GalleryPage() {
   const [activeFilter, setActiveFilter] = useState<GalleryCategory>("Todos");
+  const [content, setContent] = useState({ ...defaultSiteContent.gallery, items: galleryItems });
   const [selected, setSelected] = useState<GalleryItem | null>(null);
 
+  useEffect(() => {
+    loadSiteContent().then((siteContent) => setContent(siteContent.gallery));
+  }, []);
+
+  useEffect(() => {
+    if (!selected) return;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setSelected(null);
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selected]);
+
+  const editableGalleryItems = content.items as GalleryItem[];
+
   const visibleItems = useMemo(
-    () => (activeFilter === "Todos" ? galleryItems : galleryItems.filter((item) => item.category === activeFilter)),
-    [activeFilter]
+    () => (activeFilter === "Todos" ? editableGalleryItems : editableGalleryItems.filter((item) => item.category === activeFilter)),
+    [activeFilter, editableGalleryItems]
   );
 
   return (
     <AnimatedPageWrapper>
       <PageHeader
         title="Galeria"
-        description="Imagens do desenvolvimento, conceitos e registros do mundo de Tester."
+        description={content.intro.description}
       />
 
       <SectionContainer>
@@ -126,17 +148,15 @@ export default function GalleryPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(99,221,255,0.14),transparent_30%),radial-gradient(circle_at_86%_68%,rgba(168,85,247,0.12),transparent_34%)]" />
           <div className="relative z-10 grid gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
             <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">Vitrine visual</p>
-              <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">Prévia do acervo em produção.</h2>
-              <p className="mt-3 text-sm leading-6 text-slate-300">
-                Esta galeria usa molduras e previews abstratos para apresentar direção visual, conceitos e espaços reservados sem fingir que existem artes finais prontas.
-              </p>
+              <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">{content.intro.eyebrow}</p>
+              <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">{content.intro.title}</h2>
+              <p className="mt-3 text-sm leading-6 text-slate-300">{content.intro.description}</p>
             </div>
             <div className="grid gap-3 sm:grid-cols-3">
               <div className="rounded-xl border border-cyan-200/10 bg-black/20 px-4 py-3">
                 <GameGlyph name="gallery" variant="plain" className="mb-2 h-5 w-5 text-cyan-100" />
                 <p className="text-xs uppercase tracking-[0.14em] text-slate-400">Itens</p>
-                <p className="mt-1 text-sm font-medium text-white">{galleryItems.length} registros</p>
+                <p className="mt-1 text-sm font-medium text-white">{editableGalleryItems.length} registros</p>
               </div>
               <div className="rounded-xl border border-amber-200/10 bg-black/20 px-4 py-3">
                 <GameGlyph name="beta" variant="plain" className="mb-2 h-5 w-5 text-amber-100" />
@@ -186,7 +206,7 @@ export default function GalleryPage() {
           {visibleItems.map((item) => (
             <button key={item.id} type="button" className="h-full w-full text-left" onClick={() => setSelected(item)}>
               <GlowCard contentClassName="flex h-full min-h-[365px] flex-col p-4 sm:p-5">
-                <GalleryVisualFrame kind={item.visualKind} icon={item.icon} label={item.category} status={item.status} />
+                <GalleryVisualFrame kind={item.visualKind} icon={item.icon} label={item.category} status={item.status} imageUrl={item.imageUrl} altText={item.altText || item.name} />
                 <div className="mt-4 flex items-center justify-between gap-3">
                   <p className="text-xs uppercase tracking-[0.12em] text-cyan-200/85">{item.category}</p>
                   <span className={`rounded-full border px-2 py-1 text-[10px] uppercase tracking-[0.1em] ${statusStyles[item.status]}`}>
@@ -203,13 +223,19 @@ export default function GalleryPage() {
       </SectionContainer>
 
       {selected ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/80 px-4 py-6 backdrop-blur-sm" onClick={() => setSelected(null)}>
-          <div className="w-full max-w-3xl" onClick={(event) => event.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 px-4 py-5 backdrop-blur-sm sm:items-center sm:py-6" onClick={() => setSelected(null)}>
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={`gallery-preview-title-${selected.id}`}
+            className="w-full max-w-3xl"
+            onClick={(event) => event.stopPropagation()}
+          >
             <GlowCard contentClassName="p-4 sm:p-6">
               <div className="mb-4 flex items-start justify-between gap-3">
                 <div>
                   <p className="text-xs uppercase tracking-[0.16em] text-cyan-200/80">Preview da galeria</p>
-                  <h3 className="mt-1 text-2xl font-bold text-white sm:text-3xl">{selected.name}</h3>
+                  <h3 id={`gallery-preview-title-${selected.id}`} className="mt-1 text-2xl font-bold text-white sm:text-3xl">{selected.name}</h3>
                 </div>
                 <button
                   type="button"
@@ -221,7 +247,7 @@ export default function GalleryPage() {
                 </button>
               </div>
 
-              <GalleryVisualFrame kind={selected.visualKind} icon={selected.icon} label={selected.category} status={selected.status} size="modal" />
+              <GalleryVisualFrame kind={selected.visualKind} icon={selected.icon} label={selected.category} status={selected.status} size="modal" imageUrl={selected.imageUrl} altText={selected.altText || selected.name} />
 
               <div className="mt-5 grid gap-4 md:grid-cols-[0.9fr_1.1fr]">
                 <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-3">

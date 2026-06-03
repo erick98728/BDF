@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { navLinks } from "@/data/site";
-import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
+import { isSupabaseConfigured } from "@/lib/supabaseClient";
 import { BetaBadge, TesterMark } from "./TesterVisualSystem";
 
 const focusClass = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200";
@@ -14,29 +14,41 @@ export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const [logged, setLogged] = useState(false);
+  const [adminAllowed, setAdminAllowed] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    let active = true;
+
     if (!isSupabaseConfigured) {
       setLogged(false);
-      return;
+      setAdminAllowed(false);
+      return () => {
+        active = false;
+      };
     }
 
-    async function getSession() {
-      const { data } = await supabase.auth.getSession();
-      setLogged(Boolean(data.session));
+    async function syncSession() {
+      const [session, adminSession] = await Promise.all([getServerSession(), getAdminSession()]);
+      if (!active) return;
+
+      setLogged(session.authenticated);
+      setAdminAllowed(session.authenticated && adminSession.allowed);
     }
 
-    getSession();
-    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => setLogged(Boolean(session)));
-    return () => subscription.subscription.unsubscribe();
-  }, []);
+    syncSession();
+    return () => {
+      active = false;
+    };
+  }, [pathname]);
 
   const baseLinks = useMemo(() => navLinks.filter((l) => l.href !== "/login"), []);
 
   async function handleSignOut() {
     if (!isSupabaseConfigured) return;
-    await supabase.auth.signOut();
+    await fetch("/api/auth/logout", { method: "POST" });
+    setLogged(false);
+    setAdminAllowed(false);
     setOpen(false);
     router.push("/login");
     router.refresh();
@@ -75,6 +87,9 @@ export function Navbar() {
             {logged ? (
               <>
                 <Link href="/dashboard" aria-current={pathname === "/dashboard" ? "page" : undefined} className={`${navLinkBase} ${pathname === "/dashboard" ? "border border-cyan-200/35 bg-cyan-300/14 text-cyan-50" : "text-slate-300 hover:bg-white/5 hover:text-cyan-50"}`}>Dashboard</Link>
+                {adminAllowed ? (
+                  <Link href="/admin" aria-current={pathname.startsWith("/admin") ? "page" : undefined} className={`${navLinkBase} ${pathname.startsWith("/admin") ? "border border-amber-200/35 bg-amber-300/14 text-amber-50" : "text-amber-100 hover:bg-amber-300/10 hover:text-white"}`}>Admin</Link>
+                ) : null}
                 <button onClick={handleSignOut} className={`tester-button rounded-lg border border-purple-200/20 bg-purple-300/8 px-3 py-2 text-sm font-medium text-purple-100 hover:bg-purple-300/14 hover:text-white ${focusClass}`}>Sair</button>
               </>
             ) : (
@@ -119,6 +134,9 @@ export function Navbar() {
               {logged ? (
                 <>
                   <Link href="/dashboard" aria-current={pathname === "/dashboard" ? "page" : undefined} onClick={() => setOpen(false)} className={`nav-link-fx rounded-lg px-3 py-3 text-sm font-medium ${focusClass} ${pathname === "/dashboard" ? "border border-cyan-200/20 bg-cyan-300/14 text-cyan-50" : "text-slate-200 hover:bg-white/5 hover:text-cyan-50"}`}>Dashboard</Link>
+                  {adminAllowed ? (
+                    <Link href="/admin" aria-current={pathname.startsWith("/admin") ? "page" : undefined} onClick={() => setOpen(false)} className={`nav-link-fx rounded-lg px-3 py-3 text-sm font-medium ${focusClass} ${pathname.startsWith("/admin") ? "border border-amber-200/20 bg-amber-300/14 text-amber-50" : "text-amber-100 hover:bg-amber-300/10 hover:text-white"}`}>Admin</Link>
+                  ) : null}
                   <button onClick={handleSignOut} className={`tester-button rounded-lg px-3 py-3 text-left text-sm font-medium text-purple-100 hover:bg-purple-300/10 hover:text-white ${focusClass}`}>Sair</button>
                 </>
               ) : (
@@ -130,4 +148,35 @@ export function Navbar() {
       </nav>
     </header>
   );
+}
+
+
+type ServerSession = {
+  authenticated: boolean;
+  user: { id: string; email: string | null } | null;
+};
+
+type AdminSession = {
+  authenticated: boolean;
+  allowed: boolean;
+};
+
+async function getServerSession(): Promise<ServerSession> {
+  try {
+    const response = await fetch("/api/auth/me", { cache: "no-store", headers: { Accept: "application/json" } });
+    if (!response.ok) return { authenticated: false, user: null };
+    return (await response.json()) as ServerSession;
+  } catch {
+    return { authenticated: false, user: null };
+  }
+}
+
+async function getAdminSession(): Promise<AdminSession> {
+  try {
+    const response = await fetch("/api/admin/me", { cache: "no-store", headers: { Accept: "application/json" } });
+    if (!response.ok) return { authenticated: false, allowed: false };
+    return (await response.json()) as AdminSession;
+  } catch {
+    return { authenticated: false, allowed: false };
+  }
 }
