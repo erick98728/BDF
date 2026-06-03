@@ -103,18 +103,26 @@ Regras obrigatórias:
 - cadastro (`signUp`) ainda permanece no frontend temporariamente e deve orientar o usuário a entrar novamente pelo login server-side;
 - operações administrativas de escrita ainda serão migradas em fase posterior; por enquanto `adminApi.ts` permanece no projeto para evitar quebra ampla.
 
-### Refresh server-side, próxima melhoria
+### Refresh server-side da sessão
 
-A próxima melhoria recomendada é implementar renovação server-side de sessão sem expor tokens ao frontend:
+A renovação de sessão é feita no servidor pelo helper `refreshServerSession()` em `src/lib/serverAuth.ts`, sem expor tokens ao frontend:
 
-1. o access token expira em pouco tempo e continuará sendo usado para validações rápidas no middleware e endpoints;
-2. o refresh token deve ficar apenas em cookie `HttpOnly` e deve ser lido somente por código server-side;
-3. quando o access token estiver expirado ou próximo do vencimento, uma rota/helper server-side deve usar o refresh token para solicitar uma nova sessão ao Supabase;
-4. após renovar, o servidor deve atualizar `tester-sb-access-token` e `tester-sb-refresh-token` com `Set-Cookie`;
-5. o middleware pode continuar validando a sessão e, em uma fase posterior, pode delegar a renovação para um helper compartilhado;
-6. o refresh token nunca deve ser retornado em JSON, salvo em estado React, gravado em localStorage ou exposto para scripts do navegador.
+1. `getAuthenticatedUser()` tenta validar primeiro o cookie `tester-sb-access-token`;
+2. quando o access token estiver ausente, expirado ou inválido, o helper lê `tester-sb-refresh-token` apenas no servidor;
+3. o servidor usa a anon key do Supabase para renovar a sessão com o refresh token;
+4. se a renovação funcionar, a resposta atualiza `tester-sb-access-token` e `tester-sb-refresh-token` via `Set-Cookie`;
+5. os cookies renovados continuam `HttpOnly`, `SameSite=Lax`, `Path=/` e `Secure` em produção;
+6. a resposta JSON continua retornando somente dados seguros, como `{ authenticated, user }`, `allowed`, `profile` mínimo e `capabilities`;
+7. access token e refresh token nunca devem ser enviados em JSON, salvos em estado React, gravados em localStorage ou expostos a scripts do navegador.
 
-Não implemente refresh automático complexo sem testes reais de Supabase, porque uma renovação incorreta pode causar logout em loop ou cookies inconsistentes em produção.
+Endpoints com refresh automático:
+
+- `GET /api/auth/me`: tenta refresh antes de retornar `authenticated: false`. Se o refresh falhar, retorna `{ authenticated: false, user: null }` e o usuário deve fazer login novamente.
+- `GET /api/admin/me`: tenta refresh antes de retornar acesso negado por falta de sessão. Se o refresh funcionar, usa o novo access token para buscar `profiles`; se falhar, retorna `401` e o usuário deve entrar novamente.
+
+O `middleware.ts` continua apenas validando o access token para proteger `/admin`. O refresh não foi colocado no middleware nesta fase para evitar risco de incompatibilidade no ambiente Edge e loops de redirecionamento. Na prática, Dashboard/Navbar chamam `/api/auth/me` e `/api/admin/me`, renovando os cookies antes da navegação quando possível.
+
+`SUPABASE_SERVICE_ROLE_KEY` não deve ser usada para login ou refresh de usuário comum; ela continua restrita a fluxos server-side privilegiados, como geração de URL assinada do beta.
 
 ## 5. Criar a tabela `beta_feedback`
 
@@ -341,6 +349,16 @@ Permissões disponíveis:
 - `manage_users`: altera cargos, permissões e bloqueios de usuários.
 
 Usuários com `role = 'user'` e sem permissões não veem o link de administração e são redirecionados caso tentem abrir `/admin` diretamente.
+
+### Imagens públicas em `site_content`
+
+Os registros de galeria e personagens podem receber campos opcionais `imageUrl` e `altText` dentro do JSON de `site_content`.
+
+- `imageUrl`: URL pública e estável da imagem exibida no site. Use domínios confiáveis, como um bucket público/CDN controlado.
+- `altText`: descrição curta e acessível da imagem. Se ficar vazio, o frontend usa o nome do item/personagem como fallback.
+- imagens reais são opcionais; se `imageUrl` estiver vazio ou quebrar, Galeria e Personagens mantêm os previews/silhuetas abstratos.
+- não use o bucket privado `tester-beta-builds` para imagens públicas do site. Esse bucket é exclusivo para builds privadas do beta e URLs assinadas pela rota segura de download.
+- se no futuro o projeto migrar para `next/image`, configure `images.remotePatterns` em `next.config.ts` para os domínios permitidos.
 
 ## Download privado do beta com Supabase Storage
 

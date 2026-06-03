@@ -19,7 +19,8 @@ const currentCharacters: CharacterShowcase[] = [
     description:
       "Personagem jogável da fase beta. Rubens entra no Bosque da Névoa Perdida ainda em evolução, guiado por técnica, coragem e adaptação.",
     betaRole: "Conduzir o jogador pela primeira leitura de movimentação, combate, exploração e progressão por habilidade.",
-    abilities: ["Katana", "Dash", "Exploração", "Leitura de rotas"]
+    abilities: ["Katana", "Dash", "Exploração", "Leitura de rotas"],
+    altText: "Representação visual de Rubens, protagonista jogável de Tester."
   },
   {
     name: "Lucarelli",
@@ -31,7 +32,8 @@ const currentCharacters: CharacterShowcase[] = [
     description:
       "Presença hostil ligada ao controle de passagem dentro do Bosque. Ele funciona como teste de domínio, tempo e leitura de arena.",
     betaRole: "Marcar o primeiro confronto importante da demo e validar se o jogador entendeu movimentação, ataque e posicionamento.",
-    abilities: ["Pressão", "Investida", "Arena", "Bloqueio"]
+    abilities: ["Pressão", "Investida", "Arena", "Bloqueio"],
+    altText: "Representação visual de Lucarelli, chefe do beta de Tester."
   }
 ];
 
@@ -46,7 +48,8 @@ const enemyCharacters: CharacterShowcase[] = [
     description:
       "Criaturas e presenças hostis usadas para ensinar ritmo, distância e cuidado durante a travessia das rotas iniciais.",
     betaRole: "Preparar o jogador para encontros maiores sem depender de explicações longas ou tutoriais excessivos.",
-    abilities: ["Patrulha", "Pressão", "Interrupção", "Ritmo"]
+    abilities: ["Patrulha", "Pressão", "Interrupção", "Ritmo"],
+    altText: "Representação visual dos inimigos comuns do Bosque da Névoa."
   }
 ];
 
@@ -61,7 +64,8 @@ const futureCharacters: CharacterShowcase[] = [
     description:
       "Reservado para uma etapa posterior do universo de Tester. A função narrativa permanece protegida para evitar antecipar conflitos ou alianças.",
     betaRole: "Não participa do beta inicial como personagem central. Serve como sinal de expansão futura do elenco.",
-    abilities: ["Bloqueado", "Futuro", "Narrativa", "Mistério"]
+    abilities: ["Bloqueado", "Futuro", "Narrativa", "Mistério"],
+    altText: "Representação visual reservada de Kin, personagem futuro de Tester."
   },
   {
     name: "Shico",
@@ -73,7 +77,8 @@ const futureCharacters: CharacterShowcase[] = [
     description:
       "Outro nome planejado para o futuro do projeto. Por enquanto, sua presença é tratada como mistério e não como arte final revelada.",
     betaRole: "Aparecer apenas como planejamento de universo, sem prometer participação ativa na build atual.",
-    abilities: ["Bloqueado", "Futuro", "Névoa", "Segredo"]
+    abilities: ["Bloqueado", "Futuro", "Névoa", "Segredo"],
+    altText: "Representação visual reservada de Shico, personagem futuro de Tester."
   },
   {
     name: "Conteúdo planejado",
@@ -85,7 +90,8 @@ const futureCharacters: CharacterShowcase[] = [
     description:
       "Espaço para novos personagens, ameaças e encontros que serão definidos conforme o mapa, a lore e o beta evoluírem.",
     betaRole: "Manter a página preparada para expansão sem inventar artes finais, funções definitivas ou promessas grandes demais.",
-    abilities: ["Reservado", "Expansão", "Sem arte final", "A definir"]
+    abilities: ["Reservado", "Expansão", "Sem arte final", "A definir"],
+    altText: "Representação visual abstrata de conteúdo planejado para personagens futuros."
   }
 ];
 
@@ -108,9 +114,9 @@ export const metadata: Metadata = {
 export default async function CharactersPage() {
   const siteContent = await loadSiteContent();
   const editableCharacters = siteContent.characters;
-  const editableCurrentCharacters = (editableCharacters.current.length ? editableCharacters.current : currentCharacters) as CharacterShowcase[];
-  const editableEnemyCharacters = (editableCharacters.enemies.length ? editableCharacters.enemies : enemyCharacters) as CharacterShowcase[];
-  const editableFutureCharacters = (editableCharacters.future.length ? editableCharacters.future : futureCharacters) as CharacterShowcase[];
+  const editableCurrentCharacters: CharacterShowcase[] = editableCharacters.current.length ? editableCharacters.current : currentCharacters;
+  const editableEnemyCharacters: CharacterShowcase[] = editableCharacters.enemies.length ? editableCharacters.enemies : enemyCharacters;
+  const editableFutureCharacters: CharacterShowcase[] = editableCharacters.future.length ? editableCharacters.future : futureCharacters;
 
   return (
     <AnimatedPageWrapper>

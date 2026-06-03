@@ -22,6 +22,8 @@ type GalleryItem = {
   icon: GameGlyphName;
   visualKind: GalleryVisualKind;
   detail: string;
+  imageUrl?: string;
+  altText?: string;
 };
 
 type FilterConfig = {
@@ -116,6 +118,17 @@ export default function GalleryPage() {
     loadSiteContent().then((siteContent) => setContent(siteContent.gallery));
   }, []);
 
+  useEffect(() => {
+    if (!selected) return;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setSelected(null);
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selected]);
+
   const editableGalleryItems = content.items as GalleryItem[];
 
   const visibleItems = useMemo(
@@ -193,7 +206,7 @@ export default function GalleryPage() {
           {visibleItems.map((item) => (
             <button key={item.id} type="button" className="h-full w-full text-left" onClick={() => setSelected(item)}>
               <GlowCard contentClassName="flex h-full min-h-[365px] flex-col p-4 sm:p-5">
-                <GalleryVisualFrame kind={item.visualKind} icon={item.icon} label={item.category} status={item.status} />
+                <GalleryVisualFrame kind={item.visualKind} icon={item.icon} label={item.category} status={item.status} imageUrl={item.imageUrl} altText={item.altText || item.name} />
                 <div className="mt-4 flex items-center justify-between gap-3">
                   <p className="text-xs uppercase tracking-[0.12em] text-cyan-200/85">{item.category}</p>
                   <span className={`rounded-full border px-2 py-1 text-[10px] uppercase tracking-[0.1em] ${statusStyles[item.status]}`}>
@@ -210,13 +223,19 @@ export default function GalleryPage() {
       </SectionContainer>
 
       {selected ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/80 px-4 py-6 backdrop-blur-sm" onClick={() => setSelected(null)}>
-          <div className="w-full max-w-3xl" onClick={(event) => event.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 px-4 py-5 backdrop-blur-sm sm:items-center sm:py-6" onClick={() => setSelected(null)}>
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={`gallery-preview-title-${selected.id}`}
+            className="w-full max-w-3xl"
+            onClick={(event) => event.stopPropagation()}
+          >
             <GlowCard contentClassName="p-4 sm:p-6">
               <div className="mb-4 flex items-start justify-between gap-3">
                 <div>
                   <p className="text-xs uppercase tracking-[0.16em] text-cyan-200/80">Preview da galeria</p>
-                  <h3 className="mt-1 text-2xl font-bold text-white sm:text-3xl">{selected.name}</h3>
+                  <h3 id={`gallery-preview-title-${selected.id}`} className="mt-1 text-2xl font-bold text-white sm:text-3xl">{selected.name}</h3>
                 </div>
                 <button
                   type="button"
@@ -228,7 +247,7 @@ export default function GalleryPage() {
                 </button>
               </div>
 
-              <GalleryVisualFrame kind={selected.visualKind} icon={selected.icon} label={selected.category} status={selected.status} size="modal" />
+              <GalleryVisualFrame kind={selected.visualKind} icon={selected.icon} label={selected.category} status={selected.status} size="modal" imageUrl={selected.imageUrl} altText={selected.altText || selected.name} />
 
               <div className="mt-5 grid gap-4 md:grid-cols-[0.9fr_1.1fr]">
                 <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-3">

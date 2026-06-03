@@ -29,7 +29,8 @@ export const defaultSiteContent: SiteContent = {
         description: "Registro preliminar de iluminação e profundidade da névoa em rota de progressão inicial.",
         detail: "Foco visual em leitura de trilha, profundidade e atmosfera sem representar um print final da build.",
         icon: "fog",
-        visualKind: "screenshot"
+        visualKind: "screenshot",
+        altText: "Prévia visual abstrata da Trilha Norte do Bosque da Névoa."
       },
       {
         id: "concept-ruinas",
@@ -39,7 +40,8 @@ export const defaultSiteContent: SiteContent = {
         description: "Estudo visual de ruínas e símbolos para reforçar leitura narrativa sem exposição total da lore.",
         detail: "Conceito abstrato para guiar tom, formas e sensação de vestígio antigo no Bosque.",
         icon: "ruin",
-        visualKind: "concept"
+        visualKind: "concept",
+        altText: "Conceito abstrato de ruínas envoltas pela névoa."
       },
       {
         id: "rubens-pose",
@@ -49,7 +51,8 @@ export const defaultSiteContent: SiteContent = {
         description: "Exploração de silhueta e postura de combate para o protagonista em cenas de promoção.",
         detail: "Representação simbólica com katana e energia, sem substituir arte final do personagem.",
         icon: "katana",
-        visualKind: "character"
+        visualKind: "character",
+        altText: "Silhueta abstrata de Rubens em pose base com katana."
       },
       {
         id: "clareira-hostil",
@@ -59,7 +62,8 @@ export const defaultSiteContent: SiteContent = {
         description: "Bloco visual de ambiente com foco em contraste, risco de combate e rotas ocultas.",
         detail: "Prévia de clima e composição, pensada para sugerir perigo sem virar mapa completo da região.",
         icon: "enemy",
-        visualKind: "scene"
+        visualKind: "scene",
+        altText: "Prévia visual abstrata de uma clareira hostil do Bosque."
       },
       {
         id: "teaser-devlog",
@@ -69,7 +73,8 @@ export const defaultSiteContent: SiteContent = {
         description: "Área reservada para futuros clipes de progresso técnico e demonstração de gameplay.",
         detail: "Espaço visual preparado para vídeos futuros, sem simular captura real inexistente.",
         icon: "platform",
-        visualKind: "video"
+        visualKind: "video",
+        altText: "Moldura abstrata reservada para um teaser futuro da build."
       },
       {
         id: "screenshot-atalho",
@@ -79,7 +84,8 @@ export const defaultSiteContent: SiteContent = {
         description: "Preview de rota alternativa desbloqueada após progresso de mobilidade no Bosque.",
         detail: "Composição abstrata de rota e movimento, indicando progressão sem prometer layout final.",
         icon: "dash",
-        visualKind: "screenshot"
+        visualKind: "screenshot",
+        altText: "Prévia abstrata de um atalho liberado após o dash."
       }
     ]
   },
@@ -101,7 +107,8 @@ export const defaultSiteContent: SiteContent = {
         visualKind: "rubens",
         description: "Personagem controlado na experiência inicial, definido por combate de katana, leitura de arena e adaptação dentro do Bosque da Névoa Perdida.",
         betaRole: "Servir como base de movimentação, ataque, dash e evolução técnica durante os primeiros testes.",
-        abilities: ["Katana", "Dash", "Exploração", "Progressão"]
+        abilities: ["Katana", "Dash", "Exploração", "Progressão"],
+        altText: "Representação visual de Rubens, protagonista jogável de Tester."
       },
       {
         id: "lucarelli",
@@ -113,7 +120,8 @@ export const defaultSiteContent: SiteContent = {
         visualKind: "lucarelli",
         description: "Presença hostil que bloqueia a progressão inicial e exige domínio de posicionamento, tempo de ataque e leitura de padrão.",
         betaRole: "Validar o ritmo de combate, clareza de feedback e sensação de desafio no primeiro grande encontro.",
-        abilities: ["Arena", "Padrões", "Pressão", "Teste de domínio"]
+        abilities: ["Arena", "Padrões", "Pressão", "Teste de domínio"],
+        altText: "Representação visual de Lucarelli, chefe do beta de Tester."
       }
     ],
     enemies: [
@@ -127,7 +135,8 @@ export const defaultSiteContent: SiteContent = {
         visualKind: "enemy",
         description: "Criaturas de ambiente que ensinam ritmo, distância, controle de posição e cuidado antes dos encontros maiores.",
         betaRole: "Criar pressão sem roubar foco da exploração, ajudando a medir dificuldade e legibilidade dos combates comuns.",
-        abilities: ["Patrulha", "Pressão", "Leitura", "Risco"]
+        abilities: ["Patrulha", "Pressão", "Leitura", "Risco"],
+        altText: "Representação visual dos inimigos comuns do Bosque da Névoa."
       }
     ],
     future: [
@@ -141,7 +150,8 @@ export const defaultSiteContent: SiteContent = {
         visualKind: "future",
         description: "Nome reservado para expansões narrativas futuras, mantendo mistério sobre função, relação com Rubens e impacto no mundo.",
         betaRole: "Representar o planejamento de universo, sem prometer participação ativa na build atual.",
-        abilities: ["Reservado", "Futuro", "Lore", "Mistério"]
+        abilities: ["Reservado", "Futuro", "Lore", "Mistério"],
+        altText: "Representação visual reservada de Kin, personagem futuro de Tester."
       },
       {
         id: "shico",
@@ -153,7 +163,8 @@ export const defaultSiteContent: SiteContent = {
         visualKind: "future",
         description: "Figura mantida como pista para conteúdos posteriores, associada ao planejamento de universo e relações ainda não reveladas.",
         betaRole: "Representar o planejamento de universo, sem prometer participação ativa na build atual.",
-        abilities: ["Bloqueado", "Futuro", "Névoa", "Segredo"]
+        abilities: ["Bloqueado", "Futuro", "Névoa", "Segredo"],
+        altText: "Representação visual reservada de Shico, personagem futuro de Tester."
       },
       {
         id: "conteudo-planejado",
@@ -165,7 +176,8 @@ export const defaultSiteContent: SiteContent = {
         visualKind: "planned",
         description: "Espaço para novos personagens, ameaças e encontros que serão definidos conforme o mapa, a lore e o beta evoluírem.",
         betaRole: "Manter a página preparada para expansão sem inventar artes finais, funções definitivas ou promessas grandes demais.",
-        abilities: ["Reservado", "Expansão", "Sem arte final", "A definir"]
+        abilities: ["Reservado", "Expansão", "Sem arte final", "A definir"],
+        altText: "Representação visual abstrata de conteúdo planejado para personagens futuros."
       }
     ]
   }

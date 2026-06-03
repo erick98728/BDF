@@ -28,6 +28,7 @@ export type EditableGalleryItem = {
   icon: GameGlyphName;
   visualKind: GalleryVisualKind;
   imageUrl?: string;
+  altText?: string;
 };
 
 export type EditableCharacter = {
@@ -42,6 +43,7 @@ export type EditableCharacter = {
   betaRole: string;
   abilities: string[];
   imageUrl?: string;
+  altText?: string;
 };
 
 export type EditableTextBlock = {

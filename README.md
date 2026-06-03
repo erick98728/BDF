@@ -109,6 +109,17 @@ Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O s
 
 Para ativar login real e feedback salvo no banco, siga primeiro `docs/SUPABASE_SETUP.md`. A tabela `beta_feedback` deve usar `id uuid primary key default gen_random_uuid()` e RLS com apenas `insert` para usuários autenticados, sem leitura pública dos feedbacks.
 
+## Imagens públicas administráveis
+
+O Admin permite preencher `imageUrl` e `altText` em itens da Galeria e nos Personagens. Essas imagens reais são opcionais: quando a URL está vazia ou falha ao carregar, o site mantém os previews/silhuetas abstratos para evitar cards quebrados.
+
+Recomendações:
+
+- use URLs públicas, estáveis e confiáveis para imagens do site;
+- preencha `altText` com uma descrição curta e útil para acessibilidade;
+- diferencie imagens públicas do site dos arquivos privados do beta: builds do jogo continuam no bucket privado `tester-beta-builds` e nunca devem ser publicadas como imagem ou link público;
+- nesta etapa, Galeria e Personagens usam `<img>` com carregamento preguiçoso para aceitar URLs administráveis sem configurar domínios externos no `next.config.ts`.
+
 ## Próximos passos técnicos
 
 - Criar interface administrativa para gerenciar `beta_builds` e `beta_access`.
