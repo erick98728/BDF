@@ -34,30 +34,40 @@ export default function LoginPage() {
       return;
     }
 
-    const authCall =
-      mode === "login"
-        ? supabase.auth.signInWithPassword({ email, password })
-        : supabase.auth.signUp({ email, password });
+    if (mode === "signup") {
+      const { error: signUpError } = await supabase.auth.signUp({ email, password });
 
-    const { data, error: authError } = await authCall;
+      if (signUpError) {
+        setError("Não foi possível criar a conta agora. Confira os dados e tente novamente em alguns instantes.");
+        setLoading(false);
+        return;
+      }
 
-    if (authError) {
-      setError(
-        mode === "login"
-          ? "Não foi possível entrar. Confira e-mail, senha e confirmação da conta antes de tentar novamente."
-          : "Não foi possível criar a conta agora. Confira os dados e tente novamente em alguns instantes."
-      );
+      await supabase.auth.signOut();
+      setMessage("Conta criada. Se o Supabase solicitar confirmação, verifique seu e-mail. Depois, entre novamente para iniciar uma sessão segura no servidor.");
+      setMode("login");
       setLoading(false);
       return;
     }
 
-    if (mode === "signup" && !data.session) {
-      setMessage("Conta criada. Verifique seu e-mail para confirmar o cadastro antes de entrar no dashboard.");
+    const loginResponse = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({ email, password })
+    });
+    const loginPayload = (await loginResponse.json().catch(() => ({}))) as { error?: string };
+
+    if (!loginResponse.ok) {
+      setError(loginPayload.error ?? "Não foi possível entrar. Confira e-mail, senha e confirmação da conta antes de tentar novamente.");
       setLoading(false);
       return;
     }
 
-    router.push("/dashboard");
+    const redirectTo = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("redirect") : null;
+    router.push(redirectTo?.startsWith("/") ? redirectTo : "/dashboard");
     router.refresh();
   }
 
