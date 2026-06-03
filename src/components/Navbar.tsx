@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { navLinks } from "@/data/site";
 import { canAccessAdmin } from "@/lib/adminTypes";
-import { clearAuthCookies, writeAuthCookies } from "@/lib/authCookie";
 import { getCurrentProfile } from "@/lib/adminApi";
 import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
 import { BetaBadge, TesterMark } from "./TesterVisualSystem";
@@ -28,21 +27,28 @@ export function Navbar() {
 
     async function syncSession() {
       const { data } = await supabase.auth.getSession();
-      setLogged(Boolean(data.session));
-      writeAuthCookies(data.session?.access_token, data.session?.refresh_token);
-      const profile = data.session ? await getCurrentProfile() : null;
-      setAdminAllowed(canAccessAdmin(profile));
+      if (data.session) {
+        setLogged(true);
+        const profile = await getCurrentProfile();
+        setAdminAllowed(canAccessAdmin(profile));
+        return;
+      }
+
+      const serverSession = await getServerSession();
+      setLogged(Boolean(serverSession?.user));
+      setAdminAllowed(canAccessAdmin(serverSession?.profile));
     }
 
     syncSession();
     const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
       setLogged(Boolean(session));
       if (session) {
-        writeAuthCookies(session.access_token, session.refresh_token);
         getCurrentProfile().then((profile) => setAdminAllowed(canAccessAdmin(profile)));
       } else {
-        clearAuthCookies();
-        setAdminAllowed(false);
+        getServerSession().then((serverSession) => {
+          setLogged(Boolean(serverSession?.user));
+          setAdminAllowed(canAccessAdmin(serverSession?.profile));
+        });
       }
     });
     return () => subscription.subscription.unsubscribe();
@@ -52,8 +58,9 @@ export function Navbar() {
 
   async function handleSignOut() {
     if (!isSupabaseConfigured) return;
+    await fetch("/api/auth/logout", { method: "POST" });
     await supabase.auth.signOut();
-    clearAuthCookies();
+    setLogged(false);
     setAdminAllowed(false);
     setOpen(false);
     router.push("/login");
@@ -154,4 +161,20 @@ export function Navbar() {
       </nav>
     </header>
   );
+}
+
+
+type ServerSession = {
+  user: { id: string; email: string | null } | null;
+  profile: { role: "user" | "admin" | "super_admin"; permissions: ("view_admin" | "manage_content" | "manage_users")[]; active: boolean } | null;
+};
+
+async function getServerSession(): Promise<ServerSession | null> {
+  try {
+    const response = await fetch("/api/auth/me", { headers: { Accept: "application/json" } });
+    if (!response.ok) return null;
+    return (await response.json()) as ServerSession;
+  } catch {
+    return null;
+  }
 }

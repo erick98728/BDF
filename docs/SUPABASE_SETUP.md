@@ -64,6 +64,33 @@ No Supabase:
 
 Para o deploy atual, use o domínio da Vercel do projeto. Se trocar de domínio no futuro, atualize essa configuração.
 
+## Migração de autenticação: login/logout server-side
+
+O fluxo antigo de autenticação fazia login diretamente no frontend com `supabase.auth.signInWithPassword` e copiava tokens para cookies usando `document.cookie`. Esse modelo foi mantido apenas como legado temporário em `src/lib/authCookie.ts`, mas não deve ser usado por novos fluxos.
+
+O login comum agora deve passar pela rota server-side `POST /api/auth/login`:
+
+1. o formulário envia `email` e `password` para a API interna;
+2. a rota autentica com Supabase usando a anon key pública do projeto;
+3. a rota define `tester-sb-access-token` e `tester-sb-refresh-token` via `Set-Cookie`;
+4. os cookies são `HttpOnly`, `SameSite=Lax`, `Path=/` e `Secure` em produção;
+5. a resposta JSON retorna apenas sucesso ou erro, nunca access token ou refresh token.
+
+O logout comum agora deve passar pela rota server-side `POST /api/auth/logout`:
+
+1. a rota tenta encerrar a sessão no Supabase quando recebe um access token válido;
+2. a rota limpa os cookies `tester-sb-access-token` e `tester-sb-refresh-token` via `Set-Cookie`;
+3. Navbar e Dashboard redirecionam o usuário para `/login` após a chamada.
+
+Regras importantes:
+
+- o frontend não deve receber tokens no JSON;
+- os cookies principais de autenticação devem ser definidos pelo servidor;
+- `SUPABASE_SERVICE_ROLE_KEY` não deve ser usada para login comum;
+- login comum deve usar a anon key do Supabase;
+- cadastro (`signUp`) ainda permanece no frontend temporariamente e será refinado em uma fase posterior;
+- a validação client-side de sessão/perfil ainda existe como compatibilidade temporária até a Fase 3 migrar Dashboard/Admin para endpoints server-side dedicados.
+
 ## 5. Criar a tabela `beta_feedback`
 
 No Supabase, vá em **SQL Editor** e rode a estrutura oficial abaixo. A chave primária deve usar `uuid` e não deve ser substituída por outro padrão:

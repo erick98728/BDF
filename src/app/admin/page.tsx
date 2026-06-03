@@ -38,7 +38,7 @@ export default function AdminPage() {
         setLoading(false);
         return;
       }
-      const current = await getCurrentProfile();
+      const current = (await getServerProfile()) ?? (await getCurrentProfile());
       if (!canAccessAdmin(current)) {
         router.replace("/admin/acesso-negado");
         return;
@@ -213,4 +213,20 @@ function newGalleryItem(): EditableGalleryItem {
 function newCharacter(): EditableCharacter {
   const id = `personagem-${Date.now()}`;
   return { id, name: "Novo personagem", functionLabel: "Função", projectState: "Em preparação", badge: "Novo", icon: "user", visualKind: "future", description: "Descrição do personagem.", betaRole: "Papel no projeto.", abilities: ["Habilidade"] };
+}
+
+
+type ServerProfileResponse = {
+  profile: AdminProfile | null;
+};
+
+async function getServerProfile(): Promise<AdminProfile | null> {
+  try {
+    const response = await fetch("/api/auth/me", { headers: { Accept: "application/json" } });
+    if (!response.ok) return null;
+    const data = (await response.json()) as ServerProfileResponse;
+    return data.profile;
+  } catch {
+    return null;
+  }
 }

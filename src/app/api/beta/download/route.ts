@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { authAccessCookie } from "@/lib/authCookie";
+import { authAccessCookie } from "@/lib/authCookieNames";
 
 const bucketName = "tester-beta-builds";
 const signedUrlExpiresIn = 120;

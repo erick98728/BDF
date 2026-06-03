@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { authAccessCookie } from "./src/lib/authCookie";
+import { authAccessCookie } from "./src/lib/authCookieNames";
 import { canAccessAdmin } from "./src/lib/adminTypes";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();

@@ -44,6 +44,13 @@ export default function DashboardPage() {
         setChecking(false);
         return;
       }
+      const serverSession = await getServerSession();
+      if (serverSession?.user) {
+        setEmail(serverSession.user.email ?? "Jogador");
+        setChecking(false);
+        return;
+      }
+
       const { data } = await supabase.auth.getUser();
       if (!data.user) {
         router.push("/login");
@@ -56,6 +63,7 @@ export default function DashboardPage() {
   }, [router]);
 
   async function handleSignOut() {
+    await fetch("/api/auth/logout", { method: "POST" });
     await supabase.auth.signOut();
     router.push("/login");
     router.refresh();
@@ -247,5 +255,20 @@ function getDownloadStatusType(state: SecureDownloadState) {
     case "error":
     default:
       return "warning" as const;
+  }
+}
+
+
+type ServerSession = {
+  user: { id: string; email: string | null } | null;
+};
+
+async function getServerSession(): Promise<ServerSession | null> {
+  try {
+    const response = await fetch("/api/auth/me", { headers: { Accept: "application/json" } });
+    if (!response.ok) return null;
+    return (await response.json()) as ServerSession;
+  } catch {
+    return null;
   }
 }
