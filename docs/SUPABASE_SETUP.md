@@ -367,9 +367,23 @@ Permissões disponíveis:
 - `manage_users`: altera cargos, permissões e bloqueios de usuários.
 - `manage_feedback`: visualiza feedbacks privados do beta e atualiza status/notas administrativas.
 
-Usuários com `role = 'user'` e sem permissões não veem o link de administração e são redirecionados caso tentem abrir `/admin` diretamente. Contas com `manage_feedback` também podem acessar o shell administrativo, mas só devem ver/alterar feedbacks quando os endpoints futuros validarem `canManageFeedback`.
+Usuários com `role = 'user'` e sem permissões não veem o link de administração e são redirecionados caso tentem abrir `/admin` diretamente. Contas com `manage_feedback` também podem acessar o shell administrativo e ver a seção de feedbacks, sempre por endpoints server-side que validam `canManageFeedback`.
 
-A permissão `manage_feedback` deve ser concedida apenas a administradores responsáveis por triagem do beta. Por padrão, `super_admin` também pode gerenciar feedbacks. Feedbacks não devem ter leitura pública: a futura listagem/atualização no Admin deve acontecer por endpoints server-side que validem `canManageFeedback` antes de retornar dados privados ou alterar `status`, `admin_notes`, `reviewed_by` e `reviewed_at`.
+A permissão `manage_feedback` deve ser concedida apenas a administradores responsáveis por triagem do beta. Por padrão, `super_admin` também pode gerenciar feedbacks. Feedbacks não devem ter leitura pública: a listagem/atualização no Admin acontece por endpoints server-side que validam `canManageFeedback` antes de retornar dados privados ou alterar `status`, `admin_notes`, `reviewed_by` e `reviewed_at`.
+
+
+### Feedbacks no painel Admin
+
+Depois de aplicar a migration administrativa de `beta_feedback`, contas com `super_admin` ou a permissão `manage_feedback` podem acessar `/admin` e usar a seção **Feedbacks do beta**. A interface não consulta Supabase diretamente no navegador: ela chama `GET /api/admin/feedback` para listar e `PATCH /api/admin/feedback/[id]` para atualizar `status` e `admin_notes`.
+
+Significado dos status:
+
+- `new`: feedback recém-enviado e ainda não triado.
+- `reviewing`: feedback em análise por um responsável do beta.
+- `resolved`: feedback já tratado, corrigido ou incorporado ao planejamento.
+- `ignored`: feedback arquivado por duplicidade, falta de ação necessária ou baixa relevância para a build atual.
+
+Somente usuários com `manage_feedback` ou `super_admin` devem visualizar ou atualizar feedbacks. Usuários comuns continuam sem leitura pública de `beta_feedback`; mantenha RLS sem policy de `select` pública. Para testar, envie feedback em `/feedback`, entre em `/admin` com uma conta autorizada, filtre por status/bug/versão/busca, atualize status/notas e confirme em `beta_feedback` no Supabase.
 
 ### Imagens públicas em `site_content`
 

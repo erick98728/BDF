@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatedPageWrapper } from "@/components/AnimatedPageWrapper";
 import { GameGlyph, type GameGlyphName } from "@/components/GameGlyph";
@@ -10,6 +10,7 @@ import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
 import { StatusBadge } from "@/components/TesterVisualSystem";
 import { adminPermissions, adminRoles, type AdminPermission, type AdminProfile, type AdminRole, type EditableCharacter, type EditableGalleryItem, type SiteContent } from "@/lib/adminTypes";
+import type { AdminFeedbackItem, FeedbackStatus } from "@/types/feedback";
 import { listProfiles, loadSiteContent, saveSiteContent, updateProfilePermissions } from "@/lib/adminApi";
 import { defaultSiteContent, mergeSiteContent } from "@/lib/defaultSiteContent";
 import { isSupabaseConfigured } from "@/lib/supabaseClient";
@@ -20,6 +21,14 @@ const glyphOptions: GameGlyphName[] = ["katana", "fog", "ruin", "map", "dash", "
 const galleryKinds = ["screenshot", "concept", "character", "scene", "video"] as const;
 const characterKinds = ["rubens", "lucarelli", "enemy", "future", "planned"] as const;
 const galleryCategories = ["Screenshots", "Conceitos", "Personagens", "Cenários", "Vídeos"] as const;
+const feedbackStatuses: FeedbackStatus[] = ["new", "reviewing", "resolved", "ignored"];
+const feedbackStatusLabels: Record<FeedbackStatus, string> = {
+  new: "Novo",
+  reviewing: "Em análise",
+  resolved: "Resolvido",
+  ignored: "Ignorado"
+};
+
 
 export default function AdminPage() {
   const router = useRouter();
@@ -160,6 +169,8 @@ export default function AdminPage() {
         </SectionContainer>
       </form>
 
+      {capabilities.canManageFeedback ? <FeedbackAdminSection /> : null}
+
       {capabilities.canManageUsers ? <UserPermissionsPanel profiles={profiles} onSave={handleUserSave} /> : null}
     </AdminShell>
   );
@@ -185,6 +196,195 @@ function CharacterEditor({ item, onChange, onRemove }: { item: EditableCharacter
   return <GlowCard contentClassName="grid gap-3 p-4"><EditorTop title={item.name || "Personagem"} icon={item.icon} onRemove={onRemove} /><div className="grid gap-3 sm:grid-cols-2"><Input label="Nome" value={item.name} onChange={(name) => onChange({ ...item, name })} /><Input label="Função" value={item.functionLabel} onChange={(functionLabel) => onChange({ ...item, functionLabel })} /><Input label="Estado" value={item.projectState} onChange={(projectState) => onChange({ ...item, projectState })} /><Input label="Badge" value={item.badge} onChange={(badge) => onChange({ ...item, badge })} /></div><div className="grid gap-3 sm:grid-cols-2"><Select label="Visual" value={item.visualKind} options={characterKinds} onChange={(visualKind) => onChange({ ...item, visualKind: visualKind as EditableCharacter["visualKind"] })} /><Select label="Ícone" value={item.icon} options={glyphOptions} onChange={(icon) => onChange({ ...item, icon: icon as GameGlyphName })} /></div><Input label="URL da imagem opcional" value={item.imageUrl ?? ""} onChange={(imageUrl) => onChange({ ...item, imageUrl })} /><Input label="Texto alternativo da imagem" value={item.altText ?? ""} placeholder="Descreva a imagem do personagem para acessibilidade" onChange={(altText) => onChange({ ...item, altText })} /><Textarea label="Descrição" value={item.description} onChange={(description) => onChange({ ...item, description })} /><Textarea label="Papel no beta" value={item.betaRole} onChange={(betaRole) => onChange({ ...item, betaRole })} /><Input label="Habilidades (separadas por vírgula)" value={item.abilities.join(", ")} onChange={(value) => onChange({ ...item, abilities: value.split(",").map((ability) => ability.trim()).filter(Boolean) })} /></GlowCard>;
 }
 
+
+type FeedbackFilters = {
+  status: string;
+  foundBug: string;
+  version: string;
+  search: string;
+};
+
+const defaultFeedbackFilters: FeedbackFilters = {
+  status: "",
+  foundBug: "",
+  version: "",
+  search: ""
+};
+
+function FeedbackAdminSection() {
+  const [feedbacks, setFeedbacks] = useState<AdminFeedbackItem[]>([]);
+  const [filters, setFilters] = useState<FeedbackFilters>(defaultFeedbackFilters);
+  const [loadingFeedbacks, setLoadingFeedbacks] = useState(true);
+  const [feedbackError, setFeedbackError] = useState<string | null>(null);
+  const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
+
+  const summary = useMemo(() => ({
+    total: feedbacks.length,
+    new: feedbacks.filter((item) => item.status === "new").length,
+    reviewing: feedbacks.filter((item) => item.status === "reviewing").length,
+    resolved: feedbacks.filter((item) => item.status === "resolved").length,
+    bugs: feedbacks.filter((item) => item.found_bug).length
+  }), [feedbacks]);
+
+  const loadFeedbacks = useCallback(async (nextFilters: FeedbackFilters) => {
+    setLoadingFeedbacks(true);
+    setFeedbackError(null);
+    const params = new URLSearchParams({ limit: "50" });
+    if (nextFilters.status) params.set("status", nextFilters.status);
+    if (nextFilters.foundBug) params.set("found_bug", nextFilters.foundBug);
+    if (nextFilters.version.trim()) params.set("version", nextFilters.version.trim());
+    if (nextFilters.search.trim()) params.set("search", nextFilters.search.trim());
+
+    try {
+      const response = await fetch(`/api/admin/feedback?${params.toString()}`, { cache: "no-store", headers: { Accept: "application/json" } });
+      const data = (await response.json().catch(() => ({}))) as { feedbacks?: AdminFeedbackItem[]; error?: string };
+      if (!response.ok) {
+        setFeedbackError(data.error ?? "Não foi possível carregar feedbacks.");
+        return;
+      }
+      setFeedbacks(data.feedbacks ?? []);
+    } catch {
+      setFeedbackError("Não foi possível conectar ao servidor de feedbacks.");
+    } finally {
+      setLoadingFeedbacks(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadFeedbacks(defaultFeedbackFilters);
+  }, [loadFeedbacks]);
+
+  async function updateFeedback(id: string, status: FeedbackStatus, adminNotes: string) {
+    setFeedbackError(null);
+    setFeedbackMessage(null);
+    try {
+      const response = await fetch(`/api/admin/feedback/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ status, admin_notes: adminNotes })
+      });
+      const data = (await response.json().catch(() => ({}))) as { feedback?: AdminFeedbackItem; error?: string };
+      if (!response.ok || !data.feedback) {
+        setFeedbackError(data.error ?? "Não foi possível atualizar o feedback.");
+        return;
+      }
+      setFeedbacks((items) => items.map((item) => item.id === id ? data.feedback as AdminFeedbackItem : item));
+      setFeedbackMessage("Feedback atualizado com status e notas administrativas.");
+    } catch {
+      setFeedbackError("Não foi possível conectar ao servidor para atualizar o feedback.");
+    }
+  }
+
+  return (
+    <SectionContainer withDivider>
+      <SectionTitle title="Feedbacks do beta" subtitle="Visualize, filtre e faça a triagem dos retornos privados enviados pelos testers." />
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <FeedbackSummaryCard label="Total" value={summary.total} />
+        <FeedbackSummaryCard label="Novos" value={summary.new} tone="cyan" />
+        <FeedbackSummaryCard label="Em análise" value={summary.reviewing} tone="gold" />
+        <FeedbackSummaryCard label="Resolvidos" value={summary.resolved} tone="emerald" />
+        <FeedbackSummaryCard label="Com bug" value={summary.bugs} tone="purple" />
+      </div>
+
+      <GlowCard contentClassName="mt-5 grid gap-4 p-4 lg:grid-cols-[160px_160px_1fr_1fr_auto] lg:items-end">
+        <Select label="Status" value={filters.status} options={["", ...feedbackStatuses]} onChange={(status) => setFilters({ ...filters, status })} />
+        <Select label="Encontrou bug" value={filters.foundBug} options={["", "true", "false"]} onChange={(foundBug) => setFilters({ ...filters, foundBug })} />
+        <Input label="Versão" value={filters.version} placeholder="Tester Beta 0.1" onChange={(version) => setFilters({ ...filters, version })} />
+        <Input label="Busca" value={filters.search} placeholder="Email, apelido ou texto" onChange={(search) => setFilters({ ...filters, search })} />
+        <button type="button" onClick={() => loadFeedbacks(filters)} disabled={loadingFeedbacks} className="tester-button min-h-11 rounded-lg border border-cyan-200/25 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-50 hover:bg-cyan-300/15 disabled:cursor-not-allowed disabled:opacity-55">{loadingFeedbacks ? "Carregando..." : "Filtrar"}</button>
+      </GlowCard>
+
+      {(feedbackError || feedbackMessage) ? <div className={`mt-4 rounded-xl border px-4 py-3 text-sm ${feedbackError ? "border-red-300/25 bg-red-500/10 text-red-100" : "border-emerald-300/25 bg-emerald-500/10 text-emerald-100"}`}>{feedbackError ?? feedbackMessage}</div> : null}
+
+      <div className="mt-5 grid gap-4">
+        {loadingFeedbacks ? <GlowCard contentClassName="p-5 text-sm text-slate-300">Carregando feedbacks privados...</GlowCard> : null}
+        {!loadingFeedbacks && feedbacks.length === 0 ? <GlowCard contentClassName="p-5 text-sm text-slate-300">Nenhum feedback encontrado com os filtros atuais.</GlowCard> : null}
+        {feedbacks.map((feedback) => <FeedbackCard key={feedback.id} feedback={feedback} onSave={updateFeedback} />)}
+      </div>
+    </SectionContainer>
+  );
+}
+
+function FeedbackSummaryCard({ label, value, tone = "neutral" }: { label: string; value: number; tone?: "cyan" | "gold" | "emerald" | "purple" | "neutral" }) {
+  const toneClass = {
+    cyan: "border-cyan-200/20 bg-cyan-300/10 text-cyan-100",
+    gold: "border-amber-200/20 bg-amber-300/10 text-amber-100",
+    emerald: "border-emerald-200/20 bg-emerald-300/10 text-emerald-100",
+    purple: "border-purple-200/20 bg-purple-300/10 text-purple-100",
+    neutral: "border-slate-200/15 bg-white/[0.04] text-white"
+  }[tone];
+
+  return <div className={`rounded-2xl border px-4 py-3 ${toneClass}`}><p className="text-xs uppercase tracking-[0.14em] opacity-75">{label}</p><p className="mt-1 text-2xl font-bold">{value}</p></div>;
+}
+
+function FeedbackCard({ feedback, onSave }: { feedback: AdminFeedbackItem; onSave: (id: string, status: FeedbackStatus, adminNotes: string) => Promise<void> }) {
+  const [status, setStatus] = useState<FeedbackStatus>(feedback.status);
+  const [adminNotes, setAdminNotes] = useState(feedback.admin_notes ?? "");
+  const [savingFeedback, setSavingFeedback] = useState(false);
+
+  useEffect(() => {
+    setStatus(feedback.status);
+    setAdminNotes(feedback.admin_notes ?? "");
+  }, [feedback]);
+
+  async function handleSave() {
+    setSavingFeedback(true);
+    await onSave(feedback.id, status, adminNotes);
+    setSavingFeedback(false);
+  }
+
+  return (
+    <GlowCard contentClassName="grid gap-4 p-4 lg:grid-cols-[1fr_320px]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <FeedbackStatusPill status={feedback.status} />
+          <span className="rounded-full border border-cyan-200/10 bg-black/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.13em] text-slate-300">{feedback.found_bug ? "Com bug" : "Sem bug"}</span>
+          <span className="text-xs text-slate-400">{formatDate(feedback.created_at)}</span>
+        </div>
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
+          <FeedbackInfo label="Apelido" value={feedback.nickname} />
+          <FeedbackInfo label="Email" value={feedback.email} />
+          <FeedbackInfo label="Tempo jogado" value={feedback.playtime} />
+          <FeedbackInfo label="Progresso" value={feedback.progress_point} />
+          <FeedbackInfo label="Versão" value={feedback.beta_version ?? "Sem versão"} />
+          <FeedbackInfo label="Notas" value={`Mov. ${feedback.movement_rating} · Comb. ${feedback.combat_rating} · Mapa ${feedback.map_rating} · Dif. ${feedback.difficulty_rating}`} />
+        </div>
+        {feedback.bug_description ? <FeedbackTextBlock label="Descrição do bug" value={feedback.bug_description} /> : null}
+        {feedback.suggestions ? <FeedbackTextBlock label="Sugestões" value={feedback.suggestions} /> : null}
+        {feedback.admin_notes ? <FeedbackTextBlock label="Notas administrativas atuais" value={feedback.admin_notes} muted /> : null}
+      </div>
+      <div className="grid gap-3 rounded-2xl border border-cyan-200/10 bg-black/20 p-4">
+        <Select label="Status" value={status} options={feedbackStatuses} onChange={(nextStatus) => setStatus(nextStatus as FeedbackStatus)} />
+        <label className="grid gap-2"><span className={labelClass}>Notas administrativas</span><textarea className={`${fieldClass} min-h-32 resize-y`} value={adminNotes} placeholder="Registre análise, decisão ou próximos passos" onChange={(event) => setAdminNotes(event.target.value)} /></label>
+        <button type="button" onClick={handleSave} disabled={savingFeedback} className="tester-button rounded-lg border border-emerald-200/25 bg-emerald-300/10 px-4 py-2 text-sm font-semibold text-emerald-100 hover:bg-emerald-300/15 disabled:cursor-not-allowed disabled:opacity-55">{savingFeedback ? "Salvando..." : "Atualizar feedback"}</button>
+      </div>
+    </GlowCard>
+  );
+}
+
+function FeedbackInfo({ label, value }: { label: string; value: string }) {
+  return <div className="rounded-xl border border-white/5 bg-white/[0.03] px-3 py-2"><p className={labelClass}>{label}</p><p className="mt-1 break-words text-sm text-slate-100">{value}</p></div>;
+}
+
+function FeedbackTextBlock({ label, value, muted = false }: { label: string; value: string; muted?: boolean }) {
+  return <div className={`mt-3 rounded-xl border px-3 py-3 ${muted ? "border-amber-200/10 bg-amber-300/[0.04]" : "border-cyan-200/10 bg-cyan-300/[0.04]"}`}><p className={labelClass}>{label}</p><p className="mt-2 whitespace-pre-wrap break-words text-sm leading-6 text-slate-200">{value}</p></div>;
+}
+
+function FeedbackStatusPill({ status }: { status: FeedbackStatus }) {
+  const className = {
+    new: "border-cyan-200/25 bg-cyan-300/10 text-cyan-100",
+    reviewing: "border-amber-200/25 bg-amber-300/10 text-amber-100",
+    resolved: "border-emerald-200/25 bg-emerald-300/10 text-emerald-100",
+    ignored: "border-slate-200/15 bg-white/[0.04] text-slate-200"
+  }[status];
+
+  return <span className={`inline-flex rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.13em] ${className}`}>{feedbackStatusLabels[status]}</span>;
+}
+
+function formatDate(value: string) {
+  return new Intl.DateTimeFormat("pt-BR", { dateStyle: "short", timeStyle: "short" }).format(new Date(value));
+}
+
 function UserPermissionsPanel({ profiles, onSave }: { profiles: AdminProfile[]; onSave: (user: AdminProfile, role: AdminRole, permissions: AdminPermission[], active: boolean) => void }) {
   const [drafts, setDrafts] = useState<Record<string, AdminProfile>>({});
   return <SectionContainer withDivider><SectionTitle title="Usuários e permissões" subtitle="Visível somente para super administradores ou contas com manage_users." /><div className="grid gap-4">{profiles.map((user) => { const draft = drafts[user.id] ?? user; return <GlowCard key={user.id} contentClassName="grid gap-4 p-4 lg:grid-cols-[1fr_170px_1fr_120px]"><div><p className="font-semibold text-white">{user.email ?? "Sem e-mail"}</p><p className="mt-1 text-xs text-slate-400">{user.id}</p></div><Select label="Cargo" value={draft.role} options={adminRoles} onChange={(role) => setDrafts({ ...drafts, [user.id]: { ...draft, role: role as AdminRole } })} /><div><p className={labelClass}>Permissões</p><div className="mt-2 flex flex-wrap gap-2">{adminPermissions.map((permission) => <label key={permission} className="inline-flex items-center gap-2 rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-2 text-xs text-slate-200"><input type="checkbox" checked={draft.permissions.includes(permission)} onChange={(event) => setDrafts({ ...drafts, [user.id]: { ...draft, permissions: event.target.checked ? [...draft.permissions, permission] : draft.permissions.filter((item) => item !== permission) } })} className="accent-cyan-300" />{permission}</label>)}</div></div><div className="flex flex-col gap-2"><label className="inline-flex items-center gap-2 text-sm text-slate-200"><input type="checkbox" checked={draft.active} onChange={(event) => setDrafts({ ...drafts, [user.id]: { ...draft, active: event.target.checked } })} className="accent-cyan-300" />Ativo</label><button type="button" onClick={() => onSave(user, draft.role, draft.permissions, draft.active)} className="tester-button rounded-lg border border-emerald-200/25 bg-emerald-300/10 px-3 py-2 text-sm font-semibold text-emerald-100">Salvar</button></div></GlowCard>; })}</div></SectionContainer>;
@@ -207,7 +407,15 @@ function Textarea({ label, value, onChange }: { label: string; value: string; on
 }
 
 function Select({ label, value, options, onChange }: { label: string; value: string; options: readonly string[]; onChange: (value: string) => void }) {
-  return <label className="grid gap-2"><span className={labelClass}>{label}</span><select className={fieldClass} value={value} onChange={(event) => onChange(event.target.value)}>{options.map((option) => <option key={option} value={option} className="bg-slate-950">{option}</option>)}</select></label>;
+  return <label className="grid gap-2"><span className={labelClass}>{label}</span><select className={fieldClass} value={value} onChange={(event) => onChange(event.target.value)}>{options.map((option) => <option key={option || "all"} value={option} className="bg-slate-950">{formatSelectOption(option)}</option>)}</select></label>;
+}
+
+function formatSelectOption(option: string) {
+  if (!option) return "Todos";
+  if (option === "true") return "Sim";
+  if (option === "false") return "Não";
+  if (feedbackStatuses.includes(option as FeedbackStatus)) return feedbackStatusLabels[option as FeedbackStatus];
+  return option;
 }
 
 function newGalleryItem(): EditableGalleryItem {

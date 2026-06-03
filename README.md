@@ -120,8 +120,21 @@ Recomendações:
 - diferencie imagens públicas do site dos arquivos privados do beta: builds do jogo continuam no bucket privado `tester-beta-builds` e nunca devem ser publicadas como imagem ou link público;
 - nesta etapa, Galeria e Personagens usam `<img>` com carregamento preguiçoso para aceitar URLs administráveis sem configurar domínios externos no `next.config.ts`.
 
+## Feedbacks no Admin
+
+Contas com `manage_feedback` ou `super_admin` podem acessar `/admin` e ver a seção **Feedbacks do beta**. A lista usa somente endpoints server-side (`GET /api/admin/feedback` e `PATCH /api/admin/feedback/[id]`), sem consultar Supabase diretamente no navegador.
+
+Status disponíveis:
+
+- `new`: feedback recém-enviado e ainda não triado.
+- `reviewing`: feedback em análise pelo responsável do beta.
+- `resolved`: retorno já tratado ou incorporado ao planejamento.
+- `ignored`: retorno arquivado por duplicidade, falta de ação ou irrelevância para a build atual.
+
+Para testar o fluxo: envie um feedback em `/feedback`, entre com uma conta autorizada em `/admin`, filtre por status/bug/versão/busca, atualize o status ou as notas administrativas e confira a alteração em `beta_feedback` no Supabase.
+
 ## Próximos passos técnicos
 
 - Criar interface administrativa para gerenciar `beta_builds` e `beta_access`.
 - Validar o fluxo completo de download seguro em um projeto Supabase real com bucket privado, whitelist e build ativa.
-- Criar página de histórico de feedback para o desenvolvedor.
+- Evoluir a área de feedbacks do Admin com paginação, responsáveis e métricas por versão.
