@@ -6,6 +6,7 @@ import { LoreMapPanel } from "@/components/LoreMapPanel";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
+import { loadSiteContent } from "@/lib/adminApi";
 
 const worldPillars: { title: string; eyebrow: string; text: string; icon: GameGlyphName }[] = [
   {
@@ -55,14 +56,14 @@ const techniques: { title: string; tag: string; text: string; icon: GameGlyphNam
     tag: "Exploração",
     icon: "map",
     accent: "border-amber-200/20 bg-amber-300/10 text-amber-100",
-    text: "A progressão depende de observar bloqueios, retornar a pontos antigos e entender o caminho além da névoa."
+    text: "A progressão depende de observar bloqueios, retornar a pontos antigos e ler atalhos, símbolos e clareiras."
   },
   {
     title: "Técnicas futuras",
     tag: "Bloqueado",
     icon: "future",
     accent: "border-slate-200/15 bg-white/5 text-slate-100",
-    text: "Habilidades ainda em desenvolvimento, reservadas para ampliar combate e segredos sem antecipar spoilers."
+    text: "Habilidades ainda em validação, reservadas para ampliar combate, travessia e rotas sem antecipar spoilers."
   }
 ];
 
@@ -76,7 +77,7 @@ const timeline: { title: string; label: string; icon: GameGlyphName; text: strin
 ];
 
 const mysteries = [
-  "Quem ou o que mantém a névoa ativa?",
+  "O que altera os caminhos do Bosque?",
   "Por que algumas rotas parecem ter sido apagadas?",
   "Lucarelli protege uma passagem ou impede algo de sair?",
   "O Bosque foi abandonado, guardado ou esquecido?"
@@ -98,7 +99,9 @@ export const metadata: Metadata = {
   }
 };
 
-export default function LorePage() {
+export default async function LorePage() {
+  const siteContent = await loadSiteContent();
+
   return (
     <AnimatedPageWrapper>
       <PageHeader
@@ -107,17 +110,15 @@ export default function LorePage() {
       />
 
       <SectionContainer>
-        <SectionTitle title="Mundo" subtitle="Um universo em desenvolvimento, construído por fragmentos, silêncio e descoberta." />
+        <SectionTitle title="Mundo" subtitle="Um universo em construção, apresentado por rotas, ruínas, bloqueios e fragmentos de memória." />
         <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch">
           <GlowCard contentClassName="flex h-full flex-col justify-between">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
               <GameGlyph name="lore" className="h-12 w-12" />
               <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">Arquivo da névoa</p>
-                <h2 className="mt-2 text-2xl font-bold text-white">Uma história contada por sinais.</h2>
-                <p className="mt-3 text-sm leading-6 text-slate-300 sm:text-base sm:leading-7">
-                  Tester acontece em um cenário marcado por ruínas, disciplina de combate e uma força ambiental que altera caminhos, criaturas e memórias.
-                </p>
+                <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">{siteContent.lore.eyebrow}</p>
+                <h2 className="mt-2 text-2xl font-bold text-white">{siteContent.lore.title}</h2>
+                <p className="mt-3 text-sm leading-6 text-slate-300 sm:text-base sm:leading-7">{siteContent.lore.description}</p>
               </div>
             </div>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
@@ -138,7 +139,7 @@ export default function LorePage() {
             <p className="text-xs uppercase tracking-[0.18em] text-amber-200/80">Tom narrativo</p>
             <h3 className="mt-2 text-xl font-semibold text-white">Nada é explicado cedo demais.</h3>
             <p className="mt-3 text-sm leading-6 text-slate-300">
-              A lore preserva perguntas importantes para versões futuras. A fase beta foca em atmosfera, leitura do mundo e progressão inicial dentro do Bosque.
+              A narrativa preserva respostas importantes para depois. A Beta 0.1 foca em atmosfera, leitura de rota e progressão inicial dentro do Bosque.
             </p>
             <div className="mt-5 rounded-xl border border-amber-200/10 bg-amber-300/5 px-4 py-3 text-sm leading-6 text-amber-50/90">
               O objetivo é sugerir, não revelar tudo.
@@ -186,7 +187,7 @@ export default function LorePage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Linha do tempo" subtitle="Eventos vagos e atmosféricos, preservando mistério e evitando spoilers grandes." />
+        <SectionTitle title="Registros do Bosque" subtitle="Eventos ambientais com pistas concretas, preservando respostas centrais e evitando spoilers grandes." />
         <div className="relative">
           <div className="absolute bottom-0 left-4 top-0 hidden w-px bg-gradient-to-b from-transparent via-cyan-200/18 to-transparent md:block" />
           <div className="grid gap-4">
@@ -210,7 +211,7 @@ export default function LorePage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Mistérios" subtitle="Perguntas que sustentam o clima da jornada sem antecipar respostas definitivas." />
+        <SectionTitle title="Perguntas em aberto" subtitle="Perguntas que sustentam a jornada sem antecipar respostas definitivas." />
         <div className="grid gap-4 sm:grid-cols-2">
           {mysteries.map((question) => (
             <GlowCard key={question} contentClassName="flex items-start gap-4">
