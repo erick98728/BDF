@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { GameGlyph, type GameGlyphName } from "./GameGlyph";
 import { GlowCard } from "./GlowCard";
 
@@ -13,6 +16,8 @@ export type CharacterShowcase = {
   abilities: string[];
   icon: GameGlyphName;
   visualKind: CharacterVisualKind;
+  imageUrl?: string;
+  altText?: string;
 };
 
 type VisualStyle = {
@@ -113,8 +118,46 @@ function AbstractSilhouette({ kind, icon }: { kind: CharacterVisualKind; icon: G
       <div className="absolute right-4 top-4 rounded-2xl border border-white/10 bg-[#050914]/70 p-3 backdrop-blur-md">
         <GameGlyph name={icon} variant="plain" className={`h-7 w-7 ${style.glyph}`} />
       </div>
-      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-xl border border-white/10 bg-[#050914]/70 px-3 py-2 backdrop-blur-md">
+      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-xl border border-white/10 bg-[#050914]/80 px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.30)] backdrop-blur-md">
         <span className="text-[10px] uppercase tracking-[0.16em] text-slate-300">perfil visual</span>
+        <span className={`h-2 w-2 rounded-full ${style.marker}`} />
+      </div>
+    </div>
+  );
+}
+
+function CharacterVisualMedia({ character }: { character: CharacterShowcase }) {
+  const style = visualStyles[character.visualKind];
+  const normalizedImageUrl = character.imageUrl?.trim();
+  const safeAltText = character.altText?.trim() || character.name;
+  const [imageFailed, setImageFailed] = useState(false);
+  const showImage = Boolean(normalizedImageUrl) && !imageFailed;
+
+  useEffect(() => {
+    setImageFailed(false);
+  }, [normalizedImageUrl]);
+
+  if (!showImage) {
+    return <AbstractSilhouette kind={character.visualKind} icon={character.icon} />;
+  }
+
+  return (
+    <div className={`relative h-48 overflow-hidden rounded-2xl border ${style.frame}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- URLs de personagens são administráveis; `next/image` será avaliado após configurar domínios externos. */}
+      <img
+        src={normalizedImageUrl}
+        alt={safeAltText}
+        loading="lazy"
+        decoding="async"
+        onError={() => setImageFailed(true)}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(255,255,255,0.12),transparent_30%),linear-gradient(145deg,rgba(0,0,0,0.10),rgba(0,0,0,0.56))]" />
+      <div className="absolute right-4 top-4 rounded-2xl border border-white/10 bg-[#050914]/80 p-3 shadow-[0_8px_24px_rgba(0,0,0,0.28)] backdrop-blur-md">
+        <GameGlyph name={character.icon} variant="plain" className={`h-7 w-7 ${style.glyph}`} />
+      </div>
+      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-xl border border-white/10 bg-[#050914]/80 px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.30)] backdrop-blur-md">
+        <span className="text-[10px] uppercase tracking-[0.16em] text-slate-300">imagem real</span>
         <span className={`h-2 w-2 rounded-full ${style.marker}`} />
       </div>
     </div>
@@ -126,7 +169,7 @@ export function CharacterShowcaseCard({ character }: { character: CharacterShowc
 
   return (
     <GlowCard contentClassName="flex h-full flex-col">
-      <AbstractSilhouette kind={character.visualKind} icon={character.icon} />
+      <CharacterVisualMedia character={character} />
 
       <div className="mt-5 flex flex-wrap items-center gap-2">
         <span className={`rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${style.badge}`}>

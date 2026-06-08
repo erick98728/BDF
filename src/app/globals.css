@@ -22,14 +22,14 @@
   --tester-border-soft: rgba(255, 255, 255, 0.08);
   --tester-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --tester-radius-card: 1rem;
-  --tester-shadow-panel: 0 18px 50px rgba(0, 0, 0, 0.34), 0 0 30px rgba(99, 221, 255, 0.1);
+  --tester-shadow-panel: 0 14px 36px rgba(0, 0, 0, 0.3), 0 0 20px rgba(99, 221, 255, 0.075);
   --tester-space-section-y: clamp(2.75rem, 2rem + 2vw, 5rem);
   --tester-space-card: clamp(1rem, 0.75rem + 0.7vw, 1.5rem);
   --tester-focus: 0 0 0 2px rgba(3, 7, 17, 0.95), 0 0 0 4px rgba(153, 236, 255, 0.62);
   --tester-opacity-bg: 0.82;
   --tester-opacity-fog: 0.74;
   --tester-opacity-grid: 0.5;
-  --tester-opacity-card: 0.8;
+  --tester-opacity-card: 0.68;
   --tester-opacity-border: 0.18;
   --tester-opacity-hover: 0.24;
   --tester-opacity-active: 0.32;
@@ -259,7 +259,7 @@ button:disabled {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
-  opacity: 0.82;
+  opacity: 0.68;
   transition: opacity var(--tester-t-base) var(--tester-ease), filter var(--tester-t-base) var(--tester-ease);
 }
 
@@ -272,7 +272,7 @@ button:disabled {
   background:
     linear-gradient(90deg, transparent, rgba(99,221,255,0.16), transparent) top left / 100% 1px no-repeat,
     linear-gradient(90deg, transparent, rgba(209,168,93,0.13), transparent) bottom left / 100% 1px no-repeat;
-  opacity: 0.74;
+  opacity: 0.58;
   transition: opacity var(--tester-t-base) var(--tester-ease);
 }
 
@@ -338,17 +338,6 @@ button:disabled {
     border-color var(--tester-t-base) var(--tester-ease),
     background-color var(--tester-t-base) var(--tester-ease),
     box-shadow var(--tester-t-base) var(--tester-ease);
-}
-
-.section-rhythm > * + * {
-  margin-top: var(--tester-space-section-y);
-}
-
-.skeleton-shimmer {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
-  background-size: 220% 100%;
 }
 
 .section-rhythm > * + * {
