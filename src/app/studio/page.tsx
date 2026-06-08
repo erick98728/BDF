@@ -21,7 +21,7 @@ const philosophy: { title: string; text: string; icon: GameGlyphName }[] = [
   {
     title: "Valorizar feedback",
     icon: "feedback",
-    text: "O beta existe para ouvir jogadores, encontrar problemas de clareza e melhorar ritmo, combate, mapa e dificuldade."
+    text: "O ciclo de teste existe para ouvir jogadores, encontrar problemas de clareza e melhorar ritmo, combate, mapa e dificuldade."
   },
   {
     title: "Evoluir a cada versão",
@@ -39,23 +39,23 @@ const tools: { name: string; description: string; icon: GameGlyphName }[] = [
   { name: "Unity", icon: "tool", description: "Base do jogo 2D e das cenas de teste." },
   { name: "C#", icon: "build", description: "Lógica de jogador, inimigos, checkpoints e sistemas." },
   { name: "GitHub", icon: "checklist", description: "Controle de versão, organização e histórico do projeto." },
-  { name: "Next.js", icon: "platform", description: "Site oficial, páginas públicas e portal do beta." },
+  { name: "Next.js", icon: "platform", description: "Site oficial, páginas públicas e portal de teste." },
   { name: "Documentação", icon: "lore", description: "Planejamento de mapa, feedback, download e evolução." }
 ];
 
 export const metadata: Metadata = {
   title: "Studio",
-  description: "Conheça a visão independente por trás de Tester, um jogo indie brasileiro em desenvolvimento com foco em beta, feedback e evolução real.",
+  description: "Conheça a visão independente por trás de Tester, um jogo indie brasileiro em protótipo jogável, feedback e evolução real.",
   alternates: { canonical: "/studio" },
   openGraph: {
     title: "Studio | Tester",
-    description: "Conheça a visão independente por trás de Tester, um jogo indie brasileiro em desenvolvimento com foco em beta, feedback e evolução real.",
+    description: "Conheça a visão independente por trás de Tester, um jogo indie brasileiro em protótipo jogável, feedback e evolução real.",
     url: "/studio"
   },
   twitter: {
     card: "summary_large_image",
     title: "Studio | Tester",
-    description: "Conheça a visão independente por trás de Tester, um jogo indie brasileiro em desenvolvimento com foco em beta, feedback e evolução real."
+    description: "Conheça a visão independente por trás de Tester, um jogo indie brasileiro em protótipo jogável, feedback e evolução real."
   }
 };
 
@@ -68,19 +68,19 @@ export default function StudioPage() {
       />
 
       <SectionContainer>
-        <SectionTitle title="Sobre o projeto" subtitle="Tester é um jogo indie em desenvolvimento, criado com foco em evolução real." />
+        <SectionTitle title="Sobre o projeto" subtitle="Tester é um jogo indie em protótipo jogável, criado com foco em evolução real." />
         <GlowCard>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
             <GameGlyph name="studio" />
             <div className="space-y-4 text-slate-300">
               <p>
                 Tester é um metroidvania 2D sombrio em construção, com foco inicial no Bosque da Névoa Perdida, combate com katana,
-                progressão por habilidades e uma atmosfera de mistério. O projeto ainda está em fase de beta, por isso cada página,
-                sistema e área jogável existe para testar uma parte da experiência final.
+                Dash, checkpoints e leitura de rota. O projeto está em ciclo de protótipo jogável, por isso cada página,
+                sistema e área testável existe para validar uma parte pequena da experiência.
               </p>
               <p>
                 A proposta não é parecer um estúdio gigante, e sim apresentar um projeto autoral de forma séria, honesta e organizada.
-                O objetivo é evoluir o jogo por versões, validar ideias com jogadores e transformar feedback em melhoria concreta.
+                O objetivo é evoluir o jogo por versões, validar ideias com jogadores e transformar feedback em ajustes concretos de controle, mapa e clareza.
               </p>
             </div>
           </div>
@@ -100,7 +100,7 @@ export default function StudioPage() {
               </p>
               <p>
                 A responsabilidade inicial envolve estruturar sistemas no Unity, organizar o projeto no GitHub, criar documentação,
-                montar o site oficial e preparar uma experiência de beta que possa ser testada por pessoas próximas antes de crescer.
+                montar o site oficial e preparar uma build interna que possa ser testada por pessoas próximas antes de qualquer divulgação maior.
               </p>
             </div>
           </div>
@@ -152,7 +152,7 @@ export default function StudioPage() {
               <GameGlyph name="beta" />
             </div>
             <h3 className="text-lg font-semibold text-white">Beta fechado</h3>
-            <p className="mt-2 text-sm leading-6 text-slate-300">Liberar o jogo para pessoas próximas, coletar bugs e entender onde a experiência ainda confunde.</p>
+            <p className="mt-2 text-sm leading-6 text-slate-300">Liberar um trecho fechado para pessoas próximas, coletar bugs e entender onde controle, mapa ou arena ainda confundem.</p>
           </GlowCard>
           <GlowCard contentClassName="flex min-h-[170px] flex-col">
             <div className="mb-4 flex items-center justify-between gap-3">
@@ -160,7 +160,7 @@ export default function StudioPage() {
               <GameGlyph name="future" />
             </div>
             <h3 className="text-lg font-semibold text-white">Expansão</h3>
-            <p className="mt-2 text-sm leading-6 text-slate-300">Melhorar visual, lore, personagens, novas rotas e sistemas antes de pensar em uma divulgação maior.</p>
+            <p className="mt-2 text-sm leading-6 text-slate-300">Melhorar visual, narrativa ambiental, rotas e sistemas depois que a Beta 0.1 estiver validada.</p>
           </GlowCard>
         </div>
         <div className="mt-5">
@@ -172,7 +172,7 @@ export default function StudioPage() {
         <div className="pb-16 text-center">
           <SectionTitle
             title="Acompanhe o desenvolvimento"
-            subtitle="Se você gosta de projetos autorais, acompanhe as próximas versões de Tester e participe com feedback quando o beta estiver disponível."
+            subtitle="Se você gosta de projetos autorais, acompanhe as próximas versões de Tester e participe com feedback quando a build estiver disponível."
           />
         </div>
       </SectionContainer>

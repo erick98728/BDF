@@ -75,7 +75,7 @@ export const roadmapGroups: RoadmapGroup[] = [
     ]
   },
   {
-    title: "Próximas melhorias",
+    title: "Melhorias em seguida",
     description: "Melhorias planejadas para tornar a Beta 0.1 mais clara, estável e fácil de avaliar.",
     status: "next",
     items: [
@@ -103,8 +103,8 @@ export const roadmapGroups: RoadmapGroup[] = [
     ]
   },
   {
-    title: "Futuro planejado",
-    description: "Ideias para depois da Beta 0.1. Não possuem data definida e podem mudar conforme o feedback.",
+    title: "Reservado para depois",
+    description: "Ideias guardadas para depois da Beta 0.1. Não possuem data definida e podem mudar conforme o ciclo de feedback.",
     status: "future",
     items: [
       {

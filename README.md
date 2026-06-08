@@ -1,6 +1,12 @@
 # Tester - Site Oficial
 
-Site oficial do projeto Tester, feito com Next.js, TypeScript e Tailwind. O projeto já inclui páginas públicas, área de beta, dashboard, login com Supabase e formulário de feedback.
+Site oficial do projeto Tester, feito com Next.js, TypeScript e Tailwind. O projeto reúne páginas públicas, dashboard, login com Supabase, feedback e documentação do processo de teste.
+
+## Estado atual do projeto
+
+Tester está em ciclo de protótipo jogável. A Beta 0.1 concentra o trabalho no trecho inicial do Bosque da Névoa Perdida, com trilhas, clareiras, atalhos, combate de katana, Dash, checkpoints e leitura de rota. O site separa o que já funciona, o que está em validação e o que fica reservado para depois, sem prometer data de lançamento ou versão final.
+
+Visitantes podem acompanhar o progresso pelo Devlog, consultar o Roadmap, conhecer Rubens e Lucarelli, ver a Galeria e enviar feedback quando participarem do teste. Conteúdos como Kin, Shico, novas áreas e sistemas maiores aparecem como reservas futuras, fora do escopo imediato da Beta 0.1.
 
 ## Rodando localmente
 
@@ -74,10 +80,10 @@ Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O s
 ## O que funciona sem Supabase
 
 - Páginas públicas: início, lore, personagens, studio, devlog, roadmap, galeria e download.
-- Página `/download` com status do beta e orientação de acesso.
-- Página `/roadmap` com separação entre o que já funciona, o que está em teste, próximas melhorias e futuro sem data definida.
+- Página `/download` com estado da build e orientação de acesso.
+- Página `/roadmap` com separação entre o que já funciona, o que está em teste, melhorias em seguida e reservas sem data definida.
 - Página `/feedback` com validação de formulário no frontend.
-- Página `/login` com campos de e-mail e senha, explicando que a conta será usada para acessar o beta.
+- Página `/login` com campos de e-mail e senha, explicando que a conta será usada para acessar o teste fechado.
 - Dashboard em modo de preparação, com prévia do painel, checklist do jogador, botão de feedback e aviso de que o download real depende da configuração.
 - Card de download em estado de prévia, sem expor arquivo, segredo ou link privado.
 
@@ -87,7 +93,7 @@ Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O s
 - Sessão autenticada e acesso privado ao `/dashboard`.
 - Preenchimento automático do email no feedback quando o usuário estiver logado.
 - Salvamento real dos feedbacks na tabela `beta_feedback`.
-- Fluxo legado de download para jogadores autenticados quando `NEXT_PUBLIC_BETA_DOWNLOAD_URL` estiver configurada. Para download privado real, siga `docs/DOWNLOAD_SECURITY_PLAN.md` e use Supabase Storage privado com whitelist e logs.
+- Download privado para jogadores autenticados e liberados na whitelist, usando Supabase Storage privado, URL assinada temporária e logs de acesso. `NEXT_PUBLIC_BETA_DOWNLOAD_URL` permanece apenas como fallback legado documentado.
 
 ## Fluxo atual de login, dashboard e download
 
@@ -104,7 +110,7 @@ Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O s
 
 O Devlog agora usa posts completos em `src/data/devlog.ts`, com seções de conteúdo, progresso registrado e próximos passos. A página `/devlog/[slug]` não exibe mais placeholder de “post em preparação”; cada registro deve explicar decisões reais do desenvolvimento sem inventar datas.
 
-A página `/roadmap` mostra o estado honesto do projeto em quatro grupos: já implementado/funcional, em desenvolvimento/em teste, próximas melhorias e futuro planejado. Itens futuros não têm data definida e não devem ser tratados como promessa de versão final.
+A página `/roadmap` mostra o estado honesto do projeto em quatro grupos: já implementado/funcional, em desenvolvimento/em teste, melhorias em seguida e conteúdo reservado para depois. Itens futuros não têm data definida e não devem ser tratados como promessa de versão final.
 
 ## Supabase
 

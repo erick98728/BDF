@@ -34,7 +34,7 @@ type FilterConfig = {
 
 const filters: FilterConfig[] = [
   { label: "Todos", icon: "gallery", description: "acervo" },
-  { label: "Screenshots", icon: "gallery", description: "prints" },
+  { label: "Screenshots", icon: "gallery", description: "prints/previews" },
   { label: "Conceitos", icon: "ruin", description: "ideias" },
   { label: "Personagens", icon: "user", description: "elenco" },
   { label: "Cenários", icon: "fog", description: "ambientes" },
@@ -47,8 +47,8 @@ const galleryItems: GalleryItem[] = [
     name: "Bosque · Trilha Norte",
     category: "Screenshots",
     status: "Prévia visual",
-    description: "Registro preliminar de iluminação e profundidade da névoa em rota de progressão inicial.",
-    detail: "Foco visual em leitura de trilha, profundidade e atmosfera sem representar um print final da build.",
+    description: "Preview abstrato de iluminação e profundidade para uma trilha de progressão inicial.",
+    detail: "Quando houver captura real cadastrada, ela substitui esta moldura; por enquanto o foco é leitura de trilha e profundidade.",
     icon: "fog",
     visualKind: "screenshot"
   },
@@ -57,7 +57,7 @@ const galleryItems: GalleryItem[] = [
     name: "Ruínas da Névoa",
     category: "Conceitos",
     status: "Em desenvolvimento",
-    description: "Estudo visual de ruínas e símbolos para reforçar leitura narrativa sem exposição total da lore.",
+    description: "Conceito visual de ruínas e símbolos para apoiar narrativa ambiental sem revelar respostas centrais.",
     detail: "Conceito abstrato para guiar tom, formas e sensação de vestígio antigo no Bosque.",
     icon: "ruin",
     visualKind: "concept"
@@ -87,8 +87,8 @@ const galleryItems: GalleryItem[] = [
     name: "Teaser de Build",
     category: "Vídeos",
     status: "Em desenvolvimento",
-    description: "Área reservada para futuros clipes de progresso técnico e demonstração de gameplay.",
-    detail: "Espaço visual preparado para vídeos futuros, sem simular captura real inexistente.",
+    description: "Espaço reservado para clipes curtos quando houver captura real de gameplay.",
+    detail: "Moldura planejada para vídeo futuro, sem simular material que ainda não foi capturado.",
     icon: "platform",
     visualKind: "video"
   },
@@ -97,7 +97,7 @@ const galleryItems: GalleryItem[] = [
     name: "Atalho Pós-Dash",
     category: "Screenshots",
     status: "Prévia visual",
-    description: "Preview de rota alternativa desbloqueada após progresso de mobilidade no Bosque.",
+    description: "Preview de atalho liberado após progresso de mobilidade no Bosque.",
     detail: "Composição abstrata de rota e movimento, indicando progressão sem prometer layout final.",
     icon: "dash",
     visualKind: "screenshot"
@@ -166,7 +166,7 @@ export default function GalleryPage() {
               <div className="rounded-xl border border-purple-200/10 bg-black/20 px-4 py-3">
                 <GameGlyph name="ruin" variant="plain" className="mb-2 h-5 w-5 text-purple-100" />
                 <p className="text-xs uppercase tracking-[0.14em] text-slate-400">Tipo</p>
-                <p className="mt-1 text-sm font-medium text-white">Abstrato</p>
+                <p className="mt-1 text-sm font-medium text-white">Real, conceito ou preview</p>
               </div>
             </div>
           </div>
@@ -174,7 +174,7 @@ export default function GalleryPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Filtros visuais" subtitle="Selecione uma categoria para navegar pelo acervo em produção." />
+        <SectionTitle title="Filtros visuais" subtitle="Filtre imagens reais cadastradas, conceitos e previews abstratos sem misturar com promessas de material final." />
         <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-6">
           {filters.map((filter) => {
             const active = filter.label === activeFilter;
@@ -201,7 +201,7 @@ export default function GalleryPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Acervo visual" subtitle="Prévias preparadas para receber artes finais, prints e vídeos, sem parecer placeholder quebrado." />
+        <SectionTitle title="Acervo visual do projeto" subtitle="Itens marcados como imagem real usam URL cadastrada; previews e conceitos permanecem identificados até haver captura final." />
         <div className="grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {visibleItems.map((item) => (
             <button key={item.id} type="button" className="h-full w-full text-left" onClick={() => setSelected(item)}>
@@ -215,7 +215,7 @@ export default function GalleryPage() {
                 </div>
                 <h3 className="mt-2 text-lg font-semibold text-white">{item.name}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-300">{item.description}</p>
-                <p className="mt-auto pt-4 text-xs uppercase tracking-[0.12em] text-slate-500">Abrir preview</p>
+                <p className="mt-auto pt-4 text-xs uppercase tracking-[0.12em] text-slate-500">Abrir item</p>
               </GlowCard>
             </button>
           ))}
