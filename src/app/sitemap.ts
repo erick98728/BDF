@@ -10,6 +10,7 @@ const publicRoutes = [
   "/personagens",
   "/studio",
   "/devlog",
+  "/roadmap",
   "/galeria",
   "/login",
   "/feedback"

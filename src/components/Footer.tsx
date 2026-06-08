@@ -8,9 +8,10 @@ const footerLinks = [
   ["Personagens", "/personagens"],
   ["Studio", "/studio"],
   ["Devlog", "/devlog"],
+  ["Roadmap", "/roadmap"],
   ["Galeria", "/galeria"],
   ["Login", "/login"],
-  ["Feedback", "/feedback"]
+  ["Feedback", "/feedback"],
 ] as const;
 
 export function Footer() {
@@ -22,37 +23,46 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <TesterMark compact />
               <div>
-                <p className="text-sm font-black uppercase tracking-[0.2em] text-cyan-50">Tester Studio</p>
-                <p className="mt-1 text-xs uppercase tracking-[0.16em] text-cyan-200/80">Toda névoa guarda uma verdade</p>
+                <p className="text-sm font-black uppercase tracking-[0.2em] text-cyan-50">
+                  Tester Studio
+                </p>
+                <p className="mt-1 text-xs uppercase tracking-[0.16em] text-cyan-200/80">
+                  Toda névoa guarda uma verdade
+                </p>
               </div>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-6 text-slate-300">
-              Site oficial do metroidvania 2D Tester, reunindo beta, lore, devlog e feedback da comunidade.
+              Site oficial do metroidvania 2D Tester, reunindo protótipo
+              jogável, roadmap, devlog e feedback do ciclo fechado.
             </p>
             <div className="mt-4">
-              <BetaBadge />
+              <BetaBadge>Protótipo em validação</BetaBadge>
             </div>
           </div>
 
-          <div className="md:text-right">
-            <p className="text-xs uppercase tracking-[0.18em] text-slate-400">Navegação rápida</p>
+          <nav className="md:text-right" aria-label="Links do rodapé">
+            <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
+              Navegação rápida
+            </p>
             <div className="mt-3 grid grid-cols-2 gap-2 min-[420px]:grid-cols-3 md:flex md:flex-wrap md:justify-end">
               {footerLinks.map(([label, href]) => (
                 <Link
                   key={href}
                   href={href}
-                  className="nav-link-fx inline-flex min-h-10 items-center justify-center rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-center text-xs font-medium text-slate-300 hover:border-cyan-200/20 hover:bg-cyan-300/8 hover:text-cyan-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                  className="nav-link-fx inline-flex min-h-10 items-center justify-center rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2 text-center text-xs font-medium text-slate-400 hover:border-cyan-200/20 hover:bg-cyan-300/7 hover:text-cyan-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
                 >
                   {label}
                 </Link>
               ))}
             </div>
-          </div>
+          </nav>
         </div>
 
         <div className="mt-8 flex flex-col gap-2 border-t border-cyan-200/10 pt-5 text-xs leading-5 text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Tester Studio. Todos os direitos reservados.</p>
-          <p className="uppercase tracking-[0.14em] text-slate-400">Beta em desenvolvimento</p>
+          <p className="uppercase tracking-[0.14em] text-slate-400">
+            Protótipo em validação
+          </p>
         </div>
       </div>
     </footer>

@@ -32,28 +32,28 @@ const betaGuidelines: { text: string; icon: GameGlyphName }[] = [
   { text: "Envie feedback mesmo que não encontre bugs, porque ritmo e clareza também precisam ser avaliados.", icon: "feedback" }
 ];
 
-const changelogItems: { text: string; icon: GameGlyphName }[] = [
-  { text: "Mapa expandido do Bosque da Névoa Perdida", icon: "map" },
-  { text: "Sistema de Dash e rotas pós-Dash", icon: "dash" },
-  { text: "Confronto com Lucarelli", icon: "boss" },
-  { text: "Checkpoints e respawn básico", icon: "status" },
-  { text: "HUD inicial de vida e progresso", icon: "beta" },
-  { text: "Área de validação para fim da demo", icon: "content" }
+const validationItems: { text: string; icon: GameGlyphName; stage: "Implementado" | "Em ajuste" | "Planejado" | "Fora da build atual" }[] = [
+  { text: "Trecho inicial do Bosque com trilhas, clareiras e atalhos", icon: "map", stage: "Em ajuste" },
+  { text: "Sistema de Dash e rotas pós-Dash", icon: "dash", stage: "Em ajuste" },
+  { text: "Arena de Lucarelli como chefe inicial", icon: "boss", stage: "Planejado" },
+  { text: "Checkpoints e respawn básico", icon: "status", stage: "Em ajuste" },
+  { text: "HUD inicial de vida e progresso", icon: "beta", stage: "Implementado" },
+  { text: "Novas áreas além do Bosque", icon: "content", stage: "Fora da build atual" }
 ];
 
 export const metadata: Metadata = {
   title: "Download",
-  description: "Painel oficial de download do beta de Tester para Windows, com status da build, requisitos preliminares e acesso controlado por link oficial.",
+  description: "Painel oficial da build de teste de Tester para Windows, com escopo da Beta 0.1, requisitos preliminares e acesso controlado.",
   alternates: { canonical: "/download" },
   openGraph: {
     title: "Download | Tester",
-    description: "Painel oficial de download do beta de Tester para Windows, com status da build, requisitos preliminares e acesso controlado por link oficial.",
+    description: "Painel oficial da build de teste de Tester para Windows, com escopo da Beta 0.1, requisitos preliminares e acesso controlado.",
     url: "/download"
   },
   twitter: {
     card: "summary_large_image",
     title: "Download | Tester",
-    description: "Painel oficial de download do beta de Tester para Windows, com status da build, requisitos preliminares e acesso controlado por link oficial."
+    description: "Painel oficial da build de teste de Tester para Windows, com escopo da Beta 0.1, requisitos preliminares e acesso controlado."
   }
 };
 
@@ -61,12 +61,14 @@ export default function DownloadPage() {
   return (
     <AnimatedPageWrapper>
       <PageHeader
-        title="Baixar Tester Beta"
-        description="Painel oficial da build de teste para Windows. O beta está em desenvolvimento e o download só será liberado quando houver acesso oficial."
+        variant="compact"
+        eyebrow="Download fechado"
+        title="Build de teste Tester"
+        description="Estado da build de teste para Windows. O download fica fechado até a Beta 0.1 estar pronta para testers autorizados."
       />
 
       <SectionContainer>
-        <GlowCard variant="status" contentClassName="relative overflow-hidden p-5 sm:p-7">
+        <GlowCard variant="highlight" contentClassName="relative overflow-hidden p-5 sm:p-7">
           <div className="absolute inset-0 opacity-35 tester-panel-grid" aria-hidden="true" />
           <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div>
@@ -74,9 +76,9 @@ export default function DownloadPage() {
                 <BetaBadge />
                 <StatusBadge status="warning">Build em preparação</StatusBadge>
               </div>
-              <h2 className="mt-3 text-2xl font-bold text-white sm:text-3xl">Central oficial da Beta 0.1</h2>
+              <h2 className="mt-3 text-2xl font-bold text-white sm:text-3xl">Central da build interna Beta 0.1</h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
-                Esta página informa o estado da build, requisitos preliminares e próximos passos. Ela não promete download imediato e apresenta apenas o acesso oficial do beta.
+                Esta página informa escopo, requisitos provisórios e critérios de acesso. Ela não promete download imediato nem trata a build como versão final.
               </p>
             </div>
             <div className="grid gap-2 sm:grid-cols-2 lg:min-w-72 lg:grid-cols-1">
@@ -88,11 +90,11 @@ export default function DownloadPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Status do beta" subtitle="Informações atuais da build planejada para testes fechados." />
-        <GlowCard variant="status">
+        <SectionTitle eyebrow="Status" title="Status da build" subtitle="Informações atuais do protótipo para testes fechados." />
+        <GlowCard variant="panel">
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {betaStatus.map((entry) => (
-              <div key={entry.label} className="mini-status-card rounded-xl border border-cyan-200/10 bg-black/15 px-4 py-3">
+              <div key={entry.label} className="mini-status-card rounded-xl border border-cyan-200/10 bg-black/12 px-4 py-3">
                 <div className="mb-3 flex items-start justify-between gap-3">
                   <GameGlyph name={entry.icon} variant="plain" className="h-5 w-5 text-cyan-200" />
                   {entry.status ? <StatusBadge status={entry.status}>{entry.status === "locked" ? "Controlado" : entry.status === "warning" ? "Em preparação" : entry.status === "beta" ? "Beta" : "Ativo"}</StatusBadge> : null}
@@ -106,27 +108,27 @@ export default function DownloadPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Como o download será liberado" subtitle="A build do beta será disponibilizada apenas por acesso oficial, quando estiver pronta para testes." />
+        <SectionTitle eyebrow="Acesso" title="Como a build será liberada" subtitle="A Beta 0.1 será disponibilizada somente pelo dashboard quando o trecho inicial estiver pronto para avaliação." />
         <VisualPanel
           title="Liberação controlada pelo dashboard"
           eyebrow="Acesso oficial"
           icon="download"
           tone="gold"
-          description="A distribuição atual foi pensada para um beta fechado. O jogador entra com uma conta, acessa o dashboard e, quando a build estiver liberada oficialmente, o botão de download aparece automaticamente."
+          description="A distribuição atual foi pensada para teste fechado. O jogador entra com uma conta, acessa o dashboard e, quando a build estiver liberada para aquele usuário, o botão de download aparece automaticamente."
         >
           <p className="text-sm leading-6 text-slate-300">
-            Enquanto o acesso não estiver ativo, o site mostra o estado Download em preparação. Isso evita confusão e deixa claro que a build ainda não foi liberada.
+            Enquanto o acesso não estiver ativo, o site mostra Download em preparação. Quando liberado, o botão gera um link seguro temporário pelo dashboard, com expiração rápida, sem expor arquivo permanente.
           </p>
           <div className="mt-5 grid gap-3 sm:flex sm:flex-wrap">
             <GameButton href="/login">Entrar para baixar</GameButton>
-            <GameButton href="/feedback" variant="secondary">Enviar feedback</GameButton>
+            <GameButton href="/feedback" variant="ghost">Enviar feedback</GameButton>
           </div>
         </VisualPanel>
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Requisitos mínimos" subtitle="Valores ainda preliminares, sujeitos a mudança depois dos primeiros testes em máquinas reais." />
-        <GlowCard variant="functional">
+        <SectionTitle eyebrow="Requisitos" title="Requisitos mínimos" subtitle="Valores ainda preliminares, sujeitos a mudança depois dos primeiros testes em máquinas reais." />
+        <GlowCard variant="quiet">
           <div className="grid gap-3 text-sm md:hidden">
             {minimumRequirements.map((req) => (
               <div key={req.item} className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">
@@ -157,22 +159,22 @@ export default function DownloadPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Aviso de beta" subtitle="A build será usada para encontrar problemas antes de qualquer divulgação maior." />
-        <VisualPanel title="Versão em desenvolvimento" eyebrow="Aviso oficial" icon="beta" tone="gold">
+        <SectionTitle eyebrow="Aviso" title="Aviso da build" subtitle="A Beta 0.1 serve para validar controles, rotas, checkpoints e estabilidade antes de divulgação maior." />
+        <VisualPanel title="Versão de validação" eyebrow="Aviso oficial" icon="beta" tone="gold">
           <ul className="list-disc space-y-2 pl-5 text-sm leading-6 text-slate-300">
-            <li>Tester ainda está em desenvolvimento ativo.</li>
-            <li>A versão beta pode conter bugs, travamentos, áreas incompletas, ajustes de ritmo e mudanças de balanceamento.</li>
-            <li>O feedback dos testers será usado para melhorar gameplay, estabilidade, clareza visual, mapa e dificuldade.</li>
-            <li>A Beta 0.1 não representa o produto final.</li>
+            <li>Tester ainda está em construção ativa.</li>
+            <li>A build pode conter bugs, travamentos, áreas incompletas, ajustes de ritmo e mudanças de balanceamento.</li>
+            <li>O retorno dos testers será usado para melhorar controles, estabilidade, clareza visual, leitura de rota e dificuldade.</li>
+            <li>A Beta 0.1 não representa uma versão final do jogo.</li>
           </ul>
         </VisualPanel>
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Como testar" subtitle="Guia rápido para quem receber acesso à build." />
+        <SectionTitle eyebrow="Teste" title="Como testar" subtitle="Guia rápido para quem receber acesso à build." />
         <div className="grid gap-3 md:grid-cols-2">
           {betaGuidelines.map((item) => (
-            <GlowCard key={item.text} variant="functional" contentClassName="flex min-h-[112px] items-start gap-4">
+            <GlowCard key={item.text} variant="flat" contentClassName="flex min-h-[112px] items-start gap-4">
               <GameGlyph name={item.icon} />
               <p className="text-sm leading-6 text-slate-200">{item.text}</p>
             </GlowCard>
@@ -181,12 +183,12 @@ export default function DownloadPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Conteúdo previsto na Beta 0.1" subtitle="Resumo das entregas que devem ser avaliadas pelos testers." />
+        <SectionTitle eyebrow="Escopo" title="Escopo previsto da Beta 0.1" subtitle="Itens em validação, separados por estágio para não parecer lista final de lançamento." />
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {changelogItems.map((item) => (
-            <GlowCard key={item.text} variant="status" contentClassName="flex min-h-[112px] items-start gap-4">
+          {validationItems.map((item) => (
+            <GlowCard key={item.text} variant="quiet" contentClassName="flex min-h-[112px] items-start gap-4">
               <GameGlyph name={item.icon} />
-              <p className="text-sm leading-6 text-slate-200">{item.text}</p>
+              <div><span className="mb-2 inline-flex rounded-full border border-cyan-200/15 bg-black/20 px-2 py-1 text-[10px] uppercase tracking-[0.12em] text-cyan-100">{item.stage}</span><p className="text-sm leading-6 text-slate-200">{item.text}</p></div>
             </GlowCard>
           ))}
         </div>
@@ -194,7 +196,7 @@ export default function DownloadPage() {
 
       <SectionContainer withDivider>
         <div className="pb-10 text-center sm:pb-16">
-          <SectionTitle title="Feedback" subtitle="Depois de jogar, registre sua experiência para ajudar a transformar a demo em uma versão mais estável e clara." />
+          <SectionTitle eyebrow="Próximo passo" title="Feedback" subtitle="Depois de jogar, registre sua experiência para ajudar a transformar a demo em uma versão mais estável e clara." />
           <GameButton href="/feedback" variant="secondary">Abrir formulário de feedback</GameButton>
         </div>
       </SectionContainer>
