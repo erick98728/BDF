@@ -59,11 +59,12 @@ export default async function HomePage() {
       <div className="section-rhythm">
       <SectionContainer>
         <SectionTitle
+          eyebrow="Visão geral"
           title="O que é Tester?"
           subtitle="Um metroidvania 2D sombrio em protótipo, focado em trilhas conectadas, combate de katana, Dash e leitura de rota."
         />
         <div className="grid gap-4 lg:grid-cols-[1.25fr_0.75fr] lg:items-stretch">
-          <GlowCard contentClassName="flex h-full flex-col justify-between p-5 sm:p-7">
+          <GlowCard variant="highlight" contentClassName="flex h-full flex-col justify-between p-5 sm:p-7">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
               <GameGlyph name="fog" className="h-14 w-14" />
               <div>
@@ -86,7 +87,7 @@ export default async function HomePage() {
             </div>
           </GlowCard>
 
-          <GlowCard contentClassName="flex h-full flex-col justify-between">
+          <GlowCard variant="panel" contentClassName="flex h-full flex-col justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-amber-200/80">Estado atual</p>
               <h3 className="mt-2 text-xl font-semibold text-white">Protótipo Beta 0.1 em validação</h3>
@@ -109,10 +110,10 @@ export default async function HomePage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Sistemas em foco" subtitle="O que já orienta o protótipo jogável e o que ainda passa por ajuste." />
+        <SectionTitle eyebrow="Protótipo" title="Sistemas em foco" subtitle="O que já orienta o protótipo jogável e o que ainda passa por ajuste." />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {homeFeatures.map((feature) => (
-            <GlowCard key={feature.title} contentClassName="flex min-h-[190px] flex-col">
+            <GlowCard key={feature.title} variant="quiet" contentClassName="flex min-h-[190px] flex-col">
               <div className="mb-4 flex items-start justify-between gap-3">
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.16em] text-cyan-200/65">Sistema</p>
@@ -127,10 +128,10 @@ export default async function HomePage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Bosque da Névoa Perdida" subtitle="Primeira área de validação: trilhas, clareiras, atalhos, bloqueios e arena inicial." />
+        <SectionTitle eyebrow="Área inicial" title="Bosque da Névoa Perdida" subtitle="Primeira área de validação: trilhas, clareiras, atalhos, bloqueios e arena inicial." />
         <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
           <AbstractMapPanel />
-          <GlowCard contentClassName="flex h-full flex-col justify-center">
+          <GlowCard variant="panel" contentClassName="flex h-full flex-col justify-center">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
               <GameGlyph name="ruin" className="h-12 w-12 border-amber-200/20 bg-amber-300/10 text-amber-100" />
               <div>
@@ -146,7 +147,7 @@ export default async function HomePage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Personagens" subtitle="Rubens e Lucarelli no foco atual; outros nomes ficam reservados para depois." />
+        <SectionTitle eyebrow="Elenco" title="Personagens" subtitle="Rubens e Lucarelli no foco atual; outros nomes ficam reservados para depois." />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {characters.map((c) => (
             <CharacterCard key={c.name} {...c} />
@@ -155,7 +156,7 @@ export default async function HomePage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <GlowCard contentClassName="relative overflow-hidden p-5 text-center sm:p-8">
+        <GlowCard variant="highlight" contentClassName="relative overflow-hidden p-5 text-center sm:p-8">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(99,221,255,0.16),transparent_34%),radial-gradient(circle_at_78%_70%,rgba(168,85,247,0.12),transparent_34%)]" />
           <div className="relative z-10 mx-auto max-w-3xl">
             <div className="mx-auto mb-5 flex w-fit justify-center gap-3 rounded-2xl border border-cyan-200/10 bg-black/20 p-3">
@@ -169,7 +170,9 @@ export default async function HomePage() {
               O site mostra o estado da build interna, registra feedbacks e publica devlogs/roadmap para separar o que já funciona, o que está em teste e o que fica para depois.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-4">
-              <GameButton href="/download">Ver estado da build</GameButton>
+              <GameButton href="/roadmap">Ver roadmap</GameButton>
+              <GameButton href="/devlog" variant="subtle">Ler devlog</GameButton>
+              <GameButton href="/download" variant="ghost">Estado da build</GameButton>
               <GameButton href="/feedback" variant="secondary">Enviar feedback</GameButton>
             </div>
           </div>
@@ -177,7 +180,7 @@ export default async function HomePage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Devlog" subtitle="Atualizações recentes do desenvolvimento." />
+        <SectionTitle eyebrow="Progresso" title="Devlog" subtitle="Atualizações recentes do desenvolvimento." />
         <div className="grid gap-4 md:grid-cols-3">{devlogs.map((d) => <DevlogCard key={d.title} {...d} />)}</div>
       </SectionContainer>
       </div>

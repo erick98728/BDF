@@ -161,7 +161,7 @@ export function ProtectedDownloadCard({ isAuthenticated, preparationMode = false
   }
 
   return (
-    <GlowCard variant="status">
+    <GlowCard variant="highlight">
       <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
         <div className="flex gap-4">
           <GameGlyph name="download" className={effectiveState === "ready" || effectiveState === "generated" ? "border-emerald-200/25 bg-emerald-300/10 text-emerald-100" : "border-amber-200/25 bg-amber-300/10 text-amber-100"} />
@@ -199,7 +199,7 @@ export function ProtectedDownloadCard({ isAuthenticated, preparationMode = false
           type="button"
           disabled={!canRequestDownload || isLoading}
           onClick={handleSecureDownload}
-          className="tester-button mt-5 inline-flex rounded-lg border border-cyan-200/30 bg-cyan-300/12 px-4 py-2 text-sm font-medium text-cyan-100 hover:bg-cyan-300/20 disabled:cursor-not-allowed disabled:opacity-65 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+          className="tester-button mt-5 inline-flex min-h-11 rounded-xl border border-cyan-200/55 bg-cyan-300/16 px-5 py-2.5 text-sm font-semibold text-cyan-50 hover:border-cyan-100/70 hover:bg-cyan-300/24 disabled:cursor-not-allowed disabled:opacity-65 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
         >
           {isLoading ? "Gerando link seguro..." : "Gerar download seguro"}
         </button>

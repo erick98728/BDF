@@ -70,6 +70,8 @@ export default function DashboardPage() {
   return (
     <AnimatedPageWrapper>
       <PageHeader
+        variant="dashboard"
+        eyebrow="Painel do tester"
         title="Dashboard"
         description={
           isPreparationMode
@@ -79,7 +81,7 @@ export default function DashboardPage() {
       />
 
       <SectionContainer>
-        <GlowCard variant="status" contentClassName="relative overflow-hidden p-5 sm:p-7">
+        <GlowCard variant="highlight" contentClassName="relative overflow-hidden p-5 sm:p-7">
           <div className="absolute inset-0 opacity-35 tester-panel-grid" aria-hidden="true" />
           <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div>
@@ -103,8 +105,8 @@ export default function DashboardPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Estado da conta" subtitle="Resumo rápido do acesso, versão e disponibilidade do beta." />
-        <GlowCard variant="functional">
+        <SectionTitle eyebrow="Painel" title="Estado da conta" subtitle="Resumo rápido do acesso, versão e disponibilidade do beta." />
+        <GlowCard variant="panel">
           {isPreparationMode ? (
             <div className="space-y-4 text-sm text-slate-300">
               <VisualPanel title="Modo de preparação ativo" eyebrow="Configuração" icon="beta" tone="gold">
@@ -154,6 +156,7 @@ export default function DashboardPage() {
 
       <SectionContainer withDivider>
         <SectionTitle
+          eyebrow="Ação principal"
           title="Download"
           subtitle={
             isPreparationMode
@@ -165,10 +168,10 @@ export default function DashboardPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Instruções do beta" subtitle="Siga estes passos quando a build for liberada." />
+        <SectionTitle eyebrow="Como testar" title="Instruções do beta" subtitle="Siga estes passos quando a build for liberada." />
         <div className="grid gap-3 md:grid-cols-2">
           {betaSteps.map((step) => (
-            <GlowCard key={step.text} variant="functional" contentClassName="flex min-h-[112px] items-start gap-4">
+            <GlowCard key={step.text} variant="flat" contentClassName="flex min-h-[112px] items-start gap-4">
               <GameGlyph name={step.icon} />
               <p className="text-sm leading-6 text-slate-200">{step.text}</p>
             </GlowCard>
@@ -177,8 +180,8 @@ export default function DashboardPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Checklist do jogador" subtitle="Use este checklist como guia durante os testes da demo." />
-        <GlowCard variant="functional">
+        <SectionTitle eyebrow="Checklist" title="Checklist do jogador" subtitle="Use este checklist como guia durante os testes da demo." />
+        <GlowCard variant="quiet">
           <div className="space-y-3">
             {playerChecklist.map((item) => (
               <label key={item} className="mini-status-card flex items-start gap-3 rounded-lg border border-cyan-200/10 bg-black/15 px-3 py-2 text-sm leading-6 text-slate-300">

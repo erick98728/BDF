@@ -104,7 +104,7 @@ export default function FeedbackPage() {
 
   return (
     <AnimatedPageWrapper>
-      <PageHeader title="Feedback" description="Canal oficial para registrar sua experiência com o beta de Tester. Seu retorno é privado e essencial." />
+      <PageHeader variant="compact" eyebrow="Feedback" title="Feedback" description="Canal oficial para registrar sua experiência com o beta de Tester. Seu retorno é privado e essencial." />
       <SectionContainer>
         <GlowCard variant="functional" contentClassName="relative overflow-hidden p-5 sm:p-7">
           <div className="absolute inset-0 opacity-35 tester-panel-grid" aria-hidden="true" />

@@ -112,7 +112,7 @@ export default function AdminPage() {
     <AdminShell>
       <SectionContainer>
         <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
-          <GlowCard contentClassName="relative overflow-hidden p-5 sm:p-7">
+          <GlowCard variant="highlight" contentClassName="relative overflow-hidden p-5 sm:p-7">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(99,221,255,0.14),transparent_32%),radial-gradient(circle_at_80%_76%,rgba(251,191,36,0.10),transparent_34%)]" />
             <div className="relative z-10">
               <div className="flex flex-wrap gap-2">
@@ -125,7 +125,7 @@ export default function AdminPage() {
             </div>
           </GlowCard>
           <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-            {stats.map((stat) => <GlowCard key={stat.label} contentClassName="flex items-center gap-4 p-4"><GameGlyph name={stat.icon} /><div><p className="text-xs uppercase tracking-[0.14em] text-slate-400">{stat.label}</p><p className="mt-1 text-xl font-bold text-white">{stat.value}</p></div></GlowCard>)}
+            {stats.map((stat) => <GlowCard key={stat.label} variant="flat" contentClassName="flex items-center gap-4 p-4"><GameGlyph name={stat.icon} /><div><p className="text-xs uppercase tracking-[0.14em] text-slate-400">{stat.label}</p><p className="mt-1 text-xl font-bold text-white">{stat.value}</p></div></GlowCard>)}
           </div>
         </div>
       </SectionContainer>
@@ -134,7 +134,7 @@ export default function AdminPage() {
 
       <form onSubmit={handleSave}>
         <SectionContainer withDivider>
-          <SectionTitle title="Textos principais" subtitle="Atualize chamadas públicas exibidas na home, lore, galeria e personagens." />
+          <SectionTitle eyebrow="Conteúdo público" title="Textos principais" subtitle="Atualize chamadas públicas exibidas na home, lore, galeria e personagens." />
           <div className="grid gap-4 lg:grid-cols-2">
             <TextBlockEditor title="Home" block={content.home} onChange={(home) => setContent({ ...content, home })} />
             <TextBlockEditor title="Lore" block={content.lore} onChange={(lore) => setContent({ ...content, lore })} />
@@ -177,7 +177,7 @@ export default function AdminPage() {
 }
 
 function AdminShell({ children }: { children: React.ReactNode }) {
-  return <AnimatedPageWrapper><PageHeader title="Administração" description="Painel privado para gerenciar conteúdo, usuários e permissões do projeto Tester." />{children}</AnimatedPageWrapper>;
+  return <AnimatedPageWrapper><PageHeader variant="admin" eyebrow="Admin" title="Administração" description="Painel privado para gerenciar conteúdo, usuários e permissões do projeto Tester." />{children}</AnimatedPageWrapper>;
 }
 
 function TextBlockEditor({ title, block, onChange }: { title: string; block: SiteContent["home"]; onChange: (block: SiteContent["home"]) => void }) {
@@ -277,7 +277,7 @@ function FeedbackAdminSection() {
 
   return (
     <SectionContainer withDivider>
-      <SectionTitle title="Feedbacks do beta" subtitle="Visualize, filtre e faça a triagem dos retornos privados enviados pelos testers." />
+      <SectionTitle eyebrow="Admin" title="Feedbacks do beta" subtitle="Visualize, filtre e faça a triagem dos retornos privados enviados pelos testers." />
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         <FeedbackSummaryCard label="Total" value={summary.total} />
         <FeedbackSummaryCard label="Novos" value={summary.new} tone="cyan" />
@@ -286,7 +286,7 @@ function FeedbackAdminSection() {
         <FeedbackSummaryCard label="Com bug" value={summary.bugs} tone="purple" />
       </div>
 
-      <GlowCard contentClassName="mt-5 grid gap-4 p-4 lg:grid-cols-[160px_160px_1fr_1fr_auto] lg:items-end">
+      <GlowCard variant="panel" contentClassName="mt-5 grid gap-4 p-4 lg:grid-cols-[160px_160px_1fr_1fr_auto] lg:items-end">
         <Select label="Status" value={filters.status} options={["", ...feedbackStatuses]} onChange={(status) => setFilters({ ...filters, status })} />
         <Select label="Encontrou bug" value={filters.foundBug} options={["", "true", "false"]} onChange={(foundBug) => setFilters({ ...filters, foundBug })} />
         <Input label="Versão" value={filters.version} placeholder="Tester Beta 0.1" onChange={(version) => setFilters({ ...filters, version })} />
@@ -297,8 +297,8 @@ function FeedbackAdminSection() {
       {(feedbackError || feedbackMessage) ? <div className={`mt-4 rounded-xl border px-4 py-3 text-sm ${feedbackError ? "border-red-300/25 bg-red-500/10 text-red-100" : "border-emerald-300/25 bg-emerald-500/10 text-emerald-100"}`}>{feedbackError ?? feedbackMessage}</div> : null}
 
       <div className="mt-5 grid gap-4">
-        {loadingFeedbacks ? <GlowCard contentClassName="p-5 text-sm text-slate-300">Carregando feedbacks privados...</GlowCard> : null}
-        {!loadingFeedbacks && feedbacks.length === 0 ? <GlowCard contentClassName="p-5 text-sm text-slate-300">Nenhum feedback encontrado com os filtros atuais.</GlowCard> : null}
+        {loadingFeedbacks ? <GlowCard variant="flat" contentClassName="p-5 text-sm text-slate-300">Carregando feedbacks privados...</GlowCard> : null}
+        {!loadingFeedbacks && feedbacks.length === 0 ? <GlowCard variant="flat" contentClassName="p-5 text-sm text-slate-300">Nenhum feedback encontrado com os filtros atuais.</GlowCard> : null}
         {feedbacks.map((feedback) => <FeedbackCard key={feedback.id} feedback={feedback} onSave={updateFeedback} />)}
       </div>
     </SectionContainer>

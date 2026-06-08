@@ -8,6 +8,7 @@ const footerLinks = [
   ["Personagens", "/personagens"],
   ["Studio", "/studio"],
   ["Devlog", "/devlog"],
+  ["Roadmap", "/roadmap"],
   ["Galeria", "/galeria"],
   ["Login", "/login"],
   ["Feedback", "/feedback"]
@@ -27,10 +28,10 @@ export function Footer() {
               </div>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-6 text-slate-300">
-              Site oficial do metroidvania 2D Tester, reunindo beta, lore, devlog e feedback da comunidade.
+              Site oficial do metroidvania 2D Tester, reunindo protótipo jogável, roadmap, devlog e feedback do ciclo fechado.
             </p>
             <div className="mt-4">
-              <BetaBadge />
+              <BetaBadge>Protótipo em validação</BetaBadge>
             </div>
           </div>
 
@@ -41,7 +42,7 @@ export function Footer() {
                 <Link
                   key={href}
                   href={href}
-                  className="nav-link-fx inline-flex min-h-10 items-center justify-center rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-center text-xs font-medium text-slate-300 hover:border-cyan-200/20 hover:bg-cyan-300/8 hover:text-cyan-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                  className="nav-link-fx inline-flex min-h-10 items-center justify-center rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2 text-center text-xs font-medium text-slate-400 hover:border-cyan-200/20 hover:bg-cyan-300/7 hover:text-cyan-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
                 >
                   {label}
                 </Link>
@@ -52,7 +53,7 @@ export function Footer() {
 
         <div className="mt-8 flex flex-col gap-2 border-t border-cyan-200/10 pt-5 text-xs leading-5 text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Tester Studio. Todos os direitos reservados.</p>
-          <p className="uppercase tracking-[0.14em] text-slate-400">Beta em desenvolvimento</p>
+          <p className="uppercase tracking-[0.14em] text-slate-400">Protótipo em validação</p>
         </div>
       </div>
     </footer>

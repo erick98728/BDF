@@ -104,7 +104,7 @@ Se o Supabase ainda não estiver configurado, o deploy continua funcionando. O s
    O usuário pode entrar no `/login`, acessar `/dashboard` e solicitar o download seguro. A API retorna "Acesso ao beta não liberado" quando a conta não está em `beta_access` ou "Build em preparação" quando não há build ativa.
 
 3. Com Supabase, whitelist e build ativa configurados:
-   O usuário autenticado vê o botão "Gerar download seguro" no dashboard. O site chama `POST /api/beta/download`, recebe uma URL assinada temporária do bucket privado e abre o link sem expor o caminho do Storage.
+   O usuário autenticado vê o botão "Gerar download seguro" no dashboard. O site chama `POST /api/beta/download`, recebe uma URL assinada temporária do bucket privado, com expiração rápida, e abre o link sem expor o caminho do Storage.
 
 ## Devlog e Roadmap
 
