@@ -9,7 +9,7 @@ import { SectionTitle } from "@/components/SectionTitle";
 import { BetaBadge, StatusBadge } from "@/components/TesterVisualSystem";
 import { playtimeOptions, progressOptions, ratingOptions } from "@/data/feedbackQuestions";
 import type { FeedbackFormData, FeedbackRatings } from "@/types/feedback";
-import { isSupabaseConfigured, supabase, supabaseSetupMessage } from "@/lib/supabaseClient";
+import { isSupabaseConfigured, supabaseSetupMessage } from "@/lib/supabaseClient";
 
 const initialData: FeedbackFormData = {
   nickname: "",
@@ -45,8 +45,8 @@ export default function FeedbackPage() {
   useEffect(() => {
     (async () => {
       if (!isSupabaseConfigured) return;
-      const { data } = await supabase.auth.getUser();
-      const userEmail = data.user?.email;
+      const session = await getServerSession();
+      const userEmail = session.user?.email;
       if (userEmail) setFormData((p) => ({ ...p, email: userEmail }));
     })();
   }, []);
@@ -78,22 +78,21 @@ export default function FeedbackPage() {
       return;
     }
 
-    const { error: insertError } = await supabase.from("beta_feedback").insert({
-      nickname: formData.nickname,
-      email: formData.email,
-      playtime: formData.playtime,
-      progress_point: formData.progressPoint,
-      movement_rating: formData.movementRating,
-      combat_rating: formData.combatRating,
-      map_rating: formData.mapRating,
-      difficulty_rating: formData.difficultyRating,
-      found_bug: formData.foundBug,
-      bug_description: formData.bugDescription,
-      suggestions: formData.suggestions,
-    });
+    try {
+      const response = await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(formData)
+      });
+      const data = (await response.json().catch(() => ({}))) as { error?: string };
 
-    if (insertError) {
-      setError("Não foi possível registrar seu feedback agora. Confira a configuração da tabela beta_feedback no Supabase e tente novamente.");
+      if (!response.ok) {
+        setError(data.error ?? "Não foi possível registrar seu feedback agora. Faça login e tente novamente.");
+        setLoading(false);
+        return;
+      }
+    } catch {
+      setError("Não foi possível conectar ao servidor de feedback agora. Tente novamente em instantes.");
       setLoading(false);
       return;
     }
@@ -105,7 +104,7 @@ export default function FeedbackPage() {
 
   return (
     <AnimatedPageWrapper>
-      <PageHeader title="Feedback" description="Canal oficial para registrar sua experiência com o beta de Tester. Seu retorno é privado e essencial." />
+      <PageHeader variant="compact" eyebrow="Feedback" title="Feedback" description="Canal oficial para registrar sua experiência com o beta de Tester. Seu retorno é privado e essencial." />
       <SectionContainer>
         <GlowCard variant="functional" contentClassName="relative overflow-hidden p-5 sm:p-7">
           <div className="absolute inset-0 opacity-35 tester-panel-grid" aria-hidden="true" />
@@ -202,4 +201,20 @@ export default function FeedbackPage() {
       </SectionContainer>
     </AnimatedPageWrapper>
   );
+}
+
+
+type ServerSession = {
+  authenticated: boolean;
+  user: { id: string; email: string | null } | null;
+};
+
+async function getServerSession(): Promise<ServerSession> {
+  try {
+    const response = await fetch("/api/auth/me", { cache: "no-store", headers: { Accept: "application/json" } });
+    if (!response.ok) return { authenticated: false, user: null };
+    return (await response.json()) as ServerSession;
+  } catch {
+    return { authenticated: false, user: null };
+  }
 }

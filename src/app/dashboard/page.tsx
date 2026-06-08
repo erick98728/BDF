@@ -9,13 +9,11 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
 import { GameButton } from "@/components/GameButton";
-import { ProtectedDownloadCard } from "@/components/ProtectedDownloadCard";
+import { ProtectedDownloadCard, type SecureDownloadState } from "@/components/ProtectedDownloadCard";
 import { BetaBadge, StatusBadge, VisualPanel } from "@/components/TesterVisualSystem";
-import { supabase, isSupabaseConfigured, supabaseSetupMessage } from "@/lib/supabaseClient";
+import { isSupabaseConfigured, supabaseSetupMessage } from "@/lib/supabaseClient";
 
 const betaVersion = "Tester Beta 0.1";
-const hasDownloadUrl = Boolean(process.env.NEXT_PUBLIC_BETA_DOWNLOAD_URL?.trim());
-
 const betaSteps = [
   { text: "Acesse o painel com sua conta do beta", icon: "user" as const },
   { text: "Baixe a versão mais recente quando ela for liberada", icon: "download" as const },
@@ -37,6 +35,7 @@ export default function DashboardPage() {
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [checking, setChecking] = useState(true);
+  const [downloadState, setDownloadState] = useState<SecureDownloadState>("ready");
   const isPreparationMode = !isSupabaseConfigured;
 
   useEffect(() => {
@@ -45,34 +44,34 @@ export default function DashboardPage() {
         setChecking(false);
         return;
       }
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) {
+      const serverSession = await getServerSession();
+      if (!serverSession.authenticated || !serverSession.user) {
         router.push("/login");
         return;
       }
-      setEmail(data.user.email ?? "Jogador");
+
+      setEmail(serverSession.user.email ?? "Jogador");
       setChecking(false);
     }
     checkSession();
   }, [router]);
 
   async function handleSignOut() {
-    await supabase.auth.signOut();
+    await fetch("/api/auth/logout", { method: "POST" });
     router.push("/login");
     router.refresh();
   }
 
   if (checking) return <div className="py-16 text-center text-slate-300">Verificando sessão...</div>;
 
-  const downloadStatus = isPreparationMode
-    ? "Prévia sem autenticação"
-    : hasDownloadUrl
-      ? "Download liberado"
-      : "Download em preparação";
+  const downloadStatus = getDownloadStatusLabel(isPreparationMode ? "preparation" : downloadState);
+  const downloadStatusType = getDownloadStatusType(isPreparationMode ? "preparation" : downloadState);
 
   return (
     <AnimatedPageWrapper>
       <PageHeader
+        variant="dashboard"
+        eyebrow="Painel do tester"
         title="Dashboard"
         description={
           isPreparationMode
@@ -82,7 +81,7 @@ export default function DashboardPage() {
       />
 
       <SectionContainer>
-        <GlowCard variant="status" contentClassName="relative overflow-hidden p-5 sm:p-7">
+        <GlowCard variant="highlight" contentClassName="relative overflow-hidden p-5 sm:p-7">
           <div className="absolute inset-0 opacity-35 tester-panel-grid" aria-hidden="true" />
           <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div>
@@ -98,7 +97,7 @@ export default function DashboardPage() {
               </p>
             </div>
             <div className="grid gap-2 sm:grid-cols-2 lg:min-w-72 lg:grid-cols-1">
-              <StatusBadge status={hasDownloadUrl && !isPreparationMode ? "ready" : "warning"}>{downloadStatus}</StatusBadge>
+              <StatusBadge status={downloadStatusType}>{downloadStatus}</StatusBadge>
               <StatusBadge status={isPreparationMode ? "planned" : "live"}>{isPreparationMode ? "Supabase pendente" : "Conta ativa"}</StatusBadge>
             </div>
           </div>
@@ -106,8 +105,8 @@ export default function DashboardPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Estado da conta" subtitle="Resumo rápido do acesso, versão e disponibilidade do beta." />
-        <GlowCard variant="functional">
+        <SectionTitle eyebrow="Painel" title="Estado da conta" subtitle="Resumo rápido do acesso, versão e disponibilidade do beta." />
+        <GlowCard variant="panel">
           {isPreparationMode ? (
             <div className="space-y-4 text-sm text-slate-300">
               <VisualPanel title="Modo de preparação ativo" eyebrow="Configuração" icon="beta" tone="gold">
@@ -157,23 +156,22 @@ export default function DashboardPage() {
 
       <SectionContainer withDivider>
         <SectionTitle
+          eyebrow="Ação principal"
           title="Download"
           subtitle={
             isPreparationMode
-              ? "Prévia do estado de download antes da autenticação e do link oficial."
-              : hasDownloadUrl
-                ? "Build oficial disponível para jogadores autenticados."
-                : "Sua conta está pronta, mas o link oficial da build ainda não foi configurado."
+              ? "Prévia do estado de download antes da autenticação oficial."
+              : "Gere um link temporário e seguro pela rota privada do site. O link expira rapidamente e só funciona para contas liberadas."
           }
         />
-        <ProtectedDownloadCard isAuthenticated={!isPreparationMode && Boolean(email)} preparationMode={isPreparationMode} />
+        <ProtectedDownloadCard isAuthenticated={!isPreparationMode && Boolean(email)} preparationMode={isPreparationMode} onStateChange={setDownloadState} />
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Instruções do beta" subtitle="Siga estes passos quando a build for liberada." />
+        <SectionTitle eyebrow="Como testar" title="Instruções do beta" subtitle="Siga estes passos quando a build for liberada." />
         <div className="grid gap-3 md:grid-cols-2">
           {betaSteps.map((step) => (
-            <GlowCard key={step.text} variant="functional" contentClassName="flex min-h-[112px] items-start gap-4">
+            <GlowCard key={step.text} variant="flat" contentClassName="flex min-h-[112px] items-start gap-4">
               <GameGlyph name={step.icon} />
               <p className="text-sm leading-6 text-slate-200">{step.text}</p>
             </GlowCard>
@@ -182,8 +180,8 @@ export default function DashboardPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <SectionTitle title="Checklist do jogador" subtitle="Use este checklist como guia durante os testes da demo." />
-        <GlowCard variant="functional">
+        <SectionTitle eyebrow="Checklist" title="Checklist do jogador" subtitle="Use este checklist como guia durante os testes da demo." />
+        <GlowCard variant="quiet">
           <div className="space-y-3">
             {playerChecklist.map((item) => (
               <label key={item} className="mini-status-card flex items-start gap-3 rounded-lg border border-cyan-200/10 bg-black/15 px-3 py-2 text-sm leading-6 text-slate-300">
@@ -213,4 +211,61 @@ export default function DashboardPage() {
       </SectionContainer>
     </AnimatedPageWrapper>
   );
+}
+
+
+function getDownloadStatusLabel(state: SecureDownloadState) {
+  switch (state) {
+    case "preparation":
+      return "Prévia sem autenticação";
+    case "blocked":
+      return "Acesso ao beta não liberado";
+    case "no-build":
+      return "Build em preparação";
+    case "loading":
+      return "Gerando link seguro";
+    case "generated":
+      return "Link temporário gerado";
+    case "error":
+      return "Erro no download";
+    case "login":
+      return "Login necessário";
+    case "ready":
+    default:
+      return "Download seguro disponível";
+  }
+}
+
+function getDownloadStatusType(state: SecureDownloadState) {
+  switch (state) {
+    case "ready":
+    case "generated":
+      return "ready" as const;
+    case "preparation":
+      return "beta" as const;
+    case "login":
+      return "locked" as const;
+    case "blocked":
+    case "no-build":
+    case "loading":
+    case "error":
+    default:
+      return "warning" as const;
+  }
+}
+
+
+type ServerSession = {
+  authenticated: boolean;
+  user: { id: string; email: string | null } | null;
+};
+
+async function getServerSession(): Promise<ServerSession> {
+  try {
+    const response = await fetch("/api/auth/me", { cache: "no-store", headers: { Accept: "application/json" } });
+    if (!response.ok) return { authenticated: false, user: null };
+    return (await response.json()) as ServerSession;
+  } catch {
+    return { authenticated: false, user: null };
+  }
 }
