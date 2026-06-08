@@ -12,37 +12,50 @@ const categoryGlyphs: Record<string, GameGlyphName> = {
   Mundo: "fog",
   Gameplay: "dash",
   Combate: "katana",
-  Produção: "build"
+  Produção: "build",
 };
 
 export const metadata: Metadata = {
   title: "Devlog",
-  description: "Acompanhe atualizações oficiais de desenvolvimento, progresso técnico, gameplay e decisões de produção do jogo indie Tester.",
+  description:
+    "Acompanhe atualizações oficiais de desenvolvimento, progresso técnico, gameplay e decisões de produção do jogo indie Tester.",
   alternates: { canonical: "/devlog" },
   openGraph: {
     title: "Devlog | Tester",
-    description: "Acompanhe atualizações oficiais de desenvolvimento, progresso técnico, gameplay e decisões de produção do jogo indie Tester.",
-    url: "/devlog"
+    description:
+      "Acompanhe atualizações oficiais de desenvolvimento, progresso técnico, gameplay e decisões de produção do jogo indie Tester.",
+    url: "/devlog",
   },
   twitter: {
     card: "summary_large_image",
     title: "Devlog | Tester",
-    description: "Acompanhe atualizações oficiais de desenvolvimento, progresso técnico, gameplay e decisões de produção do jogo indie Tester."
-  }
+    description:
+      "Acompanhe atualizações oficiais de desenvolvimento, progresso técnico, gameplay e decisões de produção do jogo indie Tester.",
+  },
 };
 
 export default function DevlogPage() {
   return (
     <AnimatedPageWrapper>
-      <PageHeader title="Devlog" description="Acompanhe a evolução de Tester, versão por versão." />
+      <PageHeader
+        title="Devlog"
+        description="Acompanhe a evolução de Tester, versão por versão."
+      />
 
       <SectionContainer>
-        <SectionTitle title="Atualizações recentes" subtitle="Posts iniciais da jornada de desenvolvimento de Tester." />
+        <SectionTitle
+          title="Atualizações recentes"
+          subtitle="Posts iniciais da jornada de desenvolvimento de Tester."
+        />
         <div className="grid gap-4 md:grid-cols-2">
           {devlogPosts.map((post) => {
             const icon = categoryGlyphs[post.category] ?? "lore";
             return (
-              <GlowCard key={post.slug} contentClassName="flex min-h-[250px] flex-col">
+              <GlowCard
+                key={post.slug}
+                variant="quiet"
+                contentClassName="flex min-h-[250px] flex-col"
+              >
                 <div className="mb-4 flex items-start justify-between gap-3">
                   <div className="flex flex-wrap items-center gap-3">
                     <span className="rounded-full border border-cyan-200/25 bg-cyan-300/10 px-3 py-1 text-[11px] uppercase tracking-[0.12em] text-cyan-100">
@@ -52,8 +65,12 @@ export default function DevlogPage() {
                   </div>
                   <GameGlyph name={icon} />
                 </div>
-                <h2 className="text-xl font-semibold text-white">{post.title}</h2>
-                <p className="mt-3 text-sm leading-6 text-slate-300">{post.summary}</p>
+                <h2 className="text-xl font-semibold text-white">
+                  {post.title}
+                </h2>
+                <p className="mt-3 text-sm leading-6 text-slate-300">
+                  {post.summary}
+                </p>
                 <div className="mt-4 grid gap-2 text-xs text-slate-400 sm:grid-cols-2">
                   <span>{post.content.length} seções completas</span>
                   <span>{post.progress.length} avanços registrados</span>

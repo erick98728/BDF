@@ -12,30 +12,36 @@ const statusLabels: Record<RoadmapStatus, string> = {
   done: "Funcional",
   testing: "Em teste",
   next: "Próximo",
-  future: "Futuro"
+  future: "Futuro",
 };
 
-const statusBadge: Record<RoadmapStatus, "ready" | "warning" | "live" | "planned"> = {
+const statusBadge: Record<
+  RoadmapStatus,
+  "ready" | "warning" | "live" | "planned"
+> = {
   done: "ready",
   testing: "warning",
   next: "live",
-  future: "planned"
+  future: "planned",
 };
 
 export const metadata: Metadata = {
   title: "Roadmap",
-  description: "Roadmap honesto de Tester, separando o que já existe, o que está em teste, próximas melhorias e ideias futuras sem data definida.",
+  description:
+    "Roadmap honesto de Tester, separando o que já existe, o que está em teste, próximas melhorias e ideias futuras sem data definida.",
   alternates: { canonical: "/roadmap" },
   openGraph: {
     title: "Roadmap | Tester",
-    description: "Roadmap honesto de Tester, separando o que já existe, o que está em teste, próximas melhorias e ideias futuras sem data definida.",
-    url: "/roadmap"
+    description:
+      "Roadmap honesto de Tester, separando o que já existe, o que está em teste, próximas melhorias e ideias futuras sem data definida.",
+    url: "/roadmap",
   },
   twitter: {
     card: "summary_large_image",
     title: "Roadmap | Tester",
-    description: "Roadmap honesto de Tester, separando o que já existe, o que está em teste, próximas melhorias e ideias futuras sem data definida."
-  }
+    description:
+      "Roadmap honesto de Tester, separando o que já existe, o que está em teste, próximas melhorias e ideias futuras sem data definida.",
+  },
 };
 
 export default function RoadmapPage() {
@@ -47,14 +53,23 @@ export default function RoadmapPage() {
       />
 
       <SectionContainer>
-        <GlowCard contentClassName="relative overflow-hidden p-5 sm:p-7">
+        <GlowCard
+          variant="panel"
+          contentClassName="relative overflow-hidden p-5 sm:p-7"
+        >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(99,221,255,0.14),transparent_32%),radial-gradient(circle_at_86%_70%,rgba(251,191,36,0.10),transparent_34%)]" />
           <div className="relative z-10 grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">Roadmap público</p>
-              <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">Escopo pequeno, evolução clara.</h2>
+              <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">
+                Roadmap público
+              </p>
+              <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">
+                Escopo pequeno, evolução clara.
+              </h2>
               <p className="mt-3 text-sm leading-6 text-slate-300">
-                A Beta 0.1 é tratada como uma etapa de validação, não como produto final. Este roadmap mostra prioridades sem prometer datas de lançamento.
+                A Beta 0.1 é tratada como uma etapa de validação, não como
+                produto final. Este roadmap mostra prioridades sem prometer
+                datas de lançamento.
               </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -72,14 +87,26 @@ export default function RoadmapPage() {
           <SectionTitle title={group.title} subtitle={group.description} />
           <div className="grid gap-4 lg:grid-cols-3">
             {group.items.map((item) => (
-              <GlowCard key={item.title} contentClassName="flex min-h-[250px] flex-col p-5">
+              <GlowCard
+                key={item.title}
+                variant="flat"
+                contentClassName="flex min-h-[250px] flex-col p-5"
+              >
                 <div className="mb-4 flex items-start justify-between gap-3">
                   <GameGlyph name={item.icon} />
-                  <StatusBadge status={statusBadge[item.status]}>{statusLabels[item.status]}</StatusBadge>
+                  <StatusBadge status={statusBadge[item.status]}>
+                    {statusLabels[item.status]}
+                  </StatusBadge>
                 </div>
-                <p className="text-xs uppercase tracking-[0.14em] text-cyan-200/80">{item.scope}</p>
-                <h3 className="mt-2 text-lg font-semibold text-white">{item.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-slate-300">{item.description}</p>
+                <p className="text-xs uppercase tracking-[0.14em] text-cyan-200/80">
+                  {item.scope}
+                </p>
+                <h3 className="mt-2 text-lg font-semibold text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-slate-300">
+                  {item.description}
+                </p>
               </GlowCard>
             ))}
           </div>
@@ -91,8 +118,10 @@ export default function RoadmapPage() {
 
 function RoadmapMiniStat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-cyan-200/10 bg-black/20 px-4 py-3">
-      <p className="text-xs uppercase tracking-[0.14em] text-slate-400">{label}</p>
+    <div className="rounded-xl border border-white/10 bg-white/[0.025] px-4 py-3">
+      <p className="text-xs uppercase tracking-[0.14em] text-slate-400">
+        {label}
+      </p>
       <p className="mt-1 text-sm font-medium text-white">{value}</p>
     </div>
   );
