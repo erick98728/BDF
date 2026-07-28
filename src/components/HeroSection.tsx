@@ -37,33 +37,33 @@ function HeroVisual() {
 
 export function HeroSection() {
   return (
-    <section className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden py-16 sm:py-20 md:py-24 lg:py-28">
+    <section className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden min-h-[calc(100vh-72px)] py-20 sm:py-24 md:py-28 lg:py-32">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_16%,rgba(99,221,255,0.12),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(88,51,140,0.18),transparent_34%),radial-gradient(circle_at_68%_78%,rgba(209,168,93,0.08),transparent_34%)]" />
       <div className="absolute inset-x-[-12vw] bottom-0 h-36 bg-gradient-to-b from-transparent via-[#050914]/18 to-transparent blur-xl" />
       <div className="absolute left-[-8rem] top-12 hidden h-72 w-72 rounded-full bg-purple-400/[0.08] blur-3xl md:block" />
       <div className="absolute right-[-8rem] top-0 hidden h-80 w-80 rounded-full bg-cyan-300/[0.08] blur-3xl md:block" />
       <div className="absolute bottom-14 right-[8vw] hidden h-28 w-72 rotate-[-10deg] bg-gradient-to-r from-transparent via-amber-200/[0.08] to-transparent blur-2xl lg:block" />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+      <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, ease: "easeOut" }}>
-            <div className="mb-5 inline-flex items-center gap-3 rounded-full border border-cyan-200/20 bg-cyan-300/[0.08] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-cyan-100 shadow-[0_0_24px_rgba(99,221,255,0.08)]">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-200 shadow-[0_0_12px_rgba(99,221,255,0.8)]" />
+            <div className="mb-5 inline-flex items-center gap-3 rounded-[1440px] border border-[#cecece] bg-transparent px-[11px] py-[5px] text-[11px] font-normal uppercase tracking-[-0.02em] text-white">
+              <span className="h-px w-4 bg-[#cc6437]" />
               Site oficial · Em desenvolvimento
             </div>
-            <h1 className="max-w-3xl text-5xl font-black tracking-[0.01em] text-white drop-shadow-[0_0_30px_rgba(99,221,255,0.16)] sm:text-6xl md:text-7xl">Tester</h1>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-slate-200 sm:text-lg sm:leading-8">
+            <h1 className="max-w-3xl text-[clamp(3.5rem,12vw,9rem)] font-normal uppercase leading-[0.9] tracking-[-0.04em] text-white">Tester</h1>
+            <p className="mt-4 max-w-2xl font-[var(--font-pragmatica)] text-base leading-7 text-slate-200 normal-case sm:text-lg sm:leading-8">
               Um metroidvania sombrio de exploração e combate, perdido entre ruínas, névoa e segredos de um bosque antigo.
             </p>
 
             <div className="mt-7 grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
               {heroStats.map((item) => (
-                <div key={item.label} className="rounded-xl border border-cyan-200/[0.12] bg-black/25 px-3 py-3 backdrop-blur-sm">
+                <div key={item.label} className="rounded-[10px] border border-[#cecece]/20 bg-[#272a2a] px-3 py-3">
                   <div className="flex items-center gap-2">
                     <GameGlyph name={item.icon} variant="plain" className="h-4 w-4 text-cyan-200" />
                     <p className="text-[11px] uppercase tracking-[0.12em] text-cyan-200/75">{item.label}</p>
                   </div>
-                  <p className="mt-1 font-medium text-slate-100">{item.value}</p>
+                  <p className="mt-1 font-normal text-slate-100">{item.value}</p>
                 </div>
               ))}
             </div>
