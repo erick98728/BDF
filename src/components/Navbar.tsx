@@ -8,8 +8,8 @@ import { isSupabaseConfigured } from "@/lib/supabaseClient";
 import { BetaBadge, TesterMark } from "./TesterVisualSystem";
 
 const focusClass =
-  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200";
-const navLinkBase = `nav-link-fx rounded-lg px-3 py-2 text-sm font-medium ${focusClass}`;
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#cc6437]";
+const navLinkBase = `nav-link-fx rounded-[1440px] border border-white/20 px-4 py-2 text-sm font-normal uppercase tracking-[-0.02em] ${focusClass}`;
 
 export function Navbar() {
   const pathname = usePathname();
@@ -62,18 +62,18 @@ export function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-cyan-200/15 bg-[#050914]/88 shadow-[0_14px_40px_rgba(0,0,0,0.32)] backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#050505]/95">
       <nav
-        className="mx-auto max-w-6xl px-4 py-3 sm:px-6 lg:px-8"
+        className="mx-auto max-w-[1400px] px-4 py-3 sm:px-6 lg:px-8"
         aria-label="Navegação principal"
       >
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className={`group nav-link-fx inline-flex items-center gap-3 rounded-lg ${focusClass}`}
+            className={`group nav-link-fx inline-flex items-center gap-3 rounded-[1440px] ${focusClass}`}
           >
             <TesterMark compact />
-            <span className="text-base font-black tracking-[0.2em] text-cyan-50 transition group-hover:text-white sm:text-lg">
+            <span className="text-base font-normal uppercase tracking-[-0.02em] text-white transition group-hover:text-white sm:text-lg">
               TESTER
             </span>
             <span className="hidden sm:inline-flex">
@@ -121,7 +121,7 @@ export function Navbar() {
                 ) : null}
                 <button
                   onClick={handleSignOut}
-                  className={`tester-button rounded-lg border border-purple-200/20 bg-purple-300/8 px-3 py-2 text-sm font-medium text-purple-100 hover:bg-purple-300/14 hover:text-white ${focusClass}`}
+                  className={`tester-button rounded-[1440px] border border-purple-200/20 bg-purple-300/8 px-3 py-2 text-sm font-normal text-purple-100 hover:bg-purple-300/14 hover:text-white ${focusClass}`}
                 >
                   Sair
                 </button>
@@ -130,7 +130,7 @@ export function Navbar() {
               <Link
                 href="/login"
                 aria-current={pathname === "/login" ? "page" : undefined}
-                className={`tester-button rounded-lg border px-3 py-2 text-sm font-semibold ${focusClass} ${pathname === "/login" ? "border-amber-200/45 bg-amber-300/14 text-amber-50" : "border-amber-200/25 bg-amber-300/8 text-amber-100 hover:bg-amber-300/14 hover:text-white"}`}
+                className={`tester-button rounded-[1440px] border px-3 py-2 text-sm font-normal ${focusClass} ${pathname === "/login" ? "border-amber-200/45 bg-amber-300/14 text-amber-50" : "border-amber-200/25 bg-amber-300/8 text-amber-100 hover:bg-amber-300/14 hover:text-white"}`}
               >
                 Login
               </Link>
@@ -143,7 +143,7 @@ export function Navbar() {
             aria-expanded={open}
             aria-controls="menu-mobile"
             onClick={() => setOpen((v) => !v)}
-            className={`tester-button inline-flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-xl border border-cyan-200/20 bg-white/5 text-slate-100 hover:border-cyan-100/40 hover:bg-cyan-300/10 md:hidden ${focusClass}`}
+            className={`tester-button inline-flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-[1440px] border border-white/80 bg-transparent text-white hover:border-[#cc6437] md:hidden ${focusClass}`}
           >
             <span
               className={`h-px w-4 bg-current transition-transform ${open ? "translate-y-1.5 rotate-45" : ""}`}
@@ -161,9 +161,9 @@ export function Navbar() {
           id="menu-mobile"
           className={`grid overflow-hidden transition-[grid-template-rows,opacity,margin] duration-200 md:hidden ${open ? "mt-3 grid-rows-[1fr] opacity-100" : "mt-0 grid-rows-[0fr] opacity-0"}`}
         >
-          <div className="min-h-0 max-h-[calc(100vh-5rem)] overflow-y-auto rounded-xl border border-cyan-200/12 bg-black/55 p-2 shadow-2xl backdrop-blur-md">
+          <div className="min-h-0 max-h-[calc(100vh-5rem)] overflow-y-auto rounded-[10px] border border-white/15 bg-[#272a2a] p-2">
             <div className="flex w-full flex-col gap-1">
-              <p className="px-3 pb-1 pt-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+              <p className="px-3 pb-1 pt-2 text-[10px] font-normal uppercase tracking-[0.16em] text-slate-500">
                 Páginas públicas
               </p>
               {baseLinks.map((link) => {
@@ -174,7 +174,7 @@ export function Navbar() {
                     href={link.href}
                     aria-current={active ? "page" : undefined}
                     onClick={() => setOpen(false)}
-                    className={`nav-link-fx rounded-lg px-3 py-3 text-sm font-medium ${focusClass} ${active ? "border border-cyan-200/25 bg-cyan-300/14 text-cyan-50" : "text-slate-200 hover:bg-white/5 hover:text-cyan-50"}`}
+                    className={`nav-link-fx rounded-[1440px] px-3 py-3 text-sm font-normal ${focusClass} ${active ? "border border-cyan-200/25 bg-cyan-300/14 text-cyan-50" : "text-slate-200 hover:bg-white/5 hover:text-cyan-50"}`}
                   >
                     {link.label}
                   </Link>
@@ -182,7 +182,7 @@ export function Navbar() {
               })}
               {logged ? (
                 <>
-                  <p className="mt-2 border-t border-white/10 px-3 pb-1 pt-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  <p className="mt-2 border-t border-white/10 px-3 pb-1 pt-3 text-[10px] font-normal uppercase tracking-[0.16em] text-slate-500">
                     Área do tester
                   </p>
                   <Link
@@ -191,7 +191,7 @@ export function Navbar() {
                       pathname === "/dashboard" ? "page" : undefined
                     }
                     onClick={() => setOpen(false)}
-                    className={`nav-link-fx rounded-lg px-3 py-3 text-sm font-medium ${focusClass} ${pathname === "/dashboard" ? "border border-cyan-200/20 bg-cyan-300/14 text-cyan-50" : "text-slate-200 hover:bg-white/5 hover:text-cyan-50"}`}
+                    className={`nav-link-fx rounded-[1440px] px-3 py-3 text-sm font-normal ${focusClass} ${pathname === "/dashboard" ? "border border-cyan-200/20 bg-cyan-300/14 text-cyan-50" : "text-slate-200 hover:bg-white/5 hover:text-cyan-50"}`}
                   >
                     Dashboard
                   </Link>
@@ -202,28 +202,28 @@ export function Navbar() {
                         pathname.startsWith("/admin") ? "page" : undefined
                       }
                       onClick={() => setOpen(false)}
-                      className={`nav-link-fx rounded-lg px-3 py-3 text-sm font-medium ${focusClass} ${pathname.startsWith("/admin") ? "border border-amber-200/20 bg-amber-300/14 text-amber-50" : "text-amber-100 hover:bg-amber-300/10 hover:text-white"}`}
+                      className={`nav-link-fx rounded-[1440px] px-3 py-3 text-sm font-normal ${focusClass} ${pathname.startsWith("/admin") ? "border border-amber-200/20 bg-amber-300/14 text-amber-50" : "text-amber-100 hover:bg-amber-300/10 hover:text-white"}`}
                     >
                       Admin
                     </Link>
                   ) : null}
                   <button
                     onClick={handleSignOut}
-                    className={`tester-button rounded-lg px-3 py-3 text-left text-sm font-medium text-purple-100 hover:bg-purple-300/10 hover:text-white ${focusClass}`}
+                    className={`tester-button rounded-[1440px] px-3 py-3 text-left text-sm font-normal text-purple-100 hover:bg-purple-300/10 hover:text-white ${focusClass}`}
                   >
                     Sair
                   </button>
                 </>
               ) : (
                 <>
-                  <p className="mt-2 border-t border-white/10 px-3 pb-1 pt-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  <p className="mt-2 border-t border-white/10 px-3 pb-1 pt-3 text-[10px] font-normal uppercase tracking-[0.16em] text-slate-500">
                     Área do tester
                   </p>
                   <Link
                     href="/login"
                     aria-current={pathname === "/login" ? "page" : undefined}
                     onClick={() => setOpen(false)}
-                    className={`nav-link-fx rounded-lg px-3 py-3 text-sm font-semibold ${focusClass} ${pathname === "/login" ? "border border-amber-200/20 bg-amber-300/14 text-amber-50" : "text-amber-100 hover:bg-amber-300/10 hover:text-white"}`}
+                    className={`nav-link-fx rounded-[1440px] px-3 py-3 text-sm font-normal ${focusClass} ${pathname === "/login" ? "border border-amber-200/20 bg-amber-300/14 text-amber-50" : "text-amber-100 hover:bg-amber-300/10 hover:text-white"}`}
                   >
                     Login
                   </Link>
