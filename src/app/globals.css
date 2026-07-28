@@ -387,9 +387,12 @@ button:disabled {
     animation: tester-haze-slide 20s ease-in-out infinite;
   }
 
-  .skeleton-shimmer {
-    animation: tester-haze-slide 2.8s linear infinite;
-  }
+.rune-border,
+.rune-border::before,
+.rune-border::after {
+  border-radius: var(--radius-cards) !important;
+  box-shadow: none !important;
+  filter: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
