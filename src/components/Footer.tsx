@@ -16,14 +16,14 @@ const footerLinks = [
 
 export function Footer() {
   return (
-    <footer className="mt-14 border-t border-cyan-200/12 bg-[#050914]/78 py-8 shadow-[0_-18px_45px_rgba(0,0,0,0.22)] sm:mt-20 sm:py-10">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <footer className="mt-14 border-t border-white/10 bg-[#0b0b0b] py-8 sm:mt-20 sm:py-10">
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
         <div className="grid gap-7 md:grid-cols-[1.2fr_1.8fr] md:items-start">
           <div>
             <div className="flex items-center gap-3">
               <TesterMark compact />
               <div>
-                <p className="text-sm font-black uppercase tracking-[0.2em] text-cyan-50">
+                <p className="text-sm font-normal uppercase tracking-[0.2em] text-cyan-50">
                   Tester Studio
                 </p>
                 <p className="mt-1 text-xs uppercase tracking-[0.16em] text-cyan-200/80">
@@ -49,7 +49,7 @@ export function Footer() {
                 <Link
                   key={href}
                   href={href}
-                  className="nav-link-fx inline-flex min-h-10 items-center justify-center rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2 text-center text-xs font-medium text-slate-400 hover:border-cyan-200/20 hover:bg-cyan-300/7 hover:text-cyan-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                  className="nav-link-fx inline-flex min-h-10 items-center justify-center rounded-[1440px] border border-white/5 bg-white/[0.02] px-3 py-2 text-center text-xs font-normal text-slate-400 hover:border-cyan-200/20 hover:bg-cyan-300/7 hover:text-cyan-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
                 >
                   {label}
                 </Link>
