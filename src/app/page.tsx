@@ -29,19 +29,19 @@ export const metadata: Metadata = {
 
 function AbstractMapPanel() {
   return (
-    <div className="relative min-h-[240px] overflow-hidden rounded-2xl border border-cyan-200/15 bg-black/20 p-5" aria-hidden="true">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_26%_22%,rgba(99,221,255,0.16),transparent_32%),radial-gradient(circle_at_76%_72%,rgba(209,168,93,0.12),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_38%)]" />
+    <div className="premium-panel min-h-[240px] p-5" aria-hidden="true">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_26%_22%,rgba(204,100,55,0.16),transparent_32%),radial-gradient(circle_at_76%_72%,rgba(204,100,55,0.12),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_38%)]" />
       <svg viewBox="0 0 360 230" className="relative h-full min-h-[210px] w-full text-cyan-100" fill="none">
         <path d="M36 174C78 116 114 154 145 103C174 57 218 71 245 104C271 137 298 124 326 72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="8 10" opacity="0.66" />
-        <path d="M71 184C91 165 115 166 132 185" stroke="#d1a85d" strokeWidth="1.5" strokeLinecap="round" opacity="0.55" />
-        <path d="M208 84C230 89 247 105 257 126" stroke="#a78bfa" strokeWidth="1.4" strokeLinecap="round" opacity="0.45" />
-        <circle cx="36" cy="174" r="8" fill="#63ddff" opacity="0.82" />
-        <circle cx="145" cy="103" r="6" fill="#d1a85d" opacity="0.78" />
-        <circle cx="245" cy="104" r="7" fill="#63ddff" opacity="0.7" />
-        <circle cx="326" cy="72" r="9" fill="#a78bfa" opacity="0.72" />
-        <path d="M128 58h48M140 72h25M226 164h54M238 178h30" stroke="#63ddff" strokeWidth="1.2" strokeLinecap="round" opacity="0.32" />
+        <path d="M71 184C91 165 115 166 132 185" stroke="#cc6437" strokeWidth="1.5" strokeLinecap="round" opacity="0.55" />
+        <path d="M208 84C230 89 247 105 257 126" stroke="#c4beb7" strokeWidth="1.4" strokeLinecap="round" opacity="0.45" />
+        <circle cx="36" cy="174" r="8" fill="#e4a080" opacity="0.82" />
+        <circle cx="145" cy="103" r="6" fill="#cc6437" opacity="0.78" />
+        <circle cx="245" cy="104" r="7" fill="#e4a080" opacity="0.7" />
+        <circle cx="326" cy="72" r="9" fill="#c4beb7" opacity="0.72" />
+        <path d="M128 58h48M140 72h25M226 164h54M238 178h30" stroke="#e4a080" strokeWidth="1.2" strokeLinecap="round" opacity="0.32" />
       </svg>
-      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-[#050914]/70 px-3 py-2 backdrop-blur-md">
+      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-[#080908]/70 px-3 py-2 backdrop-blur-md">
         <span className="text-[10px] uppercase tracking-[0.16em] text-cyan-100/85">Trilha da build</span>
         <span className="text-[10px] uppercase tracking-[0.16em] text-amber-100/80">Rotas em teste</span>
       </div>
@@ -75,7 +75,7 @@ export default async function HomePage() {
             </div>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               {homePillars.map((pillar) => (
-                <div key={pillar.title} className="rounded-xl border border-cyan-200/10 bg-black/20 px-4 py-3">
+                <div key={pillar.title} className="sub-card px-4 py-3">
                   <div className="mb-3 flex items-center justify-between gap-3">
                     <p className="text-[10px] uppercase tracking-[0.16em] text-cyan-200/70">{pillar.eyebrow}</p>
                     <GameGlyph name={pillar.icon} variant="plain" className="h-5 w-5 text-cyan-100" />
@@ -96,11 +96,11 @@ export default async function HomePage() {
               </p>
             </div>
             <div className="mt-6 grid gap-3">
-              <div className="rounded-xl border border-cyan-200/10 bg-black/20 px-4 py-3">
+              <div className="sub-card px-4 py-3">
                 <p className="text-xs uppercase tracking-[0.14em] text-slate-400">Área inicial</p>
                 <p className="mt-1 text-sm font-medium text-slate-100">Bosque da Névoa Perdida</p>
               </div>
-              <div className="rounded-xl border border-cyan-200/10 bg-black/20 px-4 py-3">
+              <div className="sub-card px-4 py-3">
                 <p className="text-xs uppercase tracking-[0.14em] text-slate-400">Objetivo do teste</p>
                 <p className="mt-1 text-sm font-medium text-slate-100">Validar katana, Dash, checkpoints e leitura de rota</p>
               </div>
@@ -157,7 +157,7 @@ export default async function HomePage() {
 
       <SectionContainer withDivider>
         <GlowCard variant="highlight" contentClassName="relative overflow-hidden p-5 text-center sm:p-8">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(99,221,255,0.16),transparent_34%),radial-gradient(circle_at_78%_70%,rgba(168,85,247,0.12),transparent_34%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(204,100,55,0.16),transparent_34%),radial-gradient(circle_at_78%_70%,rgba(245,242,237,0.12),transparent_34%)]" />
           <div className="relative z-10 mx-auto max-w-3xl">
             <div className="mx-auto mb-5 flex w-fit justify-center gap-3 rounded-2xl border border-cyan-200/10 bg-black/20 p-3">
               <GameGlyph name="download" />
