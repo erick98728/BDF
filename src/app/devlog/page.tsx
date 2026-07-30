@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AnimatedPageWrapper } from "@/components/AnimatedPageWrapper";
 import { GameGlyph, type GameGlyphName } from "@/components/GameGlyph";
-import { GlowCard } from "@/components/GlowCard";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
@@ -47,44 +46,41 @@ export default function DevlogPage() {
           title="Atualizações recentes"
           subtitle="Posts iniciais da jornada de desenvolvimento de Protótipo."
         />
-        <div className="grid gap-4 md:grid-cols-2">
-          {devlogPosts.map((post) => {
+        <ol className="devlog-ledger">
+          {devlogPosts.map((post, index) => {
             const icon = categoryGlyphs[post.category] ?? "lore";
             return (
-              <GlowCard
-                key={post.slug}
-                variant="quiet"
-                contentClassName="flex min-h-[250px] flex-col"
-              >
-                <div className="mb-4 flex items-start justify-between gap-3">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="rounded-full border border-cyan-200/25 bg-cyan-300/10 px-3 py-1 text-[11px] uppercase tracking-[0.12em] text-cyan-100">
-                      {post.category}
-                    </span>
-                    <span className="text-xs text-slate-400">{post.date}</span>
+              <li key={post.slug}>
+                <span className="devlog-ledger__index">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <article>
+                  <div className="devlog-ledger__meta">
+                    <span>{post.category}</span>
+                    <time>{post.date}</time>
                   </div>
-                  <GameGlyph name={icon} />
-                </div>
-                <h2 className="text-xl font-semibold text-white">
-                  {post.title}
-                </h2>
-                <p className="mt-3 text-sm leading-6 text-slate-300">
-                  {post.summary}
-                </p>
-                <div className="mt-4 grid gap-2 text-xs text-slate-400 sm:grid-cols-2">
-                  <span>{post.content.length} seções completas</span>
-                  <span>{post.progress.length} avanços registrados</span>
-                </div>
-                <Link
-                  href={`/devlog/${post.slug}`}
-                  className="tester-button mt-auto inline-flex w-fit rounded-lg border border-purple-300/30 bg-purple-300/10 px-4 py-2 text-sm font-medium text-purple-100 transition hover:bg-purple-300/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
-                >
-                  Ler mais
-                </Link>
-              </GlowCard>
+                  <h2>{post.title}</h2>
+                  <p className="devlog-ledger__summary">{post.summary}</p>
+                  <div className="devlog-ledger__facts">
+                    <span>{post.content.length} seções completas</span>
+                    <span>{post.progress.length} avanços registrados</span>
+                  </div>
+                  <Link
+                    href={`/devlog/${post.slug}`}
+                    className="devlog-ledger__link"
+                  >
+                    Ler mais
+                  </Link>
+                </article>
+                <GameGlyph
+                  name={icon}
+                  variant="plain"
+                  className="devlog-ledger__glyph"
+                />
+              </li>
             );
           })}
-        </div>
+        </ol>
       </SectionContainer>
     </AnimatedPageWrapper>
   );
