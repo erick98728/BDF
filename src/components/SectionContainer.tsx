@@ -3,7 +3,7 @@ import { MistDivider } from "./MistDivider";
 export function SectionContainer({ children, withDivider = false }: { children: React.ReactNode; withDivider?: boolean }) {
   return (
     <section
-      className="fx-section fx-content-auto py-7 sm:py-8 md:py-11"
+      className="site-section fx-section fx-content-auto"
       data-fx-watch="section"
     >
       {withDivider ? <MistDivider /> : null}
