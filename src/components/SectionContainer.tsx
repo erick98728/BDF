@@ -1,9 +1,22 @@
 import { MistDivider } from "./MistDivider";
 
-export function SectionContainer({ children, withDivider = false }: { children: React.ReactNode; withDivider?: boolean }) {
+type SectionContainerProps = {
+  children: React.ReactNode;
+  withDivider?: boolean;
+  id?: string;
+  className?: string;
+};
+
+export function SectionContainer({
+  children,
+  withDivider = false,
+  id,
+  className = "",
+}: SectionContainerProps) {
   return (
     <section
-      className="site-section fx-section fx-content-auto"
+      id={id}
+      className={`site-section fx-section fx-content-auto ${className}`.trim()}
       data-fx-watch="section"
     >
       {withDivider ? <MistDivider /> : null}
