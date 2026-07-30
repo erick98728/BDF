@@ -104,7 +104,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <BackgroundFog />
         <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-black focus:px-3 focus:py-2 focus:text-white">Pular para conteúdo</a>
         <Navbar />
-        <main id="conteudo" className="mx-auto min-h-[70vh] max-w-[1400px] px-4 pb-8 sm:px-6 sm:pb-10 lg:px-8">{children}</main>
+        <main id="conteudo" className="site-main">{children}</main>
         <Footer />
       </body>
     </html>
