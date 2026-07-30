@@ -1,17 +1,32 @@
 import Link from "next/link";
 import { BetaBadge, TesterMark } from "./TesterVisualSystem";
 
-const footerLinks = [
-  ["Início", "/"],
-  ["Download", "/download"],
-  ["Lore", "/lore"],
-  ["Personagens", "/personagens"],
-  ["Studio", "/studio"],
-  ["Devlog", "/devlog"],
-  ["Roadmap", "/roadmap"],
-  ["Galeria", "/galeria"],
-  ["Login", "/login"],
-  ["Feedback", "/feedback"],
+const footerGroups = [
+  {
+    title: "Explorar",
+    links: [
+      ["Início", "/"],
+      ["Lore", "/lore"],
+      ["Personagens", "/personagens"],
+      ["Galeria", "/galeria"],
+    ],
+  },
+  {
+    title: "Projeto",
+    links: [
+      ["Download", "/download"],
+      ["Studio", "/studio"],
+      ["Devlog", "/devlog"],
+      ["Roadmap", "/roadmap"],
+    ],
+  },
+  {
+    title: "Participar",
+    links: [
+      ["Login", "/login"],
+      ["Feedback", "/feedback"],
+    ],
+  },
 ] as const;
 
 export function Footer() {
@@ -41,20 +56,22 @@ export function Footer() {
           </div>
 
           <nav className="site-footer__nav" aria-label="Links do rodapé">
-            <p className="site-footer__nav-title">
-              Navegação rápida
-            </p>
-            <div className="site-footer__links">
-              {footerLinks.map(([label, href]) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className="site-footer__link nav-link-fx"
-                >
-                  {label}
-                </Link>
-              ))}
-            </div>
+            {footerGroups.map((group) => (
+              <div key={group.title} className="site-footer__group">
+                <p className="site-footer__nav-title">{group.title}</p>
+                <div className="site-footer__links">
+                  {group.links.map(([label, href]) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      className="site-footer__link"
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
           </nav>
         </div>
 
