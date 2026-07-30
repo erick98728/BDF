@@ -2,7 +2,7 @@ import Link from "next/link";
 import { BetaBadge, TesterMark } from "./TesterVisualSystem";
 
 const footerLinks = [
-  ["Home", "/"],
+  ["Início", "/"],
   ["Download", "/download"],
   ["Lore", "/lore"],
   ["Personagens", "/personagens"],
@@ -16,22 +16,22 @@ const footerLinks = [
 
 export function Footer() {
   return (
-    <footer className="mt-14 border-t border-white/10 bg-[#0b0b0b] py-8 sm:mt-20 sm:py-10">
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-7 md:grid-cols-[1.2fr_1.8fr] md:items-start">
+    <footer className="site-footer">
+      <div className="content-shell">
+        <div className="site-footer__grid">
           <div>
             <div className="flex items-center gap-3">
               <TesterMark compact />
               <div>
-                <p className="text-sm font-normal uppercase tracking-[0.2em] text-cyan-50">
+                <p className="site-footer__name">
                   Estúdio Protótipo
                 </p>
-                <p className="mt-1 text-xs uppercase tracking-[0.16em] text-cyan-200/80">
+                <p className="site-footer__motto">
                   Toda névoa guarda uma verdade
                 </p>
               </div>
             </div>
-            <p className="mt-4 max-w-sm text-sm leading-6 text-slate-300">
+            <p className="site-footer__description">
               Site oficial do metroidvania 2D Protótipo, reunindo protótipo
               jogável, roadmap, devlog e feedback do ciclo fechado.
             </p>
@@ -40,16 +40,16 @@ export function Footer() {
             </div>
           </div>
 
-          <nav className="md:text-right" aria-label="Links do rodapé">
-            <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
+          <nav className="site-footer__nav" aria-label="Links do rodapé">
+            <p className="site-footer__nav-title">
               Navegação rápida
             </p>
-            <div className="mt-3 grid grid-cols-2 gap-2 min-[420px]:grid-cols-3 md:flex md:flex-wrap md:justify-end">
+            <div className="site-footer__links">
               {footerLinks.map(([label, href]) => (
                 <Link
                   key={href}
                   href={href}
-                  className="nav-link-fx inline-flex min-h-10 items-center justify-center rounded-[1440px] border border-white/5 bg-white/[0.02] px-3 py-2 text-center text-xs font-normal text-slate-400 hover:border-cyan-200/20 hover:bg-cyan-300/7 hover:text-cyan-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+                  className="site-footer__link nav-link-fx"
                 >
                   {label}
                 </Link>
@@ -58,9 +58,9 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="mt-8 flex flex-col gap-2 border-t border-cyan-200/10 pt-5 text-xs leading-5 text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="site-footer__legal">
           <p>© 2026 Estúdio Protótipo. Todos os direitos reservados.</p>
-          <p className="uppercase tracking-[0.14em] text-slate-400">
+          <p className="site-footer__status">
             Protótipo em validação
           </p>
         </div>
