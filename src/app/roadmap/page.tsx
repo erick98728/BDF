@@ -28,19 +28,19 @@ const statusBadge: Record<
 export const metadata: Metadata = {
   title: "Roadmap",
   description:
-    "Roadmap honesto de Tester, separando o que já existe, o que está em teste, próximas melhorias e ideias futuras sem data definida.",
+    "Roadmap honesto de Protótipo, separando o que já existe, o que está em teste, próximas melhorias e ideias futuras sem data definida.",
   alternates: { canonical: "/roadmap" },
   openGraph: {
-    title: "Roadmap | Tester",
+    title: "Roadmap | Protótipo",
     description:
-      "Roadmap honesto de Tester, separando o que já existe, o que está em teste, próximas melhorias e ideias futuras sem data definida.",
+      "Roadmap honesto de Protótipo, separando o que já existe, o que está em teste, próximas melhorias e ideias futuras sem data definida.",
     url: "/roadmap",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Roadmap | Tester",
+    title: "Roadmap | Protótipo",
     description:
-      "Roadmap honesto de Tester, separando o que já existe, o que está em teste, próximas melhorias e ideias futuras sem data definida.",
+      "Roadmap honesto de Protótipo, separando o que já existe, o que está em teste, próximas melhorias e ideias futuras sem data definida.",
   },
 };
 
@@ -49,7 +49,7 @@ export default function RoadmapPage() {
     <AnimatedPageWrapper>
       <PageHeader
         title="Roadmap"
-        description="Estado real do projeto Tester: o que já funciona, o que está em teste e o que fica para depois da Beta 0.1. Sem datas inventadas e sem promessa de versão final."
+        description="Estado real do projeto Protótipo: o que já funciona, o que está em teste e o que fica para depois da Beta 0.1. Sem datas inventadas e sem promessa de versão final."
       />
 
       <SectionContainer>

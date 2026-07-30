@@ -24,7 +24,7 @@ const currentCharacters: CharacterShowcase[] = [
     betaRole:
       "Conduzir o jogador pela primeira leitura de movimentação, combate, exploração e progressão por habilidade.",
     abilities: ["Katana", "Dash", "Exploração", "Leitura de rotas"],
-    altText: "Representação visual de Rubens, protagonista jogável de Tester.",
+    altText: "Representação visual de Rubens, protagonista jogável de Protótipo.",
   },
   {
     name: "Lucarelli",
@@ -38,7 +38,7 @@ const currentCharacters: CharacterShowcase[] = [
     betaRole:
       "Marcar o primeiro confronto importante da demo e validar se o jogador entendeu movimentação, ataque e posicionamento.",
     abilities: ["Pressão", "Investida", "Arena", "Bloqueio"],
-    altText: "Representação visual de Lucarelli, chefe inicial de Tester.",
+    altText: "Representação visual de Lucarelli, chefe inicial de Protótipo.",
   },
 ];
 
@@ -73,7 +73,7 @@ const futureCharacters: CharacterShowcase[] = [
       "Não participa da Beta 0.1 como personagem central. Serve apenas como sinal de expansão posterior do elenco.",
     abilities: ["Bloqueado", "Futuro", "Narrativa", "Mistério"],
     altText:
-      "Representação visual reservada de Kin, personagem futuro de Tester.",
+      "Representação visual reservada de Kin, personagem futuro de Protótipo.",
   },
   {
     name: "Shico",
@@ -88,7 +88,7 @@ const futureCharacters: CharacterShowcase[] = [
       "Aparece apenas como reserva de universo, sem participação ativa prometida na build atual.",
     abilities: ["Bloqueado", "Futuro", "Névoa", "Segredo"],
     altText:
-      "Representação visual reservada de Shico, personagem futuro de Tester.",
+      "Representação visual reservada de Shico, personagem futuro de Protótipo.",
   },
   {
     name: "Conteúdo reservado",
@@ -110,19 +110,19 @@ const futureCharacters: CharacterShowcase[] = [
 export const metadata: Metadata = {
   title: "Personagens",
   description:
-    "Conheça Rubens, Lucarelli, inimigos do Bosque e personagens reservados para depois da Beta 0.1 no universo de Tester.",
+    "Conheça Rubens, Lucarelli, inimigos do Bosque e personagens reservados para depois da Beta 0.1 no universo de Protótipo.",
   alternates: { canonical: "/personagens" },
   openGraph: {
-    title: "Personagens | Tester",
+    title: "Personagens | Protótipo",
     description:
-      "Conheça Rubens, Lucarelli, inimigos do Bosque e personagens reservados para depois da Beta 0.1 no universo de Tester.",
+      "Conheça Rubens, Lucarelli, inimigos do Bosque e personagens reservados para depois da Beta 0.1 no universo de Protótipo.",
     url: "/personagens",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Personagens | Tester",
+    title: "Personagens | Protótipo",
     description:
-      "Conheça Rubens, Lucarelli, inimigos do Bosque e personagens reservados para depois da Beta 0.1 no universo de Tester.",
+      "Conheça Rubens, Lucarelli, inimigos do Bosque e personagens reservados para depois da Beta 0.1 no universo de Protótipo.",
   },
 };
 

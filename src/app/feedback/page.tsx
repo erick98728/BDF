@@ -129,7 +129,7 @@ export default function FeedbackPage() {
     }
 
     setSuccess(
-      "Feedback enviado com sucesso. Obrigado por ajudar a melhorar Tester.",
+      "Feedback enviado com sucesso. Obrigado por ajudar a melhorar Protótipo.",
     );
     setLoading(false);
     setFormData((p) => ({ ...initialData, email: p.email }));
@@ -141,7 +141,7 @@ export default function FeedbackPage() {
         variant="compact"
         eyebrow="Feedback"
         title="Feedback"
-        description="Canal oficial para registrar sua experiência com o beta de Tester. Seu retorno é privado e essencial."
+        description="Canal oficial para registrar sua experiência com o beta de Protótipo. Seu retorno é privado e essencial."
       />
       <SectionContainer>
         <GlowCard

@@ -33,7 +33,7 @@ export const roadmapGroups: RoadmapGroup[] = [
       {
         title: "Fluxo de conta e dashboard",
         description: "Login server-side, cookies HttpOnly, dashboard privado e estado visual de download seguro já estão conectados ao site.",
-        scope: "Portal do tester",
+        scope: "Portal do testador",
         status: "done",
         icon: "user"
       },
@@ -88,7 +88,7 @@ export const roadmapGroups: RoadmapGroup[] = [
       },
       {
         title: "Checklist final da build",
-        description: "Validar checkpoints, respawn, HUD inicial, bugs bloqueantes e caminho mínimo antes de liberar para testers.",
+        description: "Validar checkpoints, respawn, HUD inicial, bugs bloqueantes e caminho mínimo antes de liberar para testadores.",
         scope: "Antes da liberação",
         status: "next",
         icon: "checklist"

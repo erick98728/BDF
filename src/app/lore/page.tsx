@@ -149,19 +149,19 @@ const mysteries = [
 export const metadata: Metadata = {
   title: "Lore",
   description:
-    "Conheça o Bosque da Névoa Perdida, os mistérios e a lore atmosférica de Tester sem revelar spoilers grandes da jornada.",
+    "Conheça o Bosque da Névoa Perdida, os mistérios e a lore atmosférica de Protótipo sem revelar spoilers grandes da jornada.",
   alternates: { canonical: "/lore" },
   openGraph: {
-    title: "Lore | Tester",
+    title: "Lore | Protótipo",
     description:
-      "Conheça o Bosque da Névoa Perdida, os mistérios e a lore atmosférica de Tester sem revelar spoilers grandes da jornada.",
+      "Conheça o Bosque da Névoa Perdida, os mistérios e a lore atmosférica de Protótipo sem revelar spoilers grandes da jornada.",
     url: "/lore",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lore | Tester",
+    title: "Lore | Protótipo",
     description:
-      "Conheça o Bosque da Névoa Perdida, os mistérios e a lore atmosférica de Tester sem revelar spoilers grandes da jornada.",
+      "Conheça o Bosque da Névoa Perdida, os mistérios e a lore atmosférica de Protótipo sem revelar spoilers grandes da jornada.",
   },
 };
 
@@ -172,7 +172,7 @@ export default async function LorePage() {
     <AnimatedPageWrapper>
       <PageHeader
         title="Lore"
-        description="O mundo de Tester guarda memórias, técnicas e sombras que ainda não foram reveladas por completo."
+        description="O mundo de Protótipo guarda memórias, técnicas e sombras que ainda não foram reveladas por completo."
       />
 
       <SectionContainer>

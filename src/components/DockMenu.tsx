@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-
-type DockPanel = "navigation" | "account";
+import { useEffect, useMemo, useRef } from "react";
+import type { CSSProperties } from "react";
+import { navLinks } from "@/data/site";
 
 type DockMenuProps = {
   pathname: string;
@@ -12,45 +12,35 @@ type DockMenuProps = {
   onSignOut: () => Promise<void>;
 };
 
-type DockItem = {
-  id: "inicio" | "calendario" | "mensagens" | "navegador" | "configuracoes";
-  name: "Início" | "Calendário" | "Mensagens" | "Navegador" | "Configurações";
-  href?: string;
-  panel?: DockPanel;
-};
+type DockEntry =
+  | {
+      kind: "link";
+      id: string;
+      label: string;
+      href: string;
+    }
+  | {
+      kind: "action";
+      id: string;
+      label: string;
+      action: "sign-out";
+    };
 
 type AnimatedDockItem = {
   element: HTMLElement;
-  control: HTMLElement;
-  baseSize: number;
-  currentSize: number;
-  targetSize: number;
-  velocity: number;
-  launchTimer: number | null;
+  scale: number;
+  targetScale: number;
+  scaleVelocity: number;
+  lift: number;
+  targetLift: number;
+  liftVelocity: number;
 };
 
-const dockItems: DockItem[] = [
-  { id: "inicio", name: "Início", href: "/" },
-  { id: "calendario", name: "Calendário", href: "/roadmap" },
-  { id: "mensagens", name: "Mensagens", href: "/feedback" },
-  { id: "navegador", name: "Navegador", panel: "navigation" },
-  { id: "configuracoes", name: "Configurações", panel: "account" },
-];
-
-const navigationLinks = [
-  { href: "/download", label: "Download" },
-  { href: "/lore", label: "Lore" },
-  { href: "/personagens", label: "Personagens" },
-  { href: "/studio", label: "Studio" },
-  { href: "/devlog", label: "Devlog" },
-  { href: "/galeria", label: "Galeria" },
-] as const;
-
-const CONFIG = Object.freeze({
-  influenceRadius: 150,
-  springStrength: 0.14,
-  springFriction: 0.72,
-  restThreshold: 0.02,
+const SPRING = Object.freeze({
+  influenceRadius: 132,
+  strength: 0.14,
+  friction: 0.72,
+  restThreshold: 0.001,
 });
 
 export function DockMenu({
@@ -59,51 +49,61 @@ export function DockMenu({
   adminAllowed,
   onSignOut,
 }: DockMenuProps) {
-  const viewportRef = useRef<HTMLDivElement>(null);
   const dockRef = useRef<HTMLElement>(null);
-  const statusRef = useRef<HTMLParagraphElement>(null);
-  const [openPanel, setOpenPanel] = useState<DockPanel | null>(null);
 
-  useEffect(() => {
-    setOpenPanel(null);
-  }, [pathname]);
+  const entries = useMemo<DockEntry[]>(() => {
+    const publicEntries = navLinks
+      .filter(({ href }) => href !== "/login")
+      .map(({ href, label }) => ({
+        kind: "link" as const,
+        id: href === "/" ? "inicio" : href.slice(1),
+        href,
+        label,
+      }));
 
-  useEffect(() => {
-    if (!openPanel) return;
-
-    function closeFromOutside(event: PointerEvent) {
-      if (
-        event.target instanceof Node &&
-        !viewportRef.current?.contains(event.target)
-      ) {
-        setOpenPanel(null);
-      }
+    if (!logged) {
+      return [
+        ...publicEntries,
+        {
+          kind: "link",
+          id: "login",
+          href: "/login",
+          label: "Login",
+        },
+      ];
     }
 
-    function closeFromKeyboard(event: KeyboardEvent) {
-      if (event.key !== "Escape") return;
-
-      const activeTrigger = dockRef.current?.querySelector<HTMLElement>(
-        '[aria-expanded="true"]',
-      );
-
-      setOpenPanel(null);
-      activeTrigger?.focus();
-    }
-
-    document.addEventListener("pointerdown", closeFromOutside);
-    document.addEventListener("keydown", closeFromKeyboard);
-
-    return () => {
-      document.removeEventListener("pointerdown", closeFromOutside);
-      document.removeEventListener("keydown", closeFromKeyboard);
-    };
-  }, [openPanel]);
+    return [
+      ...publicEntries,
+      {
+        kind: "link",
+        id: "dashboard",
+        href: "/dashboard",
+        label: "Dashboard",
+      },
+      ...(adminAllowed
+        ? [
+            {
+              kind: "link" as const,
+              id: "admin",
+              href: "/admin",
+              label: "Admin",
+            },
+          ]
+        : []),
+      {
+        kind: "action",
+        id: "sair",
+        label: "Sair",
+        action: "sign-out",
+      },
+    ];
+  }, [adminAllowed, logged]);
 
   useEffect(() => {
     const dock = dockRef.current;
     if (!dock) return;
-    const dockElement: HTMLElement = dock;
+    const dockElement = dock;
 
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -111,37 +111,17 @@ export function DockMenu({
     const finePointer = window.matchMedia(
       "(hover: hover) and (pointer: fine)",
     );
-    const itemElements = [
+    const items = [
       ...dock.querySelectorAll<HTMLElement>(".dock-menu__item"),
-    ];
-    const items = itemElements.flatMap<AnimatedDockItem>((element) => {
-      const control =
-        element.querySelector<HTMLElement>(".dock-menu__control");
-
-      if (!control) return [];
-
-      const computedStyle = getComputedStyle(element);
-      const inheritedBaseSize = Number.parseFloat(
-        computedStyle.getPropertyValue("--dock-menu-base-size"),
-      );
-      const measuredSize = Number.parseFloat(computedStyle.width);
-      const baseSize =
-        (Number.isFinite(inheritedBaseSize) && inheritedBaseSize > 0
-          ? inheritedBaseSize
-          : measuredSize) || 50;
-
-      return [
-        {
-          element,
-          control,
-          baseSize,
-          currentSize: baseSize,
-          targetSize: baseSize,
-          velocity: 0,
-          launchTimer: null,
-        },
-      ];
-    });
+    ].map<AnimatedDockItem>((element) => ({
+      element,
+      scale: 1,
+      targetScale: 1,
+      scaleVelocity: 0,
+      lift: 0,
+      targetLift: 0,
+      liftVelocity: 0,
+    }));
 
     const pointer = {
       clientX: 0,
@@ -150,63 +130,78 @@ export function DockMenu({
 
     let animationFrame = 0;
 
-    function getMaximumSize() {
-      const cssMaximum = Number.parseFloat(
-        getComputedStyle(dockElement).getPropertyValue(
-          "--dock-menu-maximum-size",
-        ),
+    function readNumberProperty(name: string, fallback: number) {
+      const value = Number.parseFloat(
+        getComputedStyle(dockElement).getPropertyValue(name),
       );
 
-      return Number.isFinite(cssMaximum) && cssMaximum > 0
-        ? cssMaximum
-        : 80;
+      return Number.isFinite(value) ? value : fallback;
     }
 
-    function setBaseTargets() {
+    function setRestTargets() {
       items.forEach((item) => {
-        item.targetSize = item.baseSize;
+        item.targetScale = 1;
+        item.targetLift = 0;
       });
     }
 
     function updateTargetsFromPointer() {
       if (!pointer.inside || !finePointer.matches) {
-        setBaseTargets();
+        setRestTargets();
         return;
       }
 
-      const maximumSize = getMaximumSize();
-      const centers = items.map((item) => {
-        const bounds = item.element.getBoundingClientRect();
-        return bounds.left + bounds.width / 2;
-      });
+      const maximumScale = readNumberProperty(
+        "--dock-menu-maximum-scale",
+        1.1,
+      );
+      const maximumLift = readNumberProperty(
+        "--dock-menu-maximum-lift",
+        6,
+      );
 
-      items.forEach((item, index) => {
-        const distance = Math.abs(pointer.clientX - centers[index]);
+      items.forEach((item) => {
+        const bounds = item.element.getBoundingClientRect();
+        const center = bounds.left + bounds.width / 2;
+        const distance = Math.abs(pointer.clientX - center);
         const influence = clamp(
-          1 - distance / CONFIG.influenceRadius,
+          1 - distance / SPRING.influenceRadius,
           0,
           1,
         );
+        const easedInfluence = influence * influence * (3 - 2 * influence);
 
-        item.targetSize =
-          item.baseSize + (maximumSize - item.baseSize) * influence;
+        item.targetScale =
+          1 + (maximumScale - 1) * easedInfluence;
+        item.targetLift = maximumLift * easedInfluence;
       });
     }
 
-    function renderReducedMotionState() {
+    function renderItem(item: AnimatedDockItem) {
+      item.element.style.setProperty(
+        "--dock-menu-scale",
+        item.scale.toFixed(4),
+      );
+      item.element.style.setProperty(
+        "--dock-menu-lift",
+        item.lift.toFixed(3),
+      );
+    }
+
+    function renderRestState() {
       if (animationFrame) {
         cancelAnimationFrame(animationFrame);
         animationFrame = 0;
       }
 
       items.forEach((item) => {
-        item.currentSize = item.baseSize;
-        item.targetSize = item.baseSize;
-        item.velocity = 0;
-        item.element.style.setProperty(
-          "--dock-menu-item-size",
-          `${item.baseSize}px`,
-        );
+        item.scale = 1;
+        item.targetScale = 1;
+        item.scaleVelocity = 0;
+        item.lift = 0;
+        item.targetLift = 0;
+        item.liftVelocity = 0;
+        renderItem(item);
       });
     }
 
@@ -217,30 +212,40 @@ export function DockMenu({
       let shouldContinue = false;
 
       items.forEach((item) => {
-        const displacement = item.targetSize - item.currentSize;
+        const scaleDisplacement = item.targetScale - item.scale;
+        const liftDisplacement = item.targetLift - item.lift;
 
-        item.velocity =
-          (item.velocity + displacement * CONFIG.springStrength) *
-          CONFIG.springFriction;
-        item.currentSize += item.velocity;
+        item.scaleVelocity =
+          (item.scaleVelocity + scaleDisplacement * SPRING.strength) *
+          SPRING.friction;
+        item.liftVelocity =
+          (item.liftVelocity + liftDisplacement * SPRING.strength) *
+          SPRING.friction;
+        item.scale += item.scaleVelocity;
+        item.lift += item.liftVelocity;
 
-        const isAtRest =
-          Math.abs(displacement) < CONFIG.restThreshold &&
-          Math.abs(item.velocity) < CONFIG.restThreshold;
+        const scaleAtRest =
+          Math.abs(scaleDisplacement) < SPRING.restThreshold &&
+          Math.abs(item.scaleVelocity) < SPRING.restThreshold;
+        const liftAtRest =
+          Math.abs(liftDisplacement) < SPRING.restThreshold &&
+          Math.abs(item.liftVelocity) < SPRING.restThreshold;
 
-        if (isAtRest) {
-          item.currentSize = item.targetSize;
-          item.velocity = 0;
-        } else {
+        if (scaleAtRest) {
+          item.scale = item.targetScale;
+          item.scaleVelocity = 0;
+        }
+
+        if (liftAtRest) {
+          item.lift = item.targetLift;
+          item.liftVelocity = 0;
+        }
+
+        if (!scaleAtRest || !liftAtRest) {
           shouldContinue = true;
         }
-      });
 
-      items.forEach((item) => {
-        item.element.style.setProperty(
-          "--dock-menu-item-size",
-          `${item.currentSize.toFixed(2)}px`,
-        );
+        renderItem(item);
       });
 
       if (shouldContinue) {
@@ -250,19 +255,13 @@ export function DockMenu({
 
     function startAnimation() {
       if (reducedMotion.matches) {
-        renderReducedMotionState();
+        renderRestState();
         return;
       }
 
       if (!animationFrame) {
         animationFrame = requestAnimationFrame(animate);
       }
-    }
-
-    function resetMagnification() {
-      pointer.inside = false;
-      setBaseTargets();
-      startAnimation();
     }
 
     function handlePointerMove(event: PointerEvent) {
@@ -273,196 +272,65 @@ export function DockMenu({
       startAnimation();
     }
 
-    function handlePointerLeave() {
+    function resetMagnification() {
       pointer.inside = false;
-      setBaseTargets();
+      setRestTargets();
       startAnimation();
     }
-
-    function handleResize() {
-      items.forEach((item) => {
-        const cssSize = Number.parseFloat(
-          getComputedStyle(item.element).getPropertyValue(
-            "--dock-menu-base-size",
-          ),
-        );
-
-        if (Number.isFinite(cssSize) && cssSize > 0) {
-          item.baseSize = cssSize;
-        }
-      });
-
-      resetMagnification();
-    }
-
-    function setPressed(item: AnimatedDockItem, isPressed: boolean) {
-      item.element.classList.toggle("is-pressed", isPressed);
-    }
-
-    function announceSelection(item: AnimatedDockItem) {
-      const appName = item.element.dataset.app ?? "Aplicativo";
-
-      if (item.launchTimer) {
-        window.clearTimeout(item.launchTimer);
-      }
-
-      item.element.classList.remove("is-launched");
-
-      requestAnimationFrame(() => {
-        item.element.classList.add("is-launched");
-      });
-
-      item.launchTimer = window.setTimeout(() => {
-        item.element.classList.remove("is-launched");
-      }, 400);
-
-      if (statusRef.current) {
-        statusRef.current.textContent = `${appName} selecionado.`;
-      }
-    }
-
-    const itemCleanups = items.map((item) => {
-      const handlePointerDown = () => setPressed(item, true);
-      const release = () => setPressed(item, false);
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key !== "Enter" && event.key !== " ") return;
-
-        if (event.key === " ") {
-          event.preventDefault();
-        }
-
-        if (!event.repeat) {
-          setPressed(item, true);
-        }
-      };
-      const handleKeyUp = (event: KeyboardEvent) => {
-        if (event.key !== "Enter" && event.key !== " ") return;
-
-        if (event.key === " ") {
-          event.preventDefault();
-        }
-
-        setPressed(item, false);
-
-        if (
-          event.key === " " &&
-          item.control instanceof HTMLAnchorElement
-        ) {
-          item.control.click();
-        }
-      };
-      const handleClick = () => announceSelection(item);
-
-      item.control.addEventListener("pointerdown", handlePointerDown);
-      item.control.addEventListener("pointerup", release);
-      item.control.addEventListener("pointercancel", release);
-      item.control.addEventListener("pointerleave", release);
-      item.control.addEventListener("lostpointercapture", release);
-      item.control.addEventListener("keydown", handleKeyDown);
-      item.control.addEventListener("keyup", handleKeyUp);
-      item.control.addEventListener("blur", release);
-      item.control.addEventListener("click", handleClick);
-
-      return () => {
-        item.control.removeEventListener(
-          "pointerdown",
-          handlePointerDown,
-        );
-        item.control.removeEventListener("pointerup", release);
-        item.control.removeEventListener("pointercancel", release);
-        item.control.removeEventListener("pointerleave", release);
-        item.control.removeEventListener(
-          "lostpointercapture",
-          release,
-        );
-        item.control.removeEventListener("keydown", handleKeyDown);
-        item.control.removeEventListener("keyup", handleKeyUp);
-        item.control.removeEventListener("blur", release);
-        item.control.removeEventListener("click", handleClick);
-      };
-    });
 
     dock.addEventListener("pointermove", handlePointerMove, {
       passive: true,
     });
-    dock.addEventListener("pointerleave", handlePointerLeave);
-    window.addEventListener("resize", handleResize, { passive: true });
+    dock.addEventListener("pointerleave", resetMagnification);
+    window.addEventListener("resize", resetMagnification, {
+      passive: true,
+    });
     finePointer.addEventListener("change", resetMagnification);
-    reducedMotion.addEventListener("change", resetMagnification);
+    reducedMotion.addEventListener("change", renderRestState);
 
     return () => {
       if (animationFrame) {
         cancelAnimationFrame(animationFrame);
       }
 
-      items.forEach((item) => {
-        if (item.launchTimer) {
-          window.clearTimeout(item.launchTimer);
-        }
-      });
-      itemCleanups.forEach((cleanup) => cleanup());
       dock.removeEventListener("pointermove", handlePointerMove);
-      dock.removeEventListener("pointerleave", handlePointerLeave);
-      window.removeEventListener("resize", handleResize);
+      dock.removeEventListener("pointerleave", resetMagnification);
+      window.removeEventListener("resize", resetMagnification);
       finePointer.removeEventListener("change", resetMagnification);
-      reducedMotion.removeEventListener(
-        "change",
-        resetMagnification,
-      );
+      reducedMotion.removeEventListener("change", renderRestState);
     };
-  }, []);
-
-  function togglePanel(panel: DockPanel) {
-    setOpenPanel((current) => (current === panel ? null : panel));
-  }
-
-  function isDockItemActive(item: DockItem) {
-    if (item.id === "inicio") return pathname === "/";
-    if (item.id === "calendario") return pathname === "/roadmap";
-    if (item.id === "mensagens") return pathname === "/feedback";
-    if (item.id === "navegador") {
-      return (
-        openPanel === "navigation" ||
-        navigationLinks.some(({ href }) =>
-          routeMatches(pathname, href),
-        )
-      );
-    }
-
-    return (
-      openPanel === "account" ||
-      pathname === "/login" ||
-      pathname === "/dashboard" ||
-      pathname.startsWith("/admin")
-    );
-  }
+  }, [entries]);
 
   return (
-    <div className="dock-menu-viewport" ref={viewportRef}>
+    <div className="dock-menu-viewport">
       <nav
         className="dock-menu"
-        data-dock-menu
-        aria-label="Menu principal"
+        aria-label="Navegação principal"
         ref={dockRef}
       >
         <ul className="dock-menu__list" role="list">
-          {dockItems.map((item) => {
-            const tooltipId = `dock-menu-tooltip-${item.id}`;
-            const panelId = item.panel
-              ? `dock-menu-panel-${item.panel}`
-              : undefined;
-            const active = isDockItemActive(item);
+          {entries.map((entry, index) => {
+            const active =
+              entry.kind === "link" &&
+              routeMatches(pathname, entry.href);
+            const tooltipId = `dock-menu-tooltip-${entry.id}`;
             const content = (
               <>
-                <span className="dock-menu__tile" aria-hidden="true">
-                  <DockIcon name={item.id} />
+                <span className="dock-menu__tile">
+                  <span className="dock-menu__label">{entry.label}</span>
+                  <span
+                    className="dock-menu__highlight"
+                    aria-hidden="true"
+                  />
                 </span>
                 <span
                   className="dock-menu__tooltip"
                   id={tooltipId}
                   role="tooltip"
                 >
-                  {item.name}
+                  {entry.kind === "action"
+                    ? "Sair da conta"
+                    : `Ir para ${entry.label}`}
                 </span>
                 <span
                   className="dock-menu__indicator"
@@ -474,17 +342,16 @@ export function DockMenu({
             return (
               <li
                 className={`dock-menu__item${active ? " is-active" : ""}`}
-                data-app={item.name}
-                key={item.id}
+                key={entry.id}
+                style={{ "--dock-menu-entry-index": index } as CSSProperties}
               >
-                {item.href ? (
+                {entry.kind === "link" ? (
                   <Link
                     className="dock-menu__control"
-                    href={item.href}
-                    aria-label={`Abrir ${item.name}`}
+                    href={entry.href}
+                    aria-label={`Ir para ${entry.label}`}
                     aria-describedby={tooltipId}
                     aria-current={active ? "page" : undefined}
-                    onClick={() => setOpenPanel(null)}
                   >
                     {content}
                   </Link>
@@ -492,12 +359,9 @@ export function DockMenu({
                   <button
                     className="dock-menu__control"
                     type="button"
-                    aria-label={`Abrir ${item.name}`}
+                    aria-label="Sair da conta"
                     aria-describedby={tooltipId}
-                    aria-expanded={openPanel === item.panel}
-                    aria-controls={panelId}
-                    aria-haspopup="menu"
-                    onClick={() => item.panel && togglePanel(item.panel)}
+                    onClick={() => void onSignOut()}
                   >
                     {content}
                   </button>
@@ -507,147 +371,13 @@ export function DockMenu({
           })}
         </ul>
       </nav>
-
-      {openPanel === "navigation" ? (
-        <div
-          className="dock-menu__popover dock-menu__popover--navigation"
-          id="dock-menu-panel-navigation"
-          role="menu"
-          aria-label="Páginas do site"
-        >
-          <p className="dock-menu__popover-title">Navegação</p>
-          <div className="dock-menu__popover-grid">
-            {navigationLinks.map(({ href, label }) => (
-              <Link
-                className="dock-menu__popover-link"
-                data-active={routeMatches(pathname, href)}
-                href={href}
-                key={href}
-                role="menuitem"
-                onClick={() => setOpenPanel(null)}
-              >
-                {label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      ) : null}
-
-      {openPanel === "account" ? (
-        <div
-          className="dock-menu__popover dock-menu__popover--account"
-          id="dock-menu-panel-account"
-          role="menu"
-          aria-label="Conta e configurações"
-        >
-          <p className="dock-menu__popover-title">Configurações</p>
-          {logged ? (
-            <div className="dock-menu__popover-grid">
-              <Link
-                className="dock-menu__popover-link"
-                data-active={pathname === "/dashboard"}
-                href="/dashboard"
-                role="menuitem"
-                onClick={() => setOpenPanel(null)}
-              >
-                Painel
-              </Link>
-              {adminAllowed ? (
-                <Link
-                  className="dock-menu__popover-link"
-                  data-active={pathname.startsWith("/admin")}
-                  href="/admin"
-                  role="menuitem"
-                  onClick={() => setOpenPanel(null)}
-                >
-                  Administração
-                </Link>
-              ) : null}
-              <button
-                className="dock-menu__popover-link"
-                type="button"
-                role="menuitem"
-                onClick={async () => {
-                  setOpenPanel(null);
-                  await onSignOut();
-                }}
-              >
-                Sair
-              </button>
-            </div>
-          ) : (
-            <Link
-              className="dock-menu__popover-link"
-              data-active={pathname === "/login"}
-              href="/login"
-              role="menuitem"
-              onClick={() => setOpenPanel(null)}
-            >
-              Entrar
-            </Link>
-          )}
-        </div>
-      ) : null}
-
-      <p
-        className="dock-menu__visually-hidden"
-        data-dock-status
-        aria-live="polite"
-        ref={statusRef}
-      />
     </div>
   );
 }
 
-function DockIcon({ name }: { name: DockItem["id"] }) {
-  const sharedProps = {
-    className: "dock-menu__icon",
-    viewBox: "0 0 24 24",
-    focusable: false,
-    "aria-hidden": true,
-  } as const;
-
-  switch (name) {
-    case "inicio":
-      return (
-        <svg {...sharedProps}>
-          <path d="m3 11 9-8 9 8" />
-          <path d="M5 10v10h14V10" />
-          <path d="M9 20v-6h6v6" />
-        </svg>
-      );
-    case "calendario":
-      return (
-        <svg {...sharedProps}>
-          <rect x="3" y="5" width="18" height="16" rx="2" />
-          <path d="M16 3v4M8 3v4M3 10h18" />
-          <path d="M8 14h.01M12 14h.01M16 14h.01M8 17h.01M12 17h.01" />
-        </svg>
-      );
-    case "mensagens":
-      return (
-        <svg {...sharedProps}>
-          <path d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9.7 9.7 0 0 1-4-.9L3 21l1.7-4.4A8.5 8.5 0 1 1 21 11.5Z" />
-        </svg>
-      );
-    case "navegador":
-      return (
-        <svg {...sharedProps}>
-          <circle cx="12" cy="12" r="9" />
-          <path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" />
-        </svg>
-      );
-    case "configuracoes":
-      return (
-        <svg {...sharedProps}>
-          <path d="M12.2 2h-.4a2 2 0 0 0-2 2v.2a2 2 0 0 1-1 1.7l-.4.2a2 2 0 0 1-2 0l-.2-.1a2 2 0 0 0-2.7.7l-.2.4a2 2 0 0 0 .7 2.7l.2.1a2 2 0 0 1 1 1.8v.5a2 2 0 0 1-1 1.7l-.2.1a2 2 0 0 0-.7 2.7l.2.4a2 2 0 0 0 2.7.7l.2-.1a2 2 0 0 1 2 0l.4.2a2 2 0 0 1 1 1.7v.2a2 2 0 0 0 2 2h.4a2 2 0 0 0 2-2v-.2a2 2 0 0 1 1-1.7l.4-.2a2 2 0 0 1 2 0l.2.1a2 2 0 0 0 2.7-.7l.2-.4a2 2 0 0 0-.7-2.7l-.2-.1a2 2 0 0 1-1-1.7v-.5a2 2 0 0 1 1-1.8l.2-.1a2 2 0 0 0 .7-2.7l-.2-.4a2 2 0 0 0-2.7-.7l-.2.1a2 2 0 0 1-2 0l-.4-.2a2 2 0 0 1-1-1.7V4a2 2 0 0 0-2-2Z" />
-          <circle cx="12" cy="12" r="3" />
-        </svg>
-      );
-  }
-}
-
 function routeMatches(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 

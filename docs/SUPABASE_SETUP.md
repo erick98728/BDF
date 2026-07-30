@@ -1,6 +1,6 @@
-# Configuração do Supabase para o site Tester
+# Configuração do Supabase para o site Protótipo
 
-Este é o guia principal de configuração do Supabase para o site Tester. Ele explica como ativar login, dashboard autenticado e salvamento real do formulário de feedback. O arquivo `docs/supabase-feedback.md` é apenas um guia auxiliar rápido e deve permanecer sincronizado com esta estrutura oficial.
+Este é o guia principal de configuração do Supabase para o site Protótipo. Ele explica como ativar login, dashboard autenticado e salvamento real do formulário de feedback. O arquivo `docs/supabase-feedback.md` é apenas um guia auxiliar rápido e deve permanecer sincronizado com esta estrutura oficial.
 
 ## 1. Criar o projeto no Supabase
 
@@ -8,7 +8,7 @@ Este é o guia principal de configuração do Supabase para o site Tester. Ele e
 2. Crie uma conta ou faça login.
 3. Clique em **New project**.
 4. Escolha uma organização.
-5. Defina um nome para o projeto, por exemplo `tester-beta`.
+5. Defina um nome para o projeto, por exemplo `prototipo-beta`.
 6. Escolha uma região próxima do público principal.
 7. Aguarde a criação do projeto.
 
@@ -153,7 +153,7 @@ Para preparar feedbacks para visualização, triagem e auditoria no painel admin
 ```sql
 alter table public.beta_feedback
 add column if not exists user_id uuid references auth.users(id) on delete set null,
-add column if not exists beta_version text default 'Tester Beta 0.1',
+add column if not exists beta_version text default 'Protótipo Beta 0.1',
 add column if not exists status text not null default 'new' check (status in ('new', 'reviewing', 'resolved', 'ignored')),
 add column if not exists admin_notes text,
 add column if not exists reviewed_by uuid references auth.users(id) on delete set null,
@@ -161,7 +161,7 @@ add column if not exists reviewed_at timestamptz;
 ```
 
 - `user_id` permite vincular feedbacks ao usuário autenticado quando o envio for migrado para endpoint server-side.
-- `beta_version` registra a versão avaliada, começando em `Tester Beta 0.1`.
+- `beta_version` registra a versão avaliada, começando em `Protótipo Beta 0.1`.
 - `status`, `admin_notes`, `reviewed_by` e `reviewed_at` criam a base para triagem administrativa sem expor feedbacks a usuários comuns.
 
 ## 6. Habilitar RLS
@@ -531,4 +531,3 @@ A rota segura do Next.js `POST /api/beta/download` foi criada para:
 6. devolver a URL assinada para o usuário autenticado no formato `{ downloadUrl, version, platform, expiresIn }`.
 
 Não implemente geração de URL assinada diretamente no frontend e não use `NEXT_PUBLIC_BETA_DOWNLOAD_URL` nessa rota.
-

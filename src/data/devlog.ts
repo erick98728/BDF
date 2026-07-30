@@ -25,7 +25,7 @@ export const devlogPosts: DevlogPost[] = [
       {
         heading: "Objetivo da primeira área",
         paragraphs: [
-          "O Bosque da Névoa Perdida é tratado como a área de validação inicial de Tester. Ele não precisa representar o mapa final inteiro, mas precisa provar que exploração, retorno por atalhos e leitura visual funcionam juntos.",
+          "O Bosque da Névoa Perdida é tratado como a área de validação inicial de Protótipo. Ele não precisa representar o mapa final inteiro, mas precisa provar que exploração, retorno por atalhos e leitura visual funcionam juntos.",
           "A prioridade do bloco atual é criar um caminho que o jogador consiga entender sem depender de explicações longas: uma trilha principal, desvios curtos, pontos de risco e sinais visuais que indiquem que há algo além da tela imediata."
         ]
       },
@@ -58,7 +58,7 @@ export const devlogPosts: DevlogPost[] = [
       {
         heading: "Por que o Dash é importante",
         paragraphs: [
-          "O Dash é uma das primeiras habilidades usadas para medir o ritmo de Tester. Ele precisa funcionar tanto como ferramenta de travessia quanto como recurso de sobrevivência em combate.",
+          "O Dash é uma das primeiras habilidades usadas para medir o ritmo de Protótipo. Ele precisa funcionar tanto como ferramenta de travessia quanto como recurso de sobrevivência em combate.",
           "A implementação está sendo pensada com uma regra simples: o jogador deve sentir resposta imediata, mas ainda precisa escolher bem quando usar. Se o Dash resolver tudo sozinho, o combate perde leitura; se for rígido demais, a exploração fica travada."
         ]
       },
@@ -124,7 +124,7 @@ export const devlogPosts: DevlogPost[] = [
       {
         heading: "O que a primeira demo precisa provar",
         paragraphs: [
-          "A primeira demo jogável de Tester não precisa vender uma versão final. Ela precisa responder perguntas práticas: o controle está claro? O mapa orienta o jogador? O combate tem leitura? A dificuldade parece ajustável?",
+          "A primeira demo jogável de Protótipo não precisa vender uma versão final. Ela precisa responder perguntas práticas: o controle está claro? O mapa orienta o jogador? O combate tem leitura? A dificuldade parece ajustável?",
           "Por isso, o escopo da Beta 0.1 é limitado de propósito. É melhor testar um trecho pequeno com feedback útil do que prometer uma área grande sem estabilidade."
         ]
       },
@@ -143,7 +143,7 @@ export const devlogPosts: DevlogPost[] = [
     ],
     nextSteps: [
       "Validar o fluxo completo em Supabase real com usuário autorizado.",
-      "Fechar checklist mínimo da build antes de liberar para testers.",
+      "Fechar checklist mínimo da build antes de liberar para testadores.",
       "Publicar novos registros de devlog com decisões tomadas a partir do feedback."
     ]
   }

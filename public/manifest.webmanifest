@@ -1,7 +1,7 @@
 {
-  "name": "Tester - Site Oficial",
-  "short_name": "Tester",
-  "description": "Site oficial de Tester, metroidvania 2D sombrio em desenvolvimento, com beta fechado, lore, personagens, devlog, galeria e feedback.",
+  "name": "Protótipo - Site Oficial",
+  "short_name": "Protótipo",
+  "description": "Site oficial de Protótipo, metroidvania 2D sombrio em desenvolvimento, com beta fechado, lore, personagens, devlog, galeria e feedback.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

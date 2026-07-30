@@ -51,7 +51,7 @@ export function HeroSection() {
               <span className="h-px w-4 bg-[#cc6437]" />
               Site oficial · Em desenvolvimento
             </div>
-            <h1 className="max-w-3xl text-[clamp(3.5rem,12vw,9rem)] font-normal uppercase leading-[0.9] tracking-[-0.04em] text-white">Tester</h1>
+            <h1 className="max-w-3xl text-[clamp(3.5rem,12vw,9rem)] font-normal uppercase leading-[0.9] tracking-[-0.04em] text-white">Protótipo</h1>
             <p className="mt-4 max-w-2xl font-[var(--font-pragmatica)] text-base leading-7 text-slate-200 normal-case sm:text-lg sm:leading-8">
               Um metroidvania sombrio de exploração e combate, perdido entre ruínas, névoa e segredos de um bosque antigo.
             </p>

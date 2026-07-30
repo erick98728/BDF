@@ -608,7 +608,7 @@ function AdminShell({ children }: { children: ReactNode }) {
         variant="admin"
         eyebrow="Admin"
         title="Administração"
-        description="Painel privado para gerenciar conteúdo, usuários e permissões do projeto Tester."
+        description="Painel privado para gerenciar conteúdo, usuários e permissões do projeto Protótipo."
       />
       {children}
     </AnimatedPageWrapper>
@@ -1035,7 +1035,7 @@ function FeedbackAdminSection() {
       <SectionTitle
         eyebrow="Admin"
         title="Feedbacks do beta"
-        subtitle="Visualize, filtre e faça a triagem dos retornos privados enviados pelos testers."
+        subtitle="Visualize, filtre e faça a triagem dos retornos privados enviados pelos testadores."
       />
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         <FeedbackSummaryCard label="Total" value={summary.total} />
@@ -1076,7 +1076,7 @@ function FeedbackAdminSection() {
         <Input
           label="Versão"
           value={filters.version}
-          placeholder="Tester Beta 0.1"
+          placeholder="Protótipo Beta 0.1"
           onChange={(version) => setFilters({ ...filters, version })}
         />
         <Input

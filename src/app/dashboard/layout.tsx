@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Dashboard",
-  description: "Painel privado do jogador para acompanhar acesso ao beta, download, checklist e feedback de Tester.",
+  description: "Painel privado do jogador para acompanhar acesso ao beta, download, checklist e feedback de Protótipo.",
   alternates: { canonical: "/dashboard" },
   robots: {
     index: false,
@@ -13,14 +13,14 @@ export const metadata: Metadata = {
     }
   },
   openGraph: {
-    title: "Dashboard | Tester",
-    description: "Painel privado do jogador para acompanhar acesso ao beta, download, checklist e feedback de Tester.",
+    title: "Dashboard | Protótipo",
+    description: "Painel privado do jogador para acompanhar acesso ao beta, download, checklist e feedback de Protótipo.",
     url: "/dashboard"
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dashboard | Tester",
-    description: "Painel privado do jogador para acompanhar acesso ao beta, download, checklist e feedback de Tester."
+    title: "Dashboard | Protótipo",
+    description: "Painel privado do jogador para acompanhar acesso ao beta, download, checklist e feedback de Protótipo."
   }
 };
 

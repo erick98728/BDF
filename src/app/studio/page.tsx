@@ -16,7 +16,7 @@ const philosophy: { title: string; text: string; icon: GameGlyphName }[] = [
   {
     title: "Criar um universo próprio",
     icon: "lore",
-    text: "Tester busca uma identidade própria, com clima sombrio, exploração conectada e personagens que crescem junto com o jogo.",
+    text: "Protótipo busca uma identidade própria, com clima sombrio, exploração conectada e personagens que crescem junto com o jogo.",
   },
   {
     title: "Valorizar feedback",
@@ -31,7 +31,7 @@ const philosophy: { title: string; text: string; icon: GameGlyphName }[] = [
   {
     title: "Construir com comunidade",
     icon: "user",
-    text: "Amigos, testers e jogadores interessados ajudam a perceber detalhes que passam despercebidos durante o desenvolvimento.",
+    text: "Amigos, testadores e jogadores interessados ajudam a perceber detalhes que passam despercebidos durante o desenvolvimento.",
   },
 ];
 
@@ -66,19 +66,19 @@ const tools: { name: string; description: string; icon: GameGlyphName }[] = [
 export const metadata: Metadata = {
   title: "Studio",
   description:
-    "Conheça a visão independente por trás de Tester, um jogo indie brasileiro em protótipo jogável, feedback e evolução real.",
+    "Conheça a visão independente por trás de Protótipo, um jogo indie brasileiro em protótipo jogável, feedback e evolução real.",
   alternates: { canonical: "/studio" },
   openGraph: {
-    title: "Studio | Tester",
+    title: "Studio | Protótipo",
     description:
-      "Conheça a visão independente por trás de Tester, um jogo indie brasileiro em protótipo jogável, feedback e evolução real.",
+      "Conheça a visão independente por trás de Protótipo, um jogo indie brasileiro em protótipo jogável, feedback e evolução real.",
     url: "/studio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Studio | Tester",
+    title: "Studio | Protótipo",
     description:
-      "Conheça a visão independente por trás de Tester, um jogo indie brasileiro em protótipo jogável, feedback e evolução real.",
+      "Conheça a visão independente por trás de Protótipo, um jogo indie brasileiro em protótipo jogável, feedback e evolução real.",
   },
 };
 
@@ -93,14 +93,14 @@ export default function StudioPage() {
       <SectionContainer>
         <SectionTitle
           title="Sobre o projeto"
-          subtitle="Tester é um jogo indie em protótipo jogável, criado com foco em evolução real."
+          subtitle="Protótipo é um jogo indie em protótipo jogável, criado com foco em evolução real."
         />
         <GlowCard variant="panel">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
             <GameGlyph name="studio" />
             <div className="space-y-4 text-slate-300">
               <p>
-                Tester é um metroidvania 2D sombrio em construção, com foco
+                Protótipo é um metroidvania 2D sombrio em construção, com foco
                 inicial no Bosque da Névoa Perdida, combate com katana, Dash,
                 checkpoints e leitura de rota. O projeto está em ciclo de
                 protótipo jogável, por isso cada página, sistema e área testável
@@ -131,7 +131,7 @@ export default function StudioPage() {
             />
             <div className="space-y-4 text-sm leading-6 text-slate-300">
               <p>
-                Tester é conduzido por um desenvolvedor indie brasileiro em
+                Protótipo é conduzido por um desenvolvedor indie brasileiro em
                 formação, interessado em programação, jogos, narrativa e criação
                 de experiências interativas. O projeto funciona como um espaço
                 de aprendizado prático, onde código, design, documentação e
@@ -151,7 +151,7 @@ export default function StudioPage() {
       <SectionContainer withDivider>
         <SectionTitle
           title="Filosofia do projeto"
-          subtitle="Princípios que orientam cada versão de Tester."
+          subtitle="Princípios que orientam cada versão de Protótipo."
         />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {philosophy.map((item) => (
@@ -201,7 +201,7 @@ export default function StudioPage() {
       <SectionContainer withDivider>
         <SectionTitle
           title="Como o projeto evolui"
-          subtitle="A construção de Tester é dividida em etapas claras e testáveis. O roadmap público separa o que já funciona, o que está em teste e o que fica para depois."
+          subtitle="A construção de Protótipo é dividida em etapas claras e testáveis. O roadmap público separa o que já funciona, o que está em teste e o que fica para depois."
         />
         <div className="grid gap-4 md:grid-cols-3">
           <GlowCard
@@ -264,7 +264,7 @@ export default function StudioPage() {
         <div className="pb-16 text-center">
           <SectionTitle
             title="Acompanhe o desenvolvimento"
-            subtitle="Se você gosta de projetos autorais, acompanhe as próximas versões de Tester e participe com feedback quando a build estiver disponível."
+            subtitle="Se você gosta de projetos autorais, acompanhe as próximas versões de Protótipo e participe com feedback quando a build estiver disponível."
           />
         </div>
       </SectionContainer>

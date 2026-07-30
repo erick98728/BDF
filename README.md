@@ -1,10 +1,10 @@
-# Tester - Site Oficial
+# Protótipo - Site Oficial
 
-Site oficial do projeto Tester, feito com Next.js, TypeScript e Tailwind. O projeto reúne páginas públicas, dashboard, login com Supabase, feedback e documentação do processo de teste.
+Site oficial do projeto Protótipo, feito com Next.js, TypeScript e Tailwind. O projeto reúne páginas públicas, dashboard, login com Supabase, feedback e documentação do processo de teste.
 
 ## Estado atual do projeto
 
-Tester está em ciclo de protótipo jogável. A Beta 0.1 concentra o trabalho no trecho inicial do Bosque da Névoa Perdida, com trilhas, clareiras, atalhos, combate de katana, Dash, checkpoints e leitura de rota. O site separa o que já funciona, o que está em validação e o que fica reservado para depois, sem prometer data de lançamento ou versão final.
+Protótipo está em ciclo de protótipo jogável. A Beta 0.1 concentra o trabalho no trecho inicial do Bosque da Névoa Perdida, com trilhas, clareiras, atalhos, combate de katana, Dash, checkpoints e leitura de rota. O site separa o que já funciona, o que está em validação e o que fica reservado para depois, sem prometer data de lançamento ou versão final.
 
 Visitantes podem acompanhar o progresso pelo Devlog, consultar o Roadmap, conhecer Rubens e Lucarelli, ver a Galeria e enviar feedback quando participarem do teste. Conteúdos como Kin, Shico, novas áreas e sistemas maiores aparecem como reservas futuras, fora do escopo imediato da Beta 0.1.
 

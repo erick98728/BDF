@@ -13,17 +13,17 @@ import { loadSiteContent } from "@/lib/adminApi";
 
 export const metadata: Metadata = {
   title: "Início",
-  description: "Portal oficial de Tester, metroidvania 2D sombrio em protótipo jogável com trilhas conectadas, katana, Dash, devlog e roadmap público.",
+  description: "Portal oficial de Protótipo, metroidvania 2D sombrio em protótipo jogável com trilhas conectadas, katana, Dash, devlog e roadmap público.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Tester | Site Oficial do Jogo Indie",
-    description: "Portal oficial de Tester, metroidvania 2D sombrio em protótipo jogável com trilhas conectadas, katana, Dash, devlog e roadmap público.",
+    title: "Protótipo | Site Oficial do Jogo Indie",
+    description: "Portal oficial de Protótipo, metroidvania 2D sombrio em protótipo jogável com trilhas conectadas, katana, Dash, devlog e roadmap público.",
     url: "/"
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tester | Site Oficial do Jogo Indie",
-    description: "Portal oficial de Tester, metroidvania 2D sombrio em protótipo jogável com trilhas conectadas, katana, Dash, devlog e roadmap público."
+    title: "Protótipo | Site Oficial do Jogo Indie",
+    description: "Portal oficial de Protótipo, metroidvania 2D sombrio em protótipo jogável com trilhas conectadas, katana, Dash, devlog e roadmap público."
   }
 };
 
@@ -60,7 +60,7 @@ export default async function HomePage() {
       <SectionContainer>
         <SectionTitle
           eyebrow="Visão geral"
-          title="O que é Tester?"
+          title="O que é Protótipo?"
           subtitle="Um metroidvania 2D sombrio em protótipo, focado em trilhas conectadas, combate de katana, Dash e leitura de rota."
         />
         <div className="grid gap-4 lg:grid-cols-[1.25fr_0.75fr] lg:items-stretch">

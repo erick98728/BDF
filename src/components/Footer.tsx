@@ -24,7 +24,7 @@ export function Footer() {
               <TesterMark compact />
               <div>
                 <p className="text-sm font-normal uppercase tracking-[0.2em] text-cyan-50">
-                  Tester Studio
+                  Estúdio Protótipo
                 </p>
                 <p className="mt-1 text-xs uppercase tracking-[0.16em] text-cyan-200/80">
                   Toda névoa guarda uma verdade
@@ -32,7 +32,7 @@ export function Footer() {
               </div>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-6 text-slate-300">
-              Site oficial do metroidvania 2D Tester, reunindo protótipo
+              Site oficial do metroidvania 2D Protótipo, reunindo protótipo
               jogável, roadmap, devlog e feedback do ciclo fechado.
             </p>
             <div className="mt-4">
@@ -59,7 +59,7 @@ export function Footer() {
         </div>
 
         <div className="mt-8 flex flex-col gap-2 border-t border-cyan-200/10 pt-5 text-xs leading-5 text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 Tester Studio. Todos os direitos reservados.</p>
+          <p>© 2026 Estúdio Protótipo. Todos os direitos reservados.</p>
           <p className="uppercase tracking-[0.14em] text-slate-400">
             Protótipo em validação
           </p>

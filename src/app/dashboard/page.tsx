@@ -13,7 +13,7 @@ import { ProtectedDownloadCard, type SecureDownloadState } from "@/components/Pr
 import { BetaBadge, StatusBadge, VisualPanel } from "@/components/TesterVisualSystem";
 import { isSupabaseConfigured, supabaseSetupMessage } from "@/lib/supabaseClient";
 
-const betaVersion = "Tester Beta 0.1";
+const betaVersion = "Protótipo Beta 0.1";
 const betaSteps = [
   { text: "Acesse o painel com sua conta do beta", icon: "user" as const },
   { text: "Baixe a versão mais recente quando ela for liberada", icon: "download" as const },
@@ -71,12 +71,12 @@ export default function DashboardPage() {
     <AnimatedPageWrapper>
       <PageHeader
         variant="dashboard"
-        eyebrow="Painel do tester"
+        eyebrow="Painel do participante"
         title="Dashboard"
         description={
           isPreparationMode
             ? "Prévia do painel do jogador enquanto o acesso por conta é preparado."
-            : "Área privada para participantes do Tester Beta."
+            : "Área privada para participantes do Protótipo Beta."
         }
       />
 
@@ -90,7 +90,7 @@ export default function DashboardPage() {
                 <StatusBadge status={isPreparationMode ? "beta" : "ready"}>{isPreparationMode ? "Modo de preparação" : "Sessão autenticada"}</StatusBadge>
               </div>
               <h2 className="mt-3 text-2xl font-bold text-white sm:text-3xl">
-                {isPreparationMode ? "Prévia do painel do jogador" : "Bem-vindo ao Tester Beta"}
+                {isPreparationMode ? "Prévia do painel do jogador" : "Bem-vindo ao Protótipo Beta"}
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
                 Acompanhe versão, download, checklist de teste e envio de feedback em um painel organizado para participantes do beta.

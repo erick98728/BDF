@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Tester, site oficial do jogo indie";
+export const alt = "Protótipo, site oficial do jogo indie";
 export const size = {
   width: 1200,
   height: 630
@@ -94,7 +94,7 @@ export default function Image() {
             flexDirection: "column"
           }}
         >
-          <div style={{ fontSize: 96, lineHeight: 1, fontWeight: 900, letterSpacing: 8 }}>TESTER</div>
+          <div style={{ fontSize: 96, lineHeight: 1, fontWeight: 900, letterSpacing: 8 }}>PROTÓTIPO</div>
           <div style={{ marginTop: 22, fontSize: 24, letterSpacing: 5, color: "#bff4ff", fontWeight: 700 }}>
             SITE OFICIAL · BETA EM DESENVOLVIMENTO
           </div>

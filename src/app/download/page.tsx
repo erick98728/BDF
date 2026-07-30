@@ -9,7 +9,7 @@ import { SectionTitle } from "@/components/SectionTitle";
 import { BetaBadge, StatusBadge, VisualPanel } from "@/components/TesterVisualSystem";
 
 const betaStatus: { label: string; value: string; icon: GameGlyphName; status?: "beta" | "locked" | "warning" | "live" }[] = [
-  { label: "Versão atual", value: "Tester Beta 0.1", icon: "build", status: "beta" },
+  { label: "Versão atual", value: "Protótipo Beta 0.1", icon: "build", status: "beta" },
   { label: "Plataforma", value: "Windows", icon: "platform", status: "live" },
   { label: "Estado", value: "Preparação para beta fechado", icon: "status", status: "warning" },
   { label: "Distribuição", value: "Canal oficial do site", icon: "download", status: "locked" },
@@ -43,17 +43,17 @@ const validationItems: { text: string; icon: GameGlyphName; stage: "Implementado
 
 export const metadata: Metadata = {
   title: "Download",
-  description: "Painel oficial da build de teste de Tester para Windows, com escopo da Beta 0.1, requisitos preliminares e acesso controlado.",
+  description: "Painel oficial da build de teste de Protótipo para Windows, com escopo da Beta 0.1, requisitos preliminares e acesso controlado.",
   alternates: { canonical: "/download" },
   openGraph: {
-    title: "Download | Tester",
-    description: "Painel oficial da build de teste de Tester para Windows, com escopo da Beta 0.1, requisitos preliminares e acesso controlado.",
+    title: "Download | Protótipo",
+    description: "Painel oficial da build de teste de Protótipo para Windows, com escopo da Beta 0.1, requisitos preliminares e acesso controlado.",
     url: "/download"
   },
   twitter: {
     card: "summary_large_image",
-    title: "Download | Tester",
-    description: "Painel oficial da build de teste de Tester para Windows, com escopo da Beta 0.1, requisitos preliminares e acesso controlado."
+    title: "Download | Protótipo",
+    description: "Painel oficial da build de teste de Protótipo para Windows, com escopo da Beta 0.1, requisitos preliminares e acesso controlado."
   }
 };
 
@@ -63,8 +63,8 @@ export default function DownloadPage() {
       <PageHeader
         variant="compact"
         eyebrow="Download fechado"
-        title="Build de teste Tester"
-        description="Estado da build de teste para Windows. O download fica fechado até a Beta 0.1 estar pronta para testers autorizados."
+        title="Build de teste Protótipo"
+        description="Estado da build de teste para Windows. O download fica fechado até a Beta 0.1 estar pronta para testadores autorizados."
       />
 
       <SectionContainer>
@@ -162,9 +162,9 @@ export default function DownloadPage() {
         <SectionTitle eyebrow="Aviso" title="Aviso da build" subtitle="A Beta 0.1 serve para validar controles, rotas, checkpoints e estabilidade antes de divulgação maior." />
         <VisualPanel title="Versão de validação" eyebrow="Aviso oficial" icon="beta" tone="gold">
           <ul className="list-disc space-y-2 pl-5 text-sm leading-6 text-slate-300">
-            <li>Tester ainda está em construção ativa.</li>
+            <li>Protótipo ainda está em construção ativa.</li>
             <li>A build pode conter bugs, travamentos, áreas incompletas, ajustes de ritmo e mudanças de balanceamento.</li>
-            <li>O retorno dos testers será usado para melhorar controles, estabilidade, clareza visual, leitura de rota e dificuldade.</li>
+            <li>O retorno dos testadores será usado para melhorar controles, estabilidade, clareza visual, leitura de rota e dificuldade.</li>
             <li>A Beta 0.1 não representa uma versão final do jogo.</li>
           </ul>
         </VisualPanel>

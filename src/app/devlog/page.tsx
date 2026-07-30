@@ -18,19 +18,19 @@ const categoryGlyphs: Record<string, GameGlyphName> = {
 export const metadata: Metadata = {
   title: "Devlog",
   description:
-    "Acompanhe atualizações oficiais de desenvolvimento, progresso técnico, gameplay e decisões de produção do jogo indie Tester.",
+    "Acompanhe atualizações oficiais de desenvolvimento, progresso técnico, gameplay e decisões de produção do jogo indie Protótipo.",
   alternates: { canonical: "/devlog" },
   openGraph: {
-    title: "Devlog | Tester",
+    title: "Devlog | Protótipo",
     description:
-      "Acompanhe atualizações oficiais de desenvolvimento, progresso técnico, gameplay e decisões de produção do jogo indie Tester.",
+      "Acompanhe atualizações oficiais de desenvolvimento, progresso técnico, gameplay e decisões de produção do jogo indie Protótipo.",
     url: "/devlog",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Devlog | Tester",
+    title: "Devlog | Protótipo",
     description:
-      "Acompanhe atualizações oficiais de desenvolvimento, progresso técnico, gameplay e decisões de produção do jogo indie Tester.",
+      "Acompanhe atualizações oficiais de desenvolvimento, progresso técnico, gameplay e decisões de produção do jogo indie Protótipo.",
   },
 };
 
@@ -39,13 +39,13 @@ export default function DevlogPage() {
     <AnimatedPageWrapper>
       <PageHeader
         title="Devlog"
-        description="Acompanhe a evolução de Tester, versão por versão."
+        description="Acompanhe a evolução de Protótipo, versão por versão."
       />
 
       <SectionContainer>
         <SectionTitle
           title="Atualizações recentes"
-          subtitle="Posts iniciais da jornada de desenvolvimento de Tester."
+          subtitle="Posts iniciais da jornada de desenvolvimento de Protótipo."
         />
         <div className="grid gap-4 md:grid-cols-2">
           {devlogPosts.map((post) => {
