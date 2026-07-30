@@ -16,6 +16,15 @@ type PointerState = {
   dirty: boolean;
 };
 
+type SceneLightState = {
+  currentX: number;
+  currentY: number;
+  currentOpacity: number;
+  targetX: number;
+  targetY: number;
+  targetOpacity: number;
+};
+
 function clamp(value: number, minimum: number, maximum: number) {
   return Math.min(Math.max(value, minimum), maximum);
 }
@@ -44,6 +53,20 @@ export function ImpactEffects() {
     const finePointer = window.matchMedia(
       "(hover: hover) and (pointer: fine)",
     );
+    const root = document.documentElement;
+    const restingLight = () => ({
+      x: window.innerWidth * 0.72,
+      y: window.innerHeight * 0.18,
+    });
+    const initialLight = restingLight();
+    const sceneLight: SceneLightState = {
+      currentX: initialLight.x,
+      currentY: initialLight.y,
+      currentOpacity: 0.58,
+      targetX: initialLight.x,
+      targetY: initialLight.y,
+      targetOpacity: 0.58,
+    };
     const pointer: PointerState = {
       card: null,
       button: null,
@@ -165,6 +188,54 @@ export function ImpactEffects() {
       pointer.dirty = false;
     }
 
+    function setRestingLight() {
+      const resting = restingLight();
+      sceneLight.targetX = resting.x;
+      sceneLight.targetY = resting.y;
+      sceneLight.targetOpacity = 0.58;
+    }
+
+    function writeSceneLight() {
+      root.style.setProperty(
+        "--scene-light-x",
+        `${sceneLight.currentX.toFixed(1)}px`,
+      );
+      root.style.setProperty(
+        "--scene-light-y",
+        `${sceneLight.currentY.toFixed(1)}px`,
+      );
+      root.style.setProperty(
+        "--scene-light-opacity",
+        sceneLight.currentOpacity.toFixed(3),
+      );
+    }
+
+    function updateSceneLight() {
+      const interpolation = 0.13;
+      const xDelta = sceneLight.targetX - sceneLight.currentX;
+      const yDelta = sceneLight.targetY - sceneLight.currentY;
+      const opacityDelta =
+        sceneLight.targetOpacity - sceneLight.currentOpacity;
+
+      sceneLight.currentX += xDelta * interpolation;
+      sceneLight.currentY += yDelta * interpolation;
+      sceneLight.currentOpacity += opacityDelta * interpolation;
+
+      const isAtRest =
+        Math.abs(xDelta) < 0.35 &&
+        Math.abs(yDelta) < 0.35 &&
+        Math.abs(opacityDelta) < 0.003;
+
+      if (isAtRest) {
+        sceneLight.currentX = sceneLight.targetX;
+        sceneLight.currentY = sceneLight.targetY;
+        sceneLight.currentOpacity = sceneLight.targetOpacity;
+      }
+
+      writeSceneLight();
+      return !isAtRest;
+    }
+
     function updateScrollProgress() {
       const scrollRange =
         document.documentElement.scrollHeight - window.innerHeight;
@@ -192,8 +263,6 @@ export function ImpactEffects() {
       const rotateY = (x - 0.5) * 2.4;
 
       card.dataset.fxPointer = "active";
-      card.style.setProperty("--fx-pointer-x", `${(x * 100).toFixed(2)}%`);
-      card.style.setProperty("--fx-pointer-y", `${(y * 100).toFixed(2)}%`);
       card.style.setProperty("--fx-rotate-x", `${rotateX.toFixed(3)}deg`);
       card.style.setProperty("--fx-rotate-y", `${rotateY.toFixed(3)}deg`);
     }
@@ -209,8 +278,6 @@ export function ImpactEffects() {
       const y = clamp((pointer.clientY - bounds.top) / bounds.height, 0, 1);
 
       button.dataset.fxPointer = "active";
-      button.style.setProperty("--fx-pointer-x", `${(x * 100).toFixed(2)}%`);
-      button.style.setProperty("--fx-pointer-y", `${(y * 100).toFixed(2)}%`);
       button.style.setProperty(
         "--fx-button-x",
         `${((x - 0.5) * 7).toFixed(2)}px`,
@@ -223,6 +290,7 @@ export function ImpactEffects() {
 
     function flushFrame() {
       animationFrame = 0;
+      const sceneLightIsMoving = updateSceneLight();
 
       if (scrollDirty) {
         updateScrollProgress();
@@ -233,6 +301,10 @@ export function ImpactEffects() {
         updateCard();
         updateButton();
         pointer.dirty = false;
+      }
+
+      if (sceneLightIsMoving) {
+        scheduleFrame();
       }
     }
 
@@ -259,6 +331,10 @@ export function ImpactEffects() {
       const nextCard = findClosest(event.target, spotlightSelector);
       const nextButton = findClosest(event.target, magneticSelector);
 
+      sceneLight.targetX = event.clientX;
+      sceneLight.targetY = event.clientY;
+      sceneLight.targetOpacity = 0.9;
+
       if (pointer.card !== nextCard) {
         resetCard(pointer.card);
         pointer.card = nextCard;
@@ -278,12 +354,16 @@ export function ImpactEffects() {
     function handleWindowPointerOut(event: PointerEvent) {
       if (event.relatedTarget === null) {
         resetPointerEffects();
+        setRestingLight();
+        scheduleFrame();
       }
     }
 
     function handleCapabilityChange() {
       if (reducedMotion.matches || !finePointer.matches) {
         resetPointerEffects();
+        setRestingLight();
+        scheduleFrame();
       }
 
       if (reducedMotion.matches) {
@@ -302,11 +382,18 @@ export function ImpactEffects() {
       }
 
       scrollDirty = true;
+      setRestingLight();
+      scheduleFrame();
+    }
+
+    function handleResize() {
+      scrollDirty = true;
+      setRestingLight();
       scheduleFrame();
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll, { passive: true });
+    window.addEventListener("resize", handleResize, { passive: true });
     window.addEventListener("pointermove", handlePointerMove, {
       passive: true,
     });
@@ -314,19 +401,23 @@ export function ImpactEffects() {
     document.addEventListener("visibilitychange", handleVisibilityChange);
     finePointer.addEventListener("change", handleCapabilityChange);
     reducedMotion.addEventListener("change", handleCapabilityChange);
+    writeSceneLight();
     scheduleFrame();
 
     return () => {
       observer?.disconnect();
       imageCleanups.forEach((cleanup) => cleanup());
       resetPointerEffects();
+      root.style.removeProperty("--scene-light-x");
+      root.style.removeProperty("--scene-light-y");
+      root.style.removeProperty("--scene-light-opacity");
 
       if (animationFrame) {
         window.cancelAnimationFrame(animationFrame);
       }
 
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
+      window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerout", handleWindowPointerOut);
       document.removeEventListener(
