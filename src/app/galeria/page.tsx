@@ -172,7 +172,7 @@ export default function GalleryPage() {
           variant="panel"
           contentClassName="relative overflow-hidden p-5 sm:p-7"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(99,221,255,0.14),transparent_30%),radial-gradient(circle_at_86%_68%,rgba(168,85,247,0.12),transparent_34%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(204,100,55,0.14),transparent_30%),radial-gradient(circle_at_86%_68%,rgba(245,242,237,0.12),transparent_34%)]" />
           <div className="relative z-10 grid gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">
@@ -245,7 +245,7 @@ export default function GalleryPage() {
                 onClick={() => setActiveFilter(filter.label)}
                 className={`min-h-14 rounded-xl border px-3 py-3 text-left transition ${
                   active
-                    ? "border-cyan-200/55 bg-cyan-300/15 text-cyan-100 shadow-[0_0_24px_rgba(99,221,255,0.10)]"
+                    ? "border-cyan-200/55 bg-cyan-300/15 text-cyan-100 shadow-[0_0_24px_rgba(204,100,55,0.10)]"
                     : "border-white/10 bg-white/[0.04] text-slate-300 hover:border-cyan-200/25 hover:bg-white/[0.07]"
                 }`}
               >
