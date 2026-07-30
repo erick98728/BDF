@@ -9,10 +9,9 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
 import { BetaBadge, StatusBadge } from "@/components/TesterVisualSystem";
-import { writeAuthCookies } from "@/lib/authCookie";
 import { supabase, isSupabaseConfigured, supabaseSetupMessage } from "@/lib/supabaseClient";
 
-const fieldClass = "min-h-11 w-full rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 hover:border-cyan-200/30 hover:bg-black/25 focus:border-cyan-200/45 focus:bg-black/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200";
+const fieldClass = "form-field";
 
 export default function LoginPage() {
   const router = useRouter();
