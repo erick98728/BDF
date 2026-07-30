@@ -5,7 +5,6 @@ import {
   type CharacterShowcase,
 } from "@/components/CharacterShowcaseCard";
 import { GameGlyph } from "@/components/GameGlyph";
-import { GlowCard } from "@/components/GlowCard";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
@@ -150,62 +149,44 @@ export default async function CharactersPage() {
       />
 
       <SectionContainer>
-        <GlowCard
-          variant="panel"
-          contentClassName="relative overflow-hidden p-5 sm:p-7"
-        >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_10%,rgba(204,100,55,0.14),transparent_30%),radial-gradient(circle_at_82%_70%,rgba(204,100,55,0.10),transparent_34%)]" />
-          <div className="relative z-10 grid gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-            <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">
-                {editableCharacters.intro.eyebrow}
-              </p>
-              <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">
-                {editableCharacters.intro.title}
-              </h2>
-              <p className="mt-3 text-sm leading-6 text-slate-300">
-                {editableCharacters.intro.description}
-              </p>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-3">
-              <div className="rounded-xl border border-cyan-200/10 bg-black/20 px-4 py-3">
-                <GameGlyph
-                  name="katana"
-                  variant="plain"
-                  className="mb-2 h-5 w-5 text-cyan-100"
-                />
-                <p className="text-xs uppercase tracking-[0.14em] text-slate-400">
-                  Jogável
-                </p>
-                <p className="mt-1 text-sm font-medium text-white">Rubens</p>
-              </div>
-              <div className="rounded-xl border border-amber-200/10 bg-black/20 px-4 py-3">
-                <GameGlyph
-                  name="boss"
-                  variant="plain"
-                  className="mb-2 h-5 w-5 text-amber-100"
-                />
-                <p className="text-xs uppercase tracking-[0.14em] text-slate-400">
-                  Chefe
-                </p>
-                <p className="mt-1 text-sm font-medium text-white">Lucarelli</p>
-              </div>
-              <div className="rounded-xl border border-purple-200/10 bg-black/20 px-4 py-3">
-                <GameGlyph
-                  name="future"
-                  variant="plain"
-                  className="mb-2 h-5 w-5 text-purple-100"
-                />
-                <p className="text-xs uppercase tracking-[0.14em] text-slate-400">
-                  Reservas
-                </p>
-                <p className="mt-1 text-sm font-medium text-white">
-                  Fora da Beta 0.1
-                </p>
-              </div>
-            </div>
+        <div className="dossier-intro">
+          <div className="dossier-intro__copy">
+            <p className="editorial-label">
+              {editableCharacters.intro.eyebrow}
+            </p>
+            <h2>{editableCharacters.intro.title}</h2>
+            <p>{editableCharacters.intro.description}</p>
           </div>
-        </GlowCard>
+          <dl className="dossier-index">
+            <div>
+              <GameGlyph
+                name="katana"
+                variant="plain"
+                className="dossier-index__glyph"
+              />
+              <dt>Jogável</dt>
+              <dd>Rubens</dd>
+            </div>
+            <div>
+              <GameGlyph
+                name="boss"
+                variant="plain"
+                className="dossier-index__glyph dossier-index__glyph--ember"
+              />
+              <dt>Chefe</dt>
+              <dd>Lucarelli</dd>
+            </div>
+            <div>
+              <GameGlyph
+                name="future"
+                variant="plain"
+                className="dossier-index__glyph dossier-index__glyph--muted"
+              />
+              <dt>Reservas</dt>
+              <dd>Fora da Beta 0.1</dd>
+            </div>
+          </dl>
+        </div>
       </SectionContainer>
 
       <SectionContainer withDivider>
@@ -213,7 +194,7 @@ export default async function CharactersPage() {
           title="Elenco atual"
           subtitle="Foco atual da Beta 0.1: protagonista jogável e primeiro confronto importante."
         />
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="character-dossier-grid character-dossier-grid--featured">
           {editableCurrentCharacters.map((character) => (
             <CharacterShowcaseCard
               key={character.name}
@@ -229,34 +210,26 @@ export default async function CharactersPage() {
           title="Ameaças do Bosque"
           subtitle="Inimigos e presenças usadas para ensinar ritmo, risco e leitura de espaço."
         />
-        <div className="grid gap-4 lg:grid-cols-[0.85fr_1.15fr] lg:items-stretch">
+        <div className="character-threats">
           {editableEnemyCharacters.map((character) => (
             <CharacterShowcaseCard key={character.name} character={character} />
           ))}
-          <GlowCard
-            variant="quiet"
-            contentClassName="flex h-full flex-col justify-center"
-          >
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-              <GameGlyph
-                name="fog"
-                className="h-12 w-12 border-emerald-200/20 bg-emerald-300/10 text-emerald-100"
-              />
-              <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-emerald-200/80">
-                  Função de design
-                </p>
-                <h3 className="mt-2 text-xl font-semibold text-white">
-                  Ameaças simples, leitura importante.
-                </h3>
-                <p className="mt-3 text-sm leading-6 text-slate-300">
+          <aside className="character-design-note">
+            <GameGlyph
+              name="fog"
+              variant="plain"
+              className="character-design-note__glyph"
+            />
+            <div>
+              <p className="editorial-label">Função de design</p>
+              <h3>Ameaças simples, leitura importante.</h3>
+              <p>
                   Os inimigos comuns não precisam revelar lore demais. Eles
                   existem para criar pressão, ensinar distância e preparar o
                   jogador para Lucarelli.
-                </p>
-              </div>
+              </p>
             </div>
-          </GlowCard>
+          </aside>
         </div>
       </SectionContainer>
 
@@ -265,7 +238,7 @@ export default async function CharactersPage() {
           title="Reservado para depois"
           subtitle="Conteúdo reservado com detalhes preservados para manter mistério e evitar promessas prematuras."
         />
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="character-dossier-grid character-dossier-grid--reserved">
           {editableFutureCharacters.map((character) => (
             <CharacterShowcaseCard
               key={character.name}
