@@ -57,7 +57,7 @@ export default function RoadmapPage() {
           variant="panel"
           contentClassName="relative overflow-hidden p-5 sm:p-7"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(99,221,255,0.14),transparent_32%),radial-gradient(circle_at_86%_70%,rgba(251,191,36,0.10),transparent_34%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(204,100,55,0.14),transparent_32%),radial-gradient(circle_at_86%_70%,rgba(251,191,36,0.10),transparent_34%)]" />
           <div className="relative z-10 grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">
