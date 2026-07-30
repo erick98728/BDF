@@ -15,18 +15,41 @@ function HeroVisual() {
   return (
     <div className="hero-visual" aria-hidden="true">
       <div className="hero-visual__halo" />
-      <div className="hero-visual__orbit hero-visual__orbit--outer" />
-      <div className="hero-visual__orbit hero-visual__orbit--inner" />
+      <svg
+        viewBox="0 0 560 520"
+        className="hero-visual__map"
+        fill="none"
+      >
+        <path
+          d="M24 403C98 351 124 384 181 309C224 252 211 197 284 172C356 147 394 199 438 133C471 84 512 94 548 47"
+          className="hero-visual__route hero-visual__route--main"
+        />
+        <path
+          d="M181 309C239 335 284 323 329 282C371 244 411 261 465 225"
+          className="hero-visual__route hero-visual__route--secondary"
+        />
+        <path
+          d="M284 172C252 124 222 99 166 87"
+          className="hero-visual__route hero-visual__route--secondary"
+        />
+        <path
+          d="M75 430h138M96 449h78M378 64h126M407 84h68"
+          className="hero-visual__record-line"
+        />
+        <circle cx="181" cy="309" r="7" className="hero-visual__node" />
+        <circle cx="284" cy="172" r="6" className="hero-visual__node" />
+        <circle cx="438" cy="133" r="8" className="hero-visual__node hero-visual__node--active" />
+      </svg>
       <ForestSigil className="hero-visual__sigil" />
-      <div className="hero-visual__glyph hero-visual__glyph--map">
-        <GameGlyph name="map" variant="plain" className="h-6 w-6" />
-      </div>
-      <div className="hero-visual__glyph hero-visual__glyph--ruin">
-        <GameGlyph name="ruin" variant="plain" className="h-6 w-6" />
-      </div>
-      <div className="hero-visual__glyph hero-visual__glyph--dash">
-        <GameGlyph name="dash" variant="plain" className="h-6 w-6" />
-      </div>
+      <span className="hero-visual__coordinate hero-visual__coordinate--origin">
+        01 · Bosque
+      </span>
+      <span className="hero-visual__coordinate hero-visual__coordinate--ruin">
+        Ruína
+      </span>
+      <span className="hero-visual__coordinate hero-visual__coordinate--route">
+        Rota em teste
+      </span>
     </div>
   );
 }
@@ -84,6 +107,11 @@ export function HeroSection() {
             <HeroVisual />
           </motion.div>
         </div>
+
+        <a className="hero-section__next" href="#visao-geral">
+          <span>Visão geral</span>
+          <span aria-hidden="true">↓</span>
+        </a>
       </div>
     </section>
   );
