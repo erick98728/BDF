@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { GameGlyph, type GameGlyphName } from "./GameGlyph";
-import { GlowCard } from "./GlowCard";
 
 export type CharacterVisualKind =
   | "rubens"
@@ -35,32 +34,32 @@ type VisualStyle = {
 
 const visualStyles: Record<CharacterVisualKind, VisualStyle> = {
   rubens: {
-    frame: "border-cyan-200/20 bg-cyan-300/10",
-    glyph: "text-cyan-100",
-    badge: "border-cyan-200/25 bg-cyan-300/10 text-cyan-100",
-    aura: "bg-cyan-300/[0.18]",
-    marker: "bg-cyan-200",
+    frame: "character-visual--route",
+    glyph: "text-[var(--color-route-soft)]",
+    badge: "border-[color:var(--color-route-border)] bg-[color:var(--color-route-subtle)] text-[var(--color-route-soft)]",
+    aura: "bg-[color:var(--color-route-subtle)]",
+    marker: "bg-[var(--color-route)]",
   },
   lucarelli: {
-    frame: "border-amber-200/25 bg-amber-300/10",
-    glyph: "text-amber-100",
-    badge: "border-amber-200/30 bg-amber-300/10 text-amber-100",
-    aura: "bg-amber-300/[0.18]",
-    marker: "bg-amber-200",
+    frame: "character-visual--ember",
+    glyph: "text-[var(--color-accent-soft)]",
+    badge: "border-[color:var(--color-border-accent)] bg-[color:var(--surface-accent-subtle)] text-[var(--color-accent-soft)]",
+    aura: "bg-[color:var(--surface-accent-subtle)]",
+    marker: "bg-[var(--color-accent)]",
   },
   enemy: {
-    frame: "border-emerald-200/20 bg-emerald-300/10",
-    glyph: "text-emerald-100",
-    badge: "border-emerald-200/25 bg-emerald-300/10 text-emerald-100",
-    aura: "bg-emerald-300/[0.16]",
-    marker: "bg-emerald-200",
+    frame: "character-visual--neutral",
+    glyph: "text-[var(--color-text-muted)]",
+    badge: "border-white/15 bg-white/[0.035] text-[var(--color-text-muted)]",
+    aura: "bg-white/[0.06]",
+    marker: "bg-[var(--color-text-muted)]",
   },
   future: {
-    frame: "border-purple-200/20 bg-purple-300/10",
-    glyph: "text-purple-100",
-    badge: "border-purple-200/25 bg-purple-300/10 text-purple-100",
-    aura: "bg-purple-300/[0.16]",
-    marker: "bg-purple-200",
+    frame: "character-visual--neutral",
+    glyph: "text-[var(--color-text-dim)]",
+    badge: "border-white/10 bg-white/[0.025] text-[var(--color-text-dim)]",
+    aura: "bg-white/[0.04]",
+    marker: "bg-[var(--color-text-dim)]",
   },
   planned: {
     frame: "border-slate-200/15 bg-white/5",
@@ -82,7 +81,7 @@ function AbstractSilhouette({
 
   return (
     <div
-      className={`premium-panel relative h-48 ${style.frame}`}
+      className={`character-visual relative h-48 ${style.frame}`}
       aria-hidden="true"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(255,255,255,0.12),transparent_30%),linear-gradient(145deg,transparent,rgba(0,0,0,0.34))]" />
@@ -305,7 +304,7 @@ function CharacterVisualMedia({ character }: { character: CharacterShowcase }) {
 
   return (
     <div
-      className={`premium-panel relative h-48 ${style.frame}`}
+      className={`character-visual relative h-48 ${style.frame}`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- URLs de personagens são administráveis; `next/image` será avaliado após configurar domínios externos. */}
       <img
@@ -343,75 +342,46 @@ export function CharacterShowcaseCard({
   emphasis?: "featured" | "standard" | "reserved";
 }) {
   const style = visualStyles[character.visualKind];
-  const cardVariant =
-    emphasis === "featured"
-      ? "highlight"
-      : emphasis === "reserved"
-        ? "flat"
-        : "quiet";
   const visualClass =
     emphasis === "reserved" ? "opacity-75 grayscale-[0.15]" : "";
 
   return (
-    <GlowCard
-      variant={cardVariant}
-      contentClassName={`flex h-full flex-col ${emphasis === "featured" ? "p-5 sm:p-6" : "p-4 sm:p-5"}`}
+    <article
+      className={`character-dossier character-dossier--${emphasis}`}
+      data-fx-reveal="card"
     >
-      <div className={visualClass}>
+      <div className={`character-dossier__visual ${visualClass}`}>
         <CharacterVisualMedia character={character} />
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center gap-2">
-        <span
-          className={`rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] ${style.badge}`}
-        >
-          {character.badge}
-        </span>
-        <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] uppercase tracking-[0.12em] text-slate-300">
-          {character.projectState}
-        </span>
-      </div>
+      <div className="character-dossier__copy">
+        <div className="character-dossier__badges">
+          <span className={style.badge}>{character.badge}</span>
+          <span>{character.projectState}</span>
+        </div>
 
-      <div className="mt-4">
-        <p className="text-xs uppercase tracking-[0.16em] text-cyan-200/75">
-          {character.functionLabel}
-        </p>
-        <h3
-          className={`${emphasis === "featured" ? "text-2xl sm:text-3xl" : "text-xl sm:text-2xl"} mt-1 font-bold text-white`}
-        >
-          {character.name}
-        </h3>
-        <p className="mt-3 text-sm leading-6 text-slate-300">
-          {character.description}
-        </p>
-      </div>
+        <div className="character-dossier__identity">
+          <p className="editorial-label">{character.functionLabel}</p>
+          <h3>{character.name}</h3>
+          <p>{character.description}</p>
+        </div>
 
-      <div
-        className={`sub-card mt-5 px-4 py-3 ${emphasis === "reserved" ? "opacity-80" : ""}`}
-      >
-        <p className="text-xs uppercase tracking-[0.14em] text-slate-400">
-          Papel no beta
-        </p>
-        <p className="mt-2 text-sm leading-6 text-slate-200">
-          {character.betaRole}
-        </p>
-      </div>
+        <div className="character-dossier__role">
+          <p className="editorial-label">Papel no beta</p>
+          <p>{character.betaRole}</p>
+        </div>
 
-      <div className="mt-4">
-        <p className="text-xs uppercase tracking-[0.14em] text-slate-400">
-          Leitura rápida
-        </p>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {character.abilities.map((ability) => (
-            <span
-              key={ability}
-              className="rounded-lg border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs text-slate-300"
-            >
-              {ability}
-            </span>
-          ))}
+        <div className="character-dossier__abilities">
+          <p className="editorial-label">Leitura rápida</p>
+          <ul>
+            {character.abilities.map((ability) => (
+              <li key={ability}>
+                {ability}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-    </GlowCard>
+    </article>
   );
 }
