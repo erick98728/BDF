@@ -154,7 +154,7 @@ export default async function CharactersPage() {
           variant="panel"
           contentClassName="relative overflow-hidden p-5 sm:p-7"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_10%,rgba(99,221,255,0.14),transparent_30%),radial-gradient(circle_at_82%_70%,rgba(209,168,93,0.10),transparent_34%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_10%,rgba(204,100,55,0.14),transparent_30%),radial-gradient(circle_at_82%_70%,rgba(204,100,55,0.10),transparent_34%)]" />
           <div className="relative z-10 grid gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">
