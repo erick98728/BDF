@@ -30,38 +30,38 @@ type VisualStyle = {
 
 const visualStyles: Record<GalleryVisualKind, VisualStyle> = {
   screenshot: {
-    frame: "border-cyan-200/[0.18] bg-cyan-300/10",
-    glyph: "text-cyan-100",
-    badge: "border-cyan-200/25 bg-cyan-300/10 text-cyan-100",
-    glow: "bg-cyan-300/[0.16]",
+    frame: "gallery-visual--route",
+    glyph: "text-[var(--color-route-soft)]",
+    badge: "text-[var(--color-route-soft)]",
+    glow: "bg-[color:var(--color-route-subtle)]",
     label: "imagem real / screenshot",
   },
   concept: {
-    frame: "border-purple-200/[0.18] bg-purple-300/10",
-    glyph: "text-purple-100",
-    badge: "border-purple-200/25 bg-purple-300/10 text-purple-100",
-    glow: "bg-purple-300/[0.16]",
+    frame: "gallery-visual--neutral",
+    glyph: "text-[var(--color-text-muted)]",
+    badge: "text-[var(--color-text-muted)]",
+    glow: "bg-white/[0.05]",
     label: "conceito visual",
   },
   character: {
-    frame: "border-amber-200/[0.18] bg-amber-300/10",
-    glyph: "text-amber-100",
-    badge: "border-amber-200/25 bg-amber-300/10 text-amber-100",
-    glow: "bg-amber-300/[0.16]",
+    frame: "gallery-visual--ember",
+    glyph: "text-[var(--color-accent-soft)]",
+    badge: "text-[var(--color-accent-soft)]",
+    glow: "bg-[color:var(--surface-accent-subtle)]",
     label: "perfil de personagem",
   },
   scene: {
-    frame: "border-emerald-200/[0.18] bg-emerald-300/10",
-    glyph: "text-emerald-100",
-    badge: "border-emerald-200/25 bg-emerald-300/10 text-emerald-100",
-    glow: "bg-emerald-300/[0.16]",
+    frame: "gallery-visual--route",
+    glyph: "text-[var(--color-route-soft)]",
+    badge: "text-[var(--color-route-soft)]",
+    glow: "bg-[color:var(--color-route-subtle)]",
     label: "cena / ambiente",
   },
   video: {
-    frame: "border-fuchsia-200/[0.18] bg-fuchsia-300/10",
-    glyph: "text-fuchsia-100",
-    badge: "border-fuchsia-200/25 bg-fuchsia-300/10 text-fuchsia-100",
-    glow: "bg-fuchsia-300/[0.16]",
+    frame: "gallery-visual--neutral",
+    glyph: "text-[var(--color-text-muted)]",
+    badge: "text-[var(--color-text-muted)]",
+    glow: "bg-white/[0.05]",
     label: "vídeo planejado",
   },
 };
@@ -231,8 +231,8 @@ export function GalleryVisualFrame({
   altText,
 }: GalleryVisualFrameProps) {
   const style = visualStyles[kind];
-  const heightClass = size === "modal" ? "h-56 sm:h-72" : "h-44";
-  const iconClass = size === "modal" ? "h-20 w-20" : "h-14 w-14";
+  const heightClass = size === "modal" ? "h-64 sm:h-80" : "h-56 sm:h-64";
+  const iconClass = size === "modal" ? "h-16 w-16" : "h-10 w-10";
   const normalizedImageUrl = imageUrl?.trim();
   const safeAltText = altText?.trim() || label;
   const [imageFailed, setImageFailed] = useState(false);
@@ -244,7 +244,7 @@ export function GalleryVisualFrame({
 
   return (
     <div
-      className={`premium-panel relative ${heightClass} ${style.frame}`}
+      className={`gallery-visual relative ${heightClass} ${style.frame}`}
     >
       {showImage ? (
         // eslint-disable-next-line @next/next/no-img-element -- URLs da galeria são administráveis; `next/image` será avaliado após configurar domínios externos.
@@ -278,22 +278,22 @@ export function GalleryVisualFrame({
         </svg>
       ) : null}
 
-      <div className="absolute right-4 top-4 rounded-2xl border border-white/10 bg-[#080908]/70 p-3 backdrop-blur-md">
+      <div className="gallery-visual__glyph">
         <GameGlyph
           name={icon}
           variant="plain"
           className={`${iconClass} ${style.glyph}`}
         />
       </div>
-      <div className="absolute left-4 top-4 max-w-[calc(100%-2rem)] rounded-full border border-white/10 bg-[#080908]/80 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-slate-100 shadow-[0_8px_24px_rgba(0,0,0,0.28)] backdrop-blur-md">
+      <div className="gallery-visual__label">
         {label}
       </div>
-      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-[#080908]/80 px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.30)] backdrop-blur-md">
+      <div className="gallery-visual__footer">
         <span className="text-[10px] uppercase tracking-[0.16em] text-slate-300">
           {showImage ? "imagem real" : style.label}
         </span>
         <span
-          className={`rounded-full border px-2 py-1 text-[10px] uppercase tracking-[0.12em] ${style.badge}`}
+          className={`text-[10px] uppercase tracking-[0.12em] ${style.badge}`}
         >
           {status}
         </span>
