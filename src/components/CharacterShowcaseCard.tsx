@@ -82,7 +82,7 @@ function AbstractSilhouette({
 
   return (
     <div
-      className={`relative h-48 overflow-hidden rounded-2xl border ${style.frame}`}
+      className={`premium-panel relative h-48 ${style.frame}`}
       aria-hidden="true"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(255,255,255,0.12),transparent_30%),linear-gradient(145deg,transparent,rgba(0,0,0,0.34))]" />
@@ -269,14 +269,14 @@ function AbstractSilhouette({
           </>
         )}
       </svg>
-      <div className="absolute right-4 top-4 rounded-2xl border border-white/10 bg-[#050914]/70 p-3 backdrop-blur-md">
+      <div className="absolute right-4 top-4 rounded-2xl border border-white/10 bg-[#080908]/70 p-3 backdrop-blur-md">
         <GameGlyph
           name={icon}
           variant="plain"
           className={`h-7 w-7 ${style.glyph}`}
         />
       </div>
-      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-xl border border-white/10 bg-[#050914]/80 px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.30)] backdrop-blur-md">
+      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-xl border border-white/10 bg-[#080908]/80 px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.30)] backdrop-blur-md">
         <span className="text-[10px] uppercase tracking-[0.16em] text-slate-300">
           perfil visual
         </span>
@@ -305,7 +305,7 @@ function CharacterVisualMedia({ character }: { character: CharacterShowcase }) {
 
   return (
     <div
-      className={`relative h-48 overflow-hidden rounded-2xl border ${style.frame}`}
+      className={`premium-panel relative h-48 ${style.frame}`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- URLs de personagens são administráveis; `next/image` será avaliado após configurar domínios externos. */}
       <img
@@ -318,14 +318,14 @@ function CharacterVisualMedia({ character }: { character: CharacterShowcase }) {
         className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(255,255,255,0.12),transparent_30%),linear-gradient(145deg,rgba(0,0,0,0.10),rgba(0,0,0,0.56))]" />
-      <div className="absolute right-4 top-4 rounded-2xl border border-white/10 bg-[#050914]/80 p-3 shadow-[0_8px_24px_rgba(0,0,0,0.28)] backdrop-blur-md">
+      <div className="absolute right-4 top-4 rounded-2xl border border-white/10 bg-[#080908]/80 p-3 shadow-[0_8px_24px_rgba(0,0,0,0.28)] backdrop-blur-md">
         <GameGlyph
           name={character.icon}
           variant="plain"
           className={`h-7 w-7 ${style.glyph}`}
         />
       </div>
-      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-xl border border-white/10 bg-[#050914]/80 px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.30)] backdrop-blur-md">
+      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-xl border border-white/10 bg-[#080908]/80 px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.30)] backdrop-blur-md">
         <span className="text-[10px] uppercase tracking-[0.16em] text-slate-300">
           imagem real
         </span>
@@ -387,7 +387,7 @@ export function CharacterShowcaseCard({
       </div>
 
       <div
-        className={`mt-5 rounded-xl border px-4 py-3 ${emphasis === "reserved" ? "border-white/10 bg-white/[0.025]" : "border-cyan-200/10 bg-black/20"}`}
+        className={`sub-card mt-5 px-4 py-3 ${emphasis === "reserved" ? "opacity-80" : ""}`}
       >
         <p className="text-xs uppercase tracking-[0.14em] text-slate-400">
           Papel no beta
