@@ -253,6 +253,7 @@ export function GalleryVisualFrame({
           alt={safeAltText}
           loading="lazy"
           decoding="async"
+          data-fx-image="true"
           onError={() => setImageFailed(true)}
           className="absolute inset-0 h-full w-full object-cover"
         />

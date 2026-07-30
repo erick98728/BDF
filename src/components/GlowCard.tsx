@@ -23,6 +23,10 @@ const variantClass: Record<GlowCardVariant, string> = {
 };
 
 export function GlowCard({ children, className = "", contentClassName = "", variant = "default" }: GlowCardProps) {
+  const isInteractive = ["highlight", "panel", "status", "narrative"].includes(
+    variant,
+  );
+  const shouldTilt = variant === "highlight";
   const content = (
     <div className={`${variantClass[variant]} h-full rounded-[10px] p-5 text-slate-200 shadow-none sm:p-6 ${contentClassName}`.trim()}>
       {children}
@@ -30,11 +34,20 @@ export function GlowCard({ children, className = "", contentClassName = "", vari
   );
 
   if (variant === "flat") {
-    return <div className={`h-full rounded-[10px] ${className}`.trim()}>{content}</div>;
+    return (
+      <div className={`fx-card h-full rounded-[10px] ${className}`.trim()}>
+        {content}
+      </div>
+    );
   }
 
   return (
-    <RuneBorder className={`h-full ${className}`.trim()}>
+    <RuneBorder
+      className={`fx-card h-full ${isInteractive ? "fx-card--interactive" : ""} ${className}`.trim()}
+      data-fx-reveal="card"
+      data-fx-spotlight={isInteractive ? "true" : undefined}
+      data-fx-tilt={shouldTilt ? "true" : undefined}
+    >
       {content}
     </RuneBorder>
   );

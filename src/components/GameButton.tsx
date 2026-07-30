@@ -13,7 +13,8 @@ export function GameButton({ href, children, variant = "primary" }: GameButtonPr
   return (
     <Link
       href={href}
-      className={`tester-button inline-flex min-h-11 w-full items-center justify-center rounded-[1440px] border px-5 py-2.5 text-center text-sm font-normal uppercase tracking-[-0.02em] disabled:cursor-not-allowed disabled:opacity-55 sm:w-auto ${styles[variant]}`}
+      className={`fx-button tester-button inline-flex min-h-11 w-full items-center justify-center rounded-[1440px] border px-5 py-2.5 text-center text-sm font-normal uppercase tracking-[-0.02em] disabled:cursor-not-allowed disabled:opacity-55 sm:w-auto ${styles[variant]}`}
+      data-fx-magnetic="true"
     >
       {children}
     </Link>

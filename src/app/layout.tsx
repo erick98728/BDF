@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./dock-menu.css";
+import "./effects.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackgroundFog } from "@/components/BackgroundFog";
 import { CursorAura } from "@/components/CursorAura";
+import { ImpactEffects } from "@/components/ImpactEffects";
 
 const siteUrl = "https://bdf-auhi.vercel.app";
 const siteDescription = "Site oficial de Protótipo, metroidvania 2D sombrio em desenvolvimento, com beta fechado, lore, personagens, devlog, galeria e feedback.";
@@ -97,6 +99,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="pt-BR">
       <body className="page-shell">
+        <ImpactEffects />
         <CursorAura />
         <BackgroundFog />
         <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-black focus:px-3 focus:py-2 focus:text-white">Pular para conteúdo</a>

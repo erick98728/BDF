@@ -9,7 +9,7 @@ export function ForestSigil({ className = "", compact = false }: ForestSigilProp
   return (
     <div className={`pointer-events-none relative ${sizeClass} ${className}`.trim()} aria-hidden="true">
       <div className="absolute inset-0 rounded-full bg-cyan-300/10 blur-2xl" />
-      <svg viewBox="0 0 220 220" className="relative h-full w-full drop-shadow-[0_0_28px_rgba(99,221,255,0.18)]">
+      <svg viewBox="0 0 220 220" className="fx-sigil relative h-full w-full drop-shadow-[0_0_28px_rgba(99,221,255,0.18)]">
         <defs>
           <linearGradient id="forest-sigil-main" x1="26" y1="18" x2="190" y2="205" gradientUnits="userSpaceOnUse">
             <stop stopColor="#63ddff" stopOpacity="0.9" />

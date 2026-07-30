@@ -40,7 +40,10 @@ export function PageHeader({ title, description, variant = "default", eyebrow = 
   const style = variantClass[variant];
 
   return (
-    <section className={`relative overflow-hidden ${style.section}`}>
+    <section
+      className={`fx-page-header relative overflow-hidden ${style.section}`}
+      data-fx-watch="page-header"
+    >
       <div className="absolute inset-0 opacity-28 tester-panel-grid" aria-hidden="true" />
       <div className={`absolute right-0 top-8 hidden sm:block ${style.mark}`}>
         <TesterMark />

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ForestSigil } from "./ForestSigil";
 import { GameButton } from "./GameButton";
 import { GameGlyph } from "./GameGlyph";
@@ -36,6 +36,8 @@ function HeroVisual() {
 }
 
 export function HeroSection() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden min-h-[calc(100vh-72px)] py-20 sm:py-24 md:py-28 lg:py-32">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_16%,rgba(99,221,255,0.12),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(88,51,140,0.18),transparent_34%),radial-gradient(circle_at_68%_78%,rgba(209,168,93,0.08),transparent_34%)]" />
@@ -46,7 +48,7 @@ export function HeroSection() {
 
       <div className="relative z-10 mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, ease: "easeOut" }}>
+          <motion.div initial={reduceMotion ? false : { opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, ease: "easeOut" }}>
             <div className="mb-5 inline-flex items-center gap-3 rounded-[1440px] border border-[#cecece] bg-transparent px-[11px] py-[5px] text-[11px] font-normal uppercase tracking-[-0.02em] text-white">
               <span className="h-px w-4 bg-[#cc6437]" />
               Site oficial · Em desenvolvimento
@@ -74,7 +76,7 @@ export function HeroSection() {
             </div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.65, ease: "easeOut" }}>
+          <motion.div initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.65, ease: "easeOut" }}>
             <HeroVisual />
           </motion.div>
         </div>
