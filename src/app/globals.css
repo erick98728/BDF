@@ -386,6 +386,7 @@ button:disabled {
   .haze-drift {
     animation: tester-haze-slide 20s ease-in-out infinite;
   }
+}
 
 .rune-border,
 .rune-border::before,

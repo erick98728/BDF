@@ -1,0 +1,658 @@
+/* ==========================================================================
+   Prototype header
+   ========================================================================== */
+
+.prototype-header {
+  position: sticky;
+  z-index: 50;
+  top: 0;
+  overflow: visible;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(5, 5, 5, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.prototype-header__inner {
+  display: grid;
+  width: min(1400px, 100%);
+  grid-template-columns: minmax(180px, 1fr) auto minmax(180px, 1fr);
+  align-items: end;
+  gap: 24px;
+  padding: 56px 24px 12px;
+  margin-inline: auto;
+}
+
+.prototype-brand {
+  display: inline-flex;
+  min-width: 0;
+  min-height: 50px;
+  align-items: center;
+  align-self: end;
+  justify-self: start;
+  gap: 12px;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  color: #ffffff;
+  outline: none;
+}
+
+.prototype-brand:focus-visible {
+  box-shadow:
+    0 0 0 2px #050505,
+    0 0 0 4px rgba(255, 255, 255, 0.9);
+}
+
+.prototype-brand__mark {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 10px 24px rgba(0, 0, 0, 0.26) !important;
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+
+.prototype-brand__mark > span {
+  background:
+    radial-gradient(
+      circle at 30% 20%,
+      rgba(255, 255, 255, 0.14),
+      transparent 46%
+    ),
+    radial-gradient(
+      circle at 72% 80%,
+      rgba(255, 255, 255, 0.06),
+      transparent 44%
+    ) !important;
+}
+
+.prototype-brand__name {
+  overflow: hidden;
+  font-size: 1.08rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prototype-brand__badge {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.prototype-brand__badge > span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.prototype-header__spacer {
+  display: block;
+  min-width: 180px;
+}
+
+/* ==========================================================================
+   Dock menu: design tokens and viewport
+   ========================================================================== */
+
+.dock-menu {
+  --dock-menu-background: rgba(243, 244, 246, 0.18);
+  --dock-menu-border: rgba(255, 255, 255, 0.2);
+  --dock-menu-shadow: rgba(0, 0, 0, 0.42);
+  --dock-menu-tooltip: rgba(24, 24, 27, 0.94);
+  --dock-menu-text: #ffffff;
+  --dock-menu-focus: rgba(255, 255, 255, 0.92);
+  --dock-menu-base-size: 50px;
+  --dock-menu-item-size: var(--dock-menu-base-size);
+  --dock-menu-maximum-size: 80px;
+  --dock-menu-gap: 16px;
+  --dock-menu-radius: 16px;
+}
+
+.dock-menu-viewport {
+  position: relative;
+  display: flex;
+  width: max-content;
+  max-width: 100%;
+  align-items: flex-end;
+  justify-content: center;
+  justify-self: center;
+  overflow: visible;
+}
+
+.dock-menu__visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Glass container
+   ========================================================================== */
+
+.dock-menu {
+  position: relative;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  height: 80px;
+  padding: 0 16px 14px;
+  border: 2px solid var(--dock-menu-border);
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.09),
+      transparent 48%
+    ),
+    var(--dock-menu-background);
+  box-shadow:
+    0 20px 32px -12px var(--dock-menu-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(18px) saturate(112%);
+  -webkit-backdrop-filter: blur(18px) saturate(112%);
+  isolation: isolate;
+  animation:
+    dock-menu-enter 760ms cubic-bezier(0.16, 1.24, 0.3, 1) 100ms
+    both;
+}
+
+.dock-menu::before {
+  position: absolute;
+  z-index: -1;
+  inset: 45% 8% -32%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  content: "";
+  filter: blur(24px);
+  pointer-events: none;
+}
+
+.dock-menu__list {
+  display: flex;
+  height: 100%;
+  align-items: flex-end;
+  gap: var(--dock-menu-gap);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* ==========================================================================
+   Items and monochrome tiles
+   ========================================================================== */
+
+.dock-menu__item {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--dock-menu-item-size);
+  height: var(--dock-menu-item-size);
+  will-change: width, height;
+}
+
+.dock-menu__control {
+  position: relative;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: var(--dock-menu-radius);
+  outline: none;
+  background: transparent;
+  color: var(--dock-menu-text);
+  cursor: pointer;
+  place-items: center;
+  text-decoration: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dock-menu__control:focus-visible {
+  box-shadow:
+    0 0 0 3px #050505,
+    0 0 0 5px var(--dock-menu-focus);
+}
+
+.dock-menu__tile {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--dock-menu-radius);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.09),
+      rgba(255, 255, 255, 0.025)
+    );
+  box-shadow:
+    0 10px 16px -6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.18);
+  place-items: center;
+  transform: translateY(0) scale(1);
+  transform-origin: center bottom;
+  transition:
+    transform 380ms cubic-bezier(0.18, 0.89, 0.32, 1.28),
+    filter 180ms ease,
+    border-color 180ms ease;
+  will-change: transform;
+}
+
+.dock-menu__tile::before {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.34),
+      transparent 58%
+    );
+  content: "";
+  opacity: 0.1;
+  transition: opacity 200ms ease;
+}
+
+.dock-menu__control:hover .dock-menu__tile,
+.dock-menu__control:focus-visible .dock-menu__tile,
+.dock-menu__item.is-active .dock-menu__tile {
+  filter: brightness(1.08);
+  transform: translateY(-8px);
+}
+
+.dock-menu__control:hover .dock-menu__tile::before,
+.dock-menu__control:focus-visible .dock-menu__tile::before,
+.dock-menu__item.is-active .dock-menu__tile::before {
+  opacity: 0.3;
+}
+
+.dock-menu__item.is-active .dock-menu__tile {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.dock-menu__item.is-pressed .dock-menu__tile {
+  filter: brightness(1.04);
+  transform: translateY(2px) scale(0.95);
+  transition-duration: 110ms;
+}
+
+/* ==========================================================================
+   SVG icons, tooltip and indicator
+   ========================================================================== */
+
+.dock-menu__icon {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: scale(1);
+  transition: transform 380ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.dock-menu__control:hover .dock-menu__icon,
+.dock-menu__control:focus-visible .dock-menu__icon,
+.dock-menu__item.is-active .dock-menu__icon {
+  transform: scale(1.1);
+}
+
+.dock-menu__tooltip {
+  position: absolute;
+  z-index: 4;
+  top: -48px;
+  left: 50%;
+  padding: 5px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  background: var(--dock-menu-tooltip);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 10px) scale(0.8);
+  transform-origin: center bottom;
+  transition:
+    opacity 180ms ease,
+    transform 330ms cubic-bezier(0.18, 0.89, 0.32, 1.2);
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.dock-menu__control:hover .dock-menu__tooltip,
+.dock-menu__control:focus-visible .dock-menu__tooltip {
+  opacity: 1;
+  transform: translate(-50%, -20px) scale(1);
+}
+
+.dock-menu__indicator {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.82);
+  opacity: 0.45;
+  transform: translateX(-50%) scale(1);
+  transition:
+    opacity 180ms ease,
+    transform 260ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.dock-menu__item.is-active .dock-menu__indicator {
+  opacity: 1;
+  transform: translateX(-50%) scale(1.25);
+}
+
+.dock-menu__item.is-pressed .dock-menu__indicator {
+  opacity: 1;
+  transform: translateX(-50%) scale(1.5);
+}
+
+/* ==========================================================================
+   Existing navigation and account popovers
+   ========================================================================== */
+
+.dock-menu__popover {
+  position: absolute;
+  z-index: 8;
+  top: calc(100% + 12px);
+  width: min(320px, calc(100vw - 24px));
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.02)
+    ),
+    rgba(14, 14, 16, 0.94);
+  box-shadow:
+    0 24px 50px rgba(0, 0, 0, 0.48),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  animation: dock-menu-popover-enter 180ms ease-out both;
+}
+
+.dock-menu__popover--navigation {
+  right: 52px;
+}
+
+.dock-menu__popover--account {
+  right: 0;
+  width: min(230px, calc(100vw - 24px));
+}
+
+.dock-menu__popover-title {
+  padding: 2px 4px 10px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.dock-menu__popover-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.dock-menu__popover--account .dock-menu__popover-grid {
+  grid-template-columns: 1fr;
+}
+
+.dock-menu__popover-link {
+  display: flex;
+  min-height: 42px;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 9px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.035);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.82rem;
+  text-align: left;
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.dock-menu__popover-link:hover,
+.dock-menu__popover-link:focus-visible,
+.dock-menu__popover-link[data-active="true"] {
+  border-color: rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.09);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.dock-menu__popover-link:focus-visible {
+  box-shadow:
+    0 0 0 2px rgba(14, 14, 16, 0.94),
+    0 0 0 4px rgba(255, 255, 255, 0.86);
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+
+@keyframes dock-menu-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translateY(-5px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dock-menu-launch {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  45% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes dock-menu-popover-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dock-menu__item.is-launched .dock-menu__icon {
+  animation: dock-menu-launch 360ms cubic-bezier(0.22, 0.75, 0.34, 1);
+}
+
+/* ==========================================================================
+   Responsive states
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .prototype-header__inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 8px;
+    padding: 10px 8px 9px;
+  }
+
+  .prototype-brand {
+    min-height: 40px;
+    justify-self: center;
+    margin-bottom: 0;
+  }
+
+  .prototype-brand__mark {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 12px !important;
+  }
+
+  .prototype-brand__name {
+    font-size: 0.9rem;
+  }
+
+  .prototype-brand__badge {
+    min-height: 24px;
+    padding: 4px 8px;
+    font-size: 0.62rem;
+  }
+
+  .prototype-header__spacer {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .dock-menu {
+    --dock-menu-gap: 8px;
+    --dock-menu-base-size: 44px;
+    --dock-menu-maximum-size: 60px;
+
+    height: 70px;
+    padding: 0 10px 11px;
+    border-radius: 21px;
+  }
+
+  .dock-menu__icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .dock-menu__popover,
+  .dock-menu__popover--navigation,
+  .dock-menu__popover--account {
+    right: auto;
+    left: 50%;
+    width: min(300px, calc(100vw - 16px));
+    transform: translateX(-50%);
+  }
+
+  .dock-menu__popover {
+    animation: dock-menu-popover-mobile-enter 180ms ease-out both;
+  }
+}
+
+@keyframes dock-menu-popover-mobile-enter {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -8px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .dock-menu__control:hover .dock-menu__tile {
+    filter: none;
+    transform: none;
+  }
+
+  .dock-menu__control:hover .dock-menu__tooltip {
+    opacity: 0;
+  }
+
+  .dock-menu__control:focus-visible .dock-menu__tile,
+  .dock-menu__item.is-active .dock-menu__tile {
+    transform: translateY(-5px);
+  }
+}
+
+/* ==========================================================================
+   Accessibility
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .dock-menu,
+  .dock-menu__icon,
+  .dock-menu__popover {
+    animation: none;
+  }
+
+  .dock-menu {
+    opacity: 1;
+    transform: none;
+  }
+
+  .dock-menu__tile,
+  .dock-menu__icon,
+  .dock-menu__tooltip,
+  .dock-menu__indicator,
+  .dock-menu__popover-link {
+    transition-duration: 0.01ms;
+  }
+}
+
+@media (forced-colors: active) {
+  .prototype-header,
+  .dock-menu,
+  .dock-menu__popover {
+    border-color: CanvasText;
+    background: Canvas;
+  }
+
+  .dock-menu__tile,
+  .dock-menu__popover-link {
+    border-color: ButtonText;
+    background: ButtonFace;
+    color: ButtonText;
+  }
+}
