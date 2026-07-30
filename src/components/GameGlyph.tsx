@@ -32,8 +32,8 @@ type GameGlyphProps = {
 export function GameGlyph({ name, className = "", label, variant = "tile" }: GameGlyphProps) {
   const tileClass =
     variant === "tile"
-      ? "relative inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-cyan-200/20 bg-cyan-300/10 text-cyan-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_0_20px_rgba(99,221,255,0.1)] transition-[border-color,background-color,box-shadow,transform] duration-200"
-      : "inline-flex shrink-0 items-center justify-center text-cyan-100";
+      ? "game-glyph game-glyph--tile"
+      : "game-glyph game-glyph--plain";
 
   return (
     <span
@@ -44,13 +44,13 @@ export function GameGlyph({ name, className = "", label, variant = "tile" }: Gam
     >
       {variant === "tile" ? (
         <>
-          <span className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(99,221,255,0.2),transparent_45%),linear-gradient(135deg,rgba(255,255,255,0.08),transparent_40%)]" />
-          <span className="absolute inset-x-2 top-1 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+          <span className="game-glyph__reflection" />
+          <span className="game-glyph__hairline" />
         </>
       ) : null}
       <svg
         viewBox="0 0 32 32"
-        className={variant === "tile" ? "relative h-6 w-6 drop-shadow-[0_0_8px_rgba(99,221,255,0.18)]" : "h-full w-full"}
+        className={variant === "tile" ? "game-glyph__icon" : "h-full w-full"}
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
