@@ -4,11 +4,11 @@ export type TesterTone = "cyan" | "purple" | "gold" | "emerald" | "neutral";
 export type TesterStatus = "beta" | "ready" | "locked" | "warning" | "planned" | "live";
 
 const toneStyles: Record<TesterTone, string> = {
-  cyan: "border-cyan-200/25 bg-cyan-300/10 text-cyan-100",
-  purple: "border-purple-200/25 bg-purple-300/10 text-purple-100",
-  gold: "border-amber-200/25 bg-amber-300/10 text-amber-100",
-  emerald: "border-emerald-200/25 bg-emerald-300/10 text-emerald-100",
-  neutral: "border-slate-200/15 bg-white/[0.045] text-slate-200"
+  cyan: "visual-tone visual-tone--accent",
+  purple: "visual-tone visual-tone--neutral",
+  gold: "visual-tone visual-tone--warning",
+  emerald: "visual-tone visual-tone--success",
+  neutral: "visual-tone visual-tone--neutral"
 };
 
 const statusTone: Record<TesterStatus, TesterTone> = {
@@ -33,8 +33,8 @@ export function TesterMark({ compact = false, className = "" }: { compact?: bool
   const size = compact ? "h-9 w-9" : "h-12 w-12";
 
   return (
-    <span className={`relative inline-flex ${size} shrink-0 items-center justify-center rounded-2xl border border-cyan-200/25 bg-cyan-300/10 text-cyan-100 shadow-[0_0_24px_rgba(99,221,255,0.14),inset_0_1px_0_rgba(255,255,255,0.10)] ${className}`.trim()} aria-hidden="true">
-      <span className="absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_30%_20%,rgba(99,221,255,0.22),transparent_44%),radial-gradient(circle_at_70%_78%,rgba(209,168,93,0.12),transparent_42%)]" />
+    <span className={`tester-mark ${size} ${className}`.trim()} aria-hidden="true">
+      <span className="tester-mark__light" />
       <svg viewBox="0 0 48 48" className="relative h-3/4 w-3/4" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
         <path d="M24 5 39 15v18L24 43 9 33V15L24 5Z" strokeWidth="1.6" opacity="0.72" />
         <path d="M24 11v26" strokeWidth="1.7" opacity="0.82" />
@@ -49,9 +49,9 @@ export function TesterMark({ compact = false, className = "" }: { compact?: bool
 
 export function RunePattern({ className = "" }: { className?: string }) {
   return (
-    <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`} aria-hidden="true">
-      <div className="absolute inset-0 opacity-[0.18] bg-[linear-gradient(rgba(99,221,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(209,168,93,0.06)_1px,transparent_1px)] bg-[size:38px_38px]" />
-      <svg viewBox="0 0 600 220" className="absolute inset-0 h-full w-full text-cyan-100" fill="none">
+    <div className={`rune-pattern ${className}`} aria-hidden="true">
+      <div className="rune-pattern__grid" />
+      <svg viewBox="0 0 600 220" className="rune-pattern__lines" fill="none">
         <path d="M54 42h96M82 62h42M438 156h110M464 176h46" stroke="currentColor" strokeWidth="1" opacity="0.18" strokeLinecap="round" />
         <path d="M284 28 320 52 284 76 248 52 284 28ZM112 142 142 162 112 182 82 162 112 142ZM488 48 516 68 488 88 460 68 488 48Z" stroke="currentColor" strokeWidth="1" opacity="0.16" />
         <path d="M198 184c32-38 66-38 98 0M344 92c28-26 60-26 88 0" stroke="currentColor" strokeWidth="1" opacity="0.13" strokeLinecap="round" />
@@ -62,8 +62,8 @@ export function RunePattern({ className = "" }: { className?: string }) {
 
 export function BetaBadge({ children = "Beta em desenvolvimento" }: { children?: React.ReactNode }) {
   return (
-    <span className="status-chip inline-flex items-center gap-2 rounded-full border border-amber-200/25 bg-amber-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-amber-100">
-      <span className="h-1.5 w-1.5 rounded-full bg-amber-200 shadow-[0_0_10px_rgba(209,168,93,0.75)]" />
+    <span className="status-chip beta-badge">
+      <span className="status-chip__dot" />
       {children}
     </span>
   );
@@ -72,8 +72,8 @@ export function BetaBadge({ children = "Beta em desenvolvimento" }: { children?:
 export function StatusBadge({ status, children, className = "" }: { status: TesterStatus; children?: React.ReactNode; className?: string }) {
   const tone = statusTone[status];
   return (
-    <span className={`status-chip inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.13em] ${toneStyles[tone]} ${className}`.trim()}>
-      <span className="h-1.5 w-1.5 rounded-full bg-current opacity-80" />
+    <span className={`status-chip ${toneStyles[tone]} ${className}`.trim()}>
+      <span className="status-chip__dot" />
       {children ?? statusLabel[status]}
     </span>
   );
@@ -97,14 +97,14 @@ export function VisualPanel({
   className?: string;
 }) {
   return (
-    <div className={`relative overflow-hidden rounded-2xl border border-cyan-200/14 bg-black/22 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ${className}`.trim()}>
+    <div className={`visual-panel ${className}`.trim()}>
       <RunePattern className="opacity-70" />
-      <div className="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-start">
+      <div className="visual-panel__content">
         <GameGlyph name={icon} className={toneStyles[tone]} />
         <div className="min-w-0">
-          {eyebrow ? <p className="text-[11px] uppercase tracking-[0.13em] text-cyan-200/80 sm:text-xs">{eyebrow}</p> : null}
-          <h3 className="mt-1 text-xl font-semibold text-white sm:text-[1.35rem]">{title}</h3>
-          {description ? <p className="mt-2 text-sm leading-6 text-slate-300">{description}</p> : null}
+          {eyebrow ? <p className="visual-panel__eyebrow">{eyebrow}</p> : null}
+          <h3 className="visual-panel__title">{title}</h3>
+          {description ? <p className="visual-panel__description">{description}</p> : null}
           {children ? <div className="mt-4">{children}</div> : null}
         </div>
       </div>
@@ -114,7 +114,7 @@ export function VisualPanel({
 
 export function SectionFrame({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`relative overflow-hidden rounded-3xl border border-cyan-200/10 bg-black/[0.08] p-1 ${className}`.trim()}>
+    <div className={`section-frame ${className}`.trim()}>
       <RunePattern className="opacity-45" />
       <div className="relative z-10">{children}</div>
     </div>
