@@ -3,6 +3,21 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef } from "react";
 import type { CSSProperties } from "react";
+import {
+  BookOpen,
+  Download as DownloadIcon,
+  Home,
+  Images,
+  LayoutDashboard,
+  LogIn,
+  LogOut,
+  Map as MapIcon,
+  Palette,
+  ScrollText,
+  ShieldCheck,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 import { navLinks } from "@/data/site";
 
 type DockMenuProps = {
@@ -18,12 +33,14 @@ type DockEntry =
       id: string;
       label: string;
       href: string;
+      icon: LucideIcon;
     }
   | {
       kind: "action";
       id: string;
       label: string;
       action: "sign-out";
+      icon: LucideIcon;
     };
 
 type AnimatedDockItem = {
@@ -43,6 +60,18 @@ const SPRING = Object.freeze({
   restThreshold: 0.001,
 });
 
+const publicIcons: Record<string, LucideIcon> = {
+  "/": Home,
+  "/download": DownloadIcon,
+  "/lore": BookOpen,
+  "/personagens": Users,
+  "/studio": Palette,
+  "/devlog": ScrollText,
+  "/roadmap": MapIcon,
+  "/galeria": Images,
+  "/login": LogIn,
+};
+
 export function DockMenu({
   pathname,
   logged,
@@ -58,6 +87,7 @@ export function DockMenu({
         kind: "link" as const,
         id: href === "/" ? "inicio" : href.slice(1),
         href,
+        icon: publicIcons[href],
         label,
       }));
 
@@ -68,6 +98,7 @@ export function DockMenu({
           kind: "link",
           id: "login",
           href: "/login",
+          icon: LogIn,
           label: "Login",
         },
       ];
@@ -79,6 +110,7 @@ export function DockMenu({
         kind: "link",
         id: "dashboard",
         href: "/dashboard",
+        icon: LayoutDashboard,
         label: "Dashboard",
       },
       ...(adminAllowed
@@ -87,6 +119,7 @@ export function DockMenu({
               kind: "link" as const,
               id: "admin",
               href: "/admin",
+              icon: ShieldCheck,
               label: "Admin",
             },
           ]
@@ -96,6 +129,7 @@ export function DockMenu({
         id: "sair",
         label: "Sair",
         action: "sign-out",
+        icon: LogOut,
       },
     ];
   }, [adminAllowed, logged]);
@@ -153,11 +187,11 @@ export function DockMenu({
 
       const maximumScale = readNumberProperty(
         "--dock-menu-maximum-scale",
-        1.1,
+        1.28,
       );
       const maximumLift = readNumberProperty(
         "--dock-menu-maximum-lift",
-        6,
+        10,
       );
 
       items.forEach((item) => {
@@ -314,10 +348,15 @@ export function DockMenu({
               entry.kind === "link" &&
               routeMatches(pathname, entry.href);
             const tooltipId = `dock-menu-tooltip-${entry.id}`;
+            const Icon = entry.icon;
             const content = (
               <>
-                <span className="dock-menu__tile">
-                  <span className="dock-menu__label">{entry.label}</span>
+                <span className="dock-menu__tile" aria-hidden="true">
+                  <Icon
+                    className="dock-menu__symbol"
+                    size={23}
+                    strokeWidth={1.8}
+                  />
                   <span
                     className="dock-menu__highlight"
                     aria-hidden="true"
@@ -328,9 +367,7 @@ export function DockMenu({
                   id={tooltipId}
                   role="tooltip"
                 >
-                  {entry.kind === "action"
-                    ? "Sair da conta"
-                    : `Ir para ${entry.label}`}
+                  {entry.label}
                 </span>
                 <span
                   className="dock-menu__indicator"
