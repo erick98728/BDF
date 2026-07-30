@@ -244,7 +244,7 @@ export function GalleryVisualFrame({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-2xl border ${heightClass} ${style.frame}`}
+      className={`premium-panel relative ${heightClass} ${style.frame}`}
     >
       {showImage ? (
         // eslint-disable-next-line @next/next/no-img-element -- URLs da galeria são administráveis; `next/image` será avaliado após configurar domínios externos.
@@ -278,17 +278,17 @@ export function GalleryVisualFrame({
         </svg>
       ) : null}
 
-      <div className="absolute right-4 top-4 rounded-2xl border border-white/10 bg-[#050914]/70 p-3 backdrop-blur-md">
+      <div className="absolute right-4 top-4 rounded-2xl border border-white/10 bg-[#080908]/70 p-3 backdrop-blur-md">
         <GameGlyph
           name={icon}
           variant="plain"
           className={`${iconClass} ${style.glyph}`}
         />
       </div>
-      <div className="absolute left-4 top-4 max-w-[calc(100%-2rem)] rounded-full border border-white/10 bg-[#050914]/80 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-slate-100 shadow-[0_8px_24px_rgba(0,0,0,0.28)] backdrop-blur-md">
+      <div className="absolute left-4 top-4 max-w-[calc(100%-2rem)] rounded-full border border-white/10 bg-[#080908]/80 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-slate-100 shadow-[0_8px_24px_rgba(0,0,0,0.28)] backdrop-blur-md">
         {label}
       </div>
-      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-[#050914]/80 px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.30)] backdrop-blur-md">
+      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-[#080908]/80 px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.30)] backdrop-blur-md">
         <span className="text-[10px] uppercase tracking-[0.16em] text-slate-300">
           {showImage ? "imagem real" : style.label}
         </span>
