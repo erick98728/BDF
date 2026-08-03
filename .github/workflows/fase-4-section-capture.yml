@@ -1,0 +1,55 @@
+name: Fase 4 - Evidências por seção
+
+on:
+  push:
+    branches:
+      - agent/fase-4-etapa-1-baseline-visual
+    paths:
+      - .github/workflows/fase-4-section-capture.yml
+      - scripts/visual-section-capture.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fase-4-section-capture-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  section-capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      BASELINE_URL: https://bdf-navy.vercel.app
+      SECTION_OUTPUT: docs/fase-4/etapa-1/section-capture
+
+    steps:
+      - name: Checkout da branch de auditoria
+        uses: actions/checkout@v4
+        with:
+          ref: agent/fase-4-etapa-1-baseline-visual
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar Playwright
+        run: npm install --no-save --no-package-lock playwright@1.55.0
+
+      - name: Instalar Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Capturar cada seção em desktop, tablet e mobile
+        run: node scripts/visual-section-capture.mjs
+
+      - name: Publicar evidências por seção
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fase-4-evidencias-por-secao
+          path: docs/fase-4/etapa-1/section-capture
+          if-no-files-found: warn
+          retention-days: 30
