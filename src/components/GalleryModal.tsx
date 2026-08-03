@@ -58,7 +58,14 @@ export function GalleryModal({
   const reduceMotion = Boolean(useReducedMotion());
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const selectedIndexRef = useRef(selectedIndex);
+  const itemsLengthRef = useRef(items.length);
+  const changeSelectionRef = useRef(onSelectedIndexChange);
   const selected = items[selectedIndex];
+
+  selectedIndexRef.current = selectedIndex;
+  itemsLengthRef.current = items.length;
+  changeSelectionRef.current = onSelectedIndexChange;
 
   useEffect(() => {
     const body = document.body;
@@ -78,13 +85,17 @@ export function GalleryModal({
 
       if (event.key === "ArrowLeft") {
         event.preventDefault();
-        onSelectedIndexChange(wrapIndex(selectedIndex - 1, items.length));
+        changeSelectionRef.current(
+          wrapIndex(selectedIndexRef.current - 1, itemsLengthRef.current),
+        );
         return;
       }
 
       if (event.key === "ArrowRight") {
         event.preventDefault();
-        onSelectedIndexChange(wrapIndex(selectedIndex + 1, items.length));
+        changeSelectionRef.current(
+          wrapIndex(selectedIndexRef.current + 1, itemsLengthRef.current),
+        );
         return;
       }
 
@@ -132,7 +143,7 @@ export function GalleryModal({
         returnFocusRef.current?.focus();
       });
     };
-  }, [items.length, onClose, onSelectedIndexChange, returnFocusRef, selectedIndex]);
+  }, [onClose, returnFocusRef]);
 
   if (!selected) return null;
 
