@@ -92,18 +92,20 @@ function HeroVisual({ reduceMotion }: HeroVisualProps) {
           />
         ))}
       </svg>
-      <motion.div
-        className="hero-visual__sigil"
-        initial={reduceMotion ? false : { opacity: 0, scale: 0.9, rotate: -4 }}
-        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-        transition={{
-          duration: reduceMotion ? 0 : motionDurations.cinematic,
-          delay: reduceMotion ? 0 : 0.3,
-          ease: motionEasings.enter,
-        }}
-      >
-        <ForestSigil />
-      </motion.div>
+      <div className="hero-visual__sigil">
+        <motion.div
+          className="hero-visual__sigil-motion"
+          initial={reduceMotion ? false : { opacity: 0, scale: 0.9, rotate: -4 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          transition={{
+            duration: reduceMotion ? 0 : motionDurations.cinematic,
+            delay: reduceMotion ? 0 : 0.3,
+            ease: motionEasings.enter,
+          }}
+        >
+          <ForestSigil className="!h-full !w-full" />
+        </motion.div>
+      </div>
       <motion.span
         className="hero-visual__coordinate hero-visual__coordinate--origin"
         initial={reduceMotion ? false : { opacity: 0, y: 6 }}
