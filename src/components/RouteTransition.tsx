@@ -1,8 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { pageTransition } from "@/lib/motion";
 
 const NAVIGATION_FALLBACK_MS = 8000;
@@ -39,14 +39,9 @@ function getInternalDestination(event: MouseEvent) {
 
 export function RouteTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const reduceMotion = useReducedMotion();
   const [pending, setPending] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const routeKey = useMemo(
-    () => `${pathname}?${searchParams.toString()}`,
-    [pathname, searchParams],
-  );
 
   useEffect(() => {
     if (timeoutRef.current) {
@@ -56,7 +51,7 @@ export function RouteTransition({ children }: { children: ReactNode }) {
 
     setPending(false);
     delete document.documentElement.dataset.routeTransition;
-  }, [routeKey]);
+  }, [pathname]);
 
   useEffect(() => {
     function beginNavigation() {
@@ -108,7 +103,7 @@ export function RouteTransition({ children }: { children: ReactNode }) {
 
       <AnimatePresence initial={false} mode="popLayout">
         <motion.div
-          key={routeKey}
+          key={pathname}
           className="route-transition-page"
           variants={pageTransition}
           initial={reduceMotion ? false : "initial"}
