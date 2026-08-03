@@ -37,9 +37,9 @@ import { defaultSiteContent, mergeSiteContent } from "@/lib/defaultSiteContent";
 import { isSupabaseConfigured } from "@/lib/supabaseClient";
 
 const fieldClass =
-  "min-h-11 w-full rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 hover:border-cyan-200/30 hover:bg-black/25 focus:border-cyan-200/45 focus:bg-black/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200";
+  "form-field";
 const labelClass =
-  "text-xs font-semibold uppercase tracking-[0.14em] text-cyan-200/75";
+  "form-label";
 const glyphOptions: GameGlyphName[] = [
   "katana",
   "fog",
@@ -298,7 +298,7 @@ export default function AdminPage() {
             variant="highlight"
             contentClassName="relative overflow-hidden p-5 sm:p-7"
           >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(99,221,255,0.14),transparent_32%),radial-gradient(circle_at_80%_76%,rgba(251,191,36,0.10),transparent_34%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(204,100,55,0.14),transparent_32%),radial-gradient(circle_at_80%_76%,rgba(251,191,36,0.10),transparent_34%)]" />
             <div className="relative z-10">
               <div className="flex flex-wrap gap-2">
                 <StatusBadge status="ready">Painel privado</StatusBadge>
@@ -608,7 +608,7 @@ function AdminShell({ children }: { children: ReactNode }) {
         variant="admin"
         eyebrow="Admin"
         title="Administração"
-        description="Painel privado para gerenciar conteúdo, usuários e permissões do projeto Tester."
+        description="Painel privado para gerenciar conteúdo, usuários e permissões do projeto Protótipo."
       />
       {children}
     </AnimatedPageWrapper>
@@ -641,7 +641,7 @@ function AdminSectionNav({
             key={section.id}
             type="button"
             onClick={() => onChange(section.id)}
-            className={`tester-button rounded-2xl border px-4 py-3 text-left transition ${active ? "border-cyan-200/35 bg-cyan-300/12 text-cyan-50 shadow-[0_0_18px_rgba(99,221,255,0.12)]" : "border-white/10 bg-white/[0.025] text-slate-300 hover:border-cyan-200/20 hover:bg-cyan-300/[0.06]"}`}
+            className={`tester-button rounded-2xl border px-4 py-3 text-left transition ${active ? "border-cyan-200/35 bg-cyan-300/12 text-cyan-50 shadow-[0_0_18px_rgba(204,100,55,0.12)]" : "border-white/10 bg-white/[0.025] text-slate-300 hover:border-cyan-200/20 hover:bg-cyan-300/[0.06]"}`}
             aria-current={active ? "page" : undefined}
           >
             <span className="flex items-center justify-between gap-3">
@@ -1035,7 +1035,7 @@ function FeedbackAdminSection() {
       <SectionTitle
         eyebrow="Admin"
         title="Feedbacks do beta"
-        subtitle="Visualize, filtre e faça a triagem dos retornos privados enviados pelos testers."
+        subtitle="Visualize, filtre e faça a triagem dos retornos privados enviados pelos testadores."
       />
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         <FeedbackSummaryCard label="Total" value={summary.total} />
@@ -1076,7 +1076,7 @@ function FeedbackAdminSection() {
         <Input
           label="Versão"
           value={filters.version}
-          placeholder="Tester Beta 0.1"
+          placeholder="Protótipo Beta 0.1"
           onChange={(version) => setFilters({ ...filters, version })}
         />
         <Input

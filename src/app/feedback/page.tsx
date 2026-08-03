@@ -46,7 +46,7 @@ const ratingFieldLabels: Array<{ label: string; field: RatingField }> = [
 ];
 
 const fieldClass =
-  "min-h-11 w-full rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 hover:border-cyan-200/30 hover:bg-black/25 focus:border-cyan-200/45 focus:bg-black/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200 disabled:cursor-not-allowed disabled:opacity-55";
+  "form-field";
 
 export default function FeedbackPage() {
   const [formData, setFormData] = useState<FeedbackFormData>(initialData);
@@ -129,7 +129,7 @@ export default function FeedbackPage() {
     }
 
     setSuccess(
-      "Feedback enviado com sucesso. Obrigado por ajudar a melhorar Tester.",
+      "Feedback enviado com sucesso. Obrigado por ajudar a melhorar Protótipo.",
     );
     setLoading(false);
     setFormData((p) => ({ ...initialData, email: p.email }));
@@ -141,7 +141,7 @@ export default function FeedbackPage() {
         variant="compact"
         eyebrow="Feedback"
         title="Feedback"
-        description="Canal oficial para registrar sua experiência com o beta de Tester. Seu retorno é privado e essencial."
+        description="Canal oficial para registrar sua experiência com o beta de Protótipo. Seu retorno é privado e essencial."
       />
       <SectionContainer>
         <GlowCard

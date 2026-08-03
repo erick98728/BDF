@@ -11,7 +11,7 @@ export default function AdminForbiddenPage() {
       <PageHeader title="Acesso negado" description="Esta área é privada e exige uma conta com permissão administrativa ativa." />
       <SectionContainer>
         <GlowCard contentClassName="relative overflow-hidden p-6 sm:p-8">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_12%,rgba(251,191,36,0.16),transparent_34%),radial-gradient(circle_at_82%_78%,rgba(99,221,255,0.10),transparent_36%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_12%,rgba(251,191,36,0.16),transparent_34%),radial-gradient(circle_at_82%_78%,rgba(204,100,55,0.10),transparent_36%)]" />
           <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-start">
             <GameGlyph name="status" className="border-amber-200/25 bg-amber-300/10 text-amber-100" />
             <div>

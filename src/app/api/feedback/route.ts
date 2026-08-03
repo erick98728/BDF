@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getAuthenticatedUser, setAuthSessionCookies, createServerSupabaseClient } from "@/lib/serverAuth";
 
-const betaVersion = "Tester Beta 0.1";
+const betaVersion = "Protótipo Beta 0.1";
 const maxTextLength = 2000;
 
 type FeedbackPayload = {

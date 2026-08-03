@@ -1,4 +1,4 @@
-# Supabase Feedback (Tester)
+# Supabase Feedback (Protótipo)
 
 > Guia auxiliar rápido para a tabela `beta_feedback`.
 >

@@ -25,7 +25,7 @@ type DownloadError = {
   error?: string;
 };
 
-const fallbackBuild = "Tester Beta 0.1";
+const fallbackBuild = "Protótipo Beta 0.1";
 const fallbackPlatform = "Windows";
 
 export function ProtectedDownloadCard({ isAuthenticated, preparationMode = false, onStateChange }: ProtectedDownloadCardProps) {
@@ -51,7 +51,7 @@ export function ProtectedDownloadCard({ isAuthenticated, preparationMode = false
       type: "locked",
       textClass: "text-cyan-200",
       title: "Acesso reservado ao beta",
-      description: "Entre com sua conta de beta tester para validar seu acesso e gerar um link temporário quando a build estiver liberada.",
+      description: "Entre com sua conta de testador beta para validar seu acesso e gerar um link temporário quando a build estiver liberada.",
       access: "Aguardando login"
     },
     ready: {
@@ -75,7 +75,7 @@ export function ProtectedDownloadCard({ isAuthenticated, preparationMode = false
       type: "locked",
       textClass: "text-amber-200",
       title: "Acesso ao beta não liberado",
-      description: "Sua conta está autenticada, mas ainda não foi incluída na whitelist de beta testers. Solicite liberação ao administrador do projeto.",
+      description: "Sua conta está autenticada, mas ainda não foi incluída na lista de testadores beta. Solicite liberação ao administrador do projeto.",
       access: "Sem whitelist"
     },
     "no-build": {

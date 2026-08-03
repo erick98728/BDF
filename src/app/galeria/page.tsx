@@ -126,8 +126,8 @@ const galleryItems: GalleryItem[] = [
 ];
 
 const statusStyles: Record<GalleryItem["status"], string> = {
-  "Prévia visual": "border-cyan-200/25 bg-cyan-300/10 text-cyan-100",
-  "Em desenvolvimento": "border-amber-200/25 bg-amber-300/10 text-amber-100",
+  "Prévia visual": "text-[var(--color-route-soft)]",
+  "Em desenvolvimento": "text-[var(--color-accent-soft)]",
 };
 
 export default function GalleryPage() {
@@ -168,66 +168,42 @@ export default function GalleryPage() {
       <PageHeader title="Galeria" description={content.intro.description} />
 
       <SectionContainer>
-        <GlowCard
-          variant="panel"
-          contentClassName="relative overflow-hidden p-5 sm:p-7"
-        >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(99,221,255,0.14),transparent_30%),radial-gradient(circle_at_86%_68%,rgba(168,85,247,0.12),transparent_34%)]" />
-          <div className="relative z-10 grid gap-5 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-            <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-cyan-200/80">
-                {content.intro.eyebrow}
-              </p>
-              <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">
-                {content.intro.title}
-              </h2>
-              <p className="mt-3 text-sm leading-6 text-slate-300">
-                {content.intro.description}
-              </p>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-3">
-              <div className="rounded-xl border border-cyan-200/10 bg-black/20 px-4 py-3">
-                <GameGlyph
-                  name="gallery"
-                  variant="plain"
-                  className="mb-2 h-5 w-5 text-cyan-100"
-                />
-                <p className="text-xs uppercase tracking-[0.14em] text-slate-400">
-                  Itens
-                </p>
-                <p className="mt-1 text-sm font-medium text-white">
-                  {editableGalleryItems.length} registros
-                </p>
-              </div>
-              <div className="rounded-xl border border-amber-200/10 bg-black/20 px-4 py-3">
-                <GameGlyph
-                  name="beta"
-                  variant="plain"
-                  className="mb-2 h-5 w-5 text-amber-100"
-                />
-                <p className="text-xs uppercase tracking-[0.14em] text-slate-400">
-                  Status
-                </p>
-                <p className="mt-1 text-sm font-medium text-white">
-                  Em produção
-                </p>
-              </div>
-              <div className="rounded-xl border border-purple-200/10 bg-black/20 px-4 py-3">
-                <GameGlyph
-                  name="ruin"
-                  variant="plain"
-                  className="mb-2 h-5 w-5 text-purple-100"
-                />
-                <p className="text-xs uppercase tracking-[0.14em] text-slate-400">
-                  Tipo
-                </p>
-                <p className="mt-1 text-sm font-medium text-white">
-                  Real, conceito ou preview
-                </p>
-              </div>
-            </div>
+        <div className="gallery-intro">
+          <div className="gallery-intro__copy">
+            <p className="editorial-label">{content.intro.eyebrow}</p>
+            <h2>{content.intro.title}</h2>
+            <p>{content.intro.description}</p>
           </div>
-        </GlowCard>
+          <dl className="gallery-index">
+            <div>
+              <GameGlyph
+                name="gallery"
+                variant="plain"
+                className="gallery-index__glyph"
+              />
+              <dt>Itens</dt>
+              <dd>{editableGalleryItems.length} registros</dd>
+            </div>
+            <div>
+              <GameGlyph
+                name="beta"
+                variant="plain"
+                className="gallery-index__glyph gallery-index__glyph--ember"
+              />
+              <dt>Status</dt>
+              <dd>Em produção</dd>
+            </div>
+            <div>
+              <GameGlyph
+                name="ruin"
+                variant="plain"
+                className="gallery-index__glyph gallery-index__glyph--muted"
+              />
+              <dt>Tipo</dt>
+              <dd>Real, conceito ou preview</dd>
+            </div>
+          </dl>
+        </div>
       </SectionContainer>
 
       <SectionContainer withDivider>
@@ -235,7 +211,7 @@ export default function GalleryPage() {
           title="Filtros visuais"
           subtitle="Filtre imagens reais cadastradas, conceitos e previews abstratos sem misturar com promessas de material final."
         />
-        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-6">
+        <div className="gallery-filters" role="group" aria-label="Filtrar galeria">
           {filters.map((filter) => {
             const active = filter.label === activeFilter;
             return (
@@ -243,23 +219,18 @@ export default function GalleryPage() {
                 key={filter.label}
                 type="button"
                 onClick={() => setActiveFilter(filter.label)}
-                className={`min-h-14 rounded-xl border px-3 py-3 text-left transition ${
-                  active
-                    ? "border-cyan-200/55 bg-cyan-300/15 text-cyan-100 shadow-[0_0_24px_rgba(99,221,255,0.10)]"
-                    : "border-white/10 bg-white/[0.04] text-slate-300 hover:border-cyan-200/25 hover:bg-white/[0.07]"
-                }`}
+                aria-pressed={active}
+                className="gallery-filter"
               >
-                <span className="flex items-center gap-2">
+                <span className="gallery-filter__label">
                   <GameGlyph
                     name={filter.icon}
                     variant="plain"
-                    className="h-4 w-4"
+                    className="gallery-filter__glyph"
                   />
-                  <span className="text-xs font-semibold uppercase tracking-[0.12em]">
-                    {filter.label}
-                  </span>
+                  <span>{filter.label}</span>
                 </span>
-                <span className="mt-1 block text-[11px] uppercase tracking-[0.12em] text-slate-500">
+                <span className="gallery-filter__description">
                   {filter.description}
                 </span>
               </button>
@@ -273,18 +244,16 @@ export default function GalleryPage() {
           title="Acervo visual do projeto"
           subtitle="Itens marcados como imagem real usam URL cadastrada; previews e conceitos permanecem identificados até haver captura final."
         />
-        <div className="grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="gallery-grid">
           {visibleItems.map((item) => (
             <button
               key={item.id}
               type="button"
-              className="h-full w-full text-left"
+              className="gallery-entry"
               onClick={() => setSelected(item)}
+              aria-label={`Abrir ${item.name}`}
             >
-              <GlowCard
-                variant={item.imageUrl?.trim() ? "quiet" : "flat"}
-                contentClassName="flex h-full min-h-[365px] flex-col p-4 sm:p-5"
-              >
+              <article>
                 <GalleryVisualFrame
                   kind={item.visualKind}
                   icon={item.icon}
@@ -293,23 +262,15 @@ export default function GalleryPage() {
                   imageUrl={item.imageUrl}
                   altText={item.altText || item.name}
                 />
-                <div className="mt-4 flex items-center justify-between gap-3">
-                  <p className="text-xs uppercase tracking-[0.12em] text-cyan-200/85">
-                    {item.category}
-                  </p>
-                  <span
-                    className={`rounded-full border px-2 py-1 text-[10px] uppercase tracking-[0.1em] ${statusStyles[item.status]}`}
-                  >
+                <div className="gallery-entry__meta">
+                  <p>{item.category}</p>
+                  <span className={statusStyles[item.status]}>
                     {item.status}
                   </span>
                 </div>
-                <h3 className="mt-2 text-lg font-semibold text-white">
-                  {item.name}
-                </h3>
-                <p className="mt-2 text-sm leading-6 text-slate-300">
-                  {item.description}
-                </p>
-                <p className="mt-auto pt-4 text-xs uppercase tracking-[0.12em] text-slate-500">
+                <h3>{item.name}</h3>
+                <p className="gallery-entry__description">{item.description}</p>
+                <p className="gallery-entry__action">
                   {item.imageUrl?.trim()
                     ? "Imagem real cadastrada"
                     : item.visualKind === "concept"
@@ -317,7 +278,7 @@ export default function GalleryPage() {
                       : "Preview abstrato"}{" "}
                   · Abrir item
                 </p>
-              </GlowCard>
+              </article>
             </button>
           ))}
         </div>
@@ -398,8 +359,8 @@ export default function GalleryPage() {
                 </p>
               </div>
 
-              <div className="mt-4 rounded-xl border border-purple-200/10 bg-purple-300/[0.04] px-4 py-4">
-                <p className="text-xs uppercase tracking-[0.14em] text-purple-200/80">
+              <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.025] px-4 py-4">
+                <p className="text-xs uppercase tracking-[0.14em] text-slate-300">
                   Observação
                 </p>
                 <p className="mt-2 text-sm leading-6 text-slate-300">

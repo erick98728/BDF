@@ -9,14 +9,16 @@ export function CursorAura() {
   const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const supportsFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (!supportsFinePointer || prefersReducedMotion) return;
     if (dotRef.current === null || ringRef.current === null) return;
 
     const dotElement: HTMLDivElement = dotRef.current;
     const ringElement: HTMLDivElement = ringRef.current;
+    const finePointer = window.matchMedia(
+      "(hover: hover) and (pointer: fine)",
+    );
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
 
     let targetX = window.innerWidth / 2;
     let targetY = window.innerHeight / 2;
@@ -24,6 +26,7 @@ export function CursorAura() {
     let ringY = targetY;
     let animationFrame = 0;
     let visible = false;
+    let enabled = finePointer.matches && !reducedMotion.matches;
 
     function setVisible(next: boolean) {
       visible = next;
@@ -36,36 +39,80 @@ export function CursorAura() {
       dotElement.dataset.hovering = String(next);
     }
 
-    function move(event: PointerEvent) {
-      targetX = event.clientX;
-      targetY = event.clientY;
+    function cancelAnimation() {
+      if (!animationFrame) return;
 
-      if (!visible) setVisible(true);
-
-      dotElement.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) translate(-50%, -50%)`;
-      setHovering(Boolean((event.target as Element | null)?.closest?.(interactiveSelector)));
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
     }
 
     function animate() {
-      ringX += (targetX - ringX) * 0.18;
-      ringY += (targetY - ringY) * 0.18;
+      animationFrame = 0;
+      if (!enabled || !visible || document.hidden) return;
+
+      const deltaX = targetX - ringX;
+      const deltaY = targetY - ringY;
+      ringX += deltaX * 0.18;
+      ringY += deltaY * 0.18;
       ringElement.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
-      animationFrame = window.requestAnimationFrame(animate);
+
+      if (Math.abs(deltaX) > 0.1 || Math.abs(deltaY) > 0.1) {
+        animationFrame = window.requestAnimationFrame(animate);
+      }
+    }
+
+    function scheduleAnimation() {
+      if (!animationFrame && enabled && visible && !document.hidden) {
+        animationFrame = window.requestAnimationFrame(animate);
+      }
+    }
+
+    function move(event: PointerEvent) {
+      if (!enabled || event.pointerType === "touch") return;
+
+      targetX = event.clientX;
+      targetY = event.clientY;
+
+      if (!visible) {
+        ringX = targetX;
+        ringY = targetY;
+        ringElement.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+        setVisible(true);
+      }
+
+      dotElement.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) translate(-50%, -50%)`;
+      setHovering(Boolean((event.target as Element | null)?.closest?.(interactiveSelector)));
+      scheduleAnimation();
     }
 
     function hide() {
+      cancelAnimation();
       setVisible(false);
       setHovering(false);
     }
 
+    function syncCapabilities() {
+      enabled = finePointer.matches && !reducedMotion.matches;
+      if (!enabled) hide();
+    }
+
+    function handleVisibilityChange() {
+      if (document.hidden) hide();
+    }
+
     window.addEventListener("pointermove", move, { passive: true });
     window.addEventListener("pointerleave", hide);
-    animationFrame = window.requestAnimationFrame(animate);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    finePointer.addEventListener("change", syncCapabilities);
+    reducedMotion.addEventListener("change", syncCapabilities);
 
     return () => {
       window.removeEventListener("pointermove", move);
       window.removeEventListener("pointerleave", hide);
-      window.cancelAnimationFrame(animationFrame);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      finePointer.removeEventListener("change", syncCapabilities);
+      reducedMotion.removeEventListener("change", syncCapabilities);
+      cancelAnimation();
     };
   }, []);
 

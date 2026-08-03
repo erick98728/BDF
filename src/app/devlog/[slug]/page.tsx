@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) {
     return {
       title: "Devlog",
-      description: "Atualizações de desenvolvimento de Tester.",
+      description: "Atualizações de desenvolvimento de Protótipo.",
     };
   }
 
@@ -33,14 +33,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: post.summary,
     alternates: { canonical: `/devlog/${post.slug}` },
     openGraph: {
-      title: `${post.title} | Tester`,
+      title: `${post.title} | Protótipo`,
       description: post.summary,
       url: `/devlog/${post.slug}`,
       type: "article",
     },
     twitter: {
       card: "summary_large_image",
-      title: `${post.title} | Tester`,
+      title: `${post.title} | Protótipo`,
       description: post.summary,
     },
   };

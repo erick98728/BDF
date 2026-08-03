@@ -1,8 +1,8 @@
-# DOWNLOAD SECURITY PLAN — Tester Beta
+# DOWNLOAD SECURITY PLAN — Protótipo Beta
 
 ## Objetivo
 
-Permitir a distribuição controlada do Tester Beta sem colocar executáveis no GitHub, sem expor chaves privadas e sem transformar o frontend em fonte de segredos.
+Permitir a distribuição controlada do Protótipo Beta sem colocar executáveis no GitHub, sem expor chaves privadas e sem transformar o frontend em fonte de segredos.
 
 ## Status da Etapa 2
 
@@ -11,7 +11,7 @@ A base recomendada para download privado passa a ser:
 1. Supabase Auth para identificar o usuário.
 2. Supabase Storage privado com bucket `tester-beta-builds`.
 3. Tabela `beta_builds` para registrar versões e caminhos dos arquivos.
-4. Tabela `beta_access` para whitelist de beta testers.
+4. Tabela `beta_access` para lista de testadores beta.
 5. Tabela `beta_download_logs` para auditoria de downloads.
 6. Rota segura `POST /api/beta/download` do Next.js para gerar URL assinada de curta duração.
 

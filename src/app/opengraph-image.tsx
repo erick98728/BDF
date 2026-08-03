@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Tester, site oficial do jogo indie";
+export const alt = "Protótipo, site oficial do jogo indie";
 export const size = {
   width: 1200,
   height: 630
@@ -18,7 +18,7 @@ export default function Image() {
           display: "flex",
           position: "relative",
           overflow: "hidden",
-          background: "linear-gradient(145deg, #050914 0%, #081225 48%, #120b22 100%)",
+          background: "linear-gradient(145deg, #080908 0%, #081225 48%, #120b22 100%)",
           color: "#f2f6ff",
           fontFamily: "Arial, sans-serif"
         }}
@@ -28,7 +28,7 @@ export default function Image() {
             position: "absolute",
             inset: -120,
             background:
-              "radial-gradient(circle at 22% 18%, rgba(99,221,255,0.34), transparent 30%), radial-gradient(circle at 78% 18%, rgba(168,85,247,0.30), transparent 32%), radial-gradient(circle at 72% 78%, rgba(209,168,93,0.20), transparent 28%)"
+              "radial-gradient(circle at 22% 18%, rgba(204,100,55,0.34), transparent 30%), radial-gradient(circle at 78% 18%, rgba(245,242,237,0.30), transparent 32%), radial-gradient(circle at 72% 78%, rgba(204,100,55,0.20), transparent 28%)"
           }}
         />
         <div
@@ -37,7 +37,7 @@ export default function Image() {
             inset: 0,
             opacity: 0.18,
             backgroundImage:
-              "linear-gradient(rgba(99,221,255,0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(209,168,93,0.14) 1px, transparent 1px)",
+              "linear-gradient(rgba(204,100,55,0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(204,100,55,0.14) 1px, transparent 1px)",
             backgroundSize: "76px 76px"
           }}
         />
@@ -49,12 +49,12 @@ export default function Image() {
             width: 188,
             height: 188,
             borderRadius: 42,
-            border: "2px solid rgba(99,221,255,0.36)",
-            background: "rgba(99,221,255,0.08)",
+            border: "2px solid rgba(204,100,55,0.36)",
+            background: "rgba(204,100,55,0.08)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            boxShadow: "0 0 48px rgba(99,221,255,0.16), inset 0 1px 0 rgba(255,255,255,0.10)"
+            boxShadow: "0 0 48px rgba(204,100,55,0.16), inset 0 1px 0 rgba(255,255,255,0.10)"
           }}
         >
           <div
@@ -66,12 +66,12 @@ export default function Image() {
             }}
           >
             <svg width="126" height="126" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M24 5 39 15v18L24 43 9 33V15L24 5Z" stroke="#63ddff" strokeWidth="1.8" opacity="0.88" strokeLinejoin="round" />
-              <path d="M24 11v26" stroke="#d1a85d" strokeWidth="2.1" strokeLinecap="round" />
+              <path d="M24 5 39 15v18L24 43 9 33V15L24 5Z" stroke="#e4a080" strokeWidth="1.8" opacity="0.88" strokeLinejoin="round" />
+              <path d="M24 11v26" stroke="#cc6437" strokeWidth="2.1" strokeLinecap="round" />
               <path d="M15 18 24 12l9 6" stroke="#f2f6ff" strokeWidth="1.7" opacity="0.72" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M15 30 24 36l9-6" stroke="#f2f6ff" strokeWidth="1.7" opacity="0.72" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M17 24h14" stroke="#63ddff" strokeWidth="2.2" strokeLinecap="round" />
-              <path d="M13 13 8 9M35 13l5-4M13 35l-5 4M35 35l5 4" stroke="#d1a85d" strokeWidth="1.2" opacity="0.62" strokeLinecap="round" />
+              <path d="M17 24h14" stroke="#e4a080" strokeWidth="2.2" strokeLinecap="round" />
+              <path d="M13 13 8 9M35 13l5-4M13 35l-5 4M35 35l5 4" stroke="#cc6437" strokeWidth="1.2" opacity="0.62" strokeLinecap="round" />
             </svg>
           </div>
         </div>
@@ -82,7 +82,7 @@ export default function Image() {
             right: 92,
             top: 310,
             height: 2,
-            background: "linear-gradient(90deg, rgba(99,221,255,0.82), rgba(209,168,93,0.38), transparent)"
+            background: "linear-gradient(90deg, rgba(204,100,55,0.82), rgba(204,100,55,0.38), transparent)"
           }}
         />
         <div
@@ -94,7 +94,7 @@ export default function Image() {
             flexDirection: "column"
           }}
         >
-          <div style={{ fontSize: 96, lineHeight: 1, fontWeight: 900, letterSpacing: 8 }}>TESTER</div>
+          <div style={{ fontSize: 96, lineHeight: 1, fontWeight: 900, letterSpacing: 8 }}>PROTÓTIPO</div>
           <div style={{ marginTop: 22, fontSize: 24, letterSpacing: 5, color: "#bff4ff", fontWeight: 700 }}>
             SITE OFICIAL · BETA EM DESENVOLVIMENTO
           </div>
@@ -109,8 +109,8 @@ export default function Image() {
             bottom: 62,
             padding: "16px 24px",
             borderRadius: 999,
-            border: "1px solid rgba(209,168,93,0.35)",
-            background: "rgba(209,168,93,0.10)",
+            border: "1px solid rgba(204,100,55,0.35)",
+            background: "rgba(204,100,55,0.10)",
             color: "#ffe8b8",
             fontSize: 20,
             letterSpacing: 3,

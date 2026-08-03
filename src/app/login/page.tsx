@@ -9,10 +9,9 @@ import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
 import { BetaBadge, StatusBadge } from "@/components/TesterVisualSystem";
-import { writeAuthCookies } from "@/lib/authCookie";
 import { supabase, isSupabaseConfigured, supabaseSetupMessage } from "@/lib/supabaseClient";
 
-const fieldClass = "min-h-11 w-full rounded-lg border border-cyan-200/20 bg-black/20 px-3 py-2 text-sm text-slate-100 outline-none transition placeholder:text-slate-500 hover:border-cyan-200/30 hover:bg-black/25 focus:border-cyan-200/45 focus:bg-black/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200";
+const fieldClass = "form-field";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -76,7 +75,7 @@ export default function LoginPage() {
     <AnimatedPageWrapper>
       <PageHeader
         title="Login"
-        description="Entre ou crie sua conta para acessar o dashboard do beta, acompanhar a build e baixar Tester quando o acesso for liberado."
+        description="Entre ou crie sua conta para acessar o dashboard do beta, acompanhar a build e baixar Protótipo quando o acesso for liberado."
       />
       <SectionContainer>
         <GlowCard variant="functional" contentClassName="relative overflow-hidden p-5 sm:p-7">
@@ -87,9 +86,9 @@ export default function LoginPage() {
                 <BetaBadge>Acesso do beta</BetaBadge>
                 <StatusBadge status={isSupabaseConfigured ? "ready" : "warning"}>{isSupabaseConfigured ? "Autenticação pronta" : "Configuração pendente"}</StatusBadge>
               </div>
-              <h2 className="mt-4 text-2xl font-bold text-white sm:text-3xl">Conta oficial de tester</h2>
+              <h2 className="mt-4 text-2xl font-bold text-white sm:text-3xl">Conta do participante</h2>
               <p className="mt-3 text-sm leading-6 text-slate-300">
-                A conta serve para identificar beta testers, liberar o dashboard privado e organizar o acesso ao download da build quando ela estiver disponível.
+                A conta serve para identificar testadores beta, liberar o dashboard privado e organizar o acesso ao download da build quando ela estiver disponível.
               </p>
               <div className="mt-5 grid gap-3 text-sm">
                 <div className="mini-status-card rounded-lg border border-cyan-200/10 bg-black/20 px-3 py-3">

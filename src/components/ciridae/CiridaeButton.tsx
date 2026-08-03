@@ -34,7 +34,7 @@ const sizeClass: Record<CiridaeButtonSize, string> = {
 };
 
 const baseClass =
-  "inline-flex items-center justify-center rounded-[var(--radius-pill)] border bg-transparent font-[var(--font-pragmatica-cond)] font-normal uppercase transition-[border-color,color,opacity,transform] duration-[var(--motion-base)] ease-[var(--motion-ease)] focus-visible:outline-none focus-visible:shadow-[var(--focus-ring)] disabled:pointer-events-none disabled:opacity-[var(--opacity-disabled)]";
+  "fx-button inline-flex items-center justify-center rounded-[var(--radius-pill)] border bg-transparent font-[var(--font-pragmatica-cond)] font-normal uppercase transition-[border-color,color,opacity,transform] duration-[var(--motion-base)] ease-[var(--motion-ease)] focus-visible:outline-none focus-visible:shadow-[var(--focus-ring)] disabled:pointer-events-none disabled:opacity-[var(--opacity-disabled)]";
 
 export function CiridaeButton({
   children,
@@ -48,14 +48,14 @@ export function CiridaeButton({
 
   if (href) {
     return (
-      <Link href={href} className={classes} {...(props as AnchorHTMLAttributes<HTMLAnchorElement>)}>
+      <Link href={href} className={classes} data-fx-magnetic="true" {...(props as AnchorHTMLAttributes<HTMLAnchorElement>)}>
         {children}
       </Link>
     );
   }
 
   return (
-    <button className={classes} {...(props as ButtonHTMLAttributes<HTMLButtonElement>)}>
+    <button className={classes} data-fx-magnetic="true" {...(props as ButtonHTMLAttributes<HTMLButtonElement>)}>
       {children}
     </button>
   );

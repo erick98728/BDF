@@ -1,23 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Tester">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Protótipo">
   <defs>
     <radialGradient id="bg" cx="32%" cy="22%" r="76%">
-      <stop offset="0%" stop-color="#143450"/>
-      <stop offset="45%" stop-color="#080f20"/>
-      <stop offset="100%" stop-color="#050914"/>
+      <stop offset="0%" stop-color="#2c211b"/>
+      <stop offset="45%" stop-color="#11100e"/>
+      <stop offset="100%" stop-color="#080908"/>
     </radialGradient>
     <linearGradient id="stroke" x1="10" y1="8" x2="54" y2="56">
-      <stop offset="0%" stop-color="#63ddff"/>
-      <stop offset="58%" stop-color="#a855f7"/>
-      <stop offset="100%" stop-color="#d1a85d"/>
+      <stop offset="0%" stop-color="#e4a080"/>
+      <stop offset="58%" stop-color="#c4beb7"/>
+      <stop offset="100%" stop-color="#cc6437"/>
     </linearGradient>
   </defs>
   <rect width="64" height="64" rx="16" fill="url(#bg)"/>
-  <circle cx="47" cy="16" r="14" fill="#a855f7" opacity="0.12"/>
-  <circle cx="18" cy="46" r="15" fill="#63ddff" opacity="0.10"/>
-  <path d="M32 7 50 18v22L32 57 14 40V18L32 7Z" fill="#050914" fill-opacity="0.42" stroke="url(#stroke)" stroke-width="2.6" stroke-linejoin="round"/>
-  <path d="M32 14v36" stroke="#d1a85d" stroke-width="2.8" stroke-linecap="round"/>
-  <path d="M21 23 32 16l11 7" fill="none" stroke="#63ddff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M21 39 32 47l11-8" fill="none" stroke="#63ddff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.82"/>
-  <path d="M22 32h20" stroke="#f2f6ff" stroke-width="2.8" stroke-linecap="round" opacity="0.9"/>
-  <path d="M16 15 10 10M48 15l6-5M16 49l-6 5M48 49l6 5" stroke="#d1a85d" stroke-width="1.5" stroke-linecap="round" opacity="0.55"/>
+  <circle cx="47" cy="16" r="14" fill="#c4beb7" opacity="0.12"/>
+  <circle cx="18" cy="46" r="15" fill="#e4a080" opacity="0.10"/>
+  <path d="M32 7 50 18v22L32 57 14 40V18L32 7Z" fill="#080908" fill-opacity="0.42" stroke="url(#stroke)" stroke-width="2.6" stroke-linejoin="round"/>
+  <path d="M32 14v36" stroke="#cc6437" stroke-width="2.8" stroke-linecap="round"/>
+  <path d="M21 23 32 16l11 7" fill="none" stroke="#e4a080" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M21 39 32 47l11-8" fill="none" stroke="#e4a080" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.82"/>
+  <path d="M22 32h20" stroke="#f5f2ed" stroke-width="2.8" stroke-linecap="round" opacity="0.9"/>
+  <path d="M16 15 10 10M48 15l6-5M16 49l-6 5M48 49l6 5" stroke="#cc6437" stroke-width="1.5" stroke-linecap="round" opacity="0.55"/>
 </svg>

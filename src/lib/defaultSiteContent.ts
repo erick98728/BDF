@@ -4,14 +4,14 @@ export const defaultSiteContent: SiteContent = {
   home: {
     id: "home-hero",
     eyebrow: "Protótipo jogável",
-    title: "Tester",
+    title: "Protótipo",
     description: "Metroidvania 2D sombrio sobre trilhas conectadas, katana, Dash e leitura de rota em um mundo em construção."
   },
   lore: {
     id: "lore-intro",
     eyebrow: "Arquivo do Bosque",
     title: "Uma história contada por sinais.",
-    description: "Tester acontece em um cenário marcado por ruínas, disciplina de combate, bloqueios de rota e memórias fragmentadas."
+    description: "Protótipo acontece em um cenário marcado por ruínas, disciplina de combate, bloqueios de rota e memórias fragmentadas."
   },
   gallery: {
     intro: {
@@ -108,7 +108,7 @@ export const defaultSiteContent: SiteContent = {
         description: "Personagem controlado na experiência inicial, definido por combate de katana, leitura de arena e adaptação dentro do Bosque da Névoa Perdida.",
         betaRole: "Servir como base de movimentação, ataque, dash e evolução técnica durante os primeiros testes.",
         abilities: ["Katana", "Dash", "Exploração", "Progressão"],
-        altText: "Representação visual de Rubens, protagonista jogável de Tester."
+        altText: "Representação visual de Rubens, protagonista jogável de Protótipo."
       },
       {
         id: "lucarelli",
@@ -121,7 +121,7 @@ export const defaultSiteContent: SiteContent = {
         description: "Presença hostil que bloqueia a progressão inicial e exige domínio de posicionamento, tempo de ataque e leitura de padrão.",
         betaRole: "Validar o ritmo de combate, clareza de feedback e sensação de desafio no primeiro grande encontro.",
         abilities: ["Arena", "Padrões", "Pressão", "Teste de domínio"],
-        altText: "Representação visual de Lucarelli, chefe inicial de Tester."
+        altText: "Representação visual de Lucarelli, chefe inicial de Protótipo."
       }
     ],
     enemies: [
@@ -151,7 +151,7 @@ export const defaultSiteContent: SiteContent = {
         description: "Nome reservado para expansões narrativas futuras, mantendo mistério sobre função, relação com Rubens e impacto no mundo.",
         betaRole: "Sinalizar expansão de universo sem participação prometida na build atual.",
         abilities: ["Reservado", "Reserva", "Lore", "Mistério"],
-        altText: "Representação visual reservada de Kin, personagem futuro de Tester."
+        altText: "Representação visual reservada de Kin, personagem futuro de Protótipo."
       },
       {
         id: "shico",
@@ -164,7 +164,7 @@ export const defaultSiteContent: SiteContent = {
         description: "Figura mantida como pista para conteúdos posteriores, associada ao planejamento de universo e relações ainda não reveladas.",
         betaRole: "Sinalizar expansão de universo sem participação prometida na build atual.",
         abilities: ["Bloqueado", "Reserva", "Universo", "Segredo"],
-        altText: "Representação visual reservada de Shico, personagem futuro de Tester."
+        altText: "Representação visual reservada de Shico, personagem futuro de Protótipo."
       },
       {
         id: "conteudo-planejado",
