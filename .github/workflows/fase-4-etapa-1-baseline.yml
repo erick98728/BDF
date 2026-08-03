@@ -1,0 +1,88 @@
+name: Fase 4 - Etapa 1 - Baseline visual
+
+on:
+  push:
+    branches:
+      - agent/fase-4-etapa-1-baseline-visual
+    paths:
+      - .github/workflows/fase-4-etapa-1-baseline.yml
+      - scripts/visual-baseline-audit.mjs.gz.b64
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fase-4-etapa-1-baseline-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  visual-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      BASELINE_URL: https://bdf-navy.vercel.app
+      EXPECTED_MAIN_SHA: 7a192260c7945c6c75ab05bba78ebe97f94050e1
+      BASELINE_BRANCH: agent/fase-4-etapa-1-baseline-visual
+      BASELINE_OUTPUT: docs/fase-4/etapa-1
+
+    steps:
+      - name: Checkout da branch de auditoria
+        uses: actions/checkout@v4
+        with:
+          ref: agent/fase-4-etapa-1-baseline-visual
+          fetch-depth: 0
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar runtime da auditoria
+        run: npm install --no-save --no-package-lock playwright@1.55.0 axe-core@4.10.3
+
+      - name: Instalar Chromium do Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Preparar auditor visual
+        run: |
+          base64 --decode scripts/visual-baseline-audit.mjs.gz.b64 | gzip --decompress > scripts/.visual-baseline-audit.runtime.mjs
+
+      - name: Executar baseline visual
+        run: node scripts/.visual-baseline-audit.runtime.mjs
+
+      - name: Remover auditor temporário
+        if: always()
+        run: rm -f scripts/.visual-baseline-audit.runtime.mjs
+
+      - name: Publicar resumo da execução
+        if: always()
+        run: |
+          if [ -f docs/fase-4/etapa-1/README.md ]; then
+            cat docs/fase-4/etapa-1/README.md >> "$GITHUB_STEP_SUMMARY"
+          elif [ -f docs/fase-4/etapa-1/audit-failure.txt ]; then
+            cat docs/fase-4/etapa-1/audit-failure.txt >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Salvar artefato completo
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fase-4-etapa-1-baseline-visual
+          path: docs/fase-4/etapa-1
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Versionar relatório e evidências na branch
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/fase-4/etapa-1
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteração de baseline para versionar."
+          else
+            git commit -m "docs: registrar baseline visual da Fase 4 etapa 1 [skip ci]"
+            git push origin HEAD:agent/fase-4-etapa-1-baseline-visual
+          fi
