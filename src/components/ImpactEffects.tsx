@@ -7,6 +7,10 @@ const watchedSelector = "[data-fx-reveal], [data-fx-watch]";
 const revealSelector = "[data-fx-reveal]";
 const spotlightSelector = "[data-fx-spotlight]";
 const magneticSelector = "[data-fx-magnetic]";
+const timelineSelector = "[data-fx-timeline]";
+const timelineNodeSelector = "[data-fx-timeline-node]";
+
+const REVEAL_FAILSAFE_MS = 5000;
 
 type PointerState = {
   card: HTMLElement | null;
@@ -75,6 +79,9 @@ export function ImpactEffects() {
       dirty: false,
     };
     const imageCleanups: Array<() => void> = [];
+    const timelineElements = Array.from(
+      document.querySelectorAll<HTMLElement>(timelineSelector),
+    );
     let observer: IntersectionObserver | null = null;
     let animationFrame = 0;
     let scrollDirty = true;
@@ -138,6 +145,12 @@ export function ImpactEffects() {
       element.dataset.fxState = "pending";
       observer.observe(element);
     });
+
+    const revealFailsafe = window.setTimeout(() => {
+      watchedElements
+        .filter((element) => element.dataset.fxState === "pending")
+        .forEach(markVisible);
+    }, REVEAL_FAILSAFE_MS);
 
     document
       .querySelectorAll<HTMLImageElement>("img[data-fx-image]")
@@ -250,6 +263,36 @@ export function ImpactEffects() {
       );
     }
 
+    function updateTimelines() {
+      timelineElements.forEach((timeline) => {
+        const bounds = timeline.getBoundingClientRect();
+        const revealStart = window.innerHeight * 0.78;
+        const revealDistance = Math.max(bounds.height, 1);
+        const timelineProgress = reducedMotion.matches
+          ? 1
+          : clamp((revealStart - bounds.top) / revealDistance, 0, 1);
+
+        timeline.style.setProperty(
+          "--fx-timeline-progress",
+          timelineProgress.toFixed(4),
+        );
+
+        timeline
+          .querySelectorAll<HTMLElement>(timelineNodeSelector)
+          .forEach((node) => {
+            if (reducedMotion.matches || node.dataset.fxActive === "true") {
+              node.dataset.fxActive = "true";
+              return;
+            }
+
+            const nodeBounds = node.getBoundingClientRect();
+            if (nodeBounds.top <= window.innerHeight * 0.64) {
+              node.dataset.fxActive = "true";
+            }
+          });
+      });
+    }
+
     function updateCard() {
       const card = pointer.card;
       if (!card) return;
@@ -294,6 +337,7 @@ export function ImpactEffects() {
 
       if (scrollDirty) {
         updateScrollProgress();
+        updateTimelines();
         scrollDirty = false;
       }
 
@@ -368,6 +412,14 @@ export function ImpactEffects() {
 
       if (reducedMotion.matches) {
         watchedElements.forEach(markVisible);
+        timelineElements.forEach((timeline) => {
+          timeline.style.setProperty("--fx-timeline-progress", "1");
+          timeline
+            .querySelectorAll<HTMLElement>(timelineNodeSelector)
+            .forEach((node) => {
+              node.dataset.fxActive = "true";
+            });
+        });
       }
     }
 
@@ -406,6 +458,7 @@ export function ImpactEffects() {
 
     return () => {
       observer?.disconnect();
+      window.clearTimeout(revealFailsafe);
       imageCleanups.forEach((cleanup) => cleanup());
       resetPointerEffects();
       root.style.removeProperty("--scene-light-x");
