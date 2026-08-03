@@ -10,8 +10,6 @@ const magneticSelector = "[data-fx-magnetic]";
 const timelineSelector = "[data-fx-timeline]";
 const timelineNodeSelector = "[data-fx-timeline-node]";
 
-const REVEAL_FAILSAFE_MS = 5000;
-
 type PointerState = {
   card: HTMLElement | null;
   button: HTMLElement | null;
@@ -146,12 +144,6 @@ export function ImpactEffects() {
       observer.observe(element);
     });
 
-    const revealFailsafe = window.setTimeout(() => {
-      watchedElements
-        .filter((element) => element.dataset.fxState === "pending")
-        .forEach(markVisible);
-    }, REVEAL_FAILSAFE_MS);
-
     document
       .querySelectorAll<HTMLImageElement>("img[data-fx-image]")
       .forEach((image) => {
@@ -263,6 +255,19 @@ export function ImpactEffects() {
       );
     }
 
+    function revealPendingNearViewport() {
+      watchedElements
+        .filter((element) => element.dataset.fxState === "pending")
+        .forEach((element) => {
+          const bounds = element.getBoundingClientRect();
+          const isNearViewport =
+            bounds.top <= window.innerHeight * 1.12 &&
+            bounds.bottom >= window.innerHeight * -0.12;
+
+          if (isNearViewport) markVisible(element);
+        });
+    }
+
     function updateTimelines() {
       timelineElements.forEach((timeline) => {
         const bounds = timeline.getBoundingClientRect();
@@ -337,6 +342,7 @@ export function ImpactEffects() {
 
       if (scrollDirty) {
         updateScrollProgress();
+        revealPendingNearViewport();
         updateTimelines();
         scrollDirty = false;
       }
@@ -458,7 +464,6 @@ export function ImpactEffects() {
 
     return () => {
       observer?.disconnect();
-      window.clearTimeout(revealFailsafe);
       imageCleanups.forEach((cleanup) => cleanup());
       resetPointerEffects();
       root.style.removeProperty("--scene-light-x");
