@@ -50,8 +50,8 @@ export default function DevlogPage() {
           {devlogPosts.map((post, index) => {
             const icon = categoryGlyphs[post.category] ?? "lore";
             return (
-              <li key={post.slug}>
-                <span className="devlog-ledger__index">
+              <li key={post.slug} data-fx-reveal="record">
+                <span className="devlog-ledger__index fx-record-symbol">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <article>
@@ -68,6 +68,7 @@ export default function DevlogPage() {
                   <Link
                     href={`/devlog/${post.slug}`}
                     className="devlog-ledger__link"
+                    data-fx-magnetic="true"
                   >
                     Ler mais
                   </Link>
@@ -75,7 +76,7 @@ export default function DevlogPage() {
                 <GameGlyph
                   name={icon}
                   variant="plain"
-                  className="devlog-ledger__glyph"
+                  className="devlog-ledger__glyph fx-record-symbol"
                 />
               </li>
             );
