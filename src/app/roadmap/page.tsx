@@ -51,7 +51,7 @@ export default function RoadmapPage() {
       />
 
       <SectionContainer>
-        <div className="roadmap-intro">
+        <div className="roadmap-intro" data-fx-reveal="chapter">
           <div className="roadmap-intro__copy">
             <p className="editorial-label">Roadmap público</p>
             <h2>Escopo pequeno, evolução clara.</h2>
@@ -71,59 +71,74 @@ export default function RoadmapPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <div className="roadmap-heading">
+        <div className="roadmap-heading" data-fx-reveal="title">
           <p className="editorial-label">Roadmap público</p>
           <h2>Estado real do projeto Protótipo.</h2>
         </div>
 
-        <ol className="roadmap-timeline">
-          {roadmapGroups.map((group, groupIndex) => (
-            <li
-              key={group.title}
-              className={`roadmap-phase roadmap-phase--${group.status}`}
-            >
-              <div className="roadmap-phase__rail" aria-hidden="true">
-                <span>{String(groupIndex + 1).padStart(2, "0")}</span>
-              </div>
-
-              <div className="roadmap-phase__content">
-                <div className="roadmap-phase__heading">
-                  <div>
-                    <p className="editorial-label">{statusLabels[group.status]}</p>
-                    <h3>{group.title}</h3>
-                    <p>{group.description}</p>
-                  </div>
-                  <StatusBadge status={statusBadge[group.status]}>
-                    {statusLabels[group.status]}
-                  </StatusBadge>
+        <div className="roadmap-timeline-shell" data-fx-timeline="roadmap">
+          <span className="roadmap-timeline__progress" aria-hidden="true" />
+          <ol className="roadmap-timeline">
+            {roadmapGroups.map((group, groupIndex) => (
+              <li
+                key={group.title}
+                className={`roadmap-phase roadmap-phase--${group.status}`}
+                data-fx-timeline-node="phase"
+              >
+                <div className="roadmap-phase__rail" aria-hidden="true">
+                  <span>{String(groupIndex + 1).padStart(2, "0")}</span>
                 </div>
 
-                <ol className="roadmap-records">
-                  {group.items.map((item, itemIndex) => (
-                    <li key={item.title} className="roadmap-record">
-                      <div className="roadmap-record__marker" aria-hidden="true">
-                        {String(itemIndex + 1).padStart(2, "0")}
-                      </div>
-                      <GameGlyph
-                        name={item.icon}
-                        variant="plain"
-                        className="roadmap-record__glyph"
-                      />
-                      <div className="roadmap-record__copy">
-                        <p className="editorial-label">{item.scope}</p>
-                        <h4>{item.title}</h4>
-                        <p>{item.description}</p>
-                      </div>
-                      <StatusBadge status={statusBadge[item.status]}>
-                        {statusLabels[item.status]}
-                      </StatusBadge>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            </li>
-          ))}
-        </ol>
+                <div
+                  className="roadmap-phase__content"
+                  data-fx-reveal="chapter"
+                >
+                  <div className="roadmap-phase__heading">
+                    <div>
+                      <p className="editorial-label">{statusLabels[group.status]}</p>
+                      <h3>{group.title}</h3>
+                      <p>{group.description}</p>
+                    </div>
+                    <StatusBadge status={statusBadge[group.status]}>
+                      {statusLabels[group.status]}
+                    </StatusBadge>
+                  </div>
+
+                  <ol className="roadmap-records">
+                    {group.items.map((item, itemIndex) => (
+                      <li
+                        key={item.title}
+                        className="roadmap-record"
+                        data-fx-reveal="record"
+                        data-fx-timeline-node="record"
+                      >
+                        <div
+                          className="roadmap-record__marker fx-record-symbol"
+                          aria-hidden="true"
+                        >
+                          {String(itemIndex + 1).padStart(2, "0")}
+                        </div>
+                        <GameGlyph
+                          name={item.icon}
+                          variant="plain"
+                          className="roadmap-record__glyph fx-record-symbol"
+                        />
+                        <div className="roadmap-record__copy">
+                          <p className="editorial-label">{item.scope}</p>
+                          <h4>{item.title}</h4>
+                          <p>{item.description}</p>
+                        </div>
+                        <StatusBadge status={statusBadge[item.status]}>
+                          {statusLabels[item.status]}
+                        </StatusBadge>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
       </SectionContainer>
     </AnimatedPageWrapper>
   );

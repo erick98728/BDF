@@ -174,13 +174,13 @@ export default async function LorePage() {
           title="Mundo"
           subtitle="Um universo em construção, apresentado por rotas, ruínas, bloqueios e fragmentos de memória."
         />
-        <div className="lore-opening">
+        <div className="lore-opening" data-fx-reveal="chapter">
           <div className="lore-opening__story">
             <div className="editorial-lead">
               <GameGlyph
                 name="lore"
                 variant="plain"
-                className="editorial-lead__glyph"
+                className="editorial-lead__glyph fx-record-symbol"
               />
               <div>
                 <p className="editorial-label">{siteContent.lore.eyebrow}</p>
@@ -190,10 +190,14 @@ export default async function LorePage() {
             </div>
 
             <div className="lore-pillars">
-              {worldPillars.map((pillar) => (
-                <article key={pillar.title} className="lore-pillar">
-                  <span className="lore-pillar__index" aria-hidden="true">
-                    {String(worldPillars.indexOf(pillar) + 1).padStart(2, "0")}
+              {worldPillars.map((pillar, index) => (
+                <article
+                  key={pillar.title}
+                  className="lore-pillar"
+                  data-fx-reveal="record"
+                >
+                  <span className="lore-pillar__index fx-record-symbol" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
                   <div>
                     <p className="editorial-label">{pillar.eyebrow}</p>
@@ -203,14 +207,14 @@ export default async function LorePage() {
                   <GameGlyph
                     name={pillar.icon}
                     variant="plain"
-                    className="lore-pillar__glyph"
+                    className="lore-pillar__glyph fx-record-symbol"
                   />
                 </article>
               ))}
             </div>
           </div>
 
-          <aside className="lore-note">
+          <aside className="lore-note" data-fx-reveal="record">
             <p className="editorial-label">Tom narrativo</p>
             <h3>Nada é explicado cedo demais.</h3>
             <p>
@@ -218,9 +222,7 @@ export default async function LorePage() {
               foca em atmosfera, leitura de rota e progressão inicial dentro do
               Bosque.
             </p>
-            <blockquote>
-              O objetivo é sugerir, não revelar tudo.
-            </blockquote>
+            <blockquote>O objetivo é sugerir, não revelar tudo.</blockquote>
           </aside>
         </div>
       </SectionContainer>
@@ -240,8 +242,8 @@ export default async function LorePage() {
         />
         <ol className="fragment-index">
           {bosqueFragments.map((fragment, index) => (
-            <li key={fragment.title}>
-              <span className="fragment-index__number">
+            <li key={fragment.title} data-fx-reveal="record">
+              <span className="fragment-index__number fx-record-symbol">
                 {String(index + 1).padStart(2, "0")}
               </span>
               <div>
@@ -251,7 +253,7 @@ export default async function LorePage() {
               <GameGlyph
                 name={fragment.icon}
                 variant="plain"
-                className="fragment-index__glyph"
+                className="fragment-index__glyph fx-record-symbol"
               />
             </li>
           ))}
@@ -265,8 +267,12 @@ export default async function LorePage() {
         />
         <div className="technique-ledger">
           {techniques.map((technique, index) => (
-            <article key={technique.title} className="technique-record">
-              <div className="technique-record__mark">
+            <article
+              key={technique.title}
+              className="technique-record"
+              data-fx-reveal="record"
+            >
+              <div className="technique-record__mark fx-record-symbol">
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 <GameGlyph
                   name={technique.icon}
@@ -289,17 +295,23 @@ export default async function LorePage() {
           title="Registros do Bosque"
           subtitle="Eventos ambientais com pistas concretas, preservando respostas centrais e evitando spoilers grandes."
         />
-        <ol className="lore-timeline">
+        <div className="lore-timeline-shell" data-fx-timeline="lore">
+          <span className="lore-timeline__progress" aria-hidden="true" />
+          <ol className="lore-timeline">
             {timeline.map((item, index) => (
-              <li key={item.title}>
-                <div className="lore-timeline__node" aria-hidden="true">
+              <li
+                key={item.title}
+                data-fx-reveal="record"
+                data-fx-timeline-node="record"
+              >
+                <div className="lore-timeline__node fx-record-symbol" aria-hidden="true">
                   {String(index + 1).padStart(2, "0")}
                 </div>
                 <div className="lore-timeline__record">
                   <GameGlyph
                     name={item.icon}
                     variant="plain"
-                    className="lore-timeline__glyph"
+                    className="lore-timeline__glyph fx-record-symbol"
                   />
                   <div>
                     <p className="editorial-label">{item.label}</p>
@@ -309,7 +321,8 @@ export default async function LorePage() {
                 </div>
               </li>
             ))}
-        </ol>
+          </ol>
+        </div>
       </SectionContainer>
 
       <SectionContainer withDivider>
@@ -319,8 +332,10 @@ export default async function LorePage() {
         />
         <ol className="mystery-list">
           {mysteries.map((question, index) => (
-            <li key={question}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
+            <li key={question} data-fx-reveal="record">
+              <span className="fx-record-symbol">
+                {String(index + 1).padStart(2, "0")}
+              </span>
               <p>{question}</p>
             </li>
           ))}

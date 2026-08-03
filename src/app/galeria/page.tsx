@@ -1,16 +1,27 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { AnimatedPageWrapper } from "@/components/AnimatedPageWrapper";
+import {
+  GalleryModal,
+  type GalleryModalItem,
+} from "@/components/GalleryModal";
 import {
   GalleryVisualFrame,
   type GalleryVisualKind,
 } from "@/components/GalleryVisualFrame";
 import { GameGlyph, type GameGlyphName } from "@/components/GameGlyph";
-import { GlowCard } from "@/components/GlowCard";
 import { PageHeader } from "@/components/PageHeader";
 import { SectionContainer } from "@/components/SectionContainer";
 import { SectionTitle } from "@/components/SectionTitle";
+import { motionDurations, motionEasings } from "@/lib/motion";
 import { loadSiteContent } from "@/lib/adminApi";
 import { defaultSiteContent } from "@/lib/defaultSiteContent";
 
@@ -22,17 +33,8 @@ type GalleryCategory =
   | "Cenários"
   | "Vídeos";
 
-type GalleryItem = {
-  id: string;
-  name: string;
+type GalleryItem = Omit<GalleryModalItem, "category"> & {
   category: Exclude<GalleryCategory, "Todos">;
-  status: "Prévia visual" | "Em desenvolvimento";
-  description: string;
-  icon: GameGlyphName;
-  visualKind: GalleryVisualKind;
-  detail: string;
-  imageUrl?: string;
-  altText?: string;
 };
 
 type FilterConfig = {
@@ -61,7 +63,7 @@ const galleryItems: GalleryItem[] = [
     detail:
       "Quando houver captura real cadastrada, ela substitui esta moldura; por enquanto o foco é leitura de trilha e profundidade.",
     icon: "fog",
-    visualKind: "screenshot",
+    visualKind: "screenshot" as GalleryVisualKind,
   },
   {
     id: "concept-ruinas",
@@ -73,7 +75,7 @@ const galleryItems: GalleryItem[] = [
     detail:
       "Conceito abstrato para guiar tom, formas e sensação de vestígio antigo no Bosque.",
     icon: "ruin",
-    visualKind: "concept",
+    visualKind: "concept" as GalleryVisualKind,
   },
   {
     id: "rubens-pose",
@@ -85,7 +87,7 @@ const galleryItems: GalleryItem[] = [
     detail:
       "Representação simbólica com katana e energia, sem substituir arte final do personagem.",
     icon: "katana",
-    visualKind: "character",
+    visualKind: "character" as GalleryVisualKind,
   },
   {
     id: "clareira-hostil",
@@ -97,7 +99,7 @@ const galleryItems: GalleryItem[] = [
     detail:
       "Prévia de clima e composição, pensada para sugerir perigo sem virar mapa completo da região.",
     icon: "enemy",
-    visualKind: "scene",
+    visualKind: "scene" as GalleryVisualKind,
   },
   {
     id: "teaser-devlog",
@@ -109,7 +111,7 @@ const galleryItems: GalleryItem[] = [
     detail:
       "Moldura planejada para vídeo futuro, sem simular material que ainda não foi capturado.",
     icon: "platform",
-    visualKind: "video",
+    visualKind: "video" as GalleryVisualKind,
   },
   {
     id: "screenshot-atalho",
@@ -121,7 +123,7 @@ const galleryItems: GalleryItem[] = [
     detail:
       "Composição abstrata de rota e movimento, indicando progressão sem prometer layout final.",
     icon: "dash",
-    visualKind: "screenshot",
+    visualKind: "screenshot" as GalleryVisualKind,
   },
 ];
 
@@ -131,27 +133,18 @@ const statusStyles: Record<GalleryItem["status"], string> = {
 };
 
 export default function GalleryPage() {
+  const reduceMotion = Boolean(useReducedMotion());
   const [activeFilter, setActiveFilter] = useState<GalleryCategory>("Todos");
   const [content, setContent] = useState({
     ...defaultSiteContent.gallery,
     items: galleryItems,
   });
-  const [selected, setSelected] = useState<GalleryItem | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const returnFocusRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     loadSiteContent().then((siteContent) => setContent(siteContent.gallery));
   }, []);
-
-  useEffect(() => {
-    if (!selected) return;
-
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setSelected(null);
-    }
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selected]);
 
   const editableGalleryItems = content.items as GalleryItem[];
 
@@ -163,12 +156,21 @@ export default function GalleryPage() {
     [activeFilter, editableGalleryItems],
   );
 
+  useEffect(() => {
+    if (selectedIndex === null) return;
+    if (selectedIndex >= visibleItems.length) setSelectedIndex(null);
+  }, [selectedIndex, visibleItems.length]);
+
+  const closeModal = useCallback(() => {
+    setSelectedIndex(null);
+  }, []);
+
   return (
     <AnimatedPageWrapper>
       <PageHeader title="Galeria" description={content.intro.description} />
 
       <SectionContainer>
-        <div className="gallery-intro">
+        <div className="gallery-intro" data-fx-reveal="chapter">
           <div className="gallery-intro__copy">
             <p className="editorial-label">{content.intro.eyebrow}</p>
             <h2>{content.intro.title}</h2>
@@ -221,6 +223,7 @@ export default function GalleryPage() {
                 onClick={() => setActiveFilter(filter.label)}
                 aria-pressed={active}
                 className="gallery-filter"
+                data-fx-magnetic="true"
               >
                 <span className="gallery-filter__label">
                   <GameGlyph
@@ -244,141 +247,78 @@ export default function GalleryPage() {
           title="Acervo visual do projeto"
           subtitle="Itens marcados como imagem real usam URL cadastrada; previews e conceitos permanecem identificados até haver captura final."
         />
-        <div className="gallery-grid">
-          {visibleItems.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className="gallery-entry"
-              onClick={() => setSelected(item)}
-              aria-label={`Abrir ${item.name}`}
-            >
-              <article>
-                <GalleryVisualFrame
-                  kind={item.visualKind}
-                  icon={item.icon}
-                  label={item.category}
-                  status={item.status}
-                  imageUrl={item.imageUrl}
-                  altText={item.altText || item.name}
-                />
-                <div className="gallery-entry__meta">
-                  <p>{item.category}</p>
-                  <span className={statusStyles[item.status]}>
-                    {item.status}
-                  </span>
-                </div>
-                <h3>{item.name}</h3>
-                <p className="gallery-entry__description">{item.description}</p>
-                <p className="gallery-entry__action">
-                  {item.imageUrl?.trim()
-                    ? "Imagem real cadastrada"
-                    : item.visualKind === "concept"
-                      ? "Conceito visual"
-                      : "Preview abstrato"}{" "}
-                  · Abrir item
-                </p>
-              </article>
-            </button>
-          ))}
-        </div>
+        <motion.div layout className="gallery-grid">
+          <AnimatePresence initial={false} mode="popLayout">
+            {visibleItems.map((item) => (
+              <motion.button
+                layout
+                key={item.id}
+                type="button"
+                className="gallery-entry"
+                onClick={(event) => {
+                  returnFocusRef.current = event.currentTarget;
+                  setSelectedIndex(
+                    visibleItems.findIndex((visible) => visible.id === item.id),
+                  );
+                }}
+                aria-label={`Abrir ${item.name}`}
+                data-fx-spotlight="true"
+                initial={reduceMotion ? false : { opacity: 0, scale: 0.985 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.985 }}
+                transition={{
+                  duration: reduceMotion ? 0 : motionDurations.feedback,
+                  ease: motionEasings.standard,
+                  layout: {
+                    duration: reduceMotion ? 0 : motionDurations.enter,
+                    ease: motionEasings.enter,
+                  },
+                }}
+              >
+                <article>
+                  <GalleryVisualFrame
+                    kind={item.visualKind}
+                    icon={item.icon}
+                    label={item.category}
+                    status={item.status}
+                    imageUrl={item.imageUrl}
+                    altText={item.altText || item.name}
+                  />
+                  <div className="gallery-entry__meta">
+                    <p>{item.category}</p>
+                    <span className={statusStyles[item.status]}>
+                      {item.status}
+                    </span>
+                  </div>
+                  <h3>{item.name}</h3>
+                  <p className="gallery-entry__description">{item.description}</p>
+                  <p className="gallery-entry__action">
+                    {item.imageUrl?.trim()
+                      ? "Imagem real cadastrada"
+                      : item.visualKind === "concept"
+                        ? "Conceito visual"
+                        : "Preview abstrato"}{" "}
+                    · Abrir item
+                  </p>
+                </article>
+              </motion.button>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </SectionContainer>
 
-      {selected ? (
-        <div
-          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 px-4 py-5 backdrop-blur-sm sm:items-center sm:py-6"
-          onClick={() => setSelected(null)}
-        >
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby={`gallery-preview-title-${selected.id}`}
-            className="w-full max-w-3xl"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <GlowCard contentClassName="p-4 sm:p-6">
-              <div className="mb-4 flex items-start justify-between gap-3">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.16em] text-cyan-200/80">
-                    Preview da galeria
-                  </p>
-                  <h3
-                    id={`gallery-preview-title-${selected.id}`}
-                    className="mt-1 text-2xl font-bold text-white sm:text-3xl"
-                  >
-                    {selected.name}
-                  </h3>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setSelected(null)}
-                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/[0.06] text-lg text-slate-100 transition hover:bg-white/[0.10]"
-                  aria-label="Fechar preview"
-                >
-                  ×
-                </button>
-              </div>
-
-              <GalleryVisualFrame
-                kind={selected.visualKind}
-                icon={selected.icon}
-                label={selected.category}
-                status={selected.status}
-                size="modal"
-                imageUrl={selected.imageUrl}
-                altText={selected.altText || selected.name}
-              />
-
-              <div className="mt-5 grid gap-4 md:grid-cols-[0.9fr_1.1fr]">
-                <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-3">
-                  <p className="text-xs uppercase tracking-[0.14em] text-slate-400">
-                    Categoria
-                  </p>
-                  <p className="mt-1 text-sm font-medium text-white">
-                    {selected.category}
-                  </p>
-                </div>
-                <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-3">
-                  <p className="text-xs uppercase tracking-[0.14em] text-slate-400">
-                    Status
-                  </p>
-                  <p
-                    className={`mt-1 text-sm font-medium ${selected.status === "Prévia visual" ? "text-cyan-100" : "text-amber-100"}`}
-                  >
-                    {selected.status}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-4 rounded-xl border border-cyan-200/10 bg-black/20 px-4 py-4">
-                <p className="text-xs uppercase tracking-[0.14em] text-slate-400">
-                  Descrição
-                </p>
-                <p className="mt-2 text-sm leading-6 text-slate-300">
-                  {selected.description}
-                </p>
-              </div>
-
-              <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.025] px-4 py-4">
-                <p className="text-xs uppercase tracking-[0.14em] text-slate-300">
-                  Observação
-                </p>
-                <p className="mt-2 text-sm leading-6 text-slate-300">
-                  {selected.detail}
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setSelected(null)}
-                className="mt-5 min-h-11 w-full rounded-lg border border-cyan-200/35 bg-cyan-300/12 px-4 py-2 text-sm font-medium text-cyan-100 transition hover:bg-cyan-300/20 sm:w-auto"
-              >
-                Fechar preview
-              </button>
-            </GlowCard>
-          </div>
-        </div>
-      ) : null}
+      <AnimatePresence>
+        {selectedIndex !== null && visibleItems[selectedIndex] ? (
+          <GalleryModal
+            key="gallery-modal"
+            items={visibleItems}
+            selectedIndex={selectedIndex}
+            onSelectedIndexChange={setSelectedIndex}
+            onClose={closeModal}
+            returnFocusRef={returnFocusRef}
+          />
+        ) : null}
+      </AnimatePresence>
     </AnimatedPageWrapper>
   );
 }
