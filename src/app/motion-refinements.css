@@ -1,0 +1,58 @@
+.character-dossier[data-fx-reveal="card"] .character-dossier__visual {
+  opacity: 0.42;
+  transform: translate3d(0, 10px, 0) scale(0.965);
+  transition:
+    opacity var(--motion-enter) var(--motion-ease-enter),
+    transform var(--motion-enter) var(--motion-ease-enter);
+}
+
+.character-dossier[data-fx-reveal="card"][data-fx-state="visible"] .character-dossier__visual {
+  opacity: 1;
+  transform: none;
+}
+
+.character-dossier[data-fx-reveal="card"] .character-dossier__copy > * {
+  opacity: 0;
+  transform: translate3d(0, 8px, 0);
+  transition:
+    opacity var(--motion-enter) var(--motion-ease-enter),
+    transform var(--motion-enter) var(--motion-ease-enter);
+}
+
+.character-dossier[data-fx-reveal="card"][data-fx-state="visible"] .character-dossier__copy > * {
+  opacity: 1;
+  transform: none;
+}
+
+.character-dossier[data-fx-reveal="card"][data-fx-state="visible"] .character-dossier__copy > :nth-child(1) {
+  transition-delay: var(--motion-stagger);
+}
+
+.character-dossier[data-fx-reveal="card"][data-fx-state="visible"] .character-dossier__copy > :nth-child(2) {
+  transition-delay: calc(var(--motion-stagger) * 2);
+}
+
+.character-dossier[data-fx-reveal="card"][data-fx-state="visible"] .character-dossier__copy > :nth-child(3) {
+  transition-delay: calc(var(--motion-stagger) * 3);
+}
+
+.character-dossier[data-fx-reveal="card"][data-fx-state="visible"] .character-dossier__copy > :nth-child(4) {
+  transition-delay: calc(var(--motion-stagger) * 4);
+}
+
+form[aria-busy="true"] {
+  cursor: progress;
+}
+
+form[aria-busy="true"] :is(input, select, textarea, button) {
+  transition-duration: var(--motion-instant);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .character-dossier[data-fx-reveal="card"] .character-dossier__visual,
+  .character-dossier[data-fx-reveal="card"] .character-dossier__copy > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
