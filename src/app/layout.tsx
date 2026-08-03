@@ -3,6 +3,7 @@ import "./globals.css";
 import "./dock-menu.css";
 import "./effects.css";
 import "./motion-system.css";
+import "./motion-refinements.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackgroundFog } from "@/components/BackgroundFog";
