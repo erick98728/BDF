@@ -16,6 +16,10 @@
   --motion-atmospheric: var(--motion-environmental);
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 .route-transition-shell,
 .route-transition-page {
   min-width: 0;
@@ -115,8 +119,19 @@ html[data-route-transition="pending"] button {
   font-size: clamp(1.1rem, 1rem + 0.4vw, 1.4rem);
 }
 
+.hero-visual__sigil-motion {
+  width: 100%;
+  height: 100%;
+  transform-origin: center;
+}
+
 [data-fx-timeline] {
   --fx-timeline-progress: 0;
+}
+
+.roadmap-timeline-shell,
+.lore-timeline-shell {
+  position: relative;
 }
 
 .roadmap-timeline::before,
@@ -176,6 +191,46 @@ html[data-route-transition="pending"] button {
 
 [data-fx-reveal="record"][data-fx-state="visible"] .fx-record-symbol,
 [data-fx-reveal="dossier"][data-fx-state="visible"] .fx-dossier-visual {
+  opacity: 1;
+  transform: scale(1);
+}
+
+[data-fx-reveal="map"] .fx-map-route {
+  clip-path: inset(0 100% 0 0);
+  opacity: 0;
+  transition:
+    clip-path var(--motion-cinematic) var(--motion-ease-enter),
+    opacity var(--motion-enter) var(--motion-ease-standard);
+}
+
+[data-fx-reveal="map"] .fx-map-route:nth-of-type(2) {
+  transition-delay: var(--motion-stagger);
+}
+
+[data-fx-reveal="map"] .fx-map-route:nth-of-type(3) {
+  transition-delay: calc(var(--motion-stagger) * 2);
+}
+
+[data-fx-reveal="map"] .fx-map-route:nth-of-type(n + 4) {
+  transition-delay: calc(var(--motion-stagger) * 3);
+}
+
+[data-fx-reveal="map"] .fx-map-node {
+  opacity: 0;
+  transform: scale(0.72);
+  transform-origin: center;
+  transition:
+    opacity var(--motion-feedback) var(--motion-ease-standard),
+    transform var(--motion-feedback) var(--motion-ease-enter);
+  transition-delay: calc(var(--motion-cinematic) * 0.62);
+}
+
+[data-fx-reveal="map"][data-fx-state="visible"] .fx-map-route {
+  clip-path: inset(0);
+  opacity: 1;
+}
+
+[data-fx-reveal="map"][data-fx-state="visible"] .fx-map-node {
   opacity: 1;
   transform: scale(1);
 }
@@ -271,6 +326,12 @@ html[data-route-transition="pending"] button {
 .gallery-modal-close:active,
 .gallery-modal-navigation button:active {
   transform: translateY(1px) scale(0.98);
+}
+
+.gallery-modal-close:focus-visible,
+.gallery-modal-navigation button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
 .gallery-modal-media {
@@ -398,6 +459,8 @@ body[data-gallery-modal-open="true"] {
   [data-fx-timeline-node] .lore-timeline__node,
   [data-fx-reveal="record"] .fx-record-symbol,
   [data-fx-reveal="dossier"] .fx-dossier-visual,
+  [data-fx-reveal="map"] .fx-map-route,
+  [data-fx-reveal="map"] .fx-map-node,
   .gallery-filter,
   .gallery-entry,
   .gallery-modal-close,
@@ -408,7 +471,10 @@ body[data-gallery-modal-open="true"] {
 
   .route-transition-progress span,
   [data-fx-reveal="record"] .fx-record-symbol,
-  [data-fx-reveal="dossier"] .fx-dossier-visual {
+  [data-fx-reveal="dossier"] .fx-dossier-visual,
+  [data-fx-reveal="map"] .fx-map-route,
+  [data-fx-reveal="map"] .fx-map-node {
+    clip-path: none;
     opacity: 1;
     transform: none;
   }
