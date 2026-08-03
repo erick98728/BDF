@@ -1,0 +1,78 @@
+name: Fase 4 - Validação complementar de rolagem
+
+on:
+  push:
+    branches:
+      - agent/fase-4-etapa-1-baseline-visual
+    paths:
+      - .github/workflows/fase-4-scroll-validation.yml
+      - scripts/visual-scroll-validation.mjs
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/fase-4-scroll-validation.yml
+      - scripts/visual-scroll-validation.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fase-4-scroll-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scroll-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      BASELINE_URL: https://bdf-navy.vercel.app
+      BASELINE_OUTPUT: docs/fase-4/etapa-1
+
+    steps:
+      - name: Checkout da branch de auditoria
+        uses: actions/checkout@v4
+        with:
+          ref: agent/fase-4-etapa-1-baseline-visual
+          fetch-depth: 0
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar Playwright
+        run: npm install --no-save --no-package-lock playwright@1.55.0
+
+      - name: Instalar Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Validar reveals, rolagem e modal
+        run: node scripts/visual-scroll-validation.mjs
+
+      - name: Publicar artefato complementar
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fase-4-scroll-validation
+          path: |
+            docs/fase-4/etapa-1/SCROLL_VALIDATION.md
+            docs/fase-4/etapa-1/scroll-validation.json
+            docs/fase-4/etapa-1/evidence/scrolled
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Versionar validação complementar
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/fase-4/etapa-1/SCROLL_VALIDATION.md docs/fase-4/etapa-1/scroll-validation.json docs/fase-4/etapa-1/evidence/scrolled
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteração complementar para versionar."
+          else
+            git commit -m "docs: validar baseline após rolagem [skip ci]"
+            git push origin HEAD:agent/fase-4-etapa-1-baseline-visual
+          fi
