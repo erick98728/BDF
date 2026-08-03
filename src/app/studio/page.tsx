@@ -94,11 +94,11 @@ export default function StudioPage() {
           title="Sobre o projeto"
           subtitle="Protótipo é um jogo indie em protótipo jogável, criado com foco em evolução real."
         />
-        <article className="studio-manifesto">
+        <article className="studio-manifesto" data-fx-reveal="chapter">
           <GameGlyph
             name="studio"
             variant="plain"
-            className="studio-manifesto__glyph"
+            className="studio-manifesto__glyph fx-record-symbol"
           />
           <div>
             <p>
@@ -124,11 +124,14 @@ export default function StudioPage() {
           title="Sobre o desenvolvedor"
           subtitle="Uma apresentação profissional, sem expor dados pessoais sensíveis."
         />
-        <article className="studio-manifesto studio-manifesto--secondary">
+        <article
+          className="studio-manifesto studio-manifesto--secondary"
+          data-fx-reveal="chapter"
+        >
           <GameGlyph
             name="user"
             variant="plain"
-            className="studio-manifesto__glyph"
+            className="studio-manifesto__glyph fx-record-symbol"
           />
           <div>
             <p>
@@ -155,13 +158,19 @@ export default function StudioPage() {
         />
         <ol className="studio-principles">
           {philosophy.map((item, index) => (
-            <li key={item.title}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
+            <li key={item.title} data-fx-reveal="record">
+              <span className="fx-record-symbol">
+                {String(index + 1).padStart(2, "0")}
+              </span>
               <div>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
               </div>
-              <GameGlyph name={item.icon} variant="plain" />
+              <GameGlyph
+                name={item.icon}
+                variant="plain"
+                className="fx-record-symbol"
+              />
             </li>
           ))}
         </ol>
@@ -174,8 +183,12 @@ export default function StudioPage() {
         />
         <dl className="studio-tools">
           {tools.map((tool) => (
-            <div key={tool.name}>
-              <GameGlyph name={tool.icon} variant="plain" />
+            <div key={tool.name} data-fx-reveal="record">
+              <GameGlyph
+                name={tool.icon}
+                variant="plain"
+                className="fx-record-symbol"
+              />
               <dt>{tool.name}</dt>
               <dd>{tool.description}</dd>
             </div>
@@ -189,10 +202,10 @@ export default function StudioPage() {
           subtitle="A construção de Protótipo é dividida em etapas claras e testáveis. O roadmap público separa o que já funciona, o que está em teste e o que fica para depois."
         />
         <ol className="studio-evolution">
-          <li>
+          <li data-fx-reveal="record">
             <div>
               <p className="editorial-label">Etapa 1</p>
-              <GameGlyph name="build" variant="plain" />
+              <GameGlyph name="build" variant="plain" className="fx-record-symbol" />
             </div>
             <h3>Demo jogável</h3>
             <p>
@@ -200,10 +213,10 @@ export default function StudioPage() {
               e feedback básico.
             </p>
           </li>
-          <li>
+          <li data-fx-reveal="record">
             <div>
               <p className="editorial-label">Etapa 2</p>
-              <GameGlyph name="beta" variant="plain" />
+              <GameGlyph name="beta" variant="plain" className="fx-record-symbol" />
             </div>
             <h3>Beta fechado</h3>
             <p>
@@ -211,10 +224,10 @@ export default function StudioPage() {
               entender onde controle, mapa ou arena ainda confundem.
             </p>
           </li>
-          <li>
+          <li data-fx-reveal="record">
             <div>
               <p className="editorial-label">Etapa 3</p>
-              <GameGlyph name="future" variant="plain" />
+              <GameGlyph name="future" variant="plain" className="fx-record-symbol" />
             </div>
             <h3>Expansão</h3>
             <p>
@@ -223,7 +236,7 @@ export default function StudioPage() {
             </p>
           </li>
         </ol>
-        <div className="mt-5">
+        <div className="mt-5" data-fx-reveal="chapter">
           <GameButton href="/roadmap" variant="secondary">
             Ver roadmap completo
           </GameButton>
@@ -231,7 +244,7 @@ export default function StudioPage() {
       </SectionContainer>
 
       <SectionContainer withDivider>
-        <div className="pb-16 text-center">
+        <div className="pb-16 text-center" data-fx-reveal="chapter">
           <SectionTitle
             title="Acompanhe o desenvolvimento"
             subtitle="Se você gosta de projetos autorais, acompanhe as próximas versões de Protótipo e participe com feedback quando a build estiver disponível."
