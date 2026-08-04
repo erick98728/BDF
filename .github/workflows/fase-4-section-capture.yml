@@ -1,5 +1,5 @@
 name: Fase 4 - Evidências por seção
-# Execução de validação solicitada em 2026-08-04; comportamento do workflow inalterado.
+# Execução de validação solicitada em 2026-08-04; sem alteração da aplicação.
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: fase-4-section-capture-${{ github.ref }}
@@ -24,12 +24,14 @@ jobs:
     env:
       BASELINE_URL: https://bdf-navy.vercel.app
       SECTION_OUTPUT: docs/fase-4/etapa-1/section-capture
+      AUDIT_BRANCH: agent/fase-4-etapa-1-baseline-visual
 
     steps:
       - name: Checkout da branch de auditoria
         uses: actions/checkout@v4
         with:
           ref: agent/fase-4-etapa-1-baseline-visual
+          fetch-depth: 0
 
       - name: Configurar Node.js
         uses: actions/setup-node@v4
@@ -46,6 +48,72 @@ jobs:
       - name: Capturar cada seção em desktop, tablet e mobile
         run: node scripts/visual-section-capture.mjs
 
+      - name: Validar índice, matriz e arquivos gerados
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const root = 'docs/fase-4/etapa-1/section-capture';
+          const indexPath = path.join(root, 'section-capture-index.json');
+          const data = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
+          const expectedRoutes = [
+            'home','download','lore','personagens','studio','devlog','roadmap','galeria',
+            'login','feedback','dashboard','admin','404','devlog-bosque','devlog-dash',
+            'devlog-lucarelli','devlog-demo'
+          ];
+          const expectedWidths = [1440, 768, 390];
+          const errors = [];
+          if (data.summary.routeWidthCases !== 51) errors.push(`routeWidthCases=${data.summary.routeWidthCases}`);
+          if (data.summary.navigationErrors !== 0) errors.push(`navigationErrors=${data.summary.navigationErrors}`);
+          if (data.summary.capturesWithPendingReveal !== 0) errors.push(`pendingReveal=${data.summary.capturesWithPendingReveal}`);
+          if (data.summary.capturesWithHiddenReveal !== 0) errors.push(`hiddenReveal=${data.summary.capturesWithHiddenReveal}`);
+          const matrix = new Map();
+          let screenshotCount = 0;
+          for (const result of data.results) {
+            const id = result.route?.id;
+            const width = result.width;
+            matrix.set(`${id}:${width}`, result);
+            if (result.error) errors.push(`${id}:${width}: ${result.error}`);
+            for (const capture of result.captures || []) {
+              screenshotCount += 1;
+              const file = path.join(root, capture.file);
+              if (!fs.existsSync(file)) errors.push(`arquivo ausente: ${capture.file}`);
+              else if (fs.statSync(file).size < 4096) errors.push(`arquivo pequeno: ${capture.file}`);
+            }
+          }
+          for (const id of expectedRoutes) {
+            if (!fs.existsSync(path.join(root, id))) errors.push(`pasta ausente: ${id}`);
+            for (const width of expectedWidths) {
+              if (!matrix.has(`${id}:${width}`)) errors.push(`caso ausente: ${id}:${width}`);
+            }
+          }
+          if (screenshotCount !== data.summary.screenshots) errors.push(`screenshots índice=${data.summary.screenshots}, contados=${screenshotCount}`);
+          if (screenshotCount === 0) errors.push('nenhuma screenshot gerada');
+          if (errors.length) {
+            console.error(errors.join('\n'));
+            process.exit(1);
+          }
+          console.log(JSON.stringify({ routes: expectedRoutes.length, widths: expectedWidths.length, screenshots: screenshotCount }, null, 2));
+          NODE
+
+      - name: Registrar metadados da execução
+        run: |
+          SCREENSHOTS=$(node -p "require('./docs/fase-4/etapa-1/section-capture/section-capture-index.json').summary.screenshots")
+          cat > docs/fase-4/etapa-1/section-capture/RUN_INFO.txt <<EOF
+          Workflow: .github/workflows/fase-4-section-capture.yml
+          Workflow name: ${{ github.workflow }}
+          Run ID: ${{ github.run_id }}
+          Run attempt: ${{ github.run_attempt }}
+          Run URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          Trigger commit: ${{ github.sha }}
+          Branch: ${{ github.ref_name }}
+          Generated at UTC: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+          Screenshots: $SCREENSHOTS
+          Navigation errors: 0
+          Pending reveals in viewport: 0
+          Invisible reveals in viewport: 0
+          EOF
+
       - name: Publicar evidências por seção
         if: always()
         uses: actions/upload-artifact@v4
@@ -54,3 +122,17 @@ jobs:
           path: docs/fase-4/etapa-1/section-capture
           if-no-files-found: warn
           retention-days: 30
+
+      - name: Versionar capturas e metadados na branch de auditoria
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/fase-4/etapa-1/section-capture
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteração de captura para versionar."
+          else
+            git commit -m "docs: registrar capturas por seção da Etapa 1 [skip ci]"
+            git pull --rebase origin "$AUDIT_BRANCH"
+            git push origin HEAD:"$AUDIT_BRANCH"
+          fi
