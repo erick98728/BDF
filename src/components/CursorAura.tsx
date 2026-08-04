@@ -20,13 +20,12 @@ export function CursorAura() {
       "(prefers-reduced-motion: reduce)",
     );
 
-    let targetX = window.innerWidth / 2;
-    let targetY = window.innerHeight / 2;
-    let ringX = targetX;
-    let ringY = targetY;
-    let animationFrame = 0;
+    let pointerX = window.innerWidth / 2;
+    let pointerY = window.innerHeight / 2;
+    let hovering = false;
     let visible = false;
     let enabled = finePointer.matches && !reducedMotion.matches;
+    let animationFrame = 0;
 
     function setVisible(next: boolean) {
       visible = next;
@@ -34,61 +33,46 @@ export function CursorAura() {
       ringElement.dataset.visible = String(next);
     }
 
-    function setHovering(next: boolean) {
-      ringElement.dataset.hovering = String(next);
-      dotElement.dataset.hovering = String(next);
-    }
-
-    function cancelAnimation() {
-      if (!animationFrame) return;
-
-      window.cancelAnimationFrame(animationFrame);
-      animationFrame = 0;
-    }
-
-    function animate() {
+    function flushPointer() {
       animationFrame = 0;
       if (!enabled || !visible || document.hidden) return;
 
-      const deltaX = targetX - ringX;
-      const deltaY = targetY - ringY;
-      ringX += deltaX * 0.18;
-      ringY += deltaY * 0.18;
-      ringElement.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
-
-      if (Math.abs(deltaX) > 0.1 || Math.abs(deltaY) > 0.1) {
-        animationFrame = window.requestAnimationFrame(animate);
-      }
+      const transform = `translate3d(${pointerX}px, ${pointerY}px, 0) translate(-50%, -50%)`;
+      dotElement.style.transform = transform;
+      ringElement.style.transform = transform;
+      dotElement.dataset.hovering = String(hovering);
+      ringElement.dataset.hovering = String(hovering);
     }
 
-    function scheduleAnimation() {
-      if (!animationFrame && enabled && visible && !document.hidden) {
-        animationFrame = window.requestAnimationFrame(animate);
+    function schedulePointer() {
+      if (!animationFrame && enabled && !document.hidden) {
+        animationFrame = window.requestAnimationFrame(flushPointer);
       }
     }
 
     function move(event: PointerEvent) {
       if (!enabled || event.pointerType === "touch") return;
 
-      targetX = event.clientX;
-      targetY = event.clientY;
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      hovering = Boolean(
+        (event.target as Element | null)?.closest?.(interactiveSelector),
+      );
 
-      if (!visible) {
-        ringX = targetX;
-        ringY = targetY;
-        ringElement.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
-        setVisible(true);
-      }
-
-      dotElement.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) translate(-50%, -50%)`;
-      setHovering(Boolean((event.target as Element | null)?.closest?.(interactiveSelector)));
-      scheduleAnimation();
+      if (!visible) setVisible(true);
+      schedulePointer();
     }
 
     function hide() {
-      cancelAnimation();
+      if (animationFrame) {
+        window.cancelAnimationFrame(animationFrame);
+        animationFrame = 0;
+      }
+
+      hovering = false;
       setVisible(false);
-      setHovering(false);
+      dotElement.dataset.hovering = "false";
+      ringElement.dataset.hovering = "false";
     }
 
     function syncCapabilities() {
@@ -112,7 +96,10 @@ export function CursorAura() {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       finePointer.removeEventListener("change", syncCapabilities);
       reducedMotion.removeEventListener("change", syncCapabilities);
-      cancelAnimation();
+
+      if (animationFrame) {
+        window.cancelAnimationFrame(animationFrame);
+      }
     };
   }, []);
 
