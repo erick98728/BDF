@@ -1,0 +1,150 @@
+{
+  "gallery": [
+    {
+      "type": "gallery",
+      "width": 1440,
+      "modalFound": true,
+      "opened": true,
+      "closedWithEscape": false,
+      "focusInside": false,
+      "focusReturned": false,
+      "filters": [
+        {
+          "label": "TODOS\nACERVO",
+          "before": 6,
+          "after": 6,
+          "pressed": "true"
+        },
+        {
+          "label": "SCREENSHOTS\nPRINTS/PREVIEWS",
+          "before": 6,
+          "after": 2,
+          "pressed": "true"
+        },
+        {
+          "label": "CONCEITOS\nIDEIAS",
+          "before": 2,
+          "after": 1,
+          "pressed": "true"
+        },
+        {
+          "label": "PERSONAGENS\nELENCO",
+          "before": 1,
+          "after": 1,
+          "pressed": "true"
+        },
+        {
+          "label": "CENÁRIOS\nAMBIENTES",
+          "before": 1,
+          "after": 1,
+          "pressed": "true"
+        },
+        {
+          "label": "VÍDEOS\nCLIPES",
+          "before": 1,
+          "after": 1,
+          "pressed": "true"
+        }
+      ],
+      "screenshot": "evidence/interactions/galeria-modal-1440.jpg"
+    },
+    {
+      "type": "gallery",
+      "width": 390,
+      "modalFound": true,
+      "opened": true,
+      "closedWithEscape": false,
+      "focusInside": true,
+      "focusReturned": false,
+      "filters": [
+        {
+          "label": "TODOS\nACERVO",
+          "before": 6,
+          "after": 6,
+          "pressed": "true"
+        },
+        {
+          "label": "SCREENSHOTS\nPRINTS/PREVIEWS",
+          "before": 6,
+          "after": 2,
+          "pressed": "true"
+        },
+        {
+          "label": "CONCEITOS\nIDEIAS",
+          "before": 2,
+          "after": 1,
+          "pressed": "true"
+        },
+        {
+          "label": "PERSONAGENS\nELENCO",
+          "before": 1,
+          "after": 1,
+          "pressed": "true"
+        },
+        {
+          "label": "CENÁRIOS\nAMBIENTES",
+          "before": 1,
+          "after": 1,
+          "pressed": "true"
+        },
+        {
+          "label": "VÍDEOS\nCLIPES",
+          "before": 1,
+          "after": 1,
+          "pressed": "true"
+        }
+      ],
+      "screenshot": "evidence/interactions/galeria-modal-390.jpg"
+    }
+  ],
+  "routeTransitions": [
+    {
+      "width": 1440,
+      "targetPath": "/download",
+      "durationMs": 189,
+      "finalUrl": "https://bdf-navy.vercel.app/download",
+      "busy": "false",
+      "loaderVisible": false
+    },
+    {
+      "width": 1440,
+      "targetPath": "/lore",
+      "durationMs": 445,
+      "finalUrl": "https://bdf-navy.vercel.app/lore",
+      "busy": "false",
+      "loaderVisible": false
+    },
+    {
+      "width": 1440,
+      "targetPath": "/roadmap",
+      "durationMs": 231,
+      "finalUrl": "https://bdf-navy.vercel.app/roadmap",
+      "busy": "false",
+      "loaderVisible": false
+    },
+    {
+      "width": 390,
+      "targetPath": "/download",
+      "durationMs": 137,
+      "finalUrl": "https://bdf-navy.vercel.app/download",
+      "busy": "false",
+      "loaderVisible": false
+    },
+    {
+      "width": 390,
+      "targetPath": "/lore",
+      "durationMs": 193,
+      "finalUrl": "https://bdf-navy.vercel.app/lore",
+      "busy": "false",
+      "loaderVisible": false
+    },
+    {
+      "width": 390,
+      "targetPath": "/roadmap",
+      "durationMs": 160,
+      "finalUrl": "https://bdf-navy.vercel.app/roadmap",
+      "busy": "false",
+      "loaderVisible": false
+    }
+  ]
+}

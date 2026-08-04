@@ -1,0 +1,1438 @@
+{
+  "metadata": {
+    "baseUrl": "https://bdf-navy.vercel.app",
+    "generatedAt": "2026-08-03T17:10:27.322Z",
+    "widths": [
+      1920,
+      768,
+      390
+    ],
+    "routes": 17,
+    "method": "Rolagem progressiva até o fim da página antes da captura e da verificação de reveals."
+  },
+  "summary": {
+    "tested": 51,
+    "pendingAfterScroll": 0,
+    "invisibleAfterScroll": 0,
+    "navigationErrors": 0,
+    "consoleErrorCases": 3,
+    "pageErrorCases": 0,
+    "modalEscapePassed": true,
+    "modalFocusPassed": true
+  },
+  "modalChecks": [
+    {
+      "width": 1440,
+      "focusAfterOpen": {
+        "insideDialog": true,
+        "ariaLabel": "Fechar preview",
+        "tag": "button"
+      },
+      "afterEscape": {
+        "dialogCount": 0,
+        "focusReturned": true,
+        "activeAriaLabel": "Abrir Bosque · Trilha Norte",
+        "bodyModalState": null
+      }
+    },
+    {
+      "width": 390,
+      "focusAfterOpen": {
+        "insideDialog": true,
+        "ariaLabel": "Fechar preview",
+        "tag": "button"
+      },
+      "afterEscape": {
+        "dialogCount": 0,
+        "focusReturned": true,
+        "activeAriaLabel": "Abrir Bosque · Trilha Norte",
+        "bodyModalState": null
+      }
+    }
+  ],
+  "results": [
+    {
+      "route": {
+        "id": "home",
+        "label": "Home",
+        "path": "/"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 6448,
+        "finalScrollY": 5368,
+        "bodyTextLength": 2158,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/home-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "download",
+        "label": "Download",
+        "path": "/download"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/download",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 6150,
+        "finalScrollY": 5070,
+        "bodyTextLength": 2120,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/download-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "lore",
+        "label": "Lore",
+        "path": "/lore"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/lore",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 6500,
+        "finalScrollY": 5420,
+        "bodyTextLength": 2506,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/lore-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "personagens",
+        "label": "Personagens",
+        "path": "/personagens"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/personagens",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 4423,
+        "finalScrollY": 3343,
+        "bodyTextLength": 3344,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/personagens-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "studio",
+        "label": "Studio",
+        "path": "/studio"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/studio",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 4929,
+        "finalScrollY": 3849,
+        "bodyTextLength": 2576,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/studio-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "devlog",
+        "label": "Devlog",
+        "path": "/devlog"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2528,
+        "finalScrollY": 1448,
+        "bodyTextLength": 1525,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/devlog-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "roadmap",
+        "label": "Roadmap",
+        "path": "/roadmap"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/roadmap",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 4570,
+        "finalScrollY": 3490,
+        "bodyTextLength": 3256,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/roadmap-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "galeria",
+        "label": "Galeria",
+        "path": "/galeria"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/galeria",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 3248,
+        "finalScrollY": 2168,
+        "bodyTextLength": 2593,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/galeria-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "login",
+        "label": "Login",
+        "path": "/login"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/login",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 1751,
+        "finalScrollY": 671,
+        "bodyTextLength": 1354,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/login-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "feedback",
+        "label": "Feedback",
+        "path": "/feedback"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/feedback",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2564,
+        "finalScrollY": 1484,
+        "bodyTextLength": 2204,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/feedback-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "dashboard",
+        "label": "Dashboard",
+        "path": "/dashboard"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/dashboard",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 4833,
+        "finalScrollY": 3753,
+        "bodyTextLength": 1940,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/dashboard-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "admin",
+        "label": "Admin",
+        "path": "/admin"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/admin",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2450,
+        "finalScrollY": 1370,
+        "bodyTextLength": 1510,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/admin-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "404",
+        "label": "Página 404",
+        "path": "/fase-4-rota-inexistente"
+      },
+      "width": 1920,
+      "status": 404,
+      "finalUrl": "https://bdf-navy.vercel.app/fase-4-rota-inexistente",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 1363,
+        "finalScrollY": 283,
+        "bodyTextLength": 681,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/404-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "devlog-bosque",
+        "label": "Devlog individual · construindo-o-bosque-da-nevoa-perdida",
+        "path": "/devlog/construindo-o-bosque-da-nevoa-perdida"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/construindo-o-bosque-da-nevoa-perdida",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2739,
+        "finalScrollY": 1659,
+        "bodyTextLength": 2346,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/devlog-bosque-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "devlog-dash",
+        "label": "Devlog individual · criando-o-sistema-de-dash",
+        "path": "/devlog/criando-o-sistema-de-dash"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/criando-o-sistema-de-dash",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2634,
+        "finalScrollY": 1554,
+        "bodyTextLength": 2229,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/devlog-dash-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "devlog-lucarelli",
+        "label": "Devlog individual · primeiro-chefe-lucarelli",
+        "path": "/devlog/primeiro-chefe-lucarelli"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/primeiro-chefe-lucarelli",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2606,
+        "finalScrollY": 1526,
+        "bodyTextLength": 2187,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/devlog-lucarelli-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "devlog-demo",
+        "label": "Devlog individual · preparando-a-primeira-demo-jogavel",
+        "path": "/devlog/preparando-a-primeira-demo-jogavel"
+      },
+      "width": 1920,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/preparando-a-primeira-demo-jogavel",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2687,
+        "finalScrollY": 1607,
+        "bodyTextLength": 2232,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/devlog-demo-1920.jpg"
+    },
+    {
+      "route": {
+        "id": "home",
+        "label": "Home",
+        "path": "/"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 6657,
+        "finalScrollY": 5633,
+        "bodyTextLength": 2153,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/home-768.jpg"
+    },
+    {
+      "route": {
+        "id": "download",
+        "label": "Download",
+        "path": "/download"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/download",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 5514,
+        "finalScrollY": 4490,
+        "bodyTextLength": 2115,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/download-768.jpg"
+    },
+    {
+      "route": {
+        "id": "lore",
+        "label": "Lore",
+        "path": "/lore"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/lore",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 6227,
+        "finalScrollY": 5203,
+        "bodyTextLength": 2501,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/lore-768.jpg"
+    },
+    {
+      "route": {
+        "id": "personagens",
+        "label": "Personagens",
+        "path": "/personagens"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/personagens",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 4780,
+        "finalScrollY": 3756,
+        "bodyTextLength": 2484,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/personagens-768.jpg"
+    },
+    {
+      "route": {
+        "id": "studio",
+        "label": "Studio",
+        "path": "/studio"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/studio",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 4388,
+        "finalScrollY": 3364,
+        "bodyTextLength": 2571,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/studio-768.jpg"
+    },
+    {
+      "route": {
+        "id": "devlog",
+        "label": "Devlog",
+        "path": "/devlog"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2234,
+        "finalScrollY": 1210,
+        "bodyTextLength": 1520,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/devlog-768.jpg"
+    },
+    {
+      "route": {
+        "id": "roadmap",
+        "label": "Roadmap",
+        "path": "/roadmap"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/roadmap",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 4198,
+        "finalScrollY": 3174,
+        "bodyTextLength": 3251,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/roadmap-768.jpg"
+    },
+    {
+      "route": {
+        "id": "galeria",
+        "label": "Galeria",
+        "path": "/galeria"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/galeria",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 3435,
+        "finalScrollY": 2411,
+        "bodyTextLength": 2324,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/galeria-768.jpg"
+    },
+    {
+      "route": {
+        "id": "login",
+        "label": "Login",
+        "path": "/login"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/login",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2002,
+        "finalScrollY": 978,
+        "bodyTextLength": 1349,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/login-768.jpg"
+    },
+    {
+      "route": {
+        "id": "feedback",
+        "label": "Feedback",
+        "path": "/feedback"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/feedback",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2867,
+        "finalScrollY": 1843,
+        "bodyTextLength": 2199,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/feedback-768.jpg"
+    },
+    {
+      "route": {
+        "id": "dashboard",
+        "label": "Dashboard",
+        "path": "/dashboard"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/dashboard",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 4194,
+        "finalScrollY": 3170,
+        "bodyTextLength": 1935,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/dashboard-768.jpg"
+    },
+    {
+      "route": {
+        "id": "admin",
+        "label": "Admin",
+        "path": "/admin"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/admin",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2456,
+        "finalScrollY": 1432,
+        "bodyTextLength": 1505,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/admin-768.jpg"
+    },
+    {
+      "route": {
+        "id": "404",
+        "label": "Página 404",
+        "path": "/fase-4-rota-inexistente"
+      },
+      "width": 768,
+      "status": 404,
+      "finalUrl": "https://bdf-navy.vercel.app/fase-4-rota-inexistente",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 1375,
+        "finalScrollY": 351,
+        "bodyTextLength": 676,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/404-768.jpg"
+    },
+    {
+      "route": {
+        "id": "devlog-bosque",
+        "label": "Devlog individual · construindo-o-bosque-da-nevoa-perdida",
+        "path": "/devlog/construindo-o-bosque-da-nevoa-perdida"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/construindo-o-bosque-da-nevoa-perdida",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2760,
+        "finalScrollY": 1736,
+        "bodyTextLength": 2341,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/devlog-bosque-768.jpg"
+    },
+    {
+      "route": {
+        "id": "devlog-dash",
+        "label": "Devlog individual · criando-o-sistema-de-dash",
+        "path": "/devlog/criando-o-sistema-de-dash"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/criando-o-sistema-de-dash",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2707,
+        "finalScrollY": 1683,
+        "bodyTextLength": 2224,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/devlog-dash-768.jpg"
+    },
+    {
+      "route": {
+        "id": "devlog-lucarelli",
+        "label": "Devlog individual · primeiro-chefe-lucarelli",
+        "path": "/devlog/primeiro-chefe-lucarelli"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/primeiro-chefe-lucarelli",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2707,
+        "finalScrollY": 1683,
+        "bodyTextLength": 2182,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/devlog-lucarelli-768.jpg"
+    },
+    {
+      "route": {
+        "id": "devlog-demo",
+        "label": "Devlog individual · preparando-a-primeira-demo-jogavel",
+        "path": "/devlog/preparando-a-primeira-demo-jogavel"
+      },
+      "width": 768,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/preparando-a-primeira-demo-jogavel",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2732,
+        "finalScrollY": 1708,
+        "bodyTextLength": 2227,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/devlog-demo-768.jpg"
+    },
+    {
+      "route": {
+        "id": "home",
+        "label": "Home",
+        "path": "/"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 8124,
+        "finalScrollY": 7280,
+        "bodyTextLength": 1460,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/home-390.jpg"
+    },
+    {
+      "route": {
+        "id": "download",
+        "label": "Download",
+        "path": "/download"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/download",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 7519,
+        "finalScrollY": 6675,
+        "bodyTextLength": 1171,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/download-390.jpg"
+    },
+    {
+      "route": {
+        "id": "lore",
+        "label": "Lore",
+        "path": "/lore"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/lore",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 7448,
+        "finalScrollY": 6604,
+        "bodyTextLength": 1799,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/lore-390.jpg"
+    },
+    {
+      "route": {
+        "id": "personagens",
+        "label": "Personagens",
+        "path": "/personagens"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/personagens",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 6756,
+        "finalScrollY": 5912,
+        "bodyTextLength": 1747,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/personagens-390.jpg"
+    },
+    {
+      "route": {
+        "id": "studio",
+        "label": "Studio",
+        "path": "/studio"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/studio",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 6141,
+        "finalScrollY": 5297,
+        "bodyTextLength": 1307,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/studio-390.jpg"
+    },
+    {
+      "route": {
+        "id": "devlog",
+        "label": "Devlog",
+        "path": "/devlog"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2543,
+        "finalScrollY": 1699,
+        "bodyTextLength": 1451,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/devlog-390.jpg"
+    },
+    {
+      "route": {
+        "id": "roadmap",
+        "label": "Roadmap",
+        "path": "/roadmap"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/roadmap",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 5500,
+        "finalScrollY": 4656,
+        "bodyTextLength": 3182,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/roadmap-390.jpg"
+    },
+    {
+      "route": {
+        "id": "galeria",
+        "label": "Galeria",
+        "path": "/galeria"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/galeria",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 5050,
+        "finalScrollY": 4206,
+        "bodyTextLength": 1997,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/galeria-390.jpg"
+    },
+    {
+      "route": {
+        "id": "login",
+        "label": "Login",
+        "path": "/login"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/login",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 2367,
+        "finalScrollY": 1523,
+        "bodyTextLength": 1280,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/login-390.jpg"
+    },
+    {
+      "route": {
+        "id": "feedback",
+        "label": "Feedback",
+        "path": "/feedback"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/feedback",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 3689,
+        "finalScrollY": 2845,
+        "bodyTextLength": 2130,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/feedback-390.jpg"
+    },
+    {
+      "route": {
+        "id": "dashboard",
+        "label": "Dashboard",
+        "path": "/dashboard"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/dashboard",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 5586,
+        "finalScrollY": 4742,
+        "bodyTextLength": 1286,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/dashboard-390.jpg"
+    },
+    {
+      "route": {
+        "id": "admin",
+        "label": "Admin",
+        "path": "/admin"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/admin",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 3195,
+        "finalScrollY": 2351,
+        "bodyTextLength": 1109,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/admin-390.jpg"
+    },
+    {
+      "route": {
+        "id": "404",
+        "label": "Página 404",
+        "path": "/fase-4-rota-inexistente"
+      },
+      "width": 390,
+      "status": 404,
+      "finalUrl": "https://bdf-navy.vercel.app/fase-4-rota-inexistente",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 1430,
+        "finalScrollY": 586,
+        "bodyTextLength": 607,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/404-390.jpg"
+    },
+    {
+      "route": {
+        "id": "devlog-bosque",
+        "label": "Devlog individual · construindo-o-bosque-da-nevoa-perdida",
+        "path": "/devlog/construindo-o-bosque-da-nevoa-perdida"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/construindo-o-bosque-da-nevoa-perdida",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 3462,
+        "finalScrollY": 2618,
+        "bodyTextLength": 2140,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/devlog-bosque-390.jpg"
+    },
+    {
+      "route": {
+        "id": "devlog-dash",
+        "label": "Devlog individual · criando-o-sistema-de-dash",
+        "path": "/devlog/criando-o-sistema-de-dash"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/criando-o-sistema-de-dash",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 3367,
+        "finalScrollY": 2523,
+        "bodyTextLength": 2020,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/devlog-dash-390.jpg"
+    },
+    {
+      "route": {
+        "id": "devlog-lucarelli",
+        "label": "Devlog individual · primeiro-chefe-lucarelli",
+        "path": "/devlog/primeiro-chefe-lucarelli"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/primeiro-chefe-lucarelli",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 3287,
+        "finalScrollY": 2443,
+        "bodyTextLength": 1986,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/devlog-lucarelli-390.jpg"
+    },
+    {
+      "route": {
+        "id": "devlog-demo",
+        "label": "Devlog individual · preparando-a-primeira-demo-jogavel",
+        "path": "/devlog/preparando-a-primeira-demo-jogavel"
+      },
+      "width": 390,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/preparando-a-primeira-demo-jogavel",
+      "navigationError": null,
+      "afterScroll": {
+        "pendingCount": 0,
+        "pendingExamples": [],
+        "invisibleCount": 0,
+        "invisibleExamples": [],
+        "timelinePending": 0,
+        "brokenImages": [],
+        "scrollHeight": 3330,
+        "finalScrollY": 2486,
+        "bodyTextLength": 2027,
+        "shellBusy": "false",
+        "loaderVisible": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "evidence/scrolled/devlog-demo-390.jpg"
+    }
+  ]
+}
