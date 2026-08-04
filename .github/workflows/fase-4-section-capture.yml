@@ -1,4 +1,5 @@
 name: Fase 4 - Evidências por seção
+# Execução de validação solicitada em 2026-08-04; comportamento do workflow inalterado.
 
 on:
   push:
