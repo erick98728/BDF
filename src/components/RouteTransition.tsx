@@ -1,11 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { pageTransition } from "@/lib/motion";
 
-const NAVIGATION_FALLBACK_MS = 8000;
+const NAVIGATION_FALLBACK_MS = 1600;
 
 function isModifiedClick(event: MouseEvent) {
   return event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
@@ -37,11 +37,19 @@ function getInternalDestination(event: MouseEvent) {
   return destination;
 }
 
+function clearRouteState() {
+  delete document.documentElement.dataset.routeTransition;
+}
+
 export function RouteTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const reduceMotion = useReducedMotion();
   const [pending, setPending] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingDestinationRef = useRef<string | null>(null);
+  const search = searchParams.toString();
+  const routeKey = search ? `${pathname}?${search}` : pathname;
 
   useEffect(() => {
     if (timeoutRef.current) {
@@ -49,61 +57,68 @@ export function RouteTransition({ children }: { children: ReactNode }) {
       timeoutRef.current = null;
     }
 
+    pendingDestinationRef.current = null;
     setPending(false);
-    delete document.documentElement.dataset.routeTransition;
-  }, [pathname]);
+    clearRouteState();
+  }, [routeKey]);
 
   useEffect(() => {
-    function beginNavigation() {
-      setPending(true);
-      document.documentElement.dataset.routeTransition = "pending";
-
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      timeoutRef.current = setTimeout(() => {
-        setPending(false);
-        delete document.documentElement.dataset.routeTransition;
-        timeoutRef.current = null;
-      }, NAVIGATION_FALLBACK_MS);
-    }
-
-    function handleDocumentClick(event: MouseEvent) {
-      if (getInternalDestination(event)) beginNavigation();
-    }
-
-    function handlePopState() {
-      beginNavigation();
-    }
-
-    document.addEventListener("click", handleDocumentClick, true);
-    window.addEventListener("popstate", handlePopState);
-
-    return () => {
-      document.removeEventListener("click", handleDocumentClick, true);
-      window.removeEventListener("popstate", handlePopState);
-
+    function finishNavigation() {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
         timeoutRef.current = null;
       }
+
+      pendingDestinationRef.current = null;
+      setPending(false);
+      clearRouteState();
+    }
+
+    function beginNavigation(destination?: URL) {
+      const href = destination?.href ?? window.location.href;
+
+      if (pendingDestinationRef.current === href) return;
+      pendingDestinationRef.current = href;
+      setPending(true);
+      document.documentElement.dataset.routeTransition = "pending";
+
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(
+        finishNavigation,
+        NAVIGATION_FALLBACK_MS,
+      );
+    }
+
+    function handleDocumentClick(event: MouseEvent) {
+      const destination = getInternalDestination(event);
+      if (destination) beginNavigation(destination);
+    }
+
+    function handlePopState() {
+      beginNavigation(new URL(window.location.href));
+    }
+
+    document.addEventListener("click", handleDocumentClick, true);
+    window.addEventListener("popstate", handlePopState);
+    window.addEventListener("pageshow", finishNavigation);
+
+    return () => {
+      document.removeEventListener("click", handleDocumentClick, true);
+      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener("pageshow", finishNavigation);
+      finishNavigation();
     };
   }, []);
 
   return (
     <div className="route-transition-shell" aria-busy={pending}>
-      <div
-        className={`route-transition-progress${pending ? " is-active" : ""}`}
-        aria-hidden="true"
-      >
-        <span />
-      </div>
-
       <span className="sr-only" role="status" aria-live="polite">
         {pending ? "Carregando nova página" : ""}
       </span>
 
-      <AnimatePresence initial={false} mode="popLayout">
+      <AnimatePresence initial={false} mode="sync">
         <motion.div
-          key={pathname}
+          key={routeKey}
           className="route-transition-page"
           variants={pageTransition}
           initial={reduceMotion ? false : "initial"}
