@@ -1,0 +1,33 @@
+/* Motion-only overrides for the header and Dock. */
+.prototype-header,
+.dock-menu__tile,
+.dock-menu__item.is-active .dock-menu__tile {
+  background-attachment: scroll !important;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .dock-menu__list,
+  .dock-menu__item {
+    animation: none !important;
+  }
+
+  .dock-menu__item,
+  .dock-menu__control,
+  .dock-menu__tile {
+    min-width: 44px;
+    min-height: 44px;
+    flex-shrink: 0;
+  }
+
+  .dock-menu__tile {
+    transform: none;
+    will-change: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dock-menu__list,
+  .dock-menu__item {
+    animation: none !important;
+  }
+}
