@@ -1,11 +1,13 @@
 import type { Transition, Variants } from "framer-motion";
 
 export const motionDurations = Object.freeze({
-  instant: 0.14,
-  feedback: 0.22,
-  enter: 0.56,
-  cinematic: 0.86,
-  stagger: 0.065,
+  instant: 0.16,
+  feedback: 0.2,
+  route: 0.34,
+  enter: 0.44,
+  gallery: 0.38,
+  cinematic: 0.82,
+  stagger: 0.045,
 });
 
 export const motionEasings = Object.freeze({
@@ -16,20 +18,20 @@ export const motionEasings = Object.freeze({
 
 export const pageTransition: Variants = {
   initial: {
-    opacity: 0,
-    y: 12,
+    opacity: 0.94,
+    y: 6,
   },
   enter: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: motionDurations.enter,
+      duration: motionDurations.route,
       ease: motionEasings.enter,
     },
   },
   exit: {
-    opacity: 0,
-    y: -6,
+    opacity: 0.98,
+    y: -2,
     transition: {
       duration: motionDurations.instant,
       ease: motionEasings.exit,
@@ -41,7 +43,7 @@ export const cinematicContainer: Variants = {
   hidden: {},
   visible: {
     transition: {
-      delayChildren: 0.06,
+      delayChildren: 0,
       staggerChildren: motionDurations.stagger,
     },
   },
@@ -50,7 +52,7 @@ export const cinematicContainer: Variants = {
 export const cinematicItem: Variants = {
   hidden: {
     opacity: 0,
-    y: 18,
+    y: 10,
   },
   visible: {
     opacity: 1,
@@ -65,7 +67,7 @@ export const cinematicItem: Variants = {
 export const cinematicVisual: Variants = {
   hidden: {
     opacity: 0,
-    scale: 0.975,
+    scale: 0.99,
   },
   visible: {
     opacity: 1,
