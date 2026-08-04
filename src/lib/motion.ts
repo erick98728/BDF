@@ -4,7 +4,7 @@ export const motionDurations = Object.freeze({
   instant: 0.16,
   feedback: 0.2,
   route: 0.34,
-  enter: 0.44,
+  enter: 0.42,
   gallery: 0.38,
   cinematic: 0.82,
   stagger: 0.045,
