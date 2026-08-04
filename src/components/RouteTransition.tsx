@@ -98,14 +98,26 @@ export function RouteTransition({ children }: { children: ReactNode }) {
       beginNavigation(new URL(window.location.href));
     }
 
-    document.addEventListener("click", handleDocumentClick, true);
+    function handleNavigationFailure() {
+      if (pendingDestinationRef.current) finishNavigation();
+    }
+
+    document.addEventListener("click", handleDocumentClick);
     window.addEventListener("popstate", handlePopState);
+    window.addEventListener("hashchange", finishNavigation);
     window.addEventListener("pageshow", finishNavigation);
+    window.addEventListener("pagehide", finishNavigation);
+    window.addEventListener("error", handleNavigationFailure);
+    window.addEventListener("unhandledrejection", handleNavigationFailure);
 
     return () => {
-      document.removeEventListener("click", handleDocumentClick, true);
+      document.removeEventListener("click", handleDocumentClick);
       window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener("hashchange", finishNavigation);
       window.removeEventListener("pageshow", finishNavigation);
+      window.removeEventListener("pagehide", finishNavigation);
+      window.removeEventListener("error", handleNavigationFailure);
+      window.removeEventListener("unhandledrejection", handleNavigationFailure);
       finishNavigation();
     };
   }, []);
