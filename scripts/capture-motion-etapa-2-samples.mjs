@@ -34,6 +34,15 @@ async function waitForStableRoute(page) {
 }
 
 async function paintFullPage(page) {
+  await page.addStyleTag({
+    content: `
+      .fx-content-auto {
+        content-visibility: visible !important;
+        contain-intrinsic-size: none !important;
+      }
+    `,
+  });
+
   await page.evaluate(async () => {
     const range = Math.max(
       document.documentElement.scrollHeight - window.innerHeight,
