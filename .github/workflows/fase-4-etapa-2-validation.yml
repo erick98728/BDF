@@ -9,18 +9,22 @@ on:
       - main
     paths:
       - src/app/effects.css
+      - src/app/galeria/page.tsx
       - src/app/layout.tsx
       - src/app/motion-system.css
       - src/app/motion-refinements.css
       - src/app/motion-optimization.css
       - src/components/BackgroundFog.tsx
       - src/components/CursorAura.tsx
+      - src/components/DockMenu.tsx
+      - src/components/GalleryModal.tsx
       - src/components/HeroSection.tsx
       - src/components/ImpactEffects.tsx
       - src/components/RouteTransition.tsx
       - src/lib/motion.ts
       - scripts/validate-motion-etapa-2.mjs
       - scripts/capture-motion-etapa-2-samples.mjs
+      - docs/fase-4/etapa-2/**
       - .github/workflows/fase-4-etapa-2-validation.yml
   workflow_dispatch:
 
@@ -35,11 +39,14 @@ jobs:
   validate:
     name: TypeScript, ESLint, build e navegador
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Verificar whitespace do diff
+        run: git diff --check origin/main...HEAD
 
       - name: Configurar Node.js
         uses: actions/setup-node@v4
@@ -47,8 +54,16 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Instalar dependências
+      - name: Instalação limpa
         run: npm ci
+
+      - name: Testes existentes
+        run: |
+          if node -e "const p=require('./package.json'); process.exit(p.scripts?.test ? 0 : 1)"; then
+            npm test
+          else
+            echo "Nenhum script de teste existente foi declarado no package.json."
+          fi
 
       - name: TypeScript
         run: npx tsc --noEmit --incremental false
@@ -69,7 +84,7 @@ jobs:
         run: |
           npm run start -- -H 127.0.0.1 -p 3000 > /tmp/bdf-etapa-2-server.log 2>&1 &
           echo $! > /tmp/bdf-etapa-2-server.pid
-          for attempt in {1..60}; do
+          for attempt in {1..90}; do
             if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then
               exit 0
             fi
@@ -81,10 +96,11 @@ jobs:
       - name: Validar movimento no navegador
         env:
           MOTION_VALIDATION_URL: http://127.0.0.1:3000
+          MOTION_BASELINE_URL: https://bdf-navy.vercel.app
           MOTION_VALIDATION_OUTPUT: artifacts/fase-4-etapa-2
         run: node scripts/validate-motion-etapa-2.mjs
 
-      - name: Capturar amostras visuais
+      - name: Capturar evidências comparativas
         env:
           MOTION_VALIDATION_URL: http://127.0.0.1:3000
           MOTION_VALIDATION_OUTPUT: artifacts/fase-4-etapa-2
