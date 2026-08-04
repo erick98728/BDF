@@ -1,62 +1,83 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
-type ScrollTimelineProps = {
-  name: string;
-  className: string;
-  children: ReactNode;
-};
-
-type TimelineNodeMetric = {
+type TimelineMetric = {
   element: HTMLElement;
   top: number;
+  height: number;
+  nodes: Array<{
+    element: HTMLElement;
+    top: number;
+  }>;
 };
 
 function clamp(value: number, minimum: number, maximum: number) {
   return Math.min(Math.max(value, minimum), maximum);
 }
 
-export function ScrollTimeline({
-  name,
-  className,
-  children,
-}: ScrollTimelineProps) {
-  const timelineRef = useRef<HTMLDivElement>(null);
+export function ScrollTimelineEffects() {
+  const pathname = usePathname();
 
   useEffect(() => {
-    const timeline = timelineRef.current;
-    if (!timeline) return;
-
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
-    const nodes = Array.from(
-      timeline.querySelectorAll<HTMLElement>("[data-fx-timeline-node]"),
-    );
-    let timelineTop = 0;
-    let timelineHeight = 1;
-    let nodeMetrics: TimelineNodeMetric[] = [];
+    let timelines: HTMLElement[] = [];
+    let metrics: TimelineMetric[] = [];
     let metricsDirty = true;
     let animationFrame = 0;
+    let setupFrame = 0;
     let resizeObserver: ResizeObserver | null = null;
+
+    function collectTimelines() {
+      timelines = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-fx-timeline]"),
+      );
+
+      if ("ResizeObserver" in window) {
+        resizeObserver?.disconnect();
+        resizeObserver = new ResizeObserver(() => {
+          metricsDirty = true;
+          scheduleUpdate();
+        });
+        timelines.forEach((timeline) => resizeObserver?.observe(timeline));
+      }
+
+      metricsDirty = true;
+    }
 
     function measure() {
       const pageTop = window.scrollY;
-      const bounds = timeline.getBoundingClientRect();
-      timelineTop = bounds.top + pageTop;
-      timelineHeight = Math.max(bounds.height, 1);
-      nodeMetrics = nodes.map((element) => ({
-        element,
-        top: element.getBoundingClientRect().top + pageTop,
-      }));
+      metrics = timelines.map((element) => {
+        const bounds = element.getBoundingClientRect();
+
+        return {
+          element,
+          top: bounds.top + pageTop,
+          height: Math.max(bounds.height, 1),
+          nodes: Array.from(
+            element.querySelectorAll<HTMLElement>(
+              "[data-fx-timeline-node]",
+            ),
+          ).map((node) => ({
+            element: node,
+            top: node.getBoundingClientRect().top + pageTop,
+          })),
+        };
+      });
       metricsDirty = false;
     }
 
-    function completeTimeline() {
-      timeline.style.setProperty("--fx-timeline-progress", "1");
-      nodes.forEach((node) => {
-        node.dataset.fxActive = "true";
+    function completeTimelines() {
+      timelines.forEach((timeline) => {
+        timeline.style.setProperty("--fx-timeline-progress", "1");
+        timeline
+          .querySelectorAll<HTMLElement>("[data-fx-timeline-node]")
+          .forEach((node) => {
+            node.dataset.fxActive = "true";
+          });
       });
     }
 
@@ -64,7 +85,7 @@ export function ScrollTimeline({
       animationFrame = 0;
 
       if (reducedMotion.matches) {
-        completeTimeline();
+        completeTimelines();
         return;
       }
 
@@ -72,25 +93,28 @@ export function ScrollTimeline({
 
       const scrollTop = window.scrollY;
       const viewportHeight = window.innerHeight;
-      const progress = clamp(
-        (scrollTop + viewportHeight * 0.78 - timelineTop) /
-          timelineHeight,
-        0,
-        1,
-      );
 
-      timeline.style.setProperty(
-        "--fx-timeline-progress",
-        progress.toFixed(4),
-      );
+      metrics.forEach((timeline) => {
+        const progress = clamp(
+          (scrollTop + viewportHeight * 0.78 - timeline.top) /
+            timeline.height,
+          0,
+          1,
+        );
 
-      nodeMetrics.forEach((node) => {
-        if (
-          node.element.dataset.fxActive === "true" ||
-          node.top <= scrollTop + viewportHeight * 0.64
-        ) {
-          node.element.dataset.fxActive = "true";
-        }
+        timeline.element.style.setProperty(
+          "--fx-timeline-progress",
+          progress.toFixed(4),
+        );
+
+        timeline.nodes.forEach((node) => {
+          if (
+            node.element.dataset.fxActive === "true" ||
+            node.top <= scrollTop + viewportHeight * 0.64
+          ) {
+            node.element.dataset.fxActive = "true";
+          }
+        });
       });
     }
 
@@ -127,19 +151,19 @@ export function ScrollTimeline({
       scheduleUpdate();
     }
 
-    if ("ResizeObserver" in window) {
-      resizeObserver = new ResizeObserver(handleResize);
-      resizeObserver.observe(timeline);
-    }
+    setupFrame = window.requestAnimationFrame(() => {
+      collectTimelines();
+      scheduleUpdate();
+    });
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleResize, { passive: true });
     document.addEventListener("visibilitychange", handleVisibilityChange);
     reducedMotion.addEventListener("change", handleMotionPreference);
-    scheduleUpdate();
 
     return () => {
       resizeObserver?.disconnect();
+      if (setupFrame) window.cancelAnimationFrame(setupFrame);
       if (animationFrame) window.cancelAnimationFrame(animationFrame);
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
@@ -149,15 +173,7 @@ export function ScrollTimeline({
       );
       reducedMotion.removeEventListener("change", handleMotionPreference);
     };
-  }, []);
+  }, [pathname]);
 
-  return (
-    <div
-      ref={timelineRef}
-      className={className}
-      data-fx-timeline={name}
-    >
-      {children}
-    </div>
-  );
+  return null;
 }
