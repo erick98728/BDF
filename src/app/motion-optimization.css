@@ -1,0 +1,181 @@
+:root {
+  --motion-instant: 160ms;
+  --motion-feedback: 200ms;
+  --motion-enter: 440ms;
+  --motion-cinematic: 820ms;
+  --motion-stagger: 45ms;
+
+  --motion-fast: var(--motion-instant);
+  --motion-base: var(--motion-feedback);
+  --motion-slow: var(--motion-enter);
+}
+
+/* The scroll bar is also the only global route indicator. */
+.route-transition-progress {
+  display: none;
+}
+
+.fx-scroll-progress > span {
+  transition: transform 80ms linear;
+}
+
+html[data-route-transition="pending"] .fx-scroll-progress > span {
+  width: 46%;
+  transform: translate3d(-110%, 0, 0) scaleX(1);
+  transform-origin: center;
+  animation: optimized-route-progress 760ms linear infinite;
+}
+
+/* Reveals use only compositor-friendly opacity and short transforms. */
+[data-fx-reveal][data-fx-state="pending"] {
+  opacity: 0;
+  filter: none;
+  transform: translate3d(0, 10px, 0);
+}
+
+[data-fx-reveal][data-fx-state="visible"] {
+  filter: none;
+  transition:
+    opacity var(--motion-enter) var(--motion-ease-enter),
+    transform var(--motion-enter) var(--motion-ease-enter);
+  transition-delay: calc(var(--fx-stagger-index) * var(--motion-stagger));
+}
+
+.fx-reveal-title .tester-title-line {
+  transition-duration: 520ms;
+  transition-delay: 0ms;
+}
+
+.fx-divider__mist,
+.fx-divider__line,
+.fx-divider__mark,
+.fx-divider__satellite {
+  transition-duration: 440ms;
+}
+
+/* Timeline progress is written once per animation frame and must not lag behind. */
+.roadmap-timeline__progress,
+.lore-timeline__progress {
+  transition: none;
+}
+
+/* Dynamic light no longer depends on fixed-background repainting. */
+.surface-glass::after,
+.game-glyph::before,
+[class*="rune"]::before,
+[class*="rune"]::after,
+.fx-card--interactive > .surface-glass::after,
+.fx-button::before {
+  background-attachment: scroll !important;
+}
+
+.fx-card--interactive,
+.fx-card--interactive[data-fx-pointer="active"],
+.fx-card--interactive[data-fx-tilt="true"][data-fx-pointer="active"] {
+  transform: none;
+  transform-style: flat;
+  will-change: auto;
+}
+
+.fx-card--interactive[data-fx-elevate="true"]:hover,
+.fx-card--interactive[data-fx-elevate="true"]:focus-within {
+  transform: translate3d(0, -1px, 0);
+}
+
+.fx-button {
+  --fx-button-x: 0px;
+  --fx-button-y: 0px;
+  transition-duration: var(--motion-feedback);
+}
+
+.fx-button:hover {
+  transform: translate3d(0, -1px, 0);
+}
+
+.fx-button:active {
+  transform: translate3d(0, 1px, 0) scale(0.99);
+}
+
+img[data-fx-image][data-fx-image-state="loading"] {
+  opacity: 0.28;
+  filter: none;
+  transform: scale(0.995);
+}
+
+img[data-fx-image][data-fx-image-state="loaded"] {
+  filter: none;
+  transition:
+    opacity 360ms var(--motion-ease-enter),
+    transform 360ms var(--motion-ease-enter);
+}
+
+/* The Hero keeps one composed entrance instead of replaying every internal line. */
+.hero-section .fx-sigil path {
+  animation: none;
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+}
+
+/* Global atmosphere is static; cinematic emphasis comes from content transitions. */
+.fog-drift-slow,
+.fog-drift-soft,
+.haze-drift {
+  animation: none !important;
+}
+
+.route-loading-state__mark span {
+  animation: none;
+  opacity: 0.58;
+}
+
+.route-loading-state__mark span:nth-child(2) {
+  opacity: 0.36;
+}
+
+.route-loading-state__mark span:nth-child(3) {
+  opacity: 0.22;
+}
+
+@keyframes optimized-route-progress {
+  from {
+    transform: translate3d(-110%, 0, 0) scaleX(1);
+  }
+
+  to {
+    transform: translate3d(320%, 0, 0) scaleX(1);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .fx-card--interactive[data-fx-elevate="true"]:hover,
+  .fx-card--interactive[data-fx-elevate="true"]:focus-within,
+  .fx-button:hover {
+    transform: none;
+  }
+
+  .fx-button:active {
+    transform: translateY(1px) scale(0.99);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-route-transition="pending"] .fx-scroll-progress > span,
+  [data-fx-reveal][data-fx-state],
+  .fx-reveal-title .tester-title-line,
+  .fx-divider__mist,
+  .fx-divider__line,
+  .fx-divider__mark,
+  .fx-divider__satellite,
+  .fx-card--interactive,
+  .fx-button,
+  img[data-fx-image][data-fx-image-state],
+  .route-loading-state__mark span {
+    animation: none;
+    transition: none;
+  }
+
+  html[data-route-transition="pending"] .fx-scroll-progress > span {
+    width: 100%;
+    transform: scaleX(1);
+  }
+}
