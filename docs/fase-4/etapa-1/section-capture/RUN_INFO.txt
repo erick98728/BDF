@@ -1,0 +1,12 @@
+Workflow: .github/workflows/fase-4-section-capture.yml
+Workflow name: Fase 4 - Evidências por seção
+Run ID: 30911270624
+Run attempt: 1
+Run URL: https://github.com/erick98728/BDF/actions/runs/30911270624
+Trigger commit: b44df2aeaf72e51d173476be0b9546597343c51d
+Branch: agent/fase-4-etapa-1-baseline-visual
+Generated at UTC: 2026-08-04T13:01:07Z
+Screenshots: 282
+Navigation errors: 0
+Pending reveals in viewport: 0
+Invisible reveals in viewport: 0

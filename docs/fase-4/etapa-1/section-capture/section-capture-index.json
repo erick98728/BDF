@@ -1,0 +1,3272 @@
+{
+  "metadata": {
+    "baseUrl": "https://bdf-navy.vercel.app",
+    "generatedAt": "2026-08-04T13:01:07.337Z",
+    "widths": [
+      1440,
+      768,
+      390
+    ]
+  },
+  "summary": {
+    "routeWidthCases": 51,
+    "screenshots": 282,
+    "navigationErrors": 0,
+    "capturesWithPendingReveal": 0,
+    "capturesWithHiddenReveal": 0
+  },
+  "results": [
+    {
+      "route": {
+        "id": "home",
+        "label": "Home",
+        "path": "/"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Protótipo",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "home/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "O que é Protótipo?",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 708,
+          "file": "home/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Sistemas em foco",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1662,
+          "file": "home/03-1440.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Bosque da Névoa Perdida",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2434,
+          "file": "home/04-1440.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Personagens",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3352,
+          "file": "home/05-1440.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "section",
+          "heading": "Acompanhe progresso, roadmap e feedback.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3911,
+          "file": "home/06-1440.jpg"
+        },
+        {
+          "index": 6,
+          "tag": "section",
+          "heading": "Devlog",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4797,
+          "file": "home/07-1440.jpg"
+        },
+        {
+          "index": 7,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 5343,
+          "file": "home/08-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "download",
+        "label": "Download",
+        "path": "/download"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/download",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Build de teste Protótipo",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "download/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Central da build interna Beta 0.1",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "download/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Status da build",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 447,
+          "file": "download/03-1440.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Como a build será liberada",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1303,
+          "file": "download/04-1440.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Requisitos mínimos",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1880,
+          "file": "download/05-1440.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "section",
+          "heading": "Aviso da build",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2543,
+          "file": "download/06-1440.jpg"
+        },
+        {
+          "index": 6,
+          "tag": "section",
+          "heading": "Como testar",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3183,
+          "file": "download/07-1440.jpg"
+        },
+        {
+          "index": 7,
+          "tag": "section",
+          "heading": "Escopo previsto da Beta 0.1",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4056,
+          "file": "download/08-1440.jpg"
+        },
+        {
+          "index": 8,
+          "tag": "section",
+          "heading": "Feedback",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4460,
+          "file": "download/09-1440.jpg"
+        },
+        {
+          "index": 9,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 5006,
+          "file": "download/10-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "lore",
+        "label": "Lore",
+        "path": "/lore"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/lore",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Lore",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "lore/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Mundo",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 439,
+          "file": "lore/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Bosque da Névoa Perdida",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1429,
+          "file": "lore/03-1440.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Fragmentos do Bosque",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2084,
+          "file": "lore/04-1440.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Técnicas",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2952,
+          "file": "lore/05-1440.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "section",
+          "heading": "Registros do Bosque",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3820,
+          "file": "lore/06-1440.jpg"
+        },
+        {
+          "index": 6,
+          "tag": "section",
+          "heading": "Perguntas em aberto",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4991,
+          "file": "lore/07-1440.jpg"
+        },
+        {
+          "index": 7,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 5369,
+          "file": "lore/08-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "personagens",
+        "label": "Personagens",
+        "path": "/personagens"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/personagens",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Personagens",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "personagens/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Elenco da Beta 0.1 e reservas futuras.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "personagens/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Elenco atual",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 802,
+          "file": "personagens/03-1440.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Ameaças do Bosque",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1784,
+          "file": "personagens/04-1440.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Reservado para depois",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2765,
+          "file": "personagens/05-1440.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3324,
+          "file": "personagens/06-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "studio",
+        "label": "Studio",
+        "path": "/studio"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/studio",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Studio",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "studio/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Sobre o projeto",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 22,
+          "file": "studio/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Sobre o desenvolvedor",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 845,
+          "file": "studio/03-1440.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Filosofia do projeto",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1485,
+          "file": "studio/04-1440.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Ferramentas",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2041,
+          "file": "studio/05-1440.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "section",
+          "heading": "Como o projeto evolui",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2886,
+          "file": "studio/06-1440.jpg"
+        },
+        {
+          "index": 6,
+          "tag": "section",
+          "heading": "Acompanhe o desenvolvimento",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3261,
+          "file": "studio/07-1440.jpg"
+        },
+        {
+          "index": 7,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3807,
+          "file": "studio/08-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "devlog",
+        "label": "Devlog",
+        "path": "/devlog"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Devlog",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Atualizações recentes",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 410,
+          "file": "devlog/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1477,
+          "file": "devlog/03-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "roadmap",
+        "label": "Roadmap",
+        "path": "/roadmap"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/roadmap",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Roadmap",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "roadmap/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Escopo pequeno, evolução clara.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "roadmap/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Estado real do projeto Protótipo.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 869,
+          "file": "roadmap/03-1440.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3494,
+          "file": "roadmap/04-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "galeria",
+        "label": "Galeria",
+        "path": "/galeria"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/galeria",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Galeria",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "galeria/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Acervo visual em validação.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "galeria/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Filtros visuais",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 322,
+          "file": "galeria/03-1440.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Acervo visual do projeto",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1477,
+          "file": "galeria/04-1440.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2177,
+          "file": "galeria/05-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "login",
+        "label": "Login",
+        "path": "/login"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/login",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Login",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "login/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Conta do participante",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 169,
+          "file": "login/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 715,
+          "file": "login/03-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "feedback",
+        "label": "Feedback",
+        "path": "/feedback"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/feedback",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Feedback",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "feedback/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Feedback que orienta a build.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 387,
+          "file": "feedback/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1536,
+          "file": "feedback/03-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "dashboard",
+        "label": "Dashboard",
+        "path": "/dashboard"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/dashboard",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Dashboard",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "dashboard/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Prévia do painel do jogador",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "dashboard/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Estado da conta",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 423,
+          "file": "dashboard/03-1440.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Download",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1227,
+          "file": "dashboard/04-1440.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Instruções do beta",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2113,
+          "file": "dashboard/05-1440.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "section",
+          "heading": "Checklist do jogador",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2766,
+          "file": "dashboard/06-1440.jpg"
+        },
+        {
+          "index": 6,
+          "tag": "section",
+          "heading": "Envie seu feedback",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3196,
+          "file": "dashboard/07-1440.jpg"
+        },
+        {
+          "index": 7,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3741,
+          "file": "dashboard/08-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "admin",
+        "label": "Admin",
+        "path": "/admin"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/admin",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Administração",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "admin/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Administração profissional do site",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "admin/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Seção 3",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "admin/03-1440.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Seção 4",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 310,
+          "file": "admin/04-1440.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Visão geral",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 852,
+          "file": "admin/05-1440.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1398,
+          "file": "admin/06-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "404",
+        "label": "Página 404",
+        "path": "/fase-4-rota-inexistente"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 404,
+      "finalUrl": "https://bdf-navy.vercel.app/fase-4-rota-inexistente",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Você se perdeu na névoa.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "404/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 310,
+          "file": "404/02-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "devlog-bosque",
+        "label": "Devlog individual · Bosque",
+        "path": "/devlog/construindo-o-bosque-da-nevoa-perdida"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/construindo-o-bosque-da-nevoa-perdida",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Construindo o Bosque da Névoa Perdida",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-bosque/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Seção 2",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-bosque/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Objetivo da primeira área",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 553,
+          "file": "devlog-bosque/03-1440.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Progresso registrado",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1336,
+          "file": "devlog-bosque/04-1440.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1665,
+          "file": "devlog-bosque/05-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "devlog-dash",
+        "label": "Devlog individual · Dash",
+        "path": "/devlog/criando-o-sistema-de-dash"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/criando-o-sistema-de-dash",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Criando o sistema de Dash",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-dash/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Seção 2",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-dash/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Por que o Dash é importante",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 483,
+          "file": "devlog-dash/03-1440.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Progresso registrado",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1025,
+          "file": "devlog-dash/04-1440.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1571,
+          "file": "devlog-dash/05-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "devlog-lucarelli",
+        "label": "Devlog individual · Lucarelli",
+        "path": "/devlog/primeiro-chefe-lucarelli"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/primeiro-chefe-lucarelli",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Primeiro chefe: Lucarelli",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-lucarelli/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Seção 2",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-lucarelli/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Função do encontro",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 455,
+          "file": "devlog-lucarelli/03-1440.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Progresso registrado",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 997,
+          "file": "devlog-lucarelli/04-1440.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1543,
+          "file": "devlog-lucarelli/05-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "devlog-demo",
+        "label": "Devlog individual · Demo",
+        "path": "/devlog/preparando-a-primeira-demo-jogavel"
+      },
+      "width": 1440,
+      "height": 1000,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/preparando-a-primeira-demo-jogavel",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Preparando a primeira demo jogável",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-demo/01-1440.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Seção 2",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-demo/02-1440.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "O que a primeira demo precisa provar",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 525,
+          "file": "devlog-demo/03-1440.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Progresso registrado",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1296,
+          "file": "devlog-demo/04-1440.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1613,
+          "file": "devlog-demo/05-1440.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "home",
+        "label": "Home",
+        "path": "/"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Protótipo",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 32,
+          "file": "home/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "O que é Protótipo?",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 964,
+          "file": "home/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Sistemas em foco",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2131,
+          "file": "home/03-768.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Bosque da Névoa Perdida",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3017,
+          "file": "home/04-768.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Personagens",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3896,
+          "file": "home/05-768.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "section",
+          "heading": "Acompanhe progresso, roadmap e feedback.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4282,
+          "file": "home/06-768.jpg"
+        },
+        {
+          "index": 6,
+          "tag": "section",
+          "heading": "Devlog",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 5157,
+          "file": "home/07-768.jpg"
+        },
+        {
+          "index": 7,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 5633,
+          "file": "home/08-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "download",
+        "label": "Download",
+        "path": "/download"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/download",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Build de teste Protótipo",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "download/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Central da build interna Beta 0.1",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "download/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Status da build",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 356,
+          "file": "download/03-768.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Como a build será liberada",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1183,
+          "file": "download/04-768.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Requisitos mínimos",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1578,
+          "file": "download/05-768.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "section",
+          "heading": "Aviso da build",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2381,
+          "file": "download/06-768.jpg"
+        },
+        {
+          "index": 6,
+          "tag": "section",
+          "heading": "Como testar",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2709,
+          "file": "download/07-768.jpg"
+        },
+        {
+          "index": 7,
+          "tag": "section",
+          "heading": "Escopo previsto da Beta 0.1",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3443,
+          "file": "download/08-768.jpg"
+        },
+        {
+          "index": 8,
+          "tag": "section",
+          "heading": "Feedback",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4166,
+          "file": "download/09-768.jpg"
+        },
+        {
+          "index": 9,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4490,
+          "file": "download/10-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "lore",
+        "label": "Lore",
+        "path": "/lore"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/lore",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Lore",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "lore/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Mundo",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 353,
+          "file": "lore/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Bosque da Névoa Perdida",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1557,
+          "file": "lore/03-768.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Fragmentos do Bosque",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2434,
+          "file": "lore/04-768.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Técnicas",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2885,
+          "file": "lore/05-768.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "section",
+          "heading": "Registros do Bosque",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3909,
+          "file": "lore/06-768.jpg"
+        },
+        {
+          "index": 6,
+          "tag": "section",
+          "heading": "Perguntas em aberto",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4816,
+          "file": "lore/07-768.jpg"
+        },
+        {
+          "index": 7,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 5203,
+          "file": "lore/08-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "personagens",
+        "label": "Personagens",
+        "path": "/personagens"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/personagens",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Personagens",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "personagens/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Elenco da Beta 0.1 e reservas futuras.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "personagens/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Elenco atual",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 678,
+          "file": "personagens/03-768.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Ameaças do Bosque",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1639,
+          "file": "personagens/04-768.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Reservado para depois",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2600,
+          "file": "personagens/05-768.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3756,
+          "file": "personagens/06-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "studio",
+        "label": "Studio",
+        "path": "/studio"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/studio",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Studio",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "studio/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Sobre o projeto",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "studio/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Sobre o desenvolvedor",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 361,
+          "file": "studio/03-768.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Filosofia do projeto",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1297,
+          "file": "studio/04-768.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Ferramentas",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1717,
+          "file": "studio/05-768.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "section",
+          "heading": "Como o projeto evolui",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2328,
+          "file": "studio/06-768.jpg"
+        },
+        {
+          "index": 6,
+          "tag": "section",
+          "heading": "Acompanhe o desenvolvimento",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3046,
+          "file": "studio/07-768.jpg"
+        },
+        {
+          "index": 7,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3364,
+          "file": "studio/08-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "devlog",
+        "label": "Devlog",
+        "path": "/devlog"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Devlog",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Atualizações recentes",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 326,
+          "file": "devlog/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1210,
+          "file": "devlog/03-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "roadmap",
+        "label": "Roadmap",
+        "path": "/roadmap"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/roadmap",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Roadmap",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "roadmap/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Escopo pequeno, evolução clara.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "roadmap/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Estado real do projeto Protótipo.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 821,
+          "file": "roadmap/03-768.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3174,
+          "file": "roadmap/04-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "galeria",
+        "label": "Galeria",
+        "path": "/galeria"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/galeria",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Galeria",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "galeria/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Acervo visual em validação.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "galeria/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Filtros visuais",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 130,
+          "file": "galeria/03-768.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Acervo visual do projeto",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1470,
+          "file": "galeria/04-768.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2411,
+          "file": "galeria/05-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "login",
+        "label": "Login",
+        "path": "/login"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/login",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Login",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "login/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Conta do participante",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 353,
+          "file": "login/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 978,
+          "file": "login/03-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "feedback",
+        "label": "Feedback",
+        "path": "/feedback"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/feedback",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Feedback",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "feedback/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Feedback que orienta a build.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 322,
+          "file": "feedback/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1843,
+          "file": "feedback/03-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "dashboard",
+        "label": "Dashboard",
+        "path": "/dashboard"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/dashboard",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Dashboard",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "dashboard/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Prévia do painel do jogador",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "dashboard/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Estado da conta",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 201,
+          "file": "dashboard/03-768.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Download",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1063,
+          "file": "dashboard/04-768.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Instruções do beta",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1554,
+          "file": "dashboard/05-768.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "section",
+          "heading": "Checklist do jogador",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2386,
+          "file": "dashboard/06-768.jpg"
+        },
+        {
+          "index": 6,
+          "tag": "section",
+          "heading": "Envie seu feedback",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2545,
+          "file": "dashboard/07-768.jpg"
+        },
+        {
+          "index": 7,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3170,
+          "file": "dashboard/08-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "admin",
+        "label": "Admin",
+        "path": "/admin"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/admin",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Administração",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "admin/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Administração profissional do site",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "admin/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Seção 3",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "admin/03-768.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Seção 4",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 148,
+          "file": "admin/04-768.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Visão geral",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 808,
+          "file": "admin/05-768.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1432,
+          "file": "admin/06-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "404",
+        "label": "Página 404",
+        "path": "/fase-4-rota-inexistente"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 404,
+      "finalUrl": "https://bdf-navy.vercel.app/fase-4-rota-inexistente",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Você se perdeu na névoa.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "404/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 351,
+          "file": "404/02-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "devlog-bosque",
+        "label": "Devlog individual · Bosque",
+        "path": "/devlog/construindo-o-bosque-da-nevoa-perdida"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/construindo-o-bosque-da-nevoa-perdida",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Construindo o Bosque da Névoa Perdida",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-bosque/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Seção 2",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-bosque/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Objetivo da primeira área",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 378,
+          "file": "devlog-bosque/03-768.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Progresso registrado",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1111,
+          "file": "devlog-bosque/04-768.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1736,
+          "file": "devlog-bosque/05-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "devlog-dash",
+        "label": "Devlog individual · Dash",
+        "path": "/devlog/criando-o-sistema-de-dash"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/criando-o-sistema-de-dash",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Criando o sistema de Dash",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-dash/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Seção 2",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-dash/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Por que o Dash é importante",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 325,
+          "file": "devlog-dash/03-768.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Progresso registrado",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1058,
+          "file": "devlog-dash/04-768.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1683,
+          "file": "devlog-dash/05-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "devlog-lucarelli",
+        "label": "Devlog individual · Lucarelli",
+        "path": "/devlog/primeiro-chefe-lucarelli"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/primeiro-chefe-lucarelli",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Primeiro chefe: Lucarelli",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-lucarelli/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Seção 2",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-lucarelli/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Função do encontro",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 325,
+          "file": "devlog-lucarelli/03-768.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Progresso registrado",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1058,
+          "file": "devlog-lucarelli/04-768.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1683,
+          "file": "devlog-lucarelli/05-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "devlog-demo",
+        "label": "Devlog individual · Demo",
+        "path": "/devlog/preparando-a-primeira-demo-jogavel"
+      },
+      "width": 768,
+      "height": 1024,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/preparando-a-primeira-demo-jogavel",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Preparando a primeira demo jogável",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-demo/01-768.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Seção 2",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-demo/02-768.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "O que a primeira demo precisa provar",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 350,
+          "file": "devlog-demo/03-768.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Progresso registrado",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1083,
+          "file": "devlog-demo/04-768.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1708,
+          "file": "devlog-demo/05-768.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "home",
+        "label": "Home",
+        "path": "/"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Protótipo",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 116,
+          "file": "home/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "O que é Protótipo?",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1389,
+          "file": "home/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Sistemas em foco",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2714,
+          "file": "home/03-390.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Bosque da Névoa Perdida",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3774,
+          "file": "home/04-390.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Personagens",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4835,
+          "file": "home/05-390.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "section",
+          "heading": "Acompanhe progresso, roadmap e feedback.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 5768,
+          "file": "home/06-390.jpg"
+        },
+        {
+          "index": 6,
+          "tag": "section",
+          "heading": "Devlog",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 6517,
+          "file": "home/07-390.jpg"
+        },
+        {
+          "index": 7,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 7280,
+          "file": "home/08-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "download",
+        "label": "Download",
+        "path": "/download"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/download",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Build de teste Protótipo",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "download/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Central da build interna Beta 0.1",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "download/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Status da build",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 827,
+          "file": "download/03-390.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Como a build será liberada",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1917,
+          "file": "download/04-390.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Requisitos mínimos",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2851,
+          "file": "download/05-390.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "section",
+          "heading": "Aviso da build",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3708,
+          "file": "download/06-390.jpg"
+        },
+        {
+          "index": 6,
+          "tag": "section",
+          "heading": "Como testar",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4440,
+          "file": "download/07-390.jpg"
+        },
+        {
+          "index": 7,
+          "tag": "section",
+          "heading": "Escopo previsto da Beta 0.1",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 5398,
+          "file": "download/08-390.jpg"
+        },
+        {
+          "index": 8,
+          "tag": "section",
+          "heading": "Feedback",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 6134,
+          "file": "download/09-390.jpg"
+        },
+        {
+          "index": 9,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 6675,
+          "file": "download/10-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "lore",
+        "label": "Lore",
+        "path": "/lore"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/lore",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Lore",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "lore/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Mundo",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 402,
+          "file": "lore/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Bosque da Névoa Perdida",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1929,
+          "file": "lore/03-390.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Fragmentos do Bosque",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2890,
+          "file": "lore/04-390.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Técnicas",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3731,
+          "file": "lore/05-390.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "section",
+          "heading": "Registros do Bosque",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4997,
+          "file": "lore/06-390.jpg"
+        },
+        {
+          "index": 6,
+          "tag": "section",
+          "heading": "Perguntas em aberto",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 5945,
+          "file": "lore/07-390.jpg"
+        },
+        {
+          "index": 7,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 6604,
+          "file": "lore/08-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "personagens",
+        "label": "Personagens",
+        "path": "/personagens"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/personagens",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Personagens",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "personagens/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Elenco da Beta 0.1 e reservas futuras.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 260,
+          "file": "personagens/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Elenco atual",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1104,
+          "file": "personagens/03-390.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Ameaças do Bosque",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2823,
+          "file": "personagens/04-390.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Reservado para depois",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4491,
+          "file": "personagens/05-390.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 5912,
+          "file": "personagens/06-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "studio",
+        "label": "Studio",
+        "path": "/studio"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/studio",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Studio",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "studio/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Sobre o projeto",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 273,
+          "file": "studio/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Sobre o desenvolvedor",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1020,
+          "file": "studio/03-390.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Filosofia do projeto",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1864,
+          "file": "studio/04-390.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Ferramentas",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3080,
+          "file": "studio/05-390.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "section",
+          "heading": "Como o projeto evolui",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4077,
+          "file": "studio/06-390.jpg"
+        },
+        {
+          "index": 6,
+          "tag": "section",
+          "heading": "Acompanhe o desenvolvimento",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4751,
+          "file": "studio/07-390.jpg"
+        },
+        {
+          "index": 7,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 5297,
+          "file": "studio/08-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "devlog",
+        "label": "Devlog",
+        "path": "/devlog"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Devlog",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Atualizações recentes",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 376,
+          "file": "devlog/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1699,
+          "file": "devlog/03-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "roadmap",
+        "label": "Roadmap",
+        "path": "/roadmap"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/roadmap",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Roadmap",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "roadmap/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Escopo pequeno, evolução clara.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 95,
+          "file": "roadmap/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Estado real do projeto Protótipo.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2416,
+          "file": "roadmap/03-390.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4656,
+          "file": "roadmap/04-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "galeria",
+        "label": "Galeria",
+        "path": "/galeria"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/galeria",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Galeria",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "galeria/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Acervo visual em validação.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 260,
+          "file": "galeria/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Filtros visuais",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 636,
+          "file": "galeria/03-390.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Acervo visual do projeto",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1480,
+          "file": "galeria/04-390.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4206,
+          "file": "galeria/05-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "login",
+        "label": "Login",
+        "path": "/login"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/login",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Login",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "login/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Conta do participante",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 428,
+          "file": "login/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1523,
+          "file": "login/03-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "feedback",
+        "label": "Feedback",
+        "path": "/feedback"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/feedback",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Feedback",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "feedback/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Feedback que orienta a build.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 376,
+          "file": "feedback/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2845,
+          "file": "feedback/03-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "dashboard",
+        "label": "Dashboard",
+        "path": "/dashboard"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/dashboard",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Dashboard",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "dashboard/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Prévia do painel do jogador",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "dashboard/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Estado da conta",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 744,
+          "file": "dashboard/03-390.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Download",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1846,
+          "file": "dashboard/04-390.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Instruções do beta",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2837,
+          "file": "dashboard/05-390.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "section",
+          "heading": "Checklist do jogador",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3635,
+          "file": "dashboard/06-390.jpg"
+        },
+        {
+          "index": 6,
+          "tag": "section",
+          "heading": "Envie seu feedback",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 3979,
+          "file": "dashboard/07-390.jpg"
+        },
+        {
+          "index": 7,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 4742,
+          "file": "dashboard/08-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "admin",
+        "label": "Admin",
+        "path": "/admin"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/admin",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Administração",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "admin/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Administração profissional do site",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 221,
+          "file": "admin/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Seção 3",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 714,
+          "file": "admin/03-390.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Seção 4",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 829,
+          "file": "admin/04-390.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "section",
+          "heading": "Visão geral",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1588,
+          "file": "admin/05-390.jpg"
+        },
+        {
+          "index": 5,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2351,
+          "file": "admin/06-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "404",
+        "label": "Página 404",
+        "path": "/fase-4-rota-inexistente"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 404,
+      "finalUrl": "https://bdf-navy.vercel.app/fase-4-rota-inexistente",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Você se perdeu na névoa.",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "404/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 586,
+          "file": "404/02-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "devlog-bosque",
+        "label": "Devlog individual · Bosque",
+        "path": "/devlog/construindo-o-bosque-da-nevoa-perdida"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/construindo-o-bosque-da-nevoa-perdida",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Construindo o Bosque da Névoa Perdida",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-bosque/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Seção 2",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-bosque/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Objetivo da primeira área",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 799,
+          "file": "devlog-bosque/03-390.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Progresso registrado",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1820,
+          "file": "devlog-bosque/04-390.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2618,
+          "file": "devlog-bosque/05-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "devlog-dash",
+        "label": "Devlog individual · Dash",
+        "path": "/devlog/criando-o-sistema-de-dash"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/criando-o-sistema-de-dash",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Criando o sistema de Dash",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-dash/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Seção 2",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-dash/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Por que o Dash é importante",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 756,
+          "file": "devlog-dash/03-390.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Progresso registrado",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1737,
+          "file": "devlog-dash/04-390.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2523,
+          "file": "devlog-dash/05-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "devlog-lucarelli",
+        "label": "Devlog individual · Lucarelli",
+        "path": "/devlog/primeiro-chefe-lucarelli"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/primeiro-chefe-lucarelli",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Primeiro chefe: Lucarelli",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-lucarelli/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Seção 2",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-lucarelli/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "Função do encontro",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 756,
+          "file": "devlog-lucarelli/03-390.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Progresso registrado",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1669,
+          "file": "devlog-lucarelli/04-390.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2443,
+          "file": "devlog-lucarelli/05-390.jpg"
+        }
+      ]
+    },
+    {
+      "route": {
+        "id": "devlog-demo",
+        "label": "Devlog individual · Demo",
+        "path": "/devlog/preparando-a-primeira-demo-jogavel"
+      },
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "finalUrl": "https://bdf-navy.vercel.app/devlog/preparando-a-primeira-demo-jogavel",
+      "error": null,
+      "captures": [
+        {
+          "index": 0,
+          "tag": "section",
+          "heading": "Preparando a primeira demo jogável",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-demo/01-390.jpg"
+        },
+        {
+          "index": 1,
+          "tag": "section",
+          "heading": "Seção 2",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 0,
+          "file": "devlog-demo/02-390.jpg"
+        },
+        {
+          "index": 2,
+          "tag": "section",
+          "heading": "O que a primeira demo precisa provar",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 799,
+          "file": "devlog-demo/03-390.jpg"
+        },
+        {
+          "index": 3,
+          "tag": "section",
+          "heading": "Progresso registrado",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 1712,
+          "file": "devlog-demo/04-390.jpg"
+        },
+        {
+          "index": 4,
+          "tag": "footer",
+          "heading": "Rodapé",
+          "pendingInViewport": 0,
+          "hiddenInViewport": 0,
+          "scrollY": 2486,
+          "file": "devlog-demo/05-390.jpg"
+        }
+      ]
+    }
+  ]
+}
