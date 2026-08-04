@@ -21,8 +21,10 @@ on:
       - src/components/HeroSection.tsx
       - src/components/ImpactEffects.tsx
       - src/components/RouteTransition.tsx
+      - src/components/ScrollTimeline.tsx
       - src/lib/motion.ts
       - scripts/validate-motion-etapa-2.mjs
+      - scripts/validate-motion-etapa-2-final.mjs
       - scripts/capture-motion-etapa-2-samples.mjs
       - docs/fase-4/etapa-2/**
       - .github/workflows/fase-4-etapa-2-validation.yml
@@ -98,9 +100,8 @@ jobs:
       - name: Validar movimento no navegador
         env:
           MOTION_VALIDATION_URL: http://127.0.0.1:3000
-          MOTION_BASELINE_URL: https://bdf-navy.vercel.app
           MOTION_VALIDATION_OUTPUT: artifacts/fase-4-etapa-2
-        run: node scripts/validate-motion-etapa-2.mjs
+        run: node scripts/validate-motion-etapa-2-final.mjs
 
       - name: Capturar evidências comparativas
         env:
