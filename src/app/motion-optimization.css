@@ -10,6 +10,17 @@
   --motion-slow: var(--motion-enter);
 }
 
+/* Route pages share one grid cell so exit and entry never stack vertically. */
+.route-transition-shell {
+  display: grid;
+  align-items: start;
+}
+
+.route-transition-page {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
 /* The scroll bar is also the only global route indicator. */
 .route-transition-progress {
   display: none;
@@ -109,11 +120,79 @@ img[data-fx-image][data-fx-image-state="loaded"] {
     transform 360ms var(--motion-ease-enter);
 }
 
-/* The Hero keeps one composed entrance instead of replaying every internal line. */
+/* The first Hero visit keeps a short internal sequence. Returns stay compact. */
 .hero-section .fx-sigil path {
   animation: none;
   stroke-dasharray: none;
   stroke-dashoffset: 0;
+}
+
+.hero-visual--first .hero-visual__route,
+.hero-visual--first .hero-visual__record-line {
+  stroke-dasharray: 760;
+  stroke-dashoffset: 760;
+  animation: hero-route-draw 820ms var(--motion-ease-enter) forwards;
+}
+
+.hero-visual--first .hero-visual__route--secondary {
+  animation-delay: 110ms;
+  animation-duration: 720ms;
+}
+
+.hero-visual--first .hero-visual__route--secondary:nth-of-type(3) {
+  animation-delay: 180ms;
+}
+
+.hero-visual--first .hero-visual__record-line {
+  animation-delay: 220ms;
+  animation-duration: 620ms;
+}
+
+.hero-visual--first .hero-visual__node {
+  opacity: 0;
+  transform: scale(0.72);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hero-node-enter 260ms var(--motion-ease-enter) forwards;
+  animation-delay: 430ms;
+}
+
+.hero-visual--first .hero-visual__node:nth-of-type(2) {
+  animation-delay: 500ms;
+}
+
+.hero-visual--first .hero-visual__node:nth-of-type(3) {
+  animation-delay: 570ms;
+}
+
+.hero-visual--first .hero-visual__sigil-motion {
+  opacity: 0;
+  transform: scale(0.96) rotate(-2deg);
+  animation: hero-sigil-enter 520ms var(--motion-ease-enter) forwards;
+  animation-delay: 240ms;
+}
+
+.hero-visual--first .hero-visual__coordinate {
+  opacity: 0;
+  transform: translate3d(0, 4px, 0);
+  animation: hero-detail-enter 240ms var(--motion-ease-enter) forwards;
+  animation-delay: 560ms;
+}
+
+.hero-visual--first .hero-visual__coordinate--ruin {
+  animation-delay: 610ms;
+}
+
+.hero-visual--first .hero-visual__coordinate--route {
+  animation-delay: 660ms;
+}
+
+.hero-visual--return .hero-visual__route,
+.hero-visual--return .hero-visual__record-line,
+.hero-visual--return .hero-visual__node,
+.hero-visual--return .hero-visual__sigil-motion,
+.hero-visual--return .hero-visual__coordinate {
+  animation: none;
 }
 
 /* Global atmosphere is static; cinematic emphasis comes from content transitions. */
@@ -146,6 +225,33 @@ img[data-fx-image][data-fx-image-state="loaded"] {
   }
 }
 
+@keyframes hero-route-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes hero-node-enter {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-sigil-enter {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-detail-enter {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @media (hover: none), (pointer: coarse) {
   .fx-card--interactive[data-fx-elevate="true"]:hover,
   .fx-card--interactive[data-fx-elevate="true"]:focus-within,
@@ -169,7 +275,12 @@ img[data-fx-image][data-fx-image-state="loaded"] {
   .fx-card--interactive,
   .fx-button,
   img[data-fx-image][data-fx-image-state],
-  .route-loading-state__mark span {
+  .route-loading-state__mark span,
+  .hero-visual__route,
+  .hero-visual__record-line,
+  .hero-visual__node,
+  .hero-visual__sigil-motion,
+  .hero-visual__coordinate {
     animation: none;
     transition: none;
   }
@@ -177,5 +288,18 @@ img[data-fx-image][data-fx-image-state="loaded"] {
   html[data-route-transition="pending"] .fx-scroll-progress > span {
     width: 100%;
     transform: scaleX(1);
+  }
+
+  .hero-visual__route,
+  .hero-visual__record-line {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+
+  .hero-visual__node,
+  .hero-visual__sigil-motion,
+  .hero-visual__coordinate {
+    opacity: 1;
+    transform: none;
   }
 }
