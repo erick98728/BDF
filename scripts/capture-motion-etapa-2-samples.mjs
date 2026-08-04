@@ -33,24 +33,36 @@ async function waitForStableRoute(page) {
   );
 }
 
+async function paintFullPage(page) {
+  await page.evaluate(async () => {
+    const range = Math.max(
+      document.documentElement.scrollHeight - window.innerHeight,
+      0,
+    );
+
+    for (let step = 0; step <= 12; step += 1) {
+      window.scrollTo({
+        top: range * (step / 12),
+        behavior: "instant",
+      });
+      await new Promise((resolve) => setTimeout(resolve, 70));
+    }
+
+    window.scrollTo({ top: 0, behavior: "instant" });
+    await new Promise((resolve) => setTimeout(resolve, 180));
+  });
+}
+
 async function capture(page, name, fullPage = false) {
   await waitForStableRoute(page);
+  if (fullPage) await paintFullPage(page);
+
   const fileName = `${name}.png`;
   await page.screenshot({
     path: path.join(evidenceDir, fileName),
     fullPage,
   });
   evidenceIndex.push({ name, file: `evidence/${fileName}`, fullPage });
-}
-
-async function scrollToEnd(page) {
-  await page.evaluate(() => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: "instant",
-    });
-  });
-  await page.waitForTimeout(320);
 }
 
 const browser = await chromium.launch({ headless: true });
@@ -94,7 +106,6 @@ try {
     timeout: 30000,
   });
   await settle(desktopPage, 500);
-  await scrollToEnd(desktopPage);
   await capture(desktopPage, "roadmap-complete-1440", true);
 
   await desktopPage.goto(`${baseUrl}/lore`, {
@@ -102,7 +113,6 @@ try {
     timeout: 30000,
   });
   await settle(desktopPage, 500);
-  await scrollToEnd(desktopPage);
   await capture(desktopPage, "lore-complete-1440", true);
 
   await desktopPage.goto(`${baseUrl}/galeria`, {
@@ -137,7 +147,6 @@ try {
     timeout: 30000,
   });
   await settle(tabletPage, 500);
-  await scrollToEnd(tabletPage);
   await capture(tabletPage, "roadmap-tablet-768", true);
   await tablet.close();
 
@@ -184,7 +193,6 @@ try {
     timeout: 30000,
   });
   await settle(reducedPage, 260);
-  await scrollToEnd(reducedPage);
   await capture(reducedPage, "lore-reduced-motion-390", true);
   await reduced.close();
 
