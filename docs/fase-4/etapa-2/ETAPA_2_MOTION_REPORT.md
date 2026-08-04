@@ -2,74 +2,114 @@
 
 ## Simplificação e otimização do sistema de movimento
 
-**Status:** concluída tecnicamente e aguardando revisão do PR  
-**Branch:** `agent/fase-4-etapa-2-simplificacao-movimento`  
-**Base da branch:** `20c203d5aadaea97cf83c95f703b7a73a9ccb630`  
-**Baseline visual auditado:** `7a192260c7945c6c75ab05bba78ebe97f94050e1`  
-**PR:** `#39` — rascunho, aberto e não mesclado  
-**Run técnico autoritativo:** `30935876457`  
-**Artefato técnico:** `8903245826`  
+**Status:** concluída tecnicamente e aguardando revisão do PR
+
+**Branch:** `agent/fase-4-etapa-2-simplificacao-movimento`
+
+**Base da branch:** `20c203d5aadaea97cf83c95f703b7a73a9ccb630`
+
+**Baseline visual auditado:** `7a192260c7945c6c75ab05bba78ebe97f94050e1`
+
+**PR:** `#39`, rascunho, aberto e não mesclado
+
+**Run técnico autoritativo:** `30935876457`
+
+**Artefato técnico:** `8903245826`
 
 ---
 
 ## 1. Resumo executivo
 
-O sistema anterior acumulava efeitos globais e locais ao mesmo tempo: duas barras superiores, loading com fallback de oito segundos, blur em reveals textuais, luz baseada em variáveis globais, `background-attachment: fixed` em superfícies repetidas, animações ambientais contínuas, tilt e magnetismo em componentes comuns, medições frequentes no scroll e coreografia completa do Hero em cada retorno à Home.
+O sistema anterior combinava duas barras superiores, fallback de navegação de oito segundos, blur em reveals textuais, luz baseada em variáveis globais, `background-attachment: fixed` em superfícies repetidas, três animações ambientais contínuas, tilt e magnetismo em componentes comuns, medições frequentes no scroll e a coreografia completa do Hero em todo retorno à Home.
 
-A Etapa 2 reduziu esse empilhamento sem redesenhar o site. O resultado mantém o preto, carvão, Bone, Ember Rust, o mapa, o símbolo, o Dock, as timelines e a atmosfera cinematográfica, mas utiliza movimento somente quando existe função de orientação, feedback ou hierarquia.
+A Etapa 2 reduziu esse empilhamento sem redesenhar o site. Foram preservados preto, carvão, Bone, Ember Rust, mapa, símbolo, Dock, timelines, Galeria, conteúdo, rotas e atmosfera cinematográfica.
 
-Principais efeitos finais:
+Resultado final:
 
 - transições comuns mais curtas;
 - um único indicador superior;
 - nenhum loading preso nos cenários testados;
-- nenhum blur animado em texto;
-- nenhuma animação ambiental infinita restante;
-- luz dinâmica limitada ao elemento estratégico sob interação;
-- nenhum `background-attachment: fixed` nas superfícies verificadas;
+- textos sem blur animado;
+- zero animações ambientais infinitas;
+- luz dinâmica limitada ao elemento estratégico interagido;
+- zero `background-attachment: fixed` nas superfícies verificadas;
 - timelines diretamente sincronizadas ao scroll;
-- Dock sem loop ativo em repouso e sem ampliação em touch;
-- Hero com coreografia inicial preservada e retorno curto na mesma sessão;
+- Dock sem loop em repouso e sem ampliação em touch;
+- Hero completo somente na primeira entrada relevante da sessão;
 - Galeria e modal sem pausas causadas por `mode="wait"`;
-- zero `requestAnimationFrame` registrado em 700 ms de repouso;
-- nenhuma largura apresentou regressão na média de CLS compartilhado.
+- zero `requestAnimationFrame` em 700 ms de repouso;
+- nenhuma largura com regressão na média de CLS compartilhado.
 
 ---
 
 ## 2. Preparação e compatibilidade do baseline
 
-Foram lidos o relatório manual autoritativo, `baseline.json`, `interactions.json`, `scroll-validation.json` e as capturas por seção do pacote `BDF_Fase4_Etapa1_COMPLETO_ATUALIZADO.zip`.
+Foram consultados o relatório manual autoritativo, `baseline.json`, `interactions.json`, `scroll-validation.json` e as capturas por seção do pacote `BDF_Fase4_Etapa1_COMPLETO_ATUALIZADO.zip`.
 
-A comparação entre o commit visual auditado `7a192260...` e a `main` usada para iniciar a Etapa 2, `20c203d...`, mostrou somente a integração dos documentos, scripts, workflows e evidências da Etapa 1. Nenhum arquivo da aplicação foi alterado nesse intervalo.
+A comparação entre o commit visual auditado `7a192260...` e a `main` usada como base, `20c203d...`, mostrou somente a integração de documentos, evidências, scripts e workflows da Etapa 1. Nenhum arquivo da aplicação mudou nesse intervalo.
 
-Conclusão: o baseline permaneceu compatível e não foi necessário refazer a Etapa 1 nem reiniciar o planejamento.
+O baseline continuou compatível. A Etapa 1 não foi refeita e o planejamento não foi reiniciado.
 
 ---
 
-## 3. Inventário antes e depois
+## 3. Inventário de movimento
 
 | Item | Antes | Depois |
 |---|---:|---:|
 | Sistemas superiores de progresso | 2 | 1 |
-| Fallback máximo de navegação | 8.000 ms | 1.600 ms |
+| Fallback de navegação | 8.000 ms | 1.600 ms |
 | Animações ambientais contínuas | 3 | 0 |
-| Blur animado em reveals textuais | Sim | Não |
-| Padrões repetidos com `background-attachment: fixed` | 3 | 0 nos seletores verificados |
-| Suavização CSS adicional da linha de timeline | 90 ms | 0 ms |
-| Modos de presença da Galeria | `popLayout` e `wait` | `sync` |
-| Luz dinâmica | Variáveis globais herdadas por grande parte da página | No máximo um elemento estratégico local |
-| Geometria do Dock | Leitura por item durante frames ativos | Cache atualizado em montagem, resize e rota |
-| Hero ao retornar à Home | Coreografia completa em cada montagem | Entrada compacta na mesma sessão cliente |
-| RAF em repouso por 700 ms | Não medido com confiança no baseline | 0 |
-| Animações em execução no repouso medido | Não medido com confiança no baseline | 0 |
+| Blur em reveals textuais | Sim | Não |
+| Padrões repetidos com fixed background | 3 | 0 nos seletores verificados |
+| Suavização CSS adicional da timeline | 90 ms | 0 ms |
+| Presença da Galeria | `popLayout` e `wait` | `sync` |
+| Luz dinâmica | Variáveis globais | No máximo um elemento local |
+| Geometria do Dock | Leitura por item durante frames ativos | Cache por montagem, resize e rota |
+| Hero no retorno | Coreografia completa | Entrada compacta |
+| RAF em repouso por 700 ms | Não medido com confiança | 0 |
+| Animações em execução no repouso | Não medido com confiança | 0 |
 
-A quantidade exata de elementos visualmente afetados pela antiga luz global não pôde ser expressa como número confiável, pois a propagação acontecia por variáveis CSS, pseudo-elementos e herança de estilos. O estado final foi validado objetivamente: nenhuma variável dinâmica é escrita na raiz e nunca existe mais de uma luz local ativa.
+A quantidade exata de elementos afetados pela antiga luz global não foi inventada. O alcance vinha de variáveis CSS, pseudo-elementos e herança. O estado final foi medido objetivamente: nenhuma variável dinâmica é escrita na raiz e nunca há mais de uma luz local ativa.
+
+### Efeitos removidos
+
+- segunda barra superior concorrente;
+- blur em títulos, parágrafos, labels, metadata e registros;
+- três animações ambientais infinitas;
+- tilt dos cards comuns;
+- magnetismo posicional dos botões comuns;
+- fixed background em cards, botões, glifos, Dock e header;
+- atraso CSS da linha das timelines;
+- espera sequencial entre mídia e texto no modal;
+- loop contínuo do cursor e da mola do Dock em repouso.
+
+### Efeitos preservados
+
+- entrada cinematográfica inicial do Hero;
+- desenho inicial das rotas do mapa;
+- entrada de símbolo, nós e detalhes secundários;
+- feedback curto de botões e cards relevantes;
+- ampliação elástica do Dock em ponteiro fino;
+- ativação de nós de Roadmap e Lore;
+- abertura e fechamento do modal;
+- indicador superior único;
+- suporte integral a `prefers-reduced-motion`.
+
+### Efeitos limitados
+
+- luz dinâmica somente em elemento com `data-fx-spotlight` ou `data-fx-magnetic` realmente interagido;
+- Hero completo somente na primeira entrada da sessão cliente;
+- Dock elástico somente com `hover: hover` e `pointer: fine`;
+- progressão de timeline somente em Roadmap e Lore;
+- movimento de Galeria somente na reorganização, entrada curta e troca de item.
+
+### Animações infinitas restantes
+
+Nenhuma foi encontrada nas 170 combinações ou nos testes direcionados.
 
 ---
 
 ## 4. Durações e easings finais
-
-### Durações
 
 | Papel | Valor final |
 |---|---:|
@@ -77,13 +117,13 @@ A quantidade exata de elementos visualmente afetados pela antiga luz global não
 | Hover, foco e feedback comum | 200 ms |
 | Saída de rota | 160 ms |
 | Entrada comum de rota | 340 ms |
-| Reveal editorial comum | 420 ms |
+| Reveal editorial | 420 ms |
 | Reorganização da Galeria | 380 ms |
 | Hero inicial | 820 ms |
-| Stagger máximo por passo | 45 ms |
-| Fallback defensivo de navegação | 1.600 ms |
+| Stagger por passo | 45 ms |
+| Fallback defensivo | 1.600 ms |
 
-### Easings
+Easings finais:
 
 - entrada: `cubic-bezier(0.22, 1, 0.36, 1)`;
 - padrão: `cubic-bezier(0.2, 0.8, 0.2, 1)`;
@@ -91,75 +131,34 @@ A quantidade exata de elementos visualmente afetados pela antiga luz global não
 
 ---
 
-## 5. Movimento removido, preservado e limitado
+## 5. Navegação
 
-### Removido
+### Antes
 
-- segunda barra superior concorrente;
-- blur de títulos, parágrafos, labels, metadata e registros;
-- três movimentos ambientais infinitos;
-- tilt dos cards comuns;
-- magnetismo posicional dos botões comuns;
-- `background-attachment: fixed` em cards, botões, glifos, Dock e header;
-- atraso CSS da linha das timelines;
-- espera sequencial entre mídia e texto do modal;
-- loop contínuo do cursor e da mola do Dock quando em repouso.
-
-### Preservado
-
-- entrada cinematográfica inicial do Hero;
-- desenho inicial das rotas do mapa;
-- entrada do símbolo, nós e detalhes secundários;
-- feedback curto de botões e cards relevantes;
-- ampliação elástica do Dock em ponteiro fino;
-- ativação dos nós de Roadmap e Lore;
-- transição de abertura e fechamento do modal;
-- progressão superior única;
-- suporte integral a `prefers-reduced-motion`.
-
-### Limitado a contextos específicos
-
-- luz dinâmica: somente elemento com `data-fx-spotlight` ou `data-fx-magnetic` realmente interagido;
-- Hero completo: somente primeira entrada relevante da sessão cliente;
-- Dock elástico: somente `hover: hover` e `pointer: fine`;
-- progressão de timeline: somente Roadmap e Lore, com controlador dedicado;
-- movimento de Galeria: somente reorganização, entrada/saída curta e troca de item.
-
-### Animações infinitas restantes
-
-Nenhuma animação infinita foi encontrada nas 170 combinações testadas nem nos cenários de interação direcionados.
-
----
-
-## 6. Navegação
-
-### Lógica anterior
-
-- clique interno ativava estado global de navegação;
 - pathname era a principal chave observada;
 - query string e cancelamentos podiam não limpar o estado no momento esperado;
 - fallback visual de aproximadamente oito segundos;
-- barra de rota concorria com a barra de scroll;
-- saída e entrada podiam empilhar alturas durante `AnimatePresence`.
+- barra de rota concorria com barra de scroll;
+- saída e entrada podiam somar alturas durante `AnimatePresence`.
 
-### Lógica final
+### Depois
 
-- chave de rota formada por pathname e query string;
-- clique cancelado respeitado porque o listener atua após o comportamento do elemento;
-- mesma página com hash não inicia loading de rota;
+- chave formada por pathname e query string;
+- clique cancelado respeitado;
+- mudança somente de hash não inicia loading de rota;
 - `popstate`, `pageshow`, `pagehide`, `hashchange`, `error` e `unhandledrejection` possuem limpeza defensiva;
-- voltar e avançar restauram `aria-busy`, cursor, dataset e timers;
+- back e forward restauram `aria-busy`, cursor, dataset e timers;
 - cliques repetidos não criam timers concorrentes;
 - fallback reduzido para 1.600 ms;
-- saída e entrada compartilham a mesma célula de grid, evitando soma temporária de alturas;
-- existe somente um indicador superior;
-- erro 404 deliberado não mantém loading ativo.
+- saída e entrada compartilham a mesma célula de grid;
+- somente um indicador superior permanece;
+- 404 deliberado não deixa loading ativo.
 
-Resultados direcionados:
+Resultados:
 
-- query string: aprovado;
+- query string: aprovada;
 - hash: aprovado;
-- back/forward: aprovado;
+- back/forward: aprovados;
 - link cancelado: aprovado;
 - navegação rápida: aprovada;
 - 404: aprovado;
@@ -168,19 +167,19 @@ Resultados direcionados:
 
 ---
 
-## 7. Scroll, timelines e medições de layout
+## 6. Scroll e timelines
 
-`ImpactEffects` ficou responsável apenas por reveals, progresso superior e luz local. Roadmap e Lore receberam um controlador dedicado que:
+`ImpactEffects` passou a cuidar apenas de reveals, indicador superior e luz local. Roadmap e Lore utilizam controlador dedicado que:
 
-- descobre as timelines quando o conteúdo da rota entra no shell;
-- observa somente inserção e remoção estrutural no conteúdo;
+- descobre a timeline quando o conteúdo da rota entra no shell;
+- observa somente inserção e remoção estrutural;
 - armazena referências e métricas;
-- recalcula em montagem, troca de rota, resize ou alteração estrutural;
+- recalcula em montagem, rota, resize ou alteração estrutural;
 - agrupa escrita em um único `requestAnimationFrame`;
-- utiliza listener passivo;
-- para quando a aba fica oculta;
+- usa listener passivo;
+- pausa com aba oculta;
 - completa imediatamente em reduced motion;
-- não adiciona transição CSS à linha progressiva.
+- não adiciona suavização CSS à linha.
 
 Medições após scroll rápido:
 
@@ -188,34 +187,34 @@ Medições após scroll rápido:
 - Lore 1440: 16 leituras, progresso `1`, 6 nós ativos;
 - Roadmap 768: 9 leituras, progresso `1`, 16 nós ativos;
 - Lore 768: 16 leituras, progresso `1`, 6 nós ativos;
-- máximo observado na matriz: 16 leituras durante scroll rápido.
+- máximo na matriz: 16 leituras.
 
-Essas leituras são usadas para formar o cache, não em cada frame de rolagem.
+As leituras formam o cache e não acontecem em todo frame de rolagem.
 
 ---
 
-## 8. Dock
+## 7. Dock
 
-A direção visual e os nove destinos foram preservados.
+Foram preservados os nove destinos, indicador ativo, tooltips, navegação por teclado e ampliação elástica.
 
-Alterações limitadas ao motor:
+Ajustes do motor:
 
-- centros dos itens medidos uma vez e armazenados;
-- nova medição somente em resize, mudança de rota ou capacidade de ponteiro;
-- mola interrompida ao alcançar o repouso;
-- cancelamento em desmontagem e aba oculta;
-- reset após `pointercancel`;
+- centros medidos e armazenados;
+- nova medição somente em resize, rota ou capacidade do ponteiro;
+- mola para ao alcançar repouso;
+- cancelamento na desmontagem e aba oculta;
+- reset em `pointercancel`;
 - nenhuma ampliação em coarse pointer ou touch;
-- animação de entrada removida no touch para o controle nascer em tamanho estável;
-- área medida de todos os nove controles em touch: exatamente 44 × 44 px;
-- escala em ponteiro fino: aproximadamente `1,2945` no pico e `1` no repouso;
-- exatamente um indicador ativo nas rotas que pertencem ao Dock.
+- entrada removida no touch para nascer em tamanho estável;
+- todos os nove controles medidos em 44 × 44 px;
+- escala fina medida em aproximadamente `1,2945` no pico e `1` no repouso;
+- exatamente um indicador ativo nas rotas pertencentes ao Dock.
 
 ---
 
-## 9. Hero
+## 8. Hero
 
-A primeira entrada relevante mantém uma sequência curta e ordenada:
+A primeira entrada mantém a sequência:
 
 1. conteúdo;
 2. rota principal;
@@ -223,40 +222,31 @@ A primeira entrada relevante mantém uma sequência curta e ordenada:
 4. nós;
 5. detalhes secundários.
 
-O retorno à Home durante a mesma sessão cliente utiliza entrada compacta de 280–320 ms. O estado é local ao cliente, sem backend, banco ou persistência permanente. O HTML inicial não é escondido e reduced motion resolve diretamente para conteúdo visível.
+O retorno à Home na mesma sessão usa entrada de 280 a 320 ms. O estado é cliente, sem backend, banco ou persistência permanente. O HTML inicial não é escondido e reduced motion mostra tudo imediatamente.
 
 Validação:
 
-- primeira entrada: `data-hero-entry="first"`;
-- retorno: `data-hero-entry="return"`;
-- reduced motion: `data-hero-entry="reduced"`.
+- primeira entrada: `first`;
+- retorno: `return`;
+- reduced motion: `reduced`.
 
 ---
 
-## 10. Galeria e modal
+## 9. Galeria e modal
 
-Foram preservados:
-
-- seis filtros;
-- todos os itens;
-- grid;
-- navegação anterior/próximo;
-- Escape;
-- focus trap;
-- retorno de foco;
-- conteúdo e classificação dos registros.
+Foram preservados seis filtros, todos os itens, grid, anterior/próximo, Escape, focus trap, retorno de foco, textos e categorias.
 
 Refinamentos:
 
 - `mode="wait"` e `popLayout` substituídos por `sync`;
-- reorganização limitada a `layout="position"` por 380 ms;
-- troca de mídia e texto por 200 ms, sem pausa sequencial;
+- reorganização usa somente posição por 380 ms;
+- mídia e texto trocam em 200 ms sem pausa sequencial;
 - deslocamento do modal reduzido;
 - alvo de retorno de foco capturado antes da desmontagem;
 - backdrop usa evento de ponteiro;
-- cliques rápidos em próximo não duplicam nem fecham o modal.
+- cliques rápidos não duplicam nem fecham o modal.
 
-Resultados em 1440 e 390 touch:
+Em 1440 e 390 touch:
 
 - seis filtros presentes;
 - somente um filtro ativo;
@@ -267,36 +257,36 @@ Resultados em 1440 e 390 touch:
 
 ---
 
-## 11. Reduced motion e touch
+## 10. Reduced motion e touch
 
 ### Reduced motion
 
 Em Home, Roadmap, Lore e Galeria:
 
 - zero reveals pendentes;
-- zero elementos de reveal invisíveis;
+- zero reveals invisíveis;
 - zero animações infinitas;
 - zero luzes dinâmicas;
 - Hero imediatamente visível;
-- Roadmap em progresso `1` com 16 nós ativos;
-- Lore em progresso `1` com 6 nós ativos;
+- Roadmap completo com 16 nós ativos;
+- Lore completa com 6 nós ativos;
 - navegação e modal funcionais.
 
 ### Touch e coarse pointer
 
 - `pointer: coarse` e `hover: none` confirmados;
 - luz não acompanha o dedo;
-- Dock permanece com escala `1`;
-- nove áreas de 44 × 44 px;
+- Dock permanece em escala `1`;
+- nove controles de 44 × 44 px;
 - filtros e modal funcionam por tap;
-- rolagem permanece disponível;
-- nenhum estado de hover fica preso.
+- rolagem preservada;
+- nenhum hover fica preso.
 
 ---
 
-## 12. Performance medida
+## 11. Performance medida
 
-### Resultados reais
+Resultados reais:
 
 - 170 combinações de rota e largura;
 - zero erros da validação;
@@ -305,46 +295,30 @@ Em Home, Roadmap, Lore e Galeria:
 - zero animações infinitas;
 - zero superfícies verificadas com fixed background;
 - zero RAF em 700 ms de repouso;
-- zero animações em execução no repouso medido;
-- máximo de 16 leituras geométricas durante scroll rápido;
-- navegação com CPU 4×: aproximadamente 704 ms até estado ocioso;
-- fallback máximo defensivo: 1.600 ms.
+- zero animações em execução no repouso;
+- máximo de 16 leituras geométricas no scroll rápido;
+- navegação com CPU 4× em aproximadamente 704 ms até estado ocioso;
+- fallback máximo de 1.600 ms.
 
-### Limitações
+Limitações:
 
-- FPS e GPU não são afirmados: Chromium headless não reproduz com fidelidade a composição de todos os aparelhos;
-- o throttling 4× do Chromium é uma aproximação, não substitui profiling em hardware físico;
-- não existe script de teste unitário declarado no `package.json`;
-- Dashboard e Admin permanecem limitados aos estados públicos sem credenciais;
-- o `npm ci` informou avisos de segurança já existentes nas dependências; nenhuma dependência foi modificada nesta etapa.
+- FPS e GPU não são afirmados porque Chromium headless não representa todos os aparelhos;
+- throttling 4× é aproximação, não substitui hardware físico;
+- não existe script unitário `test` no `package.json`;
+- Dashboard e Admin permanecem limitados a estados públicos sem credenciais;
+- `npm ci` informou avisos de segurança já existentes; nenhuma dependência mudou nesta etapa.
 
 ---
 
-## 13. CLS
+## 12. CLS
 
-### Investigação
+Foram investigados wrapper de transição, `AnimatePresence`, shell de loading, conteúdo inicialmente invisível, Hero, Header, Dock, hidratação e fontes.
 
-Foram examinados:
+A correção ligada ao movimento coloca saída e entrada na mesma célula do shell, impedindo soma temporária de alturas.
 
-- wrapper de transição;
-- `AnimatePresence`;
-- sobreposição de saída e entrada;
-- shell de loading;
-- conteúdo inicialmente invisível;
-- Hero;
-- Header e Dock;
-- hidratação;
-- carregamento de fontes.
+O CLS compartilhado foi comparado pela média de cada largura. A atribuição individual por rota varia conforme fontes e shells globais estabilizam; todos os valores individuais permanecem no JSON.
 
-### Correção ligada ao movimento
-
-As páginas de saída e entrada agora ocupam a mesma célula do shell de transição. Isso impede que duas árvores somem temporariamente suas alturas durante a troca de rota.
-
-### Resultado por largura
-
-O CLS compartilhado foi comparado pela média de cada largura. A atribuição individual por rota varia conforme o instante em que fontes e shells globais estabilizam; todos os valores individuais continuam preservados no JSON.
-
-| Largura | Média baseline | Média Etapa 2 | Diferença |
+| Largura | Baseline | Etapa 2 | Diferença |
 |---:|---:|---:|---:|
 | 1920 | 0,0882 | 0,0417 | -0,0465 |
 | 1440 | 0,0844 | 0,0372 | -0,0472 |
@@ -357,17 +331,15 @@ O CLS compartilhado foi comparado pela média de cada largura. A atribuição in
 | 390 | 0,0773 | 0,0637 | -0,0135 |
 | 360 | 0,0655 | 0,0388 | -0,0267 |
 
-Nenhuma largura regrediu na média compartilhada. O maior valor individual continuou em `0,1656456`, sem aumento sobre o pico do baseline.
+Nenhuma largura regrediu na média. O maior valor individual continuou em `0,1656456`, sem aumento sobre o pico do baseline.
 
-### O que permanece
-
-A parcela compartilhada associada a fontes, Header, hidratação e layout global não foi eliminada integralmente porque exigiria mudanças de tipografia ou composição fora do escopo. Ela permanece registrada para as próximas etapas. Valores individuais podem migrar entre rotas conforme o cache de fonte e a ordem de estabilização; por isso o relatório não atribui causalidade falsa a uma página específica.
+A parcela ligada a fontes, Header, hidratação e layout global não foi eliminada integralmente porque exigiria mudanças fora do escopo. Valores individuais podem migrar entre rotas conforme cache de fonte e ordem de estabilização; o relatório não atribui causalidade falsa a uma página específica.
 
 ---
 
-## 14. Testes executados
+## 13. Testes
 
-### Comandos
+Comandos:
 
 ```bash
 git diff --check FETCH_HEAD HEAD --
@@ -379,106 +351,100 @@ node scripts/validate-motion-etapa-2-final.mjs
 node scripts/capture-motion-etapa-2-samples.mjs
 ```
 
-Não foi executado `npm test` porque não existe script `test` no projeto.
+Não houve `npm test` porque o projeto não declara esse script.
 
-### Matriz
+Matriz:
 
-Rotas: 17.  
-Larguras: 1920, 1440, 1280, 1024, 900, 768, 640, 430, 390 e 360.  
-Total: 170 combinações.
+- rotas: 17;
+- larguras: 1920, 1440, 1280, 1024, 900, 768, 640, 430, 390 e 360;
+- total: 170 combinações.
 
-Também foram testados:
+Interações adicionais:
 
 - links internos;
-- voltar e avançar;
+- back e forward;
 - query string;
 - hash;
 - link cancelado;
 - cliques rápidos;
-- rota 404;
+- 404;
 - seis filtros da Galeria;
-- abertura, troca, Escape e foco do modal;
-- Roadmap completo;
-- Lore completa;
+- modal, troca, Escape e foco;
+- Roadmap e Lore completas;
 - scroll rápido;
 - ponteiro fino;
-- ponteiro coarse;
+- coarse pointer;
 - touch;
 - reduced motion;
 - aba oculta e restaurada;
 - resize;
 - CPU 4×.
 
-### Resultado
+Resultado:
 
-- whitespace: aprovado;
-- instalação limpa: aprovada;
-- TypeScript: aprovado;
-- ESLint: aprovado;
-- build: aprovado, 29 páginas processadas;
-- matriz: 170/170;
-- erros da validação: 0;
-- warnings da validação: 0;
-- erros de console novos: 0.
+- whitespace aprovado;
+- instalação limpa aprovada;
+- TypeScript aprovado;
+- ESLint aprovado;
+- build aprovado, 29 páginas processadas;
+- matriz 170/170;
+- erros 0;
+- warnings 0;
+- novos erros de console 0.
 
 ---
 
-## 15. Evidências
+## 14. Evidências
 
 O artefato contém:
 
-- `home-hero-first-1440.png`;
-- `home-hero-return-1440.png`;
-- `roadmap-complete-1440.png`;
-- `lore-complete-1440.png`;
-- `gallery-grid-1440.png`;
-- `gallery-filtered-1440.png`;
-- `gallery-modal-1440.png`;
-- `home-tablet-768.png`;
-- `roadmap-tablet-768.png`;
-- `home-mobile-390.png`;
-- `gallery-modal-mobile-390.png`;
-- `home-reduced-motion-390.png`;
-- `lore-reduced-motion-390.png`;
+- Home e Hero inicial em 1440;
+- Home e Hero de retorno em 1440;
+- Roadmap completa em 1440 e 768;
+- Lore completa em 1440;
+- Galeria completa, filtrada e modal em 1440;
+- Home em 768 e 390;
+- modal touch em 390;
+- Home e Lore em reduced motion;
 - `motion-validation.json`;
 - `evidence-index.json`;
-- log do servidor local.
+- log do servidor.
 
-As capturas full-page usam rolagem progressiva antes do screenshot para pintar corretamente conteúdo controlado por `content-visibility`.
+Capturas full-page usam rolagem progressiva antes do screenshot para pintar conteúdo controlado por `content-visibility`.
 
 ---
 
-## 16. Arquivos alterados
+## 15. Arquivos alterados
 
 ### Aplicação
 
-- `src/lib/motion.ts` — tokens, durações, easings e variantes compartilhadas;
-- `src/components/RouteTransition.tsx` — navegação, query, hash, cancelamento, back/forward e limpeza;
-- `src/components/ImpactEffects.tsx` — reveals, indicador único e luz local;
-- `src/components/ScrollTimeline.tsx` — controlador dedicado de Roadmap e Lore;
-- `src/components/CursorAura.tsx` — atualização limitada a um frame e parada no repouso;
-- `src/components/BackgroundFog.tsx` — atmosfera preservada em estado estático;
-- `src/components/HeroSection.tsx` — primeira entrada, retorno e reduced motion;
-- `src/components/DockMenu.tsx` — cache geométrico, parada da mola e resets;
-- `src/components/GalleryModal.tsx` — presença síncrona, foco e troca rápida;
-- `src/app/galeria/page.tsx` — reorganização e presença dos itens;
-- `src/app/layout.tsx` — montagem dos controladores e folhas de otimização;
-- `src/app/motion-optimization.css` — simplificação global do movimento;
-- `src/app/motion-touch-optimization.css` — coarse pointer, touch e estabilidade do Dock.
+- `src/lib/motion.ts`: tokens, durações, easings e variantes;
+- `src/components/RouteTransition.tsx`: navegação e limpeza de estados;
+- `src/components/ImpactEffects.tsx`: reveals, indicador e luz local;
+- `src/components/ScrollTimeline.tsx`: controlador de Roadmap e Lore;
+- `src/components/CursorAura.tsx`: atualização por frame e repouso;
+- `src/components/BackgroundFog.tsx`: atmosfera estática;
+- `src/components/HeroSection.tsx`: primeira entrada, retorno e reduced motion;
+- `src/components/DockMenu.tsx`: cache, mola e resets;
+- `src/components/GalleryModal.tsx`: presença, foco e troca rápida;
+- `src/app/galeria/page.tsx`: reorganização dos itens;
+- `src/app/layout.tsx`: montagem dos controladores;
+- `src/app/motion-optimization.css`: simplificação global;
+- `src/app/motion-touch-optimization.css`: touch e Dock estável.
 
 ### Validação e documentação
 
-- `scripts/validate-motion-etapa-2-final.mjs` — suíte autoritativa de 170 casos e interações;
-- `scripts/validate-motion-etapa-2.mjs` — instrumento iterativo usado durante o refinamento;
-- `scripts/capture-motion-etapa-2-samples.mjs` — evidências comparativas;
-- `.github/workflows/fase-4-etapa-2-validation.yml` — instalação limpa, código, build, navegador e artefato;
-- `docs/fase-4/etapa-2/ETAPA_2_MOTION_REPORT.md` — este relatório.
+- `scripts/validate-motion-etapa-2-final.mjs`: suíte autoritativa;
+- `scripts/validate-motion-etapa-2.mjs`: instrumento iterativo do refinamento;
+- `scripts/capture-motion-etapa-2-samples.mjs`: evidências;
+- `.github/workflows/fase-4-etapa-2-validation.yml`: CI completa;
+- `docs/fase-4/etapa-2/ETAPA_2_MOTION_REPORT.md`: este relatório.
 
-Nenhum arquivo de Supabase, SQL, banco, autenticação, API, regra de negócio, conteúdo editorial, rota ou permissão foi modificado.
+Nenhum arquivo de Supabase, SQL, banco, autenticação, API, regra de negócio, conteúdo, rota ou permissão foi modificado.
 
 ---
 
-## 17. Git e estado final
+## 16. Git e estado final
 
 - branch: `agent/fase-4-etapa-2-simplificacao-movimento`;
 - base: `20c203d5aadaea97cf83c95f703b7a73a9ccb630`;
@@ -487,15 +453,15 @@ Nenhum arquivo de Supabase, SQL, banco, autenticação, API, regra de negócio, 
 - PR: `#39`, mantido como rascunho;
 - merge: não realizado;
 - deploy de produção: não realizado;
-- previews automáticos da branch: não promovidos;
+- previews da branch: não promovidos;
 - Etapa 3: não iniciada.
 
-O HEAD absoluto da branch após este documento deve ser consultado no PR, pois o próprio commit documental é posterior aos hashes de aplicação listados acima.
+O HEAD absoluto após o commit documental deve ser consultado no PR, pois o próprio relatório é posterior aos hashes de aplicação listados.
 
 ---
 
-## 18. Conclusão
+## 17. Conclusão
 
 A Etapa 2 atende aos critérios de aprovação dentro do escopo autorizado. O site permanece reconhecivelmente o mesmo projeto, com menos efeitos concorrentes, navegação mais rápida, timelines responsivas, menor atividade em repouso, touch estável e Hero ainda cinematográfico.
 
-Nenhum merge deve ocorrer sem autorização explícita. A próxima etapa não foi iniciada.
+Nenhum merge deve ocorrer sem autorização explícita. A Etapa 3 não foi iniciada.
