@@ -70,6 +70,7 @@ export function GalleryModal({
   useEffect(() => {
     const body = document.body;
     const previousModalState = body.dataset.galleryModalOpen;
+    const returnFocusTarget = returnFocusRef.current;
     body.dataset.galleryModalOpen = "true";
 
     const focusFrame = window.requestAnimationFrame(() => {
@@ -140,7 +141,7 @@ export function GalleryModal({
       }
 
       window.requestAnimationFrame(() => {
-        returnFocusRef.current?.focus();
+        returnFocusTarget?.focus();
       });
     };
   }, [onClose, returnFocusRef]);
@@ -160,7 +161,7 @@ export function GalleryModal({
         duration: reduceMotion ? 0 : motionDurations.feedback,
         ease: motionEasings.standard,
       }}
-      onMouseDown={(event) => {
+      onPointerDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
     >
@@ -171,11 +172,11 @@ export function GalleryModal({
         aria-modal="true"
         aria-labelledby={`gallery-preview-title-${selected.id}`}
         tabIndex={-1}
-        initial={reduceMotion ? false : { opacity: 0, y: 18, scale: 0.985 }}
+        initial={reduceMotion ? false : { opacity: 0, y: 12, scale: 0.99 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 8, scale: 0.99 }}
+        exit={{ opacity: 0, y: 6, scale: 0.995 }}
         transition={{
-          duration: reduceMotion ? 0 : motionDurations.enter,
+          duration: reduceMotion ? 0 : motionDurations.gallery,
           ease: motionEasings.enter,
         }}
       >
@@ -199,12 +200,12 @@ export function GalleryModal({
           </header>
 
           <div className="gallery-modal-media">
-            <AnimatePresence initial={false} mode="wait">
+            <AnimatePresence initial={false} mode="sync">
               <motion.div
                 key={selected.id}
-                initial={reduceMotion ? false : { opacity: 0, x: 12 }}
+                initial={reduceMotion ? false : { opacity: 0, x: 8 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -12 }}
+                exit={{ opacity: 0, x: -8 }}
                 transition={{
                   duration: reduceMotion ? 0 : motionDurations.feedback,
                   ease: motionEasings.standard,
@@ -223,15 +224,16 @@ export function GalleryModal({
             </AnimatePresence>
           </div>
 
-          <AnimatePresence initial={false} mode="wait">
+          <AnimatePresence initial={false} mode="sync">
             <motion.dl
               key={`${selected.id}-copy`}
               className="gallery-modal-copy"
-              initial={reduceMotion ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -2 }}
               transition={{
                 duration: reduceMotion ? 0 : motionDurations.feedback,
+                ease: motionEasings.standard,
               }}
             >
               <div>
