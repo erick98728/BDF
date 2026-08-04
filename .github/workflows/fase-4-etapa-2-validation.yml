@@ -47,12 +47,8 @@ jobs:
 
       - name: Verificar whitespace do diff
         run: |
-          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
-            git diff --check HEAD^1...HEAD
-          else
-            git fetch --no-tags --depth=1 origin main
-            git diff --check FETCH_HEAD...HEAD
-          fi
+          git fetch --no-tags --depth=1 origin main
+          git diff --check FETCH_HEAD HEAD --
 
       - name: Configurar Node.js
         uses: actions/setup-node@v4
