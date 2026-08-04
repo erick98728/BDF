@@ -6,6 +6,7 @@ import "./effects.css";
 import "./motion-system.css";
 import "./motion-refinements.css";
 import "./motion-optimization.css";
+import "./motion-touch-optimization.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackgroundFog } from "@/components/BackgroundFog";
