@@ -20,6 +20,7 @@ on:
       - src/components/RouteTransition.tsx
       - src/lib/motion.ts
       - scripts/validate-motion-etapa-2.mjs
+      - scripts/capture-motion-etapa-2-samples.mjs
       - .github/workflows/fase-4-etapa-2-validation.yml
   workflow_dispatch:
 
@@ -82,6 +83,12 @@ jobs:
           MOTION_VALIDATION_URL: http://127.0.0.1:3000
           MOTION_VALIDATION_OUTPUT: artifacts/fase-4-etapa-2
         run: node scripts/validate-motion-etapa-2.mjs
+
+      - name: Capturar amostras visuais
+        env:
+          MOTION_VALIDATION_URL: http://127.0.0.1:3000
+          MOTION_VALIDATION_OUTPUT: artifacts/fase-4-etapa-2
+        run: node scripts/capture-motion-etapa-2-samples.mjs
 
       - name: Encerrar servidor e preservar log
         if: always()
