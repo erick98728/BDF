@@ -5,21 +5,7 @@ import { useEffect, useRef } from "react";
 
 const watchedSelector = "[data-fx-reveal], [data-fx-watch]";
 const revealSelector = "[data-fx-reveal]";
-const spotlightSelector = "[data-fx-spotlight]";
-const magneticSelector = "[data-fx-magnetic]";
-const strategicSelector = `${spotlightSelector}, ${magneticSelector}`;
-const timelineSelector = "[data-fx-timeline]";
-const timelineNodeSelector = "[data-fx-timeline-node]";
-
-type TimelineMetric = {
-  element: HTMLElement;
-  top: number;
-  height: number;
-  nodes: Array<{
-    element: HTMLElement;
-    top: number;
-  }>;
-};
+const strategicSelector = "[data-fx-spotlight], [data-fx-magnetic]";
 
 function clamp(value: number, minimum: number, maximum: number) {
   return Math.min(Math.max(value, minimum), maximum);
@@ -67,20 +53,14 @@ export function ImpactEffects() {
     const watchedElements = Array.from(
       document.querySelectorAll<HTMLElement>(watchedSelector),
     );
-    const timelineElements = Array.from(
-      document.querySelectorAll<HTMLElement>(timelineSelector),
-    );
     const strategicElements = Array.from(
       document.querySelectorAll<HTMLElement>(strategicSelector),
     );
     const imageCleanups: Array<() => void> = [];
 
     let observer: IntersectionObserver | null = null;
-    let resizeObserver: ResizeObserver | null = null;
-    let timelineMetrics: TimelineMetric[] = [];
     let animationFrame = 0;
     let scrollDirty = true;
-    let timelineMetricsDirty = true;
     let pointerDirty = false;
     let pointerTarget: HTMLElement | null = null;
     let activeLightTarget: HTMLElement | null = null;
@@ -174,69 +154,6 @@ export function ImpactEffects() {
       );
     }
 
-    function measureTimelines() {
-      const pageTop = window.scrollY;
-
-      timelineMetrics = timelineElements.map((element) => {
-        const bounds = element.getBoundingClientRect();
-        const top = bounds.top + pageTop;
-
-        return {
-          element,
-          top,
-          height: Math.max(bounds.height, 1),
-          nodes: Array.from(
-            element.querySelectorAll<HTMLElement>(timelineNodeSelector),
-          ).map((node) => ({
-            element: node,
-            top: node.getBoundingClientRect().top + pageTop,
-          })),
-        };
-      });
-
-      timelineMetricsDirty = false;
-    }
-
-    function updateTimelines() {
-      if (timelineMetricsDirty) measureTimelines();
-
-      const scrollTop = window.scrollY;
-      const viewportHeight = window.innerHeight;
-
-      timelineMetrics.forEach((timeline) => {
-        const timelineBottom = timeline.top + timeline.height;
-        const isNearViewport =
-          timelineBottom >= scrollTop - viewportHeight &&
-          timeline.top <= scrollTop + viewportHeight * 2;
-
-        if (!reducedMotion.matches && !isNearViewport) return;
-
-        const timelineProgress = reducedMotion.matches
-          ? 1
-          : clamp(
-              (scrollTop + viewportHeight * 0.78 - timeline.top) /
-                timeline.height,
-              0,
-              1,
-            );
-
-        timeline.element.style.setProperty(
-          "--fx-timeline-progress",
-          timelineProgress.toFixed(4),
-        );
-
-        timeline.nodes.forEach((node) => {
-          if (
-            reducedMotion.matches ||
-            node.element.dataset.fxActive === "true" ||
-            node.top <= scrollTop + viewportHeight * 0.64
-          ) {
-            node.element.dataset.fxActive = "true";
-          }
-        });
-      });
-    }
-
     function applyPointerLight() {
       pointerDirty = false;
 
@@ -275,7 +192,6 @@ export function ImpactEffects() {
 
       if (scrollDirty) {
         updateScrollProgress();
-        updateTimelines();
         scrollDirty = false;
       }
 
@@ -324,18 +240,7 @@ export function ImpactEffects() {
 
     function handleCapabilityChange() {
       clearPointerLight();
-
-      if (reducedMotion.matches) {
-        watchedElements.forEach(markVisible);
-        timelineElements.forEach((timeline) => {
-          timeline.style.setProperty("--fx-timeline-progress", "1");
-          timeline
-            .querySelectorAll<HTMLElement>(timelineNodeSelector)
-            .forEach((node) => {
-              node.dataset.fxActive = "true";
-            });
-        });
-      }
+      if (reducedMotion.matches) watchedElements.forEach(markVisible);
     }
 
     function handleVisibilityChange() {
@@ -351,24 +256,13 @@ export function ImpactEffects() {
       }
 
       scrollDirty = true;
-      timelineMetricsDirty = true;
       scheduleFrame();
     }
 
     function handleResize() {
       scrollDirty = true;
-      timelineMetricsDirty = true;
       pointerDirty = true;
       scheduleFrame();
-    }
-
-    if ("ResizeObserver" in window) {
-      resizeObserver = new ResizeObserver(() => {
-        timelineMetricsDirty = true;
-        scrollDirty = true;
-        scheduleFrame();
-      });
-      timelineElements.forEach((element) => resizeObserver?.observe(element));
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -385,7 +279,6 @@ export function ImpactEffects() {
 
     return () => {
       observer?.disconnect();
-      resizeObserver?.disconnect();
       imageCleanups.forEach((cleanup) => cleanup());
       clearLocalLight(activeLightTarget);
       strategicElements.forEach(clearLocalLight);
