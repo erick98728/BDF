@@ -1,7 +1,7 @@
 :root {
   --motion-instant: 160ms;
   --motion-feedback: 200ms;
-  --motion-enter: 440ms;
+  --motion-enter: 420ms;
   --motion-cinematic: 820ms;
   --motion-stagger: 45ms;
 
@@ -50,7 +50,7 @@ html[data-route-transition="pending"] .fx-scroll-progress > span {
 .fx-divider__line,
 .fx-divider__mark,
 .fx-divider__satellite {
-  transition-duration: 440ms;
+  transition-duration: 420ms;
 }
 
 /* Timeline progress is written once per animation frame and must not lag behind. */
