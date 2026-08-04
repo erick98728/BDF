@@ -27,11 +27,13 @@ export function ScrollTimelineEffects() {
     let timelines: HTMLElement[] = [];
     let metrics: TimelineMetric[] = [];
     let metricsDirty = true;
+    let collectionAttempts = 0;
     let animationFrame = 0;
     let setupFrame = 0;
     let resizeObserver: ResizeObserver | null = null;
 
     function collectTimelines() {
+      collectionAttempts += 1;
       timelines = Array.from(
         document.querySelectorAll<HTMLElement>("[data-fx-timeline]"),
       );
@@ -83,6 +85,10 @@ export function ScrollTimelineEffects() {
 
     function update() {
       animationFrame = 0;
+
+      if (timelines.length === 0 && collectionAttempts < 4) {
+        collectTimelines();
+      }
 
       if (reducedMotion.matches) {
         completeTimelines();
@@ -148,6 +154,7 @@ export function ScrollTimelineEffects() {
 
     function handleMotionPreference() {
       metricsDirty = true;
+      collectionAttempts = 0;
       scheduleUpdate();
     }
 
