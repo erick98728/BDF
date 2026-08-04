@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { useEffect, useState } from "react";
 import {
   cinematicContainer,
   cinematicItem,
@@ -18,9 +19,57 @@ const heroStats = [
   { label: "Foco", value: "Exploração e feedback", icon: "feedback" as const },
 ];
 
-function HeroVisual() {
+const compactContainer: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0,
+      staggerChildren: 0,
+    },
+  },
+};
+
+const compactItem: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 4,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.28,
+      ease: motionEasings.enter,
+    },
+  },
+};
+
+const compactVisual: Variants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.997,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.32,
+      ease: motionEasings.enter,
+    },
+  },
+};
+
+let heroPlayedInClientSession = false;
+
+type HeroEntryMode = "first" | "return" | "reduced";
+
+function HeroVisual({ entryMode }: { entryMode: HeroEntryMode }) {
   return (
-    <div className="hero-visual" aria-hidden="true">
+    <div
+      className={`hero-visual hero-visual--${entryMode}`}
+      data-hero-entry={entryMode}
+      aria-hidden="true"
+    >
       <div className="hero-visual__halo" />
       <svg
         viewBox="0 0 560 520"
@@ -72,27 +121,44 @@ function HeroVisual() {
 
 export function HeroSection() {
   const reduceMotion = Boolean(useReducedMotion());
+  const [entryMode] = useState<Exclude<HeroEntryMode, "reduced">>(() =>
+    heroPlayedInClientSession ? "return" : "first",
+  );
+
+  useEffect(() => {
+    heroPlayedInClientSession = true;
+  }, []);
+
+  const resolvedEntryMode: HeroEntryMode = reduceMotion
+    ? "reduced"
+    : entryMode;
+  const firstEntry = resolvedEntryMode === "first";
+  const containerVariants = firstEntry
+    ? cinematicContainer
+    : compactContainer;
+  const itemVariants = firstEntry ? cinematicItem : compactItem;
+  const visualVariants = firstEntry ? cinematicVisual : compactVisual;
 
   return (
-    <section className="hero-section">
+    <section className="hero-section" data-hero-entry={resolvedEntryMode}>
       <div className="hero-section__ambient" aria-hidden="true" />
       <div className="content-shell hero-section__inner">
         <div className="hero-section__grid">
           <motion.div
             className="hero-section__copy"
-            variants={cinematicContainer}
+            variants={containerVariants}
             initial={reduceMotion ? false : "hidden"}
             animate="visible"
           >
-            <motion.p className="tester-kicker" variants={cinematicItem}>
+            <motion.p className="tester-kicker" variants={itemVariants}>
               Site oficial · Em desenvolvimento
             </motion.p>
-            <motion.h1 className="hero-section__title" variants={cinematicItem}>
+            <motion.h1 className="hero-section__title" variants={itemVariants}>
               Protótipo
             </motion.h1>
             <motion.p
               className="hero-section__description"
-              variants={cinematicItem}
+              variants={itemVariants}
             >
               Um metroidvania sombrio de exploração e combate, perdido entre
               ruínas, névoa e segredos de um bosque antigo.
@@ -100,7 +166,7 @@ export function HeroSection() {
 
             <motion.div
               className="hero-section__stats"
-              variants={cinematicItem}
+              variants={itemVariants}
             >
               {heroStats.map((item) => (
                 <div key={item.label} className="hero-stat">
@@ -119,7 +185,7 @@ export function HeroSection() {
 
             <motion.div
               className="hero-section__actions"
-              variants={cinematicItem}
+              variants={itemVariants}
             >
               <GameButton href="/download">Ver status do beta</GameButton>
               <GameButton href="/lore" variant="secondary">
@@ -129,11 +195,11 @@ export function HeroSection() {
           </motion.div>
 
           <motion.div
-            variants={cinematicVisual}
+            variants={visualVariants}
             initial={reduceMotion ? false : "hidden"}
             animate="visible"
           >
-            <HeroVisual />
+            <HeroVisual entryMode={resolvedEntryMode} />
           </motion.div>
         </div>
 
@@ -144,7 +210,7 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{
             duration: reduceMotion ? 0 : motionDurations.feedback,
-            delay: reduceMotion ? 0 : 0.18,
+            delay: reduceMotion || !firstEntry ? 0 : 0.18,
             ease: motionEasings.enter,
           }}
         >
