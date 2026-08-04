@@ -18,7 +18,23 @@ async function settle(page, delay = 650) {
   await page.waitForTimeout(delay);
 }
 
+async function waitForStableRoute(page) {
+  await page.waitForFunction(
+    () => {
+      const shell = document.querySelector(".route-transition-shell");
+      return (
+        shell?.getAttribute("aria-busy") !== "true" &&
+        !document.documentElement.dataset.routeTransition &&
+        document.querySelectorAll(".route-transition-page").length === 1
+      );
+    },
+    undefined,
+    { timeout: 4000 },
+  );
+}
+
 async function capture(page, name, fullPage = false) {
+  await waitForStableRoute(page);
   const fileName = `${name}.png`;
   await page.screenshot({
     path: path.join(evidenceDir, fileName),
@@ -34,7 +50,7 @@ async function scrollToEnd(page) {
       behavior: "instant",
     });
   });
-  await page.waitForTimeout(260);
+  await page.waitForTimeout(320);
 }
 
 const browser = await chromium.launch({ headless: true });
@@ -51,17 +67,25 @@ try {
     timeout: 30000,
   });
   await settle(desktopPage, 320);
+  await waitForStableRoute(desktopPage);
   const firstHeroEntry = await desktopPage
     .locator(".hero-section")
+    .last()
     .getAttribute("data-hero-entry");
   await capture(desktopPage, "home-hero-first-1440");
 
   await desktopPage.locator('a[href="/lore"]').first().click();
   await desktopPage.waitForURL(/\/lore(?:\?|$)/, { timeout: 10000 });
-  await desktopPage.goBack({ waitUntil: "domcontentloaded" });
-  await settle(desktopPage, 160);
+  await waitForStableRoute(desktopPage);
+  await desktopPage.locator('.dock-menu a[href="/"]').click();
+  await desktopPage.waitForURL((url) => url.pathname === "/", {
+    timeout: 10000,
+  });
+  await settle(desktopPage, 420);
+  await waitForStableRoute(desktopPage);
   const returnHeroEntry = await desktopPage
     .locator(".hero-section")
+    .last()
     .getAttribute("data-hero-entry");
   await capture(desktopPage, "home-hero-return-1440");
 
@@ -92,6 +116,7 @@ try {
   await capture(desktopPage, "gallery-filtered-1440", true);
   await desktopPage.locator(".gallery-entry").first().click();
   await desktopPage.locator('[role="dialog"]').waitFor({ state: "visible" });
+  await desktopPage.waitForTimeout(180);
   await capture(desktopPage, "gallery-modal-1440");
   await desktopPage.keyboard.press("Escape");
   await desktop.close();
@@ -136,6 +161,7 @@ try {
   await settle(mobilePage, 700);
   await mobilePage.locator(".gallery-entry").first().tap();
   await mobilePage.locator('[role="dialog"]').waitFor({ state: "visible" });
+  await mobilePage.waitForTimeout(180);
   await capture(mobilePage, "gallery-modal-mobile-390");
   await mobilePage.keyboard.press("Escape");
   await mobile.close();
