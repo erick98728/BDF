@@ -45,6 +45,7 @@ type DockEntry =
 
 type AnimatedDockItem = {
   element: HTMLElement;
+  center: number;
   scale: number;
   targetScale: number;
   scaleVelocity: number;
@@ -149,6 +150,7 @@ export function DockMenu({
       ...dock.querySelectorAll<HTMLElement>(".dock-menu__item"),
     ].map<AnimatedDockItem>((element) => ({
       element,
+      center: 0,
       scale: 1,
       targetScale: 1,
       scaleVelocity: 0,
@@ -163,6 +165,7 @@ export function DockMenu({
     };
 
     let animationFrame = 0;
+    let metricsDirty = true;
 
     function readNumberProperty(name: string, fallback: number) {
       const value = Number.parseFloat(
@@ -170,6 +173,14 @@ export function DockMenu({
       );
 
       return Number.isFinite(value) ? value : fallback;
+    }
+
+    function measureItems() {
+      items.forEach((item) => {
+        const bounds = item.element.getBoundingClientRect();
+        item.center = bounds.left + bounds.width / 2;
+      });
+      metricsDirty = false;
     }
 
     function setRestTargets() {
@@ -180,10 +191,17 @@ export function DockMenu({
     }
 
     function updateTargetsFromPointer() {
-      if (!pointer.inside || !finePointer.matches) {
+      if (
+        !pointer.inside ||
+        !finePointer.matches ||
+        reducedMotion.matches ||
+        document.hidden
+      ) {
         setRestTargets();
         return;
       }
+
+      if (metricsDirty) measureItems();
 
       const maximumScale = readNumberProperty(
         "--dock-menu-maximum-scale",
@@ -195,9 +213,7 @@ export function DockMenu({
       );
 
       items.forEach((item) => {
-        const bounds = item.element.getBoundingClientRect();
-        const center = bounds.left + bounds.width / 2;
-        const distance = Math.abs(pointer.clientX - center);
+        const distance = Math.abs(pointer.clientX - item.center);
         const influence = clamp(
           1 - distance / SPRING.influenceRadius,
           0,
@@ -205,8 +221,7 @@ export function DockMenu({
         );
         const easedInfluence = influence * influence * (3 - 2 * influence);
 
-        item.targetScale =
-          1 + (maximumScale - 1) * easedInfluence;
+        item.targetScale = 1 + (maximumScale - 1) * easedInfluence;
         item.targetLift = maximumLift * easedInfluence;
       });
     }
@@ -275,20 +290,17 @@ export function DockMenu({
           item.liftVelocity = 0;
         }
 
-        if (!scaleAtRest || !liftAtRest) {
-          shouldContinue = true;
-        }
-
+        if (!scaleAtRest || !liftAtRest) shouldContinue = true;
         renderItem(item);
       });
 
-      if (shouldContinue) {
+      if (shouldContinue && !document.hidden) {
         animationFrame = requestAnimationFrame(animate);
       }
     }
 
     function startAnimation() {
-      if (reducedMotion.matches) {
+      if (reducedMotion.matches || !finePointer.matches || document.hidden) {
         renderRestState();
         return;
       }
@@ -312,28 +324,54 @@ export function DockMenu({
       startAnimation();
     }
 
+    function handleResize() {
+      metricsDirty = true;
+      resetMagnification();
+    }
+
+    function handleCapabilityChange() {
+      metricsDirty = true;
+      resetMagnification();
+    }
+
+    function handleVisibilityChange() {
+      if (document.hidden) {
+        pointer.inside = false;
+        renderRestState();
+        return;
+      }
+
+      metricsDirty = true;
+    }
+
     dock.addEventListener("pointermove", handlePointerMove, {
       passive: true,
     });
     dock.addEventListener("pointerleave", resetMagnification);
-    window.addEventListener("resize", resetMagnification, {
-      passive: true,
-    });
-    finePointer.addEventListener("change", resetMagnification);
-    reducedMotion.addEventListener("change", renderRestState);
+    dock.addEventListener("pointercancel", resetMagnification);
+    window.addEventListener("resize", handleResize, { passive: true });
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    finePointer.addEventListener("change", handleCapabilityChange);
+    reducedMotion.addEventListener("change", handleCapabilityChange);
+
+    renderRestState();
 
     return () => {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-      }
+      if (animationFrame) cancelAnimationFrame(animationFrame);
 
       dock.removeEventListener("pointermove", handlePointerMove);
       dock.removeEventListener("pointerleave", resetMagnification);
-      window.removeEventListener("resize", resetMagnification);
-      finePointer.removeEventListener("change", resetMagnification);
-      reducedMotion.removeEventListener("change", renderRestState);
+      dock.removeEventListener("pointercancel", resetMagnification);
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener(
+        "visibilitychange",
+        handleVisibilityChange,
+      );
+      finePointer.removeEventListener("change", handleCapabilityChange);
+      reducedMotion.removeEventListener("change", handleCapabilityChange);
+      renderRestState();
     };
-  }, [entries]);
+  }, [entries, pathname]);
 
   return (
     <div className="dock-menu-viewport">
@@ -345,8 +383,7 @@ export function DockMenu({
         <ul className="dock-menu__list" role="list">
           {entries.map((entry, index) => {
             const active =
-              entry.kind === "link" &&
-              routeMatches(pathname, entry.href);
+              entry.kind === "link" && routeMatches(pathname, entry.href);
             const tooltipId = `dock-menu-tooltip-${entry.id}`;
             const Icon = entry.icon;
             const content = (
