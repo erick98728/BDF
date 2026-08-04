@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import "./globals.css";
 import "./dock-menu.css";
 import "./effects.css";
 import "./motion-system.css";
 import "./motion-refinements.css";
+import "./motion-optimization.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackgroundFog } from "@/components/BackgroundFog";
@@ -108,7 +110,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-black focus:px-3 focus:py-2 focus:text-white">Pular para conteúdo</a>
         <Navbar />
         <main id="conteudo" className="site-main">
-          <RouteTransition>{children}</RouteTransition>
+          <Suspense
+            fallback={
+              <div className="route-transition-shell">
+                <div className="route-transition-page">{children}</div>
+              </div>
+            }
+          >
+            <RouteTransition>{children}</RouteTransition>
+          </Suspense>
         </main>
         <Footer />
       </body>
