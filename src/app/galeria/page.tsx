@@ -223,7 +223,6 @@ export default function GalleryPage() {
                 onClick={() => setActiveFilter(filter.label)}
                 aria-pressed={active}
                 className="gallery-filter"
-                data-fx-magnetic="true"
               >
                 <span className="gallery-filter__label">
                   <GameGlyph
@@ -247,11 +246,20 @@ export default function GalleryPage() {
           title="Acervo visual do projeto"
           subtitle="Itens marcados como imagem real usam URL cadastrada; previews e conceitos permanecem identificados até haver captura final."
         />
-        <motion.div layout className="gallery-grid">
-          <AnimatePresence initial={false} mode="popLayout">
+        <motion.div
+          layout="position"
+          className="gallery-grid"
+          transition={{
+            layout: {
+              duration: reduceMotion ? 0 : motionDurations.gallery,
+              ease: motionEasings.enter,
+            },
+          }}
+        >
+          <AnimatePresence initial={false} mode="sync">
             {visibleItems.map((item) => (
               <motion.button
-                layout
+                layout="position"
                 key={item.id}
                 type="button"
                 className="gallery-entry"
@@ -263,14 +271,14 @@ export default function GalleryPage() {
                 }}
                 aria-label={`Abrir ${item.name}`}
                 data-fx-spotlight="true"
-                initial={reduceMotion ? false : { opacity: 0, scale: 0.985 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.985 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
                 transition={{
                   duration: reduceMotion ? 0 : motionDurations.feedback,
                   ease: motionEasings.standard,
                   layout: {
-                    duration: reduceMotion ? 0 : motionDurations.enter,
+                    duration: reduceMotion ? 0 : motionDurations.gallery,
                     ease: motionEasings.enter,
                   },
                 }}
@@ -307,7 +315,7 @@ export default function GalleryPage() {
         </motion.div>
       </SectionContainer>
 
-      <AnimatePresence>
+      <AnimatePresence initial={false} mode="sync">
         {selectedIndex !== null && visibleItems[selectedIndex] ? (
           <GalleryModal
             key="gallery-modal"
