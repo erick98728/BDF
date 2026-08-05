@@ -1,0 +1,9 @@
+/* Typography changes invalidate the previous universal 560px intrinsic estimate.
+   Rendering these editorial sections normally avoids reserve-to-content jumps while
+   preserving every reveal, route transition and reduced-motion behavior. */
+@supports (content-visibility: auto) {
+  .fx-content-auto {
+    content-visibility: visible;
+    contain-intrinsic-size: none;
+  }
+}
