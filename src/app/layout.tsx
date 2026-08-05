@@ -8,6 +8,7 @@ import "./motion-refinements.css";
 import "./motion-optimization.css";
 import "./motion-touch-optimization.css";
 import "./design-system.css";
+import "./design-system-utilities.css";
 import { fontVariables } from "./fonts";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
