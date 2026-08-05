@@ -1,0 +1,143 @@
+name: Fase 4 - Etapa 3 - Design System
+
+on:
+  push:
+    branches:
+      - agent/fase-4-etapa-3-tipografia-design-system
+  pull_request:
+    branches:
+      - main
+    paths:
+      - src/app/design-system.css
+      - src/app/design-system-utilities.css
+      - src/app/fonts.ts
+      - src/app/layout.tsx
+      - src/app/login/page.tsx
+      - src/components/GlowCard.tsx
+      - src/components/GameButton.tsx
+      - src/components/PageHeader.tsx
+      - src/components/SectionTitle.tsx
+      - scripts/validate-design-system-etapa-3.mjs
+      - scripts/capture-design-system-etapa-3.mjs
+      - scripts/inventory-design-system-etapa-3.mjs
+      - docs/fase-4/etapa-3/**
+      - .github/workflows/fase-4-etapa-3-validation.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fase-4-etapa-3-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Build, matriz e evidências
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verificar whitespace do diff
+        run: |
+          git fetch --no-tags --depth=1 origin main
+          git diff --check FETCH_HEAD HEAD --
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalação limpa
+        run: npm ci
+
+      - name: Testes existentes
+        run: |
+          if node -e "const p=require('./package.json'); process.exit(p.scripts?.test ? 0 : 1)"; then
+            npm test
+          else
+            echo "Nenhum script de teste existente foi declarado no package.json."
+          fi
+
+      - name: TypeScript
+        run: npx tsc --noEmit --incremental false
+
+      - name: ESLint
+        run: npx eslint src scripts
+
+      - name: Build de produção
+        run: npm run build
+
+      - name: Instalar Playwright sem alterar lockfile
+        run: npm install --no-save --no-package-lock playwright@1.55.0
+
+      - name: Instalar Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Iniciar build local
+        run: |
+          npm run start -- -H 127.0.0.1 -p 3000 > /tmp/bdf-etapa-3-server.log 2>&1 &
+          echo $! > /tmp/bdf-etapa-3-server.pid
+          for attempt in {1..90}; do
+            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/bdf-etapa-3-server.log
+          exit 1
+
+      - name: Preservar sistema de movimento da Etapa 2
+        env:
+          MOTION_VALIDATION_URL: http://127.0.0.1:3000
+          MOTION_VALIDATION_OUTPUT: artifacts/fase-4-etapa-3/motion-regression
+        run: node scripts/validate-motion-etapa-2-final.mjs
+
+      - name: Validar tipografia e design system
+        env:
+          ETAPA3_VALIDATION_URL: http://127.0.0.1:3000
+          ETAPA3_BASELINE_URL: https://bdf-navy.vercel.app
+          ETAPA3_VALIDATION_OUTPUT: artifacts/fase-4-etapa-3
+        run: node scripts/validate-design-system-etapa-3.mjs
+
+      - name: Capturar evidências comparativas
+        env:
+          ETAPA3_VALIDATION_URL: http://127.0.0.1:3000
+          ETAPA3_BASELINE_URL: https://bdf-navy.vercel.app
+          ETAPA3_VALIDATION_OUTPUT: artifacts/fase-4-etapa-3
+        run: node scripts/capture-design-system-etapa-3.mjs
+
+      - name: Preparar pacote consolidado
+        if: always()
+        run: |
+          mkdir -p artifacts/fase-4-etapa-3/package/docs
+          cp docs/fase-4/etapa-3/*.json artifacts/fase-4-etapa-3/package/docs/ 2>/dev/null || true
+          cp docs/fase-4/etapa-3/*.md artifacts/fase-4-etapa-3/package/docs/ 2>/dev/null || true
+          cp artifacts/fase-4-etapa-3/*.json artifacts/fase-4-etapa-3/package/ 2>/dev/null || true
+          cp -R artifacts/fase-4-etapa-3/evidence artifacts/fase-4-etapa-3/package/ 2>/dev/null || true
+          cp -R artifacts/fase-4-etapa-3/motion-regression artifacts/fase-4-etapa-3/package/ 2>/dev/null || true
+          if [ -f /tmp/bdf-etapa-3-server.log ]; then
+            cp /tmp/bdf-etapa-3-server.log artifacts/fase-4-etapa-3/package/server.log
+          fi
+          find artifacts/fase-4-etapa-3/package -type f ! -iregex '.*\.(woff\|woff2\|ttf\|otf)$' -print0 | sort -z | xargs -0 sha256sum > artifacts/fase-4-etapa-3/package/MANIFEST.sha256
+          cd artifacts/fase-4-etapa-3/package
+          zip -r ../BDF_Fase4_Etapa3_COMPLETO.zip . -x '*.woff' '*.woff2' '*.ttf' '*.otf'
+
+      - name: Encerrar servidor
+        if: always()
+        run: |
+          if [ -f /tmp/bdf-etapa-3-server.pid ]; then
+            kill "$(cat /tmp/bdf-etapa-3-server.pid)" 2>/dev/null || true
+          fi
+
+      - name: Publicar pacote e evidências
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fase-4-etapa-3-design-system
+          path: artifacts/fase-4-etapa-3
+          if-no-files-found: warn
+          retention-days: 30
