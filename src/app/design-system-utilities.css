@@ -1,0 +1,213 @@
+/* Small semantic utilities used by shared components and exceptional pages. */
+.type-display {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 600;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.type-page-title {
+  font-family: var(--font-display);
+  font-size: var(--text-page-title);
+  font-weight: 600;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.type-chapter-title {
+  font-family: var(--font-display);
+  font-size: var(--text-chapter-title);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: var(--tracking-heading);
+}
+
+.type-section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-section-title);
+  font-weight: 600;
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+}
+
+.type-component-title {
+  font-family: var(--font-body);
+  font-size: var(--text-component-title);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.008em;
+}
+
+.type-record-title {
+  font-family: var(--font-body);
+  font-size: var(--text-record-title);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.006em;
+}
+
+.type-body-lg {
+  max-width: var(--measure-body);
+  font-size: var(--text-body-lg);
+  line-height: 1.62;
+}
+
+.type-body {
+  max-width: var(--measure-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+}
+
+.type-body-sm {
+  max-width: var(--measure-body);
+  font-size: var(--text-body-sm);
+  line-height: 1.58;
+}
+
+.type-label {
+  font-size: var(--text-label);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.type-meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  font-weight: 500;
+  line-height: var(--leading-compact);
+  letter-spacing: var(--tracking-meta);
+}
+
+.type-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  font-weight: 400;
+  line-height: var(--leading-code);
+  letter-spacing: var(--tracking-code);
+}
+
+.text-role-primary {
+  color: var(--text-primary);
+}
+
+.text-role-secondary {
+  color: var(--text-secondary);
+}
+
+.text-role-muted {
+  color: var(--text-muted);
+}
+
+.text-role-subtle {
+  color: var(--text-subtle);
+}
+
+.text-role-accent {
+  color: var(--text-accent);
+}
+
+.surface-role-standard {
+  background: var(--surface-subtle);
+  border-color: var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.surface-role-functional {
+  background: var(--surface-functional);
+  border-color: var(--border-strong);
+  border-radius: var(--radius-md);
+}
+
+.surface-role-editorial {
+  background: var(--surface-document);
+  border-color: transparent transparent transparent var(--border-accent);
+  border-left-width: 2px;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.surface-role-media {
+  background: var(--surface-media);
+  border-color: var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.ds-control {
+  min-height: 2.75rem;
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.015em;
+  border-radius: var(--radius-md);
+}
+
+/* Existing functional text utilities cannot force microtype inside controls. */
+:is(button, a, [role="button"], [role="tab"]) :is(
+    [class*="text-[10px]"],
+    [class*="text-[11px]"],
+    [class*="text-xs"]
+  ) {
+  font-size: var(--text-label);
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+}
+
+.hero-visual__coordinate {
+  font-size: var(--text-decorative);
+}
+
+.hero-section__next {
+  min-height: 2.75rem;
+  font-size: var(--text-label);
+  letter-spacing: 0.02em;
+}
+
+.gallery-filter__description,
+.gallery-entry__action {
+  font-size: var(--text-label);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.site-footer__link,
+.footer a,
+.site-footer a {
+  min-height: 2.75rem;
+  font-size: var(--text-label);
+  font-family: var(--font-body);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.005em;
+}
+
+.site-footer__eyebrow,
+.site-footer__meta,
+.site-footer__legal,
+.footer__eyebrow,
+.footer__meta,
+.footer__legal {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  line-height: 1.5;
+  letter-spacing: var(--tracking-meta);
+}
+
+.section-heading[data-heading-variant="chapter"] .section-heading__line {
+  width: min(11rem, 32vw);
+}
+
+.section-heading[data-heading-variant="compact"] .section-heading__line {
+  display: none;
+}
+
+.section-heading[data-heading-variant="record"] .section-heading__line {
+  grid-column: 2;
+  width: min(6rem, 25vw);
+}
+
+@media (max-width: 640px) {
+  .section-heading[data-heading-variant="record"] .section-heading__line {
+    width: min(5rem, 30vw);
+  }
+}
