@@ -8,12 +8,18 @@ on:
     paths:
       - scripts/inventory-design-system-etapa-3.mjs
       - .github/workflows/fase-4-etapa-3-inventory.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - scripts/inventory-design-system-etapa-3.mjs
+      - .github/workflows/fase-4-etapa-3-inventory.yml
 
 permissions:
   contents: read
 
 concurrency:
-  group: fase-4-etapa-3-inventory-${{ github.ref }}
+  group: fase-4-etapa-3-inventory-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
