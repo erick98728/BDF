@@ -20,6 +20,7 @@ on:
       - src/components/PageHeader.tsx
       - src/components/SectionTitle.tsx
       - scripts/validate-design-system-etapa-3.mjs
+      - scripts/validate-cls-etapa-3.mjs
       - scripts/capture-design-system-etapa-3.mjs
       - scripts/inventory-design-system-etapa-3.mjs
       - docs/fase-4/etapa-3/**
@@ -137,7 +138,53 @@ jobs:
           ETAPA3_VALIDATION_URL: http://127.0.0.1:3000
           ETAPA3_BASELINE_URL: https://bdf-navy.vercel.app
           ETAPA3_VALIDATION_OUTPUT: artifacts/fase-4-etapa-3
-        run: node scripts/validate-design-system-etapa-3.mjs
+        run: |
+          set +e
+          node scripts/validate-design-system-etapa-3.mjs
+          set -e
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          const report = JSON.parse(
+            fs.readFileSync(
+              "artifacts/fase-4-etapa-3/design-system-validation.json",
+              "utf8",
+            ),
+          );
+          const nonClsErrors = report.errors.filter(
+            (error) =>
+              !error.startsWith("CLS@") &&
+              !error.startsWith("CLS-route@"),
+          );
+          if (nonClsErrors.length) {
+            console.error(nonClsErrors.join("\n"));
+            process.exit(1);
+          }
+          console.log(
+            JSON.stringify(
+              {
+                routeWidthCases: report.summary.routeWidthCases,
+                nonClsErrors: 0,
+                preliminaryClsDiagnostics: report.errors.filter(
+                  (error) =>
+                    error.startsWith("CLS@") ||
+                    error.startsWith("CLS-route@"),
+                ),
+                note:
+                  "A matriz semântica foi aprovada. O CLS preliminar de cache compartilhado é substituído pela coleta isolada e repetida da etapa seguinte.",
+              },
+              null,
+              2,
+            ),
+          );
+          NODE
+
+      - name: Medir CLS com cache limpo e amostras repetidas
+        env:
+          ETAPA3_VALIDATION_URL: http://127.0.0.1:3000
+          ETAPA3_BASELINE_URL: https://bdf-navy.vercel.app
+          ETAPA3_VALIDATION_OUTPUT: artifacts/fase-4-etapa-3
+          ETAPA3_CLS_SAMPLES: 3
+        run: node scripts/validate-cls-etapa-3.mjs
 
       - name: Capturar evidências comparativas
         env:
@@ -192,6 +239,7 @@ jobs:
           - nenhum script `test` declarado no `package.json`;
           - suíte funcional da Etapa 2 sem falha não relacionada a CLS;
           - matriz da Etapa 3 e comparação direta de CLS aprovadas;
+          - CLS medido com três carregamentos e cache limpo por rota/lado;
           - evidências comparativas geradas.
           GATE
 
