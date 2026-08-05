@@ -20,6 +20,19 @@ const variantClass: Record<GlowCardVariant, string> = {
   highlight: "surface-glass surface-card--highlight"
 };
 
+const surfaceRole: Record<GlowCardVariant, string> = {
+  default: "standard",
+  narrative: "editorial-record",
+  functional: "functional",
+  status: "status",
+  character: "dossier",
+  gallery: "media",
+  quiet: "subtle",
+  flat: "flat",
+  panel: "raised",
+  highlight: "narrative-highlight"
+};
+
 export function GlowCard({ children, className = "", contentClassName = "", variant = "default" }: GlowCardProps) {
   const hasSpotlight = ["highlight", "panel", "status", "narrative"].includes(
     variant,
@@ -33,6 +46,7 @@ export function GlowCard({ children, className = "", contentClassName = "", vari
       data-fx-spotlight={hasSpotlight ? "true" : undefined}
       data-fx-tilt={canElevate ? "true" : undefined}
       data-fx-elevate={canElevate ? "true" : undefined}
+      data-surface-role={surfaceRole[variant]}
     >
       <div className={`surface-card ${variantClass[variant]} ${contentClassName}`.trim()}>
         {children}
