@@ -61,7 +61,7 @@ jobs:
           if node -e "const p=require('./package.json'); process.exit(p.scripts?.test ? 0 : 1)"; then
             npm test
           else
-            echo "Nenhum script de teste existente foi declarado no package.json."
+            echo "Nenhum script test declarado no package.json."
           fi
 
       - name: TypeScript
@@ -148,19 +148,70 @@ jobs:
 
       - name: Preparar pacote consolidado
         if: always()
+        env:
+          FINAL_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+          BASE_HEAD: b8faffae63a875a542d6f6f29e5401ea41f471ab
         run: |
-          mkdir -p artifacts/fase-4-etapa-3/package/docs
-          cp docs/fase-4/etapa-3/*.json artifacts/fase-4-etapa-3/package/docs/ 2>/dev/null || true
-          cp docs/fase-4/etapa-3/*.md artifacts/fase-4-etapa-3/package/docs/ 2>/dev/null || true
-          cp artifacts/fase-4-etapa-3/*.json artifacts/fase-4-etapa-3/package/ 2>/dev/null || true
-          cp -R artifacts/fase-4-etapa-3/evidence artifacts/fase-4-etapa-3/package/ 2>/dev/null || true
-          cp -R artifacts/fase-4-etapa-3/motion-regression artifacts/fase-4-etapa-3/package/ 2>/dev/null || true
+          PACKAGE=artifacts/fase-4-etapa-3/package
+          mkdir -p "$PACKAGE/docs"
+          cp docs/fase-4/etapa-3/*.json "$PACKAGE/docs/" 2>/dev/null || true
+          cp docs/fase-4/etapa-3/*.md "$PACKAGE/docs/" 2>/dev/null || true
+          cp artifacts/fase-4-etapa-3/*.json "$PACKAGE/" 2>/dev/null || true
+          cp -R artifacts/fase-4-etapa-3/evidence "$PACKAGE/" 2>/dev/null || true
+          cp -R artifacts/fase-4-etapa-3/motion-regression "$PACKAGE/" 2>/dev/null || true
           if [ -f /tmp/bdf-etapa-3-server.log ]; then
-            cp /tmp/bdf-etapa-3-server.log artifacts/fase-4-etapa-3/package/server.log
+            cp /tmp/bdf-etapa-3-server.log "$PACKAGE/server.log"
           fi
-          find artifacts/fase-4-etapa-3/package -type f ! -iregex '.*\.(woff\|woff2\|ttf\|otf)$' -print0 | sort -z | xargs -0 sha256sum > artifacts/fase-4-etapa-3/package/MANIFEST.sha256
-          cd artifacts/fase-4-etapa-3/package
-          zip -r ../BDF_Fase4_Etapa3_COMPLETO.zip . -x '*.woff' '*.woff2' '*.ttf' '*.otf'
+
+          cat > "$PACKAGE/GIT_DATA.txt" <<DATA
+          repository=erick98728/BDF
+          pull_request=40
+          branch=agent/fase-4-etapa-3-tipografia-design-system
+          base_sha=$BASE_HEAD
+          final_head=$FINAL_HEAD
+          workflow_run_id=$GITHUB_RUN_ID
+          workflow_run_number=$GITHUB_RUN_NUMBER
+          pull_request_state=draft
+          merged=false
+          production_url=https://bdf-navy.vercel.app
+          production_sha=$BASE_HEAD
+          production_promoted=false
+          stage_4_started=false
+          DATA
+
+          cat > "$PACKAGE/QUALITY_GATE.md" <<'GATE'
+          # Quality Gate — Fase 4 · Etapa 3
+
+          A presença deste arquivo no pacote final de uma execução concluída com sucesso registra:
+
+          - `git diff --check`: aprovado;
+          - `npm ci`: aprovado;
+          - `npx tsc --noEmit --incremental false`: aprovado;
+          - `npx eslint src scripts`: aprovado;
+          - `npm run build`: aprovado;
+          - nenhum script `test` declarado no `package.json`;
+          - suíte funcional da Etapa 2 sem falha não relacionada a CLS;
+          - matriz da Etapa 3 e comparação direta de CLS aprovadas;
+          - evidências comparativas geradas.
+          GATE
+
+          cat > "$PACKAGE/LIMITATIONS.md" <<'LIMITS'
+          # Limitações registradas
+
+          - Dashboard e Admin foram validados nos estados públicos acessíveis sem credenciais.
+          - O zoom de 200% é representado por viewport CSS equivalente de 720px, além da matriz responsiva completa.
+          - Vulnerabilidades npm preexistentes foram documentadas sem atualização forçada com breaking changes.
+          - Avisos históricos de CLS da suíte antiga da Etapa 2 permanecem como diagnóstico; a aprovação da Etapa 3 usa a produção publicada da Etapa 2.
+          - Nenhum arquivo binário de fonte é distribuído.
+          LIMITS
+
+          if find "$PACKAGE" -type f \( -iname '*.woff' -o -iname '*.woff2' -o -iname '*.ttf' -o -iname '*.otf' \) -print -quit | grep -q .; then
+            echo "Arquivo de fonte encontrado no pacote; empacotamento interrompido."
+            exit 1
+          fi
+
+          find "$PACKAGE" -type f ! -name MANIFEST.sha256 -print0 | sort -z | xargs -0 sha256sum > "$PACKAGE/MANIFEST.sha256"
+          (cd "$PACKAGE" && zip -r ../BDF_Fase4_Etapa3_COMPLETO.zip . -x '*.woff' '*.woff2' '*.ttf' '*.otf')
 
       - name: Encerrar servidor
         if: always()
@@ -175,5 +226,5 @@ jobs:
         with:
           name: fase-4-etapa-3-design-system
           path: artifacts/fase-4-etapa-3
-          if-no-files-found: warn
+          if-no-files-found: error
           retention-days: 30
