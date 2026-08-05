@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
-  useEffect,
+  useLayoutEffect,
   useRef,
   type MutableRefObject,
 } from "react";
@@ -67,15 +67,12 @@ export function GalleryModal({
   itemsLengthRef.current = items.length;
   changeSelectionRef.current = onSelectedIndexChange;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const body = document.body;
     const previousModalState = body.dataset.galleryModalOpen;
     const returnFocusTarget = returnFocusRef.current;
     body.dataset.galleryModalOpen = "true";
-
-    const focusFrame = window.requestAnimationFrame(() => {
-      closeButtonRef.current?.focus();
-    });
+    closeButtonRef.current?.focus({ preventScroll: true });
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -131,7 +128,6 @@ export function GalleryModal({
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.cancelAnimationFrame(focusFrame);
       window.removeEventListener("keydown", handleKeyDown);
 
       if (previousModalState) {
@@ -141,7 +137,7 @@ export function GalleryModal({
       }
 
       window.requestAnimationFrame(() => {
-        returnFocusTarget?.focus();
+        returnFocusTarget?.focus({ preventScroll: true });
       });
     };
   }, [onClose, returnFocusRef]);
