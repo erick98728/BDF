@@ -1,0 +1,370 @@
+/* Small semantic utilities used by shared components and exceptional pages. */
+.type-display {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 600;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.type-page-title {
+  font-family: var(--font-display);
+  font-size: var(--text-page-title);
+  font-weight: 600;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.type-chapter-title {
+  font-family: var(--font-display);
+  font-size: var(--text-chapter-title);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: var(--tracking-heading);
+}
+
+.type-section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-section-title);
+  font-weight: 600;
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+}
+
+.type-component-title {
+  font-family: var(--font-body);
+  font-size: var(--text-component-title);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.008em;
+}
+
+.type-record-title {
+  font-family: var(--font-body);
+  font-size: var(--text-record-title);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.006em;
+}
+
+.type-body-lg {
+  max-width: var(--measure-body);
+  font-size: var(--text-body-lg);
+  line-height: 1.62;
+}
+
+.type-body {
+  max-width: var(--measure-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+}
+
+.type-body-sm {
+  max-width: var(--measure-body);
+  font-size: var(--text-body-sm);
+  line-height: 1.58;
+}
+
+.type-label {
+  font-size: var(--text-label);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.type-meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  font-weight: 500;
+  line-height: var(--leading-compact);
+  letter-spacing: var(--tracking-meta);
+}
+
+.type-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  font-weight: 400;
+  line-height: var(--leading-code);
+  letter-spacing: var(--tracking-code);
+}
+
+.text-role-primary {
+  color: var(--text-primary);
+}
+
+.text-role-secondary {
+  color: var(--text-secondary);
+}
+
+.text-role-muted {
+  color: var(--text-muted);
+}
+
+.text-role-subtle {
+  color: var(--text-subtle);
+}
+
+.text-role-accent {
+  color: var(--text-accent);
+}
+
+.surface-role-standard {
+  background: var(--surface-subtle);
+  border-color: var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.surface-role-functional {
+  background: var(--surface-functional);
+  border-color: var(--border-strong);
+  border-radius: var(--radius-md);
+}
+
+.surface-role-editorial {
+  background: var(--surface-document);
+  border-color: transparent transparent transparent var(--border-accent);
+  border-left-width: 2px;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.surface-role-media {
+  background: var(--surface-media);
+  border-color: var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.ds-control {
+  min-height: 2.75rem;
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.015em;
+  border-radius: var(--radius-md);
+}
+
+/* Existing functional text utilities cannot force microtype inside controls. */
+:is(button, a, [role="button"], [role="tab"]) :is(
+    [class*="text-[10px]"],
+    [class*="text-[11px]"],
+    [class*="text-xs"]
+  ) {
+  font-size: var(--text-label);
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+}
+
+/* Contextual heading roles make chapters, components and records visibly distinct. */
+.editorial-lead h2,
+.editorial-callout h2,
+.lore-opening__story > .editorial-lead h2,
+.gallery-intro__copy h2,
+.devlog-opening h2,
+.studio-opening h2 {
+  max-width: 20ch;
+  font-family: var(--font-display);
+  font-size: var(--text-chapter-title);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: var(--tracking-heading);
+  text-wrap: balance;
+}
+
+.current-state h3,
+.lore-note h3,
+.region-record h3,
+.visual-panel__title,
+.gallery-modal-header h3 {
+  max-width: 28ch;
+  font-family: var(--font-body);
+  font-size: var(--text-component-title);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.008em;
+  text-wrap: balance;
+}
+
+.editorial-pillar h3,
+.system-index__item h3,
+.editorial-roster__entry h3,
+.editorial-log__entry h3,
+.lore-pillar h3,
+.fragment-index h3,
+.technique-record h3,
+.lore-timeline h3,
+.mystery-list h3,
+.roadmap-timeline h3,
+.devlog-record h3,
+.character-dossier h3,
+.studio-record h3 {
+  font-family: var(--font-body);
+  font-size: var(--text-record-title);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.006em;
+  text-wrap: balance;
+}
+
+.editorial-lead > div > p:last-child,
+.editorial-callout > div > p,
+.current-state > p,
+.lore-note > p,
+.region-record > p,
+.editorial-pillar p:last-child,
+.system-index__item p,
+.editorial-roster__entry p:last-child,
+.editorial-log__entry p:last-child,
+.lore-pillar p:last-child,
+.fragment-index p,
+.technique-record p:last-child,
+.lore-timeline p:last-child {
+  max-width: var(--measure-body);
+  font-size: var(--text-body-sm);
+  line-height: 1.62;
+  color: var(--text-secondary);
+}
+
+/* Normalize actual microtype roles found in the baseline inventory. */
+dt,
+time,
+.current-state__facts dt,
+.dossier-index dt,
+.roadmap-overview dt,
+.gallery-index dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  font-weight: 500;
+  line-height: var(--leading-compact);
+  letter-spacing: var(--tracking-meta);
+}
+
+.fx-record-symbol,
+.system-index__number,
+.editorial-log__index,
+.fragment-index__number,
+.devlog-ledger__index {
+  font-family: var(--font-mono);
+  font-size: var(--text-decorative);
+  line-height: var(--leading-compact);
+  letter-spacing: var(--tracking-meta);
+}
+
+[class*="text-[10px]"],
+[class*="text-[11px]"] {
+  font-size: var(--text-meta);
+  line-height: var(--leading-compact);
+  letter-spacing: var(--tracking-meta);
+}
+
+.world-map__caption,
+.world-map :is(p, span) {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  line-height: var(--leading-compact);
+  letter-spacing: var(--tracking-meta);
+}
+
+.character-dossier__badges span,
+.character-dossier__abilities li,
+.dossier-index dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  line-height: var(--leading-compact);
+  letter-spacing: var(--tracking-meta);
+}
+
+.devlog-ledger :is(span, time),
+.devlog-ledger__meta :is(span, time) {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  line-height: var(--leading-compact);
+  letter-spacing: var(--tracking-meta);
+}
+
+.devlog-ledger__link {
+  min-height: 2.75rem;
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.015em;
+}
+
+.gallery-filter__label,
+.gallery-filter__label span,
+.gallery-visual__label,
+.gallery-entry__meta,
+.gallery-entry__meta p,
+.gallery-entry__meta span,
+.gallery-entry__action {
+  font-size: var(--text-label);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.hero-visual__coordinate {
+  font-size: var(--text-decorative);
+}
+
+.hero-section__next {
+  min-height: 2.75rem;
+  font-size: var(--text-label);
+  letter-spacing: 0.02em;
+}
+
+.gallery-filter__description,
+.gallery-entry__action {
+  font-size: var(--text-label);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.site-footer__link,
+.footer a,
+.site-footer a {
+  min-height: 2.75rem;
+  font-size: var(--text-label);
+  font-family: var(--font-body);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.005em;
+}
+
+.site-footer__eyebrow,
+.site-footer__meta,
+.site-footer__legal,
+.footer__eyebrow,
+.footer__meta,
+.footer__legal {
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  line-height: 1.5;
+  letter-spacing: var(--tracking-meta);
+}
+
+.section-heading[data-heading-variant="chapter"] .section-heading__line {
+  width: min(11rem, 32vw);
+}
+
+.section-heading[data-heading-variant="compact"] .section-heading__line {
+  display: none;
+}
+
+.section-heading[data-heading-variant="record"] .section-heading__line {
+  grid-column: 2;
+  width: min(6rem, 25vw);
+}
+
+@media (max-width: 640px) {
+  .section-heading[data-heading-variant="record"] .section-heading__line {
+    width: min(5rem, 30vw);
+  }
+
+  .editorial-lead h2,
+  .editorial-callout h2,
+  .gallery-intro__copy h2,
+  .devlog-opening h2,
+  .studio-opening h2 {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}

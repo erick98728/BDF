@@ -1,0 +1,100 @@
+{
+  "generatedAt": "2026-08-05T12:12:06.092Z",
+  "commitBase": "b8faffae63a875a542d6f6f29e5401ea41f471ab",
+  "production": "https://bdf-navy.vercel.app",
+  "workflowRun": 31004421237,
+  "artifactId": 8929736598,
+  "artifactDigest": "sha256:f0990a79d0be4bb111ac8bdc188a863f6232ac87878b9deb86f4ccad5ea8ac2b",
+  "source": {
+    "filesScanned": 98,
+    "localFontFiles": 0,
+    "nextFontReferences": 0,
+    "declaredFontFamilies": [
+      { "value": "var(--font-mono)", "count": 21 },
+      { "value": "var(--font-display)", "count": 18 },
+      { "value": "var(--font-body)", "count": 3 },
+      { "value": "var(--font-pragmatica-cond)", "count": 2 },
+      { "value": "var(--font-roboto-mono)", "count": 2 }
+    ],
+    "mostRepeatedFontSizes": [
+      { "value": "0.875rem", "count": 19 },
+      { "value": "0.65rem", "count": 12 },
+      { "value": "0.9rem", "count": 6 },
+      { "value": "0.62rem", "count": 5 },
+      { "value": "0.72rem", "count": 5 },
+      { "value": "0.68rem", "count": 4 },
+      { "value": "0.7rem", "count": 3 }
+    ],
+    "fontWeights": [
+      { "value": "500", "count": 24 },
+      { "value": "600", "count": 3 },
+      { "value": "400", "count": 2 }
+    ],
+    "tailwindWeights": [
+      { "value": "font-semibold", "count": 23 },
+      { "value": "font-medium", "count": 13 },
+      { "value": "font-bold", "count": 10 },
+      { "value": "font-normal", "count": 9 },
+      { "value": "font-black", "count": 1 }
+    ],
+    "mostRepeatedTracking": [
+      { "value": "0.08em", "count": 15 },
+      { "value": "0.09em", "count": 4 },
+      { "value": "0.11em", "count": 2 },
+      { "value": "tracking-[0.12em]", "count": 19 },
+      { "value": "tracking-[0.16em]", "count": 5 },
+      { "value": "tracking-[0.22em]", "count": 1 }
+    ],
+    "arbitraryUtilities": 136,
+    "directTextColorValues": 20,
+    "importantRules": 8,
+    "radiusExamples": [
+      "var(--radius-pill)",
+      "50%",
+      "0",
+      "999px",
+      "12px",
+      "13px",
+      "9px",
+      "16px"
+    ],
+    "loginTablistViolation": {
+      "file": "src/app/login/page.tsx",
+      "line": 121,
+      "tablists": 1,
+      "tabs": 0
+    }
+  },
+  "rendered": {
+    "sampleWidths": [1440, 768, 390],
+    "routes": 17,
+    "cases": 51,
+    "visibleTextNodes": 2902,
+    "below12pxOccurrences": 915,
+    "functionalBelow14pxOccurrences": 693,
+    "fontResourceRequests": 0,
+    "registeredFontFaces": 0,
+    "computedFamilies": [
+      "Inter with system fallbacks",
+      "Oswald with condensed system fallbacks",
+      "Roboto Mono with monospace fallbacks"
+    ],
+    "computedWeights": [400, 500, 600, 700, 900],
+    "clippedHeadings": 1,
+    "overflowCases": 0,
+    "roleTablistCases": 3,
+    "roleTablistWithoutTabsCases": 3,
+    "representativeSamples": [
+      { "text": "SITE OFICIAL · EM DESENVOLVIMENTO", "sizePx": 11.52, "role": "label" },
+      { "text": "BETA", "sizePx": 11.2, "role": "metadata" },
+      { "text": "01 · BOSQUE", "sizePx": 10.4, "role": "decorative coordinate" },
+      { "text": "VISÃO GERAL", "sizePx": 10.4, "role": "functional link" },
+      { "text": "Início", "sizePx": 12.8, "role": "footer link" }
+    ]
+  },
+  "limitations": [
+    "The initial browser inventory used three representative widths; the final validation uses all ten widths.",
+    "Dashboard and Admin were inspected only in public unauthenticated states.",
+    "The original complete before-inventory JSON remains preserved in workflow artifact 8929736598."
+  ]
+}

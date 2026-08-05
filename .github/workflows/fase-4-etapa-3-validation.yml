@@ -1,0 +1,278 @@
+name: Fase 4 - Etapa 3 - Design System
+
+on:
+  push:
+    branches:
+      - agent/fase-4-etapa-3-tipografia-design-system
+  pull_request:
+    branches:
+      - main
+    paths:
+      - src/app/design-system.css
+      - src/app/design-system-utilities.css
+      - src/app/design-system-stability.css
+      - src/app/fonts.ts
+      - src/app/layout.tsx
+      - src/app/login/page.tsx
+      - src/components/GalleryModal.tsx
+      - src/components/GlowCard.tsx
+      - src/components/GameButton.tsx
+      - src/components/PageHeader.tsx
+      - src/components/SectionTitle.tsx
+      - scripts/validate-design-system-etapa-3.mjs
+      - scripts/validate-cls-etapa-3.mjs
+      - scripts/capture-design-system-etapa-3.mjs
+      - scripts/inventory-design-system-etapa-3.mjs
+      - docs/fase-4/etapa-3/**
+      - .github/workflows/fase-4-etapa-3-validation.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fase-4-etapa-3-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Build, matriz e evidências
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verificar whitespace do diff
+        run: |
+          git fetch --no-tags --depth=1 origin main
+          git diff --check FETCH_HEAD HEAD --
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalação limpa
+        run: npm ci
+
+      - name: Testes existentes
+        run: |
+          if node -e "const p=require('./package.json'); process.exit(p.scripts?.test ? 0 : 1)"; then
+            npm test
+          else
+            echo "Nenhum script test declarado no package.json."
+          fi
+
+      - name: TypeScript
+        run: npx tsc --noEmit --incremental false
+
+      - name: ESLint
+        run: npx eslint src scripts
+
+      - name: Build de produção
+        run: npm run build
+
+      - name: Instalar Playwright sem alterar lockfile
+        run: npm install --no-save --no-package-lock playwright@1.55.0
+
+      - name: Instalar Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Iniciar build local
+        run: |
+          npm run start -- -H 127.0.0.1 -p 3000 > /tmp/bdf-etapa-3-server.log 2>&1 &
+          echo $! > /tmp/bdf-etapa-3-server.pid
+          for attempt in {1..90}; do
+            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/bdf-etapa-3-server.log
+          exit 1
+
+      - name: Preservar comportamento da Etapa 2
+        env:
+          MOTION_VALIDATION_URL: http://127.0.0.1:3000
+          MOTION_VALIDATION_OUTPUT: artifacts/fase-4-etapa-3/motion-regression
+        run: |
+          set +e
+          node scripts/validate-motion-etapa-2-final.mjs
+          set -e
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          const report = JSON.parse(
+            fs.readFileSync(
+              "artifacts/fase-4-etapa-3/motion-regression/motion-validation.json",
+              "utf8",
+            ),
+          );
+          const nonClsErrors = report.errors.filter(
+            (error) => !error.startsWith("CLS@"),
+          );
+          if (nonClsErrors.length) {
+            console.error(nonClsErrors.join("\n"));
+            process.exit(1);
+          }
+          console.log(
+            JSON.stringify(
+              {
+                routeWidthCases: report.summary.routeWidthCases,
+                nonClsErrors: 0,
+                clsDiagnostics: report.errors.filter((error) =>
+                  error.startsWith("CLS@"),
+                ),
+                note:
+                  "CLS histórico preservado como diagnóstico. A aprovação da Etapa 3 usa comparação direta com a produção publicada da Etapa 2.",
+              },
+              null,
+              2,
+            ),
+          );
+          NODE
+
+      - name: Validar tipografia e design system
+        env:
+          ETAPA3_VALIDATION_URL: http://127.0.0.1:3000
+          ETAPA3_BASELINE_URL: https://bdf-navy.vercel.app
+          ETAPA3_VALIDATION_OUTPUT: artifacts/fase-4-etapa-3
+        run: |
+          set +e
+          node scripts/validate-design-system-etapa-3.mjs
+          set -e
+          node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          const report = JSON.parse(
+            fs.readFileSync(
+              "artifacts/fase-4-etapa-3/design-system-validation.json",
+              "utf8",
+            ),
+          );
+          const nonClsErrors = report.errors.filter(
+            (error) =>
+              !error.startsWith("CLS@") &&
+              !error.startsWith("CLS-route@"),
+          );
+          if (nonClsErrors.length) {
+            console.error(nonClsErrors.join("\n"));
+            process.exit(1);
+          }
+          console.log(
+            JSON.stringify(
+              {
+                routeWidthCases: report.summary.routeWidthCases,
+                nonClsErrors: 0,
+                preliminaryClsDiagnostics: report.errors.filter(
+                  (error) =>
+                    error.startsWith("CLS@") ||
+                    error.startsWith("CLS-route@"),
+                ),
+                note:
+                  "A matriz semântica foi aprovada. O CLS preliminar de cache compartilhado é substituído pela coleta isolada e repetida da etapa seguinte.",
+              },
+              null,
+              2,
+            ),
+          );
+          NODE
+
+      - name: Medir CLS com cache limpo e amostras repetidas
+        env:
+          ETAPA3_VALIDATION_URL: http://127.0.0.1:3000
+          ETAPA3_BASELINE_URL: https://bdf-navy.vercel.app
+          ETAPA3_VALIDATION_OUTPUT: artifacts/fase-4-etapa-3
+          ETAPA3_CLS_SAMPLES: 3
+        run: node scripts/validate-cls-etapa-3.mjs
+
+      - name: Capturar evidências comparativas
+        env:
+          ETAPA3_VALIDATION_URL: http://127.0.0.1:3000
+          ETAPA3_BASELINE_URL: https://bdf-navy.vercel.app
+          ETAPA3_VALIDATION_OUTPUT: artifacts/fase-4-etapa-3
+        run: node scripts/capture-design-system-etapa-3.mjs
+
+      - name: Preparar pacote consolidado
+        if: always()
+        env:
+          FINAL_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+          BASE_HEAD: b8faffae63a875a542d6f6f29e5401ea41f471ab
+        run: |
+          PACKAGE=artifacts/fase-4-etapa-3/package
+          mkdir -p "$PACKAGE/docs"
+          cp docs/fase-4/etapa-3/*.json "$PACKAGE/docs/" 2>/dev/null || true
+          cp docs/fase-4/etapa-3/*.md "$PACKAGE/docs/" 2>/dev/null || true
+          cp artifacts/fase-4-etapa-3/*.json "$PACKAGE/" 2>/dev/null || true
+          cp -R artifacts/fase-4-etapa-3/evidence "$PACKAGE/" 2>/dev/null || true
+          cp -R artifacts/fase-4-etapa-3/motion-regression "$PACKAGE/" 2>/dev/null || true
+          if [ -f /tmp/bdf-etapa-3-server.log ]; then
+            cp /tmp/bdf-etapa-3-server.log "$PACKAGE/server.log"
+          fi
+
+          cat > "$PACKAGE/GIT_DATA.txt" <<DATA
+          repository=erick98728/BDF
+          pull_request=40
+          branch=agent/fase-4-etapa-3-tipografia-design-system
+          base_sha=$BASE_HEAD
+          final_head=$FINAL_HEAD
+          workflow_run_id=$GITHUB_RUN_ID
+          workflow_run_number=$GITHUB_RUN_NUMBER
+          pull_request_state=draft
+          merged=false
+          production_url=https://bdf-navy.vercel.app
+          production_sha=$BASE_HEAD
+          production_promoted=false
+          stage_4_started=false
+          DATA
+
+          cat > "$PACKAGE/QUALITY_GATE.md" <<'GATE'
+          # Quality Gate — Fase 4 · Etapa 3
+
+          A presença deste arquivo no pacote final de uma execução concluída com sucesso registra:
+
+          - `git diff --check`: aprovado;
+          - `npm ci`: aprovado;
+          - `npx tsc --noEmit --incremental false`: aprovado;
+          - `npx eslint src scripts`: aprovado;
+          - `npm run build`: aprovado;
+          - nenhum script `test` declarado no `package.json`;
+          - suíte funcional da Etapa 2 sem falha não relacionada a CLS;
+          - matriz da Etapa 3 e comparação direta de CLS aprovadas;
+          - CLS medido com três carregamentos e cache limpo por rota/lado;
+          - evidências comparativas geradas.
+          GATE
+
+          cat > "$PACKAGE/LIMITATIONS.md" <<'LIMITS'
+          # Limitações registradas
+
+          - Dashboard e Admin foram validados nos estados públicos acessíveis sem credenciais.
+          - O zoom de 200% é representado por viewport CSS equivalente de 720px, além da matriz responsiva completa.
+          - Vulnerabilidades npm preexistentes foram documentadas sem atualização forçada com breaking changes.
+          - Avisos históricos de CLS da suíte antiga da Etapa 2 permanecem como diagnóstico; a aprovação da Etapa 3 usa a produção publicada da Etapa 2.
+          - Nenhum arquivo binário de fonte é distribuído.
+          LIMITS
+
+          if find "$PACKAGE" -type f \( -iname '*.woff' -o -iname '*.woff2' -o -iname '*.ttf' -o -iname '*.otf' \) -print -quit | grep -q .; then
+            echo "Arquivo de fonte encontrado no pacote; empacotamento interrompido."
+            exit 1
+          fi
+
+          find "$PACKAGE" -type f ! -name MANIFEST.sha256 -print0 | sort -z | xargs -0 sha256sum > "$PACKAGE/MANIFEST.sha256"
+          (cd "$PACKAGE" && zip -r ../BDF_Fase4_Etapa3_COMPLETO.zip . -x '*.woff' '*.woff2' '*.ttf' '*.otf')
+
+      - name: Encerrar servidor
+        if: always()
+        run: |
+          if [ -f /tmp/bdf-etapa-3-server.pid ]; then
+            kill "$(cat /tmp/bdf-etapa-3-server.pid)" 2>/dev/null || true
+          fi
+
+      - name: Publicar pacote e evidências
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fase-4-etapa-3-design-system
+          path: artifacts/fase-4-etapa-3
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,57 @@
+name: Fase 4 - Etapa 3 - Inventário inicial
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - agent/fase-4-etapa-3-tipografia-design-system
+    paths:
+      - scripts/inventory-design-system-etapa-3.mjs
+      - docs/fase-4/etapa-3/ETAPA_3_INITIAL_INVENTORY.json
+      - .github/workflows/fase-4-etapa-3-inventory.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - scripts/inventory-design-system-etapa-3.mjs
+      - docs/fase-4/etapa-3/ETAPA_3_INITIAL_INVENTORY.json
+      - .github/workflows/fase-4-etapa-3-inventory.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fase-4-etapa-3-inventory-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  inventory:
+    name: Verificar inventário histórico congelado
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalação limpa
+        run: npm ci
+
+      - name: Verificar inventário inicial
+        env:
+          ETAPA3_INVENTORY_OUTPUT: artifacts/fase-4-etapa-3-inventory
+        run: node scripts/inventory-design-system-etapa-3.mjs
+
+      - name: Publicar inventário verificado
+        uses: actions/upload-artifact@v4
+        with:
+          name: fase-4-etapa-3-before-inventory
+          path: artifacts/fase-4-etapa-3-inventory
+          if-no-files-found: error
+          retention-days: 30
