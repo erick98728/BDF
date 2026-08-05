@@ -15,6 +15,8 @@ export function GameButton({ href, children, variant = "primary" }: GameButtonPr
       href={href}
       className={`game-button fx-button tester-button ${styles[variant]}`}
       data-fx-magnetic="true"
+      data-component-role="button"
+      data-component-variant={variant}
     >
       {children}
     </Link>
