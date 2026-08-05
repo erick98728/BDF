@@ -85,6 +85,7 @@ async function captureViewport({
 
   if (selector) {
     const locator = page.locator(selector).first();
+    await locator.waitFor({ state: "attached", timeout: 10000 });
     await locator.scrollIntoViewIfNeeded();
     await page.waitForTimeout(180);
   }
@@ -183,7 +184,7 @@ try {
       route: "/devlog",
       name: "devlog-records",
       width: 1440,
-      selector: ".editorial-log, .devlog-record",
+      selector: ".devlog-ledger",
     },
     {
       route: "/galeria",
