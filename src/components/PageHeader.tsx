@@ -21,6 +21,8 @@ export function PageHeader({ title, description, variant = "default", eyebrow = 
     <section
       className={`fx-page-header ${variantClass[variant]}`}
       data-fx-watch="page-header"
+      data-heading-role="page"
+      data-heading-variant={variant}
     >
       <div className="fx-page-header__grid tester-panel-grid" aria-hidden="true" />
       <div className="fx-page-header__mark" aria-hidden="true">
