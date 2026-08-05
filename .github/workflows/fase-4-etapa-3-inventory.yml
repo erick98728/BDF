@@ -7,12 +7,14 @@ on:
       - agent/fase-4-etapa-3-tipografia-design-system
     paths:
       - scripts/inventory-design-system-etapa-3.mjs
+      - docs/fase-4/etapa-3/ETAPA_3_INITIAL_INVENTORY.json
       - .github/workflows/fase-4-etapa-3-inventory.yml
   pull_request:
     branches:
       - main
     paths:
       - scripts/inventory-design-system-etapa-3.mjs
+      - docs/fase-4/etapa-3/ETAPA_3_INITIAL_INVENTORY.json
       - .github/workflows/fase-4-etapa-3-inventory.yml
 
 permissions:
@@ -24,9 +26,9 @@ concurrency:
 
 jobs:
   inventory:
-    name: Inventário estático e produção
+    name: Verificar inventário histórico congelado
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
 
     steps:
       - name: Checkout
@@ -41,20 +43,12 @@ jobs:
       - name: Instalação limpa
         run: npm ci
 
-      - name: Instalar Playwright sem alterar lockfile
-        run: npm install --no-save --no-package-lock playwright@1.55.0
-
-      - name: Instalar Chromium
-        run: npx playwright install --with-deps chromium
-
-      - name: Gerar inventário inicial
+      - name: Verificar inventário inicial
         env:
-          ETAPA3_BASELINE_URL: https://bdf-navy.vercel.app
           ETAPA3_INVENTORY_OUTPUT: artifacts/fase-4-etapa-3-inventory
         run: node scripts/inventory-design-system-etapa-3.mjs
 
-      - name: Publicar inventário
-        if: always()
+      - name: Publicar inventário verificado
         uses: actions/upload-artifact@v4
         with:
           name: fase-4-etapa-3-before-inventory
