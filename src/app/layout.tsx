@@ -7,6 +7,8 @@ import "./motion-system.css";
 import "./motion-refinements.css";
 import "./motion-optimization.css";
 import "./motion-touch-optimization.css";
+import "./design-system.css";
+import { fontVariables } from "./fonts";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BackgroundFog } from "@/components/BackgroundFog";
@@ -104,7 +106,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={fontVariables}>
       <body className="page-shell">
         <ImpactEffects />
         <ScrollTimelineEffects />
