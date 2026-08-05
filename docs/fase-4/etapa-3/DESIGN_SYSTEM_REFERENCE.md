@@ -1,8 +1,8 @@
 # Referência do Design System — Fase 4 · Etapa 3
 
-> Branch: `agent/fase-4-etapa-3-tipografia-design-system`  
-> Base autoritativa: `b8faffae63a875a542d6f6f29e5401ea41f471ab`  
-> Escopo: tipografia, hierarquia, tokens, superfícies, controles e estabilidade visual.  
+> Branch: `agent/fase-4-etapa-3-tipografia-design-system`<br>
+> Base autoritativa: `b8faffae63a875a542d6f6f29e5401ea41f471ab`<br>
+> Escopo: tipografia, hierarquia, tokens, superfícies, controles e estabilidade visual.<br>
 > O sistema de movimento da Etapa 2 permanece autoritativo e não é redefinido aqui.
 
 ## 1. Fontes
