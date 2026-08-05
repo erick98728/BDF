@@ -153,6 +153,76 @@
   letter-spacing: 0.02em;
 }
 
+/* Contextual heading roles make chapters, components and records visibly distinct. */
+.editorial-lead h2,
+.editorial-callout h2,
+.lore-opening__story > .editorial-lead h2,
+.gallery-intro__copy h2,
+.devlog-opening h2,
+.studio-opening h2 {
+  max-width: 20ch;
+  font-family: var(--font-display);
+  font-size: var(--text-chapter-title);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: var(--tracking-heading);
+  text-wrap: balance;
+}
+
+.current-state h3,
+.lore-note h3,
+.region-record h3,
+.visual-panel__title,
+.gallery-modal-header h3 {
+  max-width: 28ch;
+  font-family: var(--font-body);
+  font-size: var(--text-component-title);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.008em;
+  text-wrap: balance;
+}
+
+.editorial-pillar h3,
+.system-index__item h3,
+.editorial-roster__entry h3,
+.editorial-log__entry h3,
+.lore-pillar h3,
+.fragment-index h3,
+.technique-record h3,
+.lore-timeline h3,
+.mystery-list h3,
+.roadmap-timeline h3,
+.devlog-record h3,
+.character-dossier h3,
+.studio-record h3 {
+  font-family: var(--font-body);
+  font-size: var(--text-record-title);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.006em;
+  text-wrap: balance;
+}
+
+.editorial-lead > div > p:last-child,
+.editorial-callout > div > p,
+.current-state > p,
+.lore-note > p,
+.region-record > p,
+.editorial-pillar p:last-child,
+.system-index__item p,
+.editorial-roster__entry p:last-child,
+.editorial-log__entry p:last-child,
+.lore-pillar p:last-child,
+.fragment-index p,
+.technique-record p:last-child,
+.lore-timeline p:last-child {
+  max-width: var(--measure-body);
+  font-size: var(--text-body-sm);
+  line-height: 1.62;
+  color: var(--text-secondary);
+}
+
 .hero-visual__coordinate {
   font-size: var(--text-decorative);
 }
@@ -209,5 +279,14 @@
 @media (max-width: 640px) {
   .section-heading[data-heading-variant="record"] .section-heading__line {
     width: min(5rem, 30vw);
+  }
+
+  .editorial-lead h2,
+  .editorial-callout h2,
+  .gallery-intro__copy h2,
+  .devlog-opening h2,
+  .studio-opening h2 {
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
 }
