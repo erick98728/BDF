@@ -1,0 +1,36 @@
+/* Final Stage 3 stability overrides. Loaded after the semantic utilities. */
+
+/* Decorative record indices may be compact, but never smaller than 11px. */
+body .fx-record-symbol {
+  font-size: 11px;
+  line-height: var(--leading-compact);
+}
+
+/* Preserve the one-line hero title when the self-hosted display face is blocked. */
+.hero-section__title {
+  max-width: 11ch;
+}
+
+/* The legacy stylesheet removes outlines and relies on a shadow. Restore a
+   tokenized outline so focus remains visible in standard and forced colors. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 3px;
+}
+
+@media (forced-colors: active) {
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+}
