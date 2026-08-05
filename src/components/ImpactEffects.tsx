@@ -5,27 +5,7 @@ import { useEffect, useRef } from "react";
 
 const watchedSelector = "[data-fx-reveal], [data-fx-watch]";
 const revealSelector = "[data-fx-reveal]";
-const spotlightSelector = "[data-fx-spotlight]";
-const magneticSelector = "[data-fx-magnetic]";
-const timelineSelector = "[data-fx-timeline]";
-const timelineNodeSelector = "[data-fx-timeline-node]";
-
-type PointerState = {
-  card: HTMLElement | null;
-  button: HTMLElement | null;
-  clientX: number;
-  clientY: number;
-  dirty: boolean;
-};
-
-type SceneLightState = {
-  currentX: number;
-  currentY: number;
-  currentOpacity: number;
-  targetX: number;
-  targetY: number;
-  targetOpacity: number;
-};
+const strategicSelector = "[data-fx-spotlight], [data-fx-magnetic]";
 
 function clamp(value: number, minimum: number, maximum: number) {
   return Math.min(Math.max(value, minimum), maximum);
@@ -38,6 +18,21 @@ function findClosest(
   return target instanceof Element
     ? target.closest<HTMLElement>(selector)
     : null;
+}
+
+function clearLocalLight(element: HTMLElement | null) {
+  if (!element) return;
+
+  delete element.dataset.fxPointer;
+  element.style.removeProperty("--scene-light-x");
+  element.style.removeProperty("--scene-light-y");
+  element.style.removeProperty("--scene-light-opacity");
+  element.style.removeProperty("--fx-pointer-x");
+  element.style.removeProperty("--fx-pointer-y");
+  element.style.removeProperty("--fx-rotate-x");
+  element.style.removeProperty("--fx-rotate-y");
+  element.style.removeProperty("--fx-button-x");
+  element.style.removeProperty("--fx-button-y");
 }
 
 export function ImpactEffects() {
@@ -55,34 +50,24 @@ export function ImpactEffects() {
     const finePointer = window.matchMedia(
       "(hover: hover) and (pointer: fine)",
     );
-    const root = document.documentElement;
-    const restingLight = () => ({
-      x: window.innerWidth * 0.72,
-      y: window.innerHeight * 0.18,
-    });
-    const initialLight = restingLight();
-    const sceneLight: SceneLightState = {
-      currentX: initialLight.x,
-      currentY: initialLight.y,
-      currentOpacity: 0.58,
-      targetX: initialLight.x,
-      targetY: initialLight.y,
-      targetOpacity: 0.58,
-    };
-    const pointer: PointerState = {
-      card: null,
-      button: null,
-      clientX: 0,
-      clientY: 0,
-      dirty: false,
-    };
-    const imageCleanups: Array<() => void> = [];
-    const timelineElements = Array.from(
-      document.querySelectorAll<HTMLElement>(timelineSelector),
+    const watchedElements = Array.from(
+      document.querySelectorAll<HTMLElement>(watchedSelector),
     );
+    const strategicElements = Array.from(
+      document.querySelectorAll<HTMLElement>(strategicSelector),
+    );
+    const imageCleanups: Array<() => void> = [];
+
     let observer: IntersectionObserver | null = null;
     let animationFrame = 0;
     let scrollDirty = true;
+    let pointerDirty = false;
+    let pointerTarget: HTMLElement | null = null;
+    let activeLightTarget: HTMLElement | null = null;
+    let pointerX = 0;
+    let pointerY = 0;
+
+    strategicElements.forEach(clearLocalLight);
 
     function setStaggerIndex(element: HTMLElement) {
       if (!element.matches(revealSelector) || !element.parentElement) return;
@@ -92,7 +77,7 @@ export function ImpactEffects() {
           sibling instanceof HTMLElement &&
           sibling.dataset.fxReveal === element.dataset.fxReveal,
       );
-      const index = clamp(siblings.indexOf(element), 0, 5);
+      const index = clamp(siblings.indexOf(element), 0, 4);
 
       element.style.setProperty("--fx-stagger-index", String(index));
     }
@@ -101,10 +86,6 @@ export function ImpactEffects() {
       element.dataset.fxState = "visible";
       observer?.unobserve(element);
     }
-
-    const watchedElements = Array.from(
-      document.querySelectorAll<HTMLElement>(watchedSelector),
-    );
 
     if (!reducedMotion.matches && "IntersectionObserver" in window) {
       observer = new IntersectionObserver(
@@ -116,26 +97,20 @@ export function ImpactEffects() {
           });
         },
         {
-          rootMargin: "0px 0px -8% 0px",
-          threshold: 0.08,
+          rootMargin: "0px 0px 10% 0px",
+          threshold: 0.04,
         },
       );
     }
 
     watchedElements.forEach(setStaggerIndex);
 
-    const initialVisibility = watchedElements.map((element) => {
+    watchedElements.forEach((element) => {
       const bounds = element.getBoundingClientRect();
+      const initiallyVisible =
+        bounds.bottom >= 0 && bounds.top <= window.innerHeight * 0.96;
 
-      return {
-        element,
-        isVisible:
-          bounds.bottom >= 0 && bounds.top <= window.innerHeight * 0.94,
-      };
-    });
-
-    initialVisibility.forEach(({ element, isVisible }) => {
-      if (reducedMotion.matches || !observer || isVisible) {
+      if (reducedMotion.matches || !observer || initiallyVisible) {
         markVisible(element);
         return;
       }
@@ -165,82 +140,6 @@ export function ImpactEffects() {
         });
       });
 
-    function resetCard(card: HTMLElement | null) {
-      if (!card) return;
-
-      delete card.dataset.fxPointer;
-      card.style.removeProperty("--fx-pointer-x");
-      card.style.removeProperty("--fx-pointer-y");
-      card.style.removeProperty("--fx-rotate-x");
-      card.style.removeProperty("--fx-rotate-y");
-    }
-
-    function resetButton(button: HTMLElement | null) {
-      if (!button) return;
-
-      delete button.dataset.fxPointer;
-      button.style.removeProperty("--fx-pointer-x");
-      button.style.removeProperty("--fx-pointer-y");
-      button.style.removeProperty("--fx-button-x");
-      button.style.removeProperty("--fx-button-y");
-    }
-
-    function resetPointerEffects() {
-      resetCard(pointer.card);
-      resetButton(pointer.button);
-      pointer.card = null;
-      pointer.button = null;
-      pointer.dirty = false;
-    }
-
-    function setRestingLight() {
-      const resting = restingLight();
-      sceneLight.targetX = resting.x;
-      sceneLight.targetY = resting.y;
-      sceneLight.targetOpacity = 0.58;
-    }
-
-    function writeSceneLight() {
-      root.style.setProperty(
-        "--scene-light-x",
-        `${sceneLight.currentX.toFixed(1)}px`,
-      );
-      root.style.setProperty(
-        "--scene-light-y",
-        `${sceneLight.currentY.toFixed(1)}px`,
-      );
-      root.style.setProperty(
-        "--scene-light-opacity",
-        sceneLight.currentOpacity.toFixed(3),
-      );
-    }
-
-    function updateSceneLight() {
-      const interpolation = 0.13;
-      const xDelta = sceneLight.targetX - sceneLight.currentX;
-      const yDelta = sceneLight.targetY - sceneLight.currentY;
-      const opacityDelta =
-        sceneLight.targetOpacity - sceneLight.currentOpacity;
-
-      sceneLight.currentX += xDelta * interpolation;
-      sceneLight.currentY += yDelta * interpolation;
-      sceneLight.currentOpacity += opacityDelta * interpolation;
-
-      const isAtRest =
-        Math.abs(xDelta) < 0.35 &&
-        Math.abs(yDelta) < 0.35 &&
-        Math.abs(opacityDelta) < 0.003;
-
-      if (isAtRest) {
-        sceneLight.currentX = sceneLight.targetX;
-        sceneLight.currentY = sceneLight.targetY;
-        sceneLight.currentOpacity = sceneLight.targetOpacity;
-      }
-
-      writeSceneLight();
-      return !isAtRest;
-    }
-
     function updateScrollProgress() {
       const scrollRange =
         document.documentElement.scrollHeight - window.innerHeight;
@@ -255,107 +154,48 @@ export function ImpactEffects() {
       );
     }
 
-    function revealPendingNearViewport() {
-      watchedElements
-        .filter((element) => element.dataset.fxState === "pending")
-        .forEach((element) => {
-          const bounds = element.getBoundingClientRect();
-          const isNearViewport =
-            bounds.top <= window.innerHeight * 1.12 &&
-            bounds.bottom >= window.innerHeight * -0.12;
+    function applyPointerLight() {
+      pointerDirty = false;
 
-          if (isNearViewport) markVisible(element);
-        });
-    }
+      if (
+        reducedMotion.matches ||
+        !finePointer.matches ||
+        !pointerTarget
+      ) {
+        clearLocalLight(activeLightTarget);
+        activeLightTarget = null;
+        return;
+      }
 
-    function updateTimelines() {
-      timelineElements.forEach((timeline) => {
-        const bounds = timeline.getBoundingClientRect();
-        const revealStart = window.innerHeight * 0.78;
-        const revealDistance = Math.max(bounds.height, 1);
-        const timelineProgress = reducedMotion.matches
-          ? 1
-          : clamp((revealStart - bounds.top) / revealDistance, 0, 1);
+      if (activeLightTarget !== pointerTarget) {
+        clearLocalLight(activeLightTarget);
+        activeLightTarget = pointerTarget;
+      }
 
-        timeline.style.setProperty(
-          "--fx-timeline-progress",
-          timelineProgress.toFixed(4),
-        );
+      const bounds = activeLightTarget.getBoundingClientRect();
+      if (bounds.width <= 0 || bounds.height <= 0) return;
 
-        timeline
-          .querySelectorAll<HTMLElement>(timelineNodeSelector)
-          .forEach((node) => {
-            if (reducedMotion.matches || node.dataset.fxActive === "true") {
-              node.dataset.fxActive = "true";
-              return;
-            }
-
-            const nodeBounds = node.getBoundingClientRect();
-            if (nodeBounds.top <= window.innerHeight * 0.64) {
-              node.dataset.fxActive = "true";
-            }
-          });
-      });
-    }
-
-    function updateCard() {
-      const card = pointer.card;
-      if (!card) return;
-
-      const bounds = card.getBoundingClientRect();
-      if (bounds.width === 0 || bounds.height === 0) return;
-
-      const x = clamp((pointer.clientX - bounds.left) / bounds.width, 0, 1);
-      const y = clamp((pointer.clientY - bounds.top) / bounds.height, 0, 1);
-      const rotateX = (0.5 - y) * 2.4;
-      const rotateY = (x - 0.5) * 2.4;
-
-      card.dataset.fxPointer = "active";
-      card.style.setProperty("--fx-rotate-x", `${rotateX.toFixed(3)}deg`);
-      card.style.setProperty("--fx-rotate-y", `${rotateY.toFixed(3)}deg`);
-    }
-
-    function updateButton() {
-      const button = pointer.button;
-      if (!button) return;
-
-      const bounds = button.getBoundingClientRect();
-      if (bounds.width === 0 || bounds.height === 0) return;
-
-      const x = clamp((pointer.clientX - bounds.left) / bounds.width, 0, 1);
-      const y = clamp((pointer.clientY - bounds.top) / bounds.height, 0, 1);
-
-      button.dataset.fxPointer = "active";
-      button.style.setProperty(
-        "--fx-button-x",
-        `${((x - 0.5) * 7).toFixed(2)}px`,
+      activeLightTarget.dataset.fxPointer = "active";
+      activeLightTarget.style.setProperty(
+        "--scene-light-x",
+        `${clamp(pointerX - bounds.left, 0, bounds.width).toFixed(1)}px`,
       );
-      button.style.setProperty(
-        "--fx-button-y",
-        `${((y - 0.5) * 5).toFixed(2)}px`,
+      activeLightTarget.style.setProperty(
+        "--scene-light-y",
+        `${clamp(pointerY - bounds.top, 0, bounds.height).toFixed(1)}px`,
       );
+      activeLightTarget.style.setProperty("--scene-light-opacity", "0.74");
     }
 
     function flushFrame() {
       animationFrame = 0;
-      const sceneLightIsMoving = updateSceneLight();
 
       if (scrollDirty) {
         updateScrollProgress();
-        revealPendingNearViewport();
-        updateTimelines();
         scrollDirty = false;
       }
 
-      if (pointer.dirty) {
-        updateCard();
-        updateButton();
-        pointer.dirty = false;
-      }
-
-      if (sceneLightIsMoving) {
-        scheduleFrame();
-      }
+      if (pointerDirty) applyPointerLight();
     }
 
     function scheduleFrame() {
@@ -378,55 +218,29 @@ export function ImpactEffects() {
         return;
       }
 
-      const nextCard = findClosest(event.target, spotlightSelector);
-      const nextButton = findClosest(event.target, magneticSelector);
+      const nextTarget = findClosest(event.target, strategicSelector);
+      if (!nextTarget && !activeLightTarget) return;
 
-      sceneLight.targetX = event.clientX;
-      sceneLight.targetY = event.clientY;
-      sceneLight.targetOpacity = 0.9;
+      pointerTarget = nextTarget;
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      pointerDirty = true;
+      scheduleFrame();
+    }
 
-      if (pointer.card !== nextCard) {
-        resetCard(pointer.card);
-        pointer.card = nextCard;
-      }
-
-      if (pointer.button !== nextButton) {
-        resetButton(pointer.button);
-        pointer.button = nextButton;
-      }
-
-      pointer.clientX = event.clientX;
-      pointer.clientY = event.clientY;
-      pointer.dirty = true;
+    function clearPointerLight() {
+      pointerTarget = null;
+      pointerDirty = true;
       scheduleFrame();
     }
 
     function handleWindowPointerOut(event: PointerEvent) {
-      if (event.relatedTarget === null) {
-        resetPointerEffects();
-        setRestingLight();
-        scheduleFrame();
-      }
+      if (event.relatedTarget === null) clearPointerLight();
     }
 
     function handleCapabilityChange() {
-      if (reducedMotion.matches || !finePointer.matches) {
-        resetPointerEffects();
-        setRestingLight();
-        scheduleFrame();
-      }
-
-      if (reducedMotion.matches) {
-        watchedElements.forEach(markVisible);
-        timelineElements.forEach((timeline) => {
-          timeline.style.setProperty("--fx-timeline-progress", "1");
-          timeline
-            .querySelectorAll<HTMLElement>(timelineNodeSelector)
-            .forEach((node) => {
-              node.dataset.fxActive = "true";
-            });
-        });
-      }
+      clearPointerLight();
+      if (reducedMotion.matches) watchedElements.forEach(markVisible);
     }
 
     function handleVisibilityChange() {
@@ -435,18 +249,19 @@ export function ImpactEffects() {
           window.cancelAnimationFrame(animationFrame);
           animationFrame = 0;
         }
-        resetPointerEffects();
+        pointerTarget = null;
+        clearLocalLight(activeLightTarget);
+        activeLightTarget = null;
         return;
       }
 
       scrollDirty = true;
-      setRestingLight();
       scheduleFrame();
     }
 
     function handleResize() {
       scrollDirty = true;
-      setRestingLight();
+      pointerDirty = true;
       scheduleFrame();
     }
 
@@ -456,19 +271,17 @@ export function ImpactEffects() {
       passive: true,
     });
     window.addEventListener("pointerout", handleWindowPointerOut);
+    window.addEventListener("pointercancel", clearPointerLight);
     document.addEventListener("visibilitychange", handleVisibilityChange);
     finePointer.addEventListener("change", handleCapabilityChange);
     reducedMotion.addEventListener("change", handleCapabilityChange);
-    writeSceneLight();
     scheduleFrame();
 
     return () => {
       observer?.disconnect();
       imageCleanups.forEach((cleanup) => cleanup());
-      resetPointerEffects();
-      root.style.removeProperty("--scene-light-x");
-      root.style.removeProperty("--scene-light-y");
-      root.style.removeProperty("--scene-light-opacity");
+      clearLocalLight(activeLightTarget);
+      strategicElements.forEach(clearLocalLight);
 
       if (animationFrame) {
         window.cancelAnimationFrame(animationFrame);
@@ -478,6 +291,7 @@ export function ImpactEffects() {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerout", handleWindowPointerOut);
+      window.removeEventListener("pointercancel", clearPointerLight);
       document.removeEventListener(
         "visibilitychange",
         handleVisibilityChange,
